@@ -1,0 +1,58 @@
+@media only screen and (max-width: 1200px){
+	.sidebar{
+		width: 60px!important;
+	}
+	.sidebar.hide{
+		width: 240px!important;
+	}
+	.sidebar_nav_txt{
+		display: none;
+	}
+	.hide_txt{
+		display: inline-block;
+	}
+	.body_content{
+		/*margin-left: 60px;*/
+	}
+	.body_content.hide{
+		/*margin-left: 240px;*/
+	}
+}
+@media only screen and (max-width: 1000px){
+	.login_image_container{
+		display: none;
+	}
+	.w_full{
+		width: 100%;
+	}
+	.frm_radio .input-group{
+		display: block!important;
+	}
+	.nav_bar_container{
+		align-items: flex-start;
+	}
+	.header_menu{
+		margin-top: 10px;
+	}
+	.logo_part{
+		display: none;
+	}
+	.nav_sub_menu{
+
+	}
+	.header_menu li:hover .nav_sub_menu{
+		display: flex!important;
+	}
+	#header_part{
+		position: relative!important;
+	}
+	.body_part_content {
+		margin-top: 0px!important;
+	}
+}
+@media only screen and (max-width: 600px){
+	.nav_right{
+		position: absolute;
+		right: 0;
+	}
+}

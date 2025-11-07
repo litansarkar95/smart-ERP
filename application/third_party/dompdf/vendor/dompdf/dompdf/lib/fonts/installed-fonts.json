@@ -1,0 +1,29 @@
+{
+    "fn_omraboti_ansi_v1-regular": {
+        "normal": "fn_omraboti_ansi_v1_regular_normal_71aa9e7be6b68f7ff1ef2dfa24395090"
+    },
+    "noto sans bengali": {
+        "100": "C:\\xampp\\htdocs\\auto_rice_mill\\application\\third_party\\dompdf\\vendor\\dompdf\\dompdf\/lib\/fonts\/noto_sans_bengali_100_2a138c4e214c15a6fe3bbffff8131974",
+        "200": "C:\\xampp\\htdocs\\auto_rice_mill\\application\\third_party\\dompdf\\vendor\\dompdf\\dompdf\/lib\/fonts\/noto_sans_bengali_200_2f861e0e933d533ab0960c1f25e5ec69",
+        "300": "C:\\xampp\\htdocs\\auto_rice_mill\\application\\third_party\\dompdf\\vendor\\dompdf\\dompdf\/lib\/fonts\/noto_sans_bengali_300_c6f3278d9eb06ba53877c17458b634ac",
+        "normal": "C:\\xampp\\htdocs\\auto_rice_mill\\application\\third_party\\dompdf\\vendor\\dompdf\\dompdf\/lib\/fonts\/noto_sans_bengali_normal_9285346d1e124c6ce3587a9f546cbbf1",
+        "500": "C:\\xampp\\htdocs\\auto_rice_mill\\application\\third_party\\dompdf\\vendor\\dompdf\\dompdf\/lib\/fonts\/noto_sans_bengali_500_d473dbe2db8b05eb82b170e035f9c146",
+        "600": "C:\\xampp\\htdocs\\auto_rice_mill\\application\\third_party\\dompdf\\vendor\\dompdf\\dompdf\/lib\/fonts\/noto_sans_bengali_600_9f9fca82aa3bb2c311a35044a41d7367",
+        "bold": "C:\\xampp\\htdocs\\auto_rice_mill\\application\\third_party\\dompdf\\vendor\\dompdf\\dompdf\/lib\/fonts\/noto_sans_bengali_bold_8ebfa9984024649fcb8cf004592feb5f",
+        "800": "C:\\xampp\\htdocs\\auto_rice_mill\\application\\third_party\\dompdf\\vendor\\dompdf\\dompdf\/lib\/fonts\/noto_sans_bengali_800_3445c419e543489b955be3e71221de89",
+        "900": "noto_sans_bengali_900_df740111ce7a5287a501da7bc8714122"
+    },
+    "anek bangla": {
+        "100": "C:\\xampp\\htdocs\\auto_rice_mill\\application\\third_party\\dompdf\\vendor\\dompdf\\dompdf\/lib\/fonts\/anek_bangla_100_b6b0821cda2d6d9090f239e0f5e7505a",
+        "200": "C:\\xampp\\htdocs\\auto_rice_mill\\application\\third_party\\dompdf\\vendor\\dompdf\\dompdf\/lib\/fonts\/anek_bangla_200_2c0ec8fe0713cf68dd3489eed5223cbe",
+        "300": "C:\\xampp\\htdocs\\auto_rice_mill\\application\\third_party\\dompdf\\vendor\\dompdf\\dompdf\/lib\/fonts\/anek_bangla_300_67a720f7df5b784ae260924f76ec359a",
+        "normal": "C:\\xampp\\htdocs\\auto_rice_mill\\application\\third_party\\dompdf\\vendor\\dompdf\\dompdf\/lib\/fonts\/anek_bangla_normal_ff8ffc42dc190ccb609a883024996126",
+        "500": "C:\\xampp\\htdocs\\auto_rice_mill\\application\\third_party\\dompdf\\vendor\\dompdf\\dompdf\/lib\/fonts\/anek_bangla_500_7a7820712fa6b71f6cc86af62fc74f34",
+        "600": "C:\\xampp\\htdocs\\auto_rice_mill\\application\\third_party\\dompdf\\vendor\\dompdf\\dompdf\/lib\/fonts\/anek_bangla_600_c239e8e1dd1bc2b632613567accacc7f",
+        "bold": "C:\\xampp\\htdocs\\auto_rice_mill\\application\\third_party\\dompdf\\vendor\\dompdf\\dompdf\/lib\/fonts\/anek_bangla_bold_4a326f35391349ada6998bc274625784",
+        "800": "anek_bangla_800_bf0e87459c7b85dbaf1d80ba9d08cc35"
+    },
+    "kalpurush": {
+        "normal": "kalpurush_normal_93a54eb75274af7566f69b9354b65d77"
+    }
+}
