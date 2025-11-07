@@ -50,9 +50,9 @@
                                  
                                             <div class="col-md-3 mb-3">
                                                               <div class="form-group">
-                                  <label for="name"> Email</label>
-                                  <input type="text"   name="name"id="name"  value="<?php echo set_value('name'); ?>"    class="form-control">
-                               <span class="text-error small"> <?php echo form_error('name'); ?>   </span>
+                                  <label for="email"> Email</label>
+                                  <input type="text"   name="email"   id="email"  value="<?php echo set_value('email'); ?>"    class="form-control">
+                               <span class="text-error small"> <?php echo form_error('email'); ?>   </span>
                                 </div></div>
                                  <!-- end input -->
 
@@ -60,9 +60,9 @@
                                  
                                             <div class="col-md-3 mb-3">
                                                               <div class="form-group">
-                                  <label for="name"> Mobile No</label>
-                                  <input type="text"   name="name"id="name"  value="<?php echo set_value('name'); ?>"    class="form-control">
-                               <span class="text-error small"> <?php echo form_error('name'); ?>   </span>
+                                  <label for="mobile_no"> Mobile No</label>
+                                  <input type="text"   name="mobile_no" id="mobile_no"  value="<?php echo set_value('mobile_no'); ?>"    class="form-control">
+                               <span class="text-error small"> <?php echo form_error('mobile_no'); ?>   </span>
                                 </div></div>
                                  <!-- end input -->
 
@@ -71,9 +71,9 @@
 
                           <div class="col-md-3 mb-3">
                                     <div class="form-group">
-                                  <label for="unit_id">Type</label>
+                                  <label for="type_id">Type</label>
                                   <div class="select_2_container">
-                                    <select name="unit_id"  id="unit_id"     class="form-control frm_select ">
+                                    <select name="type_id"  id="type_id"     class="form-control frm_select ">
                                     	<option value="">Select </option>
 																	<option value="Customer">Customer</option>
 																			<option value="Supplier">Supplier</option>
@@ -82,41 +82,83 @@
                                     </select>
                                     <i class="fas fa-caret-down"></i>
                                   </div>
-                                  <span class="text-error small"> <?php echo form_error('unit_id'); ?>   </span>
+                                  <span class="text-error small"> <?php echo form_error('type_id'); ?>   </span>
                                 </div></div>
                                 <!-- end Brand -->
                                    <!-- Brand -->  
+                              <div class="col-md-3 mb-3">
+                                  <div class="form-group">
+                                      <label for="balance_type">Opening Balance Type</label>
+                                      <div class="select_2_container">
+                                          <select name="balance_type" id="balance_type" class="form-control frm_select">
+                                              <option value="">Select</option>
+                                              <option value="Customer">কাস্টমারের কাছ থেকে টাকা পাওনা</option>
+                                              <option value="Supplier">দেনা: সরবরাহকারীদের টাকা দিতে হবে</option>
+                                          </select>
+                                          <i class="fas fa-caret-down"></i>
+                                      </div>
+                                      <span class="text-error small" id="type_error"></span>
+                                  </div>
+                              </div>
+
+                              <!-- Customer Balance Field -->
+                              <div class="col-md-3 mb-3" id="customer_balance_div" style="display:none;">
+                                  <div class="form-group">
+                                      <label for="customer_balance">Opening Balance (Customer)</label>
+                                      <input type="number" name="customer_balance" id="customer_balance" class="form-control" placeholder="Enter Customer Balance" />
+                                  </div>
+                              </div>
+
+                              <!-- Supplier Balance Field -->
+                              <div class="col-md-3 mb-3" id="supplier_balance_div" style="display:none;">
+                                  <div class="form-group">
+                                      <label for="supplier_balance">Opening Balance (Supplier)</label>
+                                      <input type="number" name="supplier_balance" id="supplier_balance" class="form-control" placeholder="Enter Supplier Balance" />
+                                  </div>
+                              </div>
+
+
 
                                    <!-- start input -->
-                                 
-                                            <div class="col-md-3 mb-3">
-                                                              <div class="form-group">
-                                  <label for="purchase_price">Opening Balance</label>
-                                  <input type="text"   name="purchase_price"id="purchase_price"  value="<?php echo set_value('purchase_price'); ?>"    class="form-control">
-                                  <span class="text-error small">  <?php echo form_error('purchase_price'); ?>  </span>
+                                  <div class="col-md-3 mb-3">
+                                    <div class="form-group">
+                                  <label for="cgroup_id">Customer Group</label>
+                                  <div class="select_2_container">
+                                    <select name="cgroup_id"  id="cgroup_id"     class="form-control frm_select select2">
+                                    	<option value="">Select </option>
+																                  <?php
+                                                   foreach($allCgroup as $group){
+                                                  echo "<option value='{$group->id}'>$group->name </option>";
+                                                   }
+															                  	?>
+															
+                                    </select>
+                                    <i class="fas fa-caret-down"></i>
+                                  </div>
+                                  <span class="text-error small"> <?php echo form_error('cgroup_id'); ?>   </span>
                                 </div></div>
-                                 <!-- end input -->
                                    <!-- Brand -->  
 
                          
-
-                                  <!-- start input -->
-                                 
-                                            <div class="col-md-3 mb-3 " id="customer_opening_display" style="display:none;">
-                                      <div class="form-group">
-                                  <label for="customer_opening">Opening Balance</label>
-                                  <input type="text"   name="customer_opening" id="customer_opening"  value="<?php echo set_value('customer_opening'); ?>"    class="form-control">
+<!-- start input -->
+                                  <div class="col-md-3 mb-3">
+                                    <div class="form-group">
+                                  <label for="reference_id">Reference</label>
+                                  <div class="select_2_container">
+                                    <select name="reference_id"  id="reference_id"     class="form-control frm_select select2">
+                                    	<option value="">Select </option>
+																	 <?php
+                                                   foreach($allRef as $ref){
+                                                  echo "<option value='{$ref->id}'>$ref->first_name </option>";
+                                                   }
+															                  	?>
+															
+                                    </select>
+                                    <i class="fas fa-caret-down"></i>
+                                  </div>
+                                  <span class="text-error small"> <?php echo form_error('reference_id'); ?>   </span>
                                 </div></div>
-                                 <!-- end input -->
-                                   <!-- start input -->
-                                 
-                                            <div class="col-md-3 mb-3 " id="suplier_opening_display" tyle="display:none;">
-                                                              <div class="form-group">
-                                  <label for="suplier_opening">Suplier Opening Balance</label>
-                                  <input type="text"   name="suplier_opening" id="suplier_opening"  value="<?php echo set_value('suplier_opening'); ?>"    class="form-control">
-                                </div></div>
-                                 <!-- end input -->
-                              
+                                   <!-- Brand -->  
 
                                  
                                    
@@ -165,55 +207,22 @@
 
 
 
-
 <script>
-$(document).ready(function () {
+document.getElementById('balance_type').addEventListener('change', function() {
+    var selectedType = this.value;
 
-    // ✅ Purchase price টাইপ করলে মোট Amount আপডেট হবে
-    $(document).on('keyup', '#purchase_price', function () {
-        let cost = parseFloat($(this).val()) || 0;
-        $("#total_amount").val(cost.toFixed(2));
-    });
+    // দুটি ইনপুট হাইড করে দেই আগে
+    document.getElementById('customer_balance_div').style.display = 'none';
+    document.getElementById('supplier_balance_div').style.display = 'none';
 
-    // ✅ Product Tax টাইপ করলে ট্যাক্স ও টোটাল হিসাব হবে
-    $(document).on('keyup', '#product_tax', function () {
-        let taxPercent = parseFloat($(this).val()) || 0;
-        let price = parseFloat($("#purchase_price").val()) || 0;
-
-        let taxAmount = price * taxPercent / 100;
-        let total = price + taxAmount;
-
-        $("#product_tax_amount").val(taxAmount.toFixed(2));
-        $("#total_amount").val(total.toFixed(2));
-    });
-
-    // ✅ Tax Method পরিবর্তন হলে ট্যাক্স ফিল্ড show/hide হবে
-    $('#tax_method').on('change', function() {
-        let method = $(this).val();
-
-        if (method === "Exclusive") {
-            $(".product_tax_display").slideDown(); // smooth animation
-        } else {
-            $(".product_tax_display").slideUp();
-            $("#product_tax").val('');
-            $("#product_tax_amount").val('0.00');
-            $("#total_amount").val($("#purchase_price").val());
-        }
-    });
-
+    // এখন শর্ত অনুযায়ী দেখানো হবে
+    if (selectedType === "Customer") {
+        document.getElementById('customer_balance_div').style.display = 'block';
+    } else if (selectedType === "Supplier") {
+        document.getElementById('supplier_balance_div').style.display = 'block';
+    }
 });
 </script>
-
-
-		<script> 
-
-             $(".random_num").click(function() {
-                $("#product_code").val(Math.floor(Math.random() * 100000000) );
-            });
-
-
-
-		</script> 
 
 
 

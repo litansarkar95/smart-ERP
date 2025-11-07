@@ -20,11 +20,8 @@ public function index()
  public function create()
 {
 
-  $this->form_validation->set_rules("group_id", "Products Group", "required");
-  $this->form_validation->set_rules("brand_id", "Brand Name", "required");
-  $this->form_validation->set_rules("name", "Product Name", "required");
-  $this->form_validation->set_rules("unit_id", "Unit", "required");
-  $this->form_validation->set_rules("serial_type", "Serial Type", "required");
+  $this->form_validation->set_rules("type_id", "Type", "required");
+  $this->form_validation->set_rules("name", " Name", "required");
 
   if ($this->form_validation->run() == NULL) {
   
@@ -58,18 +55,7 @@ public function index()
        
     );
 
-       if ($_FILES['pic']['name'] != "") {
-        $config['allowed_types'] = 'gif|jpg|jpeg|png';  //supported image
-        $config['upload_path'] = "./public/images/products/";
-        $config['encrypt_name'] = FALSE;
-        $this->load->library('upload', $config);
-        if ($this->upload->do_upload("pic")) {
-            $data['picture'] = $this->upload->data('file_name');
-            //$arrayMsg['enc_name'] = "1";
-        }
-    }else{
-        $data['picture'] = "0.png";
-    }
+     
 
    
     if ($this->common_model->save_data("products", $data)) {
@@ -81,15 +67,14 @@ public function index()
    $this->session->set_flashdata('error', 'An error occurred. Please try again.');
       }
     
-   redirect(base_url() . "products");
+   redirect(base_url() . "partner/create");
   }
 
     $data = array();
     $data['active'] = "partner";
     $data['title'] = "Create Partner"; 
-    $data['allUnit']       = $this->common_model->view_data("unit", array("is_active" => 1), "name", "ASC");;
-    $data['allBrand']       = $this->main_model->getRecordsByOrg("brands");
-    $data['allCat']       = $this->main_model->getRecordsByOrg("products_groups");
+    $data['allCgroup']       = $this->main_model->getRecordsByOrg("partner_group");
+    $data['allRef']          = $this->main_model->getRecordsByOrg("staff");
     $data['content'] = $this->load->view("partner-create", $data, TRUE);
     $this->load->view('layout/master', $data);
 }

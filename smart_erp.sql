@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 07, 2025 at 06:07 AM
+-- Generation Time: Nov 07, 2025 at 03:13 PM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 7.4.33
 
@@ -128,7 +128,7 @@ INSERT INTO `login_credential` (`id`, `organization_id`, `branch_id`, `user_id`,
 (1, 0, 0, 1, 'system', 'UHZVdVBOTWI0VkwrN0MvQjRRRUZkdz09', 1, 1, '2025-11-07 10:41:01', '2024-10-21 15:42:57', '2025-11-07 10:41:01'),
 (2, 0, 0, 2, 'litan@gmail.com', 'UHZVdVBOTWI0VkwrN0MvQjRRRUZkdz09', 1, 1, '2024-11-27 11:06:55', '2024-10-21 15:42:57', '2025-10-30 14:29:54'),
 (5, 0, 0, 6, 'admin@gmail.com', 'UHZVdVBOTWI0VkwrN0MvQjRRRUZkdz09', 2, 1, '2025-11-01 14:35:31', '2024-11-16 23:35:56', '2025-11-01 14:35:31'),
-(17, 3, 0, 10, '01829', 'UHZVdVBOTWI0VkwrN0MvQjRRRUZkdz09', 3, 1, '2025-11-07 10:53:03', '2025-10-30 23:30:08', '2025-11-07 10:53:03');
+(17, 3, 0, 10, '01829', 'UHZVdVBOTWI0VkwrN0MvQjRRRUZkdz09', 3, 1, '2025-11-07 18:25:11', '2025-10-30 23:30:08', '2025-11-07 18:25:11');
 
 -- --------------------------------------------------------
 
@@ -284,6 +284,21 @@ CREATE TABLE `organizations` (
 INSERT INTO `organizations` (`id`, `name`, `mobile_no`, `email`, `address`, `picture`, `is_active`, `create_date`) VALUES
 (3, 'Master IT ', '0182726353', 'masterit@gmail.com', 'Commila', '0.png', 1, 1761804289),
 (7, 'Sonali', '2343443', '', 'ঢাকা', '0.png', 1, 1761818617);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `partner_group`
+--
+
+CREATE TABLE `partner_group` (
+  `id` int(11) NOT NULL,
+  `organization_id` int(11) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `is_active` int(11) NOT NULL,
+  `create_user` int(11) NOT NULL,
+  `create_date` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 -- --------------------------------------------------------
 
@@ -714,6 +729,12 @@ ALTER TABLE `organizations`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `partner_group`
+--
+ALTER TABLE `partner_group`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `permissions`
 --
 ALTER TABLE `permissions`
@@ -832,6 +853,12 @@ ALTER TABLE `menus`
 --
 ALTER TABLE `organizations`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+
+--
+-- AUTO_INCREMENT for table `partner_group`
+--
+ALTER TABLE `partner_group`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `permissions`
