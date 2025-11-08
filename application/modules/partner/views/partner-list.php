@@ -39,11 +39,10 @@
                             <tr>
                                 <th>#</th>
                                 <th>Name</th>
-                                <th>Group</th>
-                                <th>Brand</th>
-                                <th>Serial Type</th>
-                                <th>Inventory</th>
-                                <th>Stock</th>
+                                <th>Type</th>
+                                <th>Mobile </th>
+                                <th>Email</th>
+                                <th>Balance</th>
                                 <th>Status</th>
                                 <th class=" no-sort">Action</th>	
                             </tr>
@@ -60,25 +59,14 @@
                                             <?= $i++ ?>
                                         </td>
                                            <td><?php echo $pdt->name;?>    </td>
-                                           <td><?php echo $pdt->groups;?>    </td>
-                                           <td><?php echo $pdt->brands;?>    </td>
-                                           <td><?php echo $pdt->serial_type;?>  </td>
+                                           <td><?php echo $pdt->partner_type;?>    </td>
+                                           <td><?php echo $pdt->contact_no;?>    </td>
+                                           <td><?php echo $pdt->email;?>  </td>
+                                           <td><?php echo $pdt->current_balance;?>  </td>
                                      
                                       
                                                
-                                      <td>
-                                            <?php if (
-                                                              $pdt->is_inventory
-                                                            ){ ?>
-                                                <span class="badge bg-success">Yes</span>
-                                                <?php } ?>
-                                                  
-                                        </td>
-                                       
-                                    <td>
-                                           0
-                                        </td>
-
+                                    
                                         <td>
                                             <?php if (
                                                               $pdt->is_active

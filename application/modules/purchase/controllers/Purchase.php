@@ -12,7 +12,7 @@ public function index()
     $data = array();
     $data['active']    = "purchase";
     $data['title'] = "Purchase List"; 
-   // $data['allPdt']       = $this->products_model->getProductsList();
+    $data['allPdt']       = $this->purchase_model->getPurchaseList();
     $data['content'] = $this->load->view("purchase-list", $data, TRUE);
     $this->load->view('layout/master', $data);
  }
@@ -20,59 +20,43 @@ public function index()
  public function create()
 {
 
-  $this->form_validation->set_rules("group_id", "Products Group", "required");
-  $this->form_validation->set_rules("brand_id", "Brand Name", "required");
-  $this->form_validation->set_rules("name", "Product Name", "required");
-  $this->form_validation->set_rules("unit_id", "Unit", "required");
-  $this->form_validation->set_rules("serial_type", "Serial Type", "required");
+  $this->form_validation->set_rules("totalAmount", "Total Amount", "required");
+  $this->form_validation->set_rules("purchase_date", "Purchase date", "required");
+  $this->form_validation->set_rules("supplier_id", "Supplier", "required");
 
   if ($this->form_validation->run() == NULL) {
   
   } else {
 
+    echo $totalAmount = $this->common_model->xss_clean($this->input->post("totalAmount"));
 
+    $int_no = $this->purchase_model->number_generator();
+  	$invoice_no = 'GRN-'.str_pad($int_no,4,"0",STR_PAD_LEFT);
     
     $date = date("Y-m-d H:i:s");
     $data = array(   
         "organization_id"            => $this->session->userdata('loggedin_org_id'),
-        "name"                       => $this->common_model->xss_clean($this->input->post("name")),   
-        "group_id"                   => $this->common_model->xss_clean($this->input->post("group_id")),   
-        "brand_id"                   => $this->common_model->xss_clean($this->input->post("brand_id")),   
-        "unit_id"                    => $this->common_model->xss_clean($this->input->post("unit_id")),   
-        "serial_type"                => $this->common_model->xss_clean($this->input->post("serial_type")),   
-        "purchase_price"             => $this->common_model->xss_clean($this->input->post("purchase_price")),   
-        "tax_method"                 => $this->common_model->xss_clean($this->input->post("tax_method")),   
-        "product_tax"                => $this->common_model->xss_clean($this->input->post("product_tax")),   
-        "product_tax_amount"         => $this->common_model->xss_clean($this->input->post("product_tax_amount")),   
-        "total_amount"               => $this->common_model->xss_clean($this->input->post("total_amount")),   
-        "sales_price"                => $this->common_model->xss_clean($this->input->post("sales_price")),   
-        "warrenty"                   => $this->common_model->xss_clean($this->input->post("warrenty")),   
-        "warrenty_days"              => $this->common_model->xss_clean($this->input->post("warrenty_days")),   
-        "re_order_level"             => $this->common_model->xss_clean($this->input->post("re_order_level")),   
-        "is_inventory"               => $this->common_model->xss_clean($this->input->post('is_inventory') ? 1 : 0),   
-        "is_short_bill"              => $this->common_model->xss_clean($this->input->post('is_short_bill') ? 1 : 0),   
-        "note"                       => $this->common_model->xss_clean($this->input->post("name")),   
+        "branch_id"                  => $this->session->userdata('loggedin_branch_id'), 
+        "invoice_code"               => $this->common_model->xss_clean($this->input->post("invoice_id")),  
+        "code_random"                => $int_no,   
+        "invoice_no"                 => $invoice_no,   
+        "purchase_date"              => strtotime($this->common_model->xss_clean($this->input->post("purchase_date"))),   
+        "supplier_id"                => $this->common_model->xss_clean($this->input->post("supplier_id")),   
+        "store_id"                   => $this->common_model->xss_clean($this->input->post("store_id")),   
+        "totalQty"                   => $this->common_model->xss_clean($this->input->post("totalOrderAmount")),   
+        "totalAmount"                => $this->common_model->xss_clean($this->input->post("totalAmount")),   
+        "paidAmount"                 => $this->common_model->xss_clean($this->input->post("paidAmount")),   
+        "dueAmount"                  => $this->common_model->xss_clean($this->input->post("dueAmount")),  
         "is_active"                  => 1,
         "create_user"                => $this->session->userdata('loggedin_id'),
         "create_date"                => strtotime($date),
        
     );
 
-       if ($_FILES['pic']['name'] != "") {
-        $config['allowed_types'] = 'gif|jpg|jpeg|png';  //supported image
-        $config['upload_path'] = "./public/images/products/";
-        $config['encrypt_name'] = FALSE;
-        $this->load->library('upload', $config);
-        if ($this->upload->do_upload("pic")) {
-            $data['picture'] = $this->upload->data('file_name');
-            //$arrayMsg['enc_name'] = "1";
-        }
-    }else{
-        $data['picture'] = "0.png";
-    }
+     
 
    
-    if ($this->common_model->save_data("products", $data)) {
+    if ($this->common_model->save_data("purchase", $data)) {
       $id = $this->common_model->Id;
 
         $this->session->set_flashdata('success', 'Record has been successfully saved.');
@@ -81,7 +65,7 @@ public function index()
    $this->session->set_flashdata('error', 'An error occurred. Please try again.');
       }
     
-   redirect(base_url() . "products");
+   redirect(base_url() . "purchase/create");
   }
 
     $data = array();
@@ -90,7 +74,13 @@ public function index()
     $data['allUnit']        = $this->common_model->view_data("unit", array("is_active" => 1), "name", "ASC");;
     $data['allBrand']       = $this->main_model->getRecordsByOrg("brands");
     $data['allCat']         = $this->main_model->getRecordsByOrg("products_groups");
+    $data['allInv']         = $this->main_model->getRecordsByOrg("warehouse");
     $data['allPro']         = $this->main_model->getRecordsByOrg("products");
+    $data['allSuplier']     = $this->purchase_model->getSuplier();
+    // inv 
+    $int_no = $this->purchase_model->number_generator();
+  	$invoice_no = 'GRN-'.str_pad($int_no,4,"0",STR_PAD_LEFT);
+    $data['invoice_no'] = $invoice_no; 
     $data['content']        = $this->load->view("purchase-create", $data, TRUE);
     $this->load->view('layout/master', $data);
 }
@@ -166,7 +156,8 @@ public function update(){
                 echo json_encode([
                     'price' => $product->purchase_price,  // Example: Purchase Price
                     'sales_price' => $product->sales_price,
-                    'serial_type' => $product->serial_type
+                    'serial_type' => $product->serial_type,
+                    'warrenty' => $product->warrenty
                 ]);
             } else {
                 echo json_encode([]);
@@ -183,12 +174,30 @@ public function add_item_ajax()
     $price      = $this->input->post('price');
     $qty        = $this->input->post('qty');
     $sub_total  = $this->input->post('sub_total');
+    $warrenty  = $this->input->post('warrenty');
     $serial_number = $this->input->post('serial_number');
 
     if(!$product_id || !$invoice_id){
         echo json_encode(['status' => 'error', 'msg' => 'Missing invoice or product']);
         return;
     }
+
+    // start invoice
+
+      $is_invoice = $this->db->get_where('purchase_invoice', [
+        'invoice_code' => $invoice_id,
+    ])->row();
+
+    if(!$is_invoice){
+         $this->db->insert('purchase_invoice', [
+            'organization_id' =>$this->session->userdata('loggedin_org_id'),
+            'invoice_code' => $invoice_id,
+        ]);
+        $item_id = $this->db->insert_id();
+
+    }
+
+    // end invoice 
 
     // check if product already exists for this invoice
     $existing = $this->db->get_where('purchase_items', [
@@ -197,13 +206,14 @@ public function add_item_ajax()
     ])->row();
 
     // get product name and unit name
-    $this->db->select('p.name as product_name, u.name as unit_name');
+    $this->db->select('p.name as product_name, u.name as unit_name , p.serial_type');
     $this->db->from('products p');
     $this->db->join('unit u', 'u.id = p.unit_id', 'left');
     $this->db->where('p.id', $product_id);
     $product = $this->db->get()->row();
 
     $unit_name = $product->unit_name ?? '';
+    $serial_type = $product->serial_type ?? '';
 
     if($existing){
         $new_qty = $existing->qty + $qty;
@@ -227,10 +237,12 @@ public function add_item_ajax()
     } else {
         $this->db->insert('purchase_items', [
             'invoice_id' => $invoice_id,
+            'serial_type' => $serial_type,
             'product_id' => $product_id,
             'price' => $price,
             'qty' => $qty,
             'sub_total' => $sub_total,
+            'warrenty' => $warrenty,
             'serial_number' => $serial_number
         ]);
         $item_id = $this->db->insert_id();
@@ -244,6 +256,7 @@ public function add_item_ajax()
             'qty' => $existing ? $new_qty : $qty,
             'price' => $price,
             'sub_total' => $existing ? $new_subtotal : $sub_total,
+            'warrenty' => $warrenty,
             'serial_number' => $existing ? $new_serials : $serial_number,
             'unit_name' => $unit_name
         ]

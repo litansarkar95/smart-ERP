@@ -15,8 +15,40 @@ class Purchase_model extends CI_Model {
         return $query->result(); // Return the result as an array of objects
     }
 
+ public function getSuplier() {
+    $loggedin_org_id = $this->session->userdata("loggedin_org_id");
+    
+    $this->db->select('*');
+    $this->db->from('business_partner');
+    $this->db->where("business_partner.organization_id", $loggedin_org_id);
+    
+    // Use grouping for OR condition
+    $this->db->group_start()
+             ->where('business_partner.partner_type', 'Supplier')
+             ->or_where('business_partner.partner_type', 'Both')
+             ->group_end();
+    
+    $query = $this->db->get();
+    return $query->result();
+}
+public function number_generator() {
+        
+  
+		$this->db->select_max('code_random');      
+		$this->db->from('purchase');
+		$query = $this->db->get();
+		$result =  $query->result_array();
+		$invoice_no = $result[0]['code_random'];
+		if ($invoice_no != '') {
+			$invoice_no = $invoice_no + 1;
+		} else {
+			$invoice_no = 1;
+		}
+		return $invoice_no;
+		 }
+
        public function get_product_by_id($product_id) {
-        $this->db->select('purchase_price, sales_price, serial_type');
+        $this->db->select('purchase_price, sales_price, serial_type, warrenty');
         $this->db->from('products');
         $this->db->where('id', $product_id);
         $query = $this->db->get();
@@ -24,17 +56,16 @@ class Purchase_model extends CI_Model {
         return $query->row();  // Return the product as an object
     }
 	
-    public function getProductsList($id=NULL) {
+    public function getPurchaseList($id=NULL) {
          $loggedin_org_id = $this->session->userdata("loggedin_org_id");
         if($id){
-            $this->db->where("products.id",$id); 
+            $this->db->where("purchase.id",$id); 
         }
-		$this->db->select("products.*, products_groups.name groups , brands.name brands , unit.name unit");
-        $this->db->from("products");
-        $this->db->join('products_groups', "products.group_id = products_groups.id",'left');
-        $this->db->join('brands', "products.brand_id = brands.id",'left');
-        $this->db->join('unit',  "products.unit_id = unit.id",'left');
-        $this->db->where("products.organization_id", $loggedin_org_id);
+		$this->db->select("purchase.*, warehouse.name warehouse , business_partner.name partner");
+        $this->db->from("purchase");
+        $this->db->join('business_partner', "purchase.supplier_id = business_partner.id",'left');
+        $this->db->join('warehouse', "purchase.store_id = warehouse.id",'left');
+        $this->db->where("purchase.organization_id", $loggedin_org_id);
         $this->db->order_by("id", "DESC");
         return $this->db->get()->result();
     }

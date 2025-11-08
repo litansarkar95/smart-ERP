@@ -12,7 +12,7 @@ public function index()
     $data = array();
     $data['active']    = "partner";
     $data['title'] = "Partner List"; 
-   // $data['allPdt']       = $this->products_model->getProductsList();
+    $data['allPdt']       = $this->main_model->getRecordsByOrg("business_partner");
     $data['content'] = $this->load->view("partner-list", $data, TRUE);
     $this->load->view('layout/master', $data);
  }
@@ -33,33 +33,79 @@ public function index()
     $data = array(   
         "organization_id"            => $this->session->userdata('loggedin_org_id'),
         "name"                       => $this->common_model->xss_clean($this->input->post("name")),   
-        "group_id"                   => $this->common_model->xss_clean($this->input->post("group_id")),   
-        "brand_id"                   => $this->common_model->xss_clean($this->input->post("brand_id")),   
-        "unit_id"                    => $this->common_model->xss_clean($this->input->post("unit_id")),   
-        "serial_type"                => $this->common_model->xss_clean($this->input->post("serial_type")),   
-        "purchase_price"             => $this->common_model->xss_clean($this->input->post("purchase_price")),   
-        "tax_method"                 => $this->common_model->xss_clean($this->input->post("tax_method")),   
-        "product_tax"                => $this->common_model->xss_clean($this->input->post("product_tax")),   
-        "product_tax_amount"         => $this->common_model->xss_clean($this->input->post("product_tax_amount")),   
-        "total_amount"               => $this->common_model->xss_clean($this->input->post("total_amount")),   
-        "sales_price"                => $this->common_model->xss_clean($this->input->post("sales_price")),   
-        "warrenty"                   => $this->common_model->xss_clean($this->input->post("warrenty")),   
-        "warrenty_days"              => $this->common_model->xss_clean($this->input->post("warrenty_days")),   
-        "re_order_level"             => $this->common_model->xss_clean($this->input->post("re_order_level")),   
-        "is_inventory"               => $this->common_model->xss_clean($this->input->post('is_inventory') ? 1 : 0),   
-        "is_short_bill"              => $this->common_model->xss_clean($this->input->post('is_short_bill') ? 1 : 0),   
-        "note"                       => $this->common_model->xss_clean($this->input->post("name")),   
+        "partner_type"               => $this->common_model->xss_clean($this->input->post("type_id")),   
+        "contact_no"                 => $this->common_model->xss_clean($this->input->post("mobile_no")),   
+        "email"                      => $this->common_model->xss_clean($this->input->post("email")),    
+        "customer_group_id"          => $this->common_model->xss_clean($this->input->post("cgroup_id")),    
+        "reference_id"               => $this->common_model->xss_clean($this->input->post("reference_id")),    
+        "opening_balance_type"       => $this->common_model->xss_clean($this->input->post("balance_type")), 
+        "notes"                       => $this->common_model->xss_clean($this->input->post("note")),   
         "is_active"                  => 1,
         "create_user"                => $this->session->userdata('loggedin_id'),
         "create_date"                => strtotime($date),
        
     );
 
-     
+   $balance_type =  $this->common_model->xss_clean($this->input->post("balance_type"));
+
+      if($balance_type  == 'Customer'){
+              $data['opening_balance'] = $this->common_model->xss_clean($this->input->post("customer_balance"));
+              $data['current_balance'] = $this->common_model->xss_clean($this->input->post("customer_balance"));
+      }else{
+              $data['opening_balance'] = $this->common_model->xss_clean($this->input->post("supplier_balance"));
+              $data['current_balance'] = $this->common_model->xss_clean($this->input->post("supplier_balance"));
+      }
+        
 
    
-    if ($this->common_model->save_data("products", $data)) {
+    if ($this->common_model->save_data("business_partner", $data)) {
       $id = $this->common_model->Id;
+
+        if($balance_type  == 'Customer'){
+      // Accounts
+       $cdata = array(   
+        "organization_id"            => $this->session->userdata('loggedin_org_id'),
+        "branch_id"                  => $this->session->userdata('loggedin_branch_id'),
+        "voucher_type"               => 'Accounts Receivable',   
+        "party_id"                   => $id,   
+        "account_name"               => 'Opening Balance',   
+        "particulars"                => 'Opening Balance',    
+        "date"                       => date("Y-m-d"),    
+        "debit"                      => $this->common_model->xss_clean($this->input->post("customer_balance")),    
+        "credit"                     => 0,    
+        "gl_date"                    => strtotime(date("Y-m-d")), 
+        "remarks"                    => 'Opening balance entry',   
+        "is_active"                  => 1,
+        "create_user"                => $this->session->userdata('loggedin_id'),
+        "create_date"                => strtotime($date),
+       
+    );
+
+    $this->common_model->save_data("acc_general_ledger", $cdata);
+  }
+
+   if($balance_type  == 'Supplier'){
+      // Accounts
+       $sdata = array(   
+        "organization_id"            => $this->session->userdata('loggedin_org_id'),
+        "branch_id"                  => $this->session->userdata('loggedin_branch_id'),
+        "voucher_type"               => 'Accounts Payable',   
+        "party_id"                   => $id,   
+        "account_name"               => 'Opening Balance',   
+        "particulars"                => 'Opening Balance',    
+        "date"                       => date("Y-m-d"),    
+        "debit"                      => 0,    
+        "credit"                     => $this->common_model->xss_clean($this->input->post("supplier_balance")),    
+        "gl_date"                    => strtotime(date("Y-m-d")), 
+        "remarks"                    => 'Opening balance entry',   
+        "is_active"                  => 1,
+        "create_user"                => $this->session->userdata('loggedin_id'),
+        "create_date"                => strtotime($date),
+       
+    );
+
+    $this->common_model->save_data("acc_general_ledger", $sdata);
+  }
 
         $this->session->set_flashdata('success', 'Record has been successfully saved.');
       }else{
@@ -80,21 +126,19 @@ public function index()
 }
 
 public function delete($id) {
-    $dt = $this->common_model->view_data("products", array("id" => $id), "id", "asc");
+    $dt = $this->common_model->view_data("business_partner", array("id" => $id), "id", "asc");
 
     if ($dt) {
-        if (!empty($dt->picture) && file_exists("./public/images/products/" . $dt->picture)) {
-            unlink("./public/images/products/" . $dt->picture); 
-        }
+      
 
-        $this->common_model->delete_data("products", array("id" => $id));
+        $this->common_model->delete_data("business_partner", array("id" => $id));
 
         $this->session->set_flashdata('success', 'Record has been deleted.');
     } else {
         $this->session->set_flashdata('error', 'An error occurred. Please try again.');
     }
 
-    redirect(base_url() . "products", "refresh");
+    redirect(base_url() . "partner", "refresh");
 }
 
 

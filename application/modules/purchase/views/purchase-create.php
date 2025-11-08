@@ -5,6 +5,8 @@
     padding:10px !important;
 }
   </style>
+  	  <link rel="stylesheet" href="https://code.jquery.com/ui/1.14.1/themes/base/jquery-ui.css">
+  <script src="https://code.jquery.com/ui/1.14.1/jquery-ui.js"></script>
 <div class="container-fluid">
 
 
@@ -37,16 +39,16 @@
 
                                      <div class="col-md-3 mb-2">
 																<div class="form-group">
-																<label for="name">Invoice No <span class="text-error"> *</span></label>
-									      						<input type="text"  name="name" id="name" value="GRN-2511001"   class="form-control" >
-																<span class="text-error small"><?php echo form_error('name'); ?></span>
+																<label for="invoice_no">Invoice No <span class="text-error"> *</span></label>
+									      						<input type="text"  name="invoice_no" id="invoice_no" value="<?= $invoice_no; ?>"   class="form-control" readonly>
+																<span class="text-error small"><?php echo form_error('invoice_no'); ?></span>
 																</div>
 									      					</div>   
                                                              <div class="col-md-3 mb-2">
 																<div class="form-group">
-																<label for="name">Purchase Date<span class="text-error"> *</span></label>
-									      						<input type="text"  name="name" id="name" value="05-11-2025"   class="form-control" >
-																<span class="text-error small"><?php echo form_error('name'); ?></span>
+																<label for="purchase_date">Purchase Date<span class="text-error"> *</span></label>
+									      						<input type="text"  name="purchase_date" id="purchase_date" value=""   class="form-control" >
+																<span class="text-error small"><?php echo form_error('purchase_date'); ?></span>
 																</div>
 									      					</div>     
 
@@ -56,9 +58,9 @@
                                   <div class="select_2_container">
                                     <select name="supplier_id"  id="supplier_id"     class="form-control frm_select select2">
                                        <option  value="">  Select  </option>
-                                                       <?php
-                                                                        foreach($allCat as $cat){
-                                                                        echo "<option value='{$cat->id}'>$cat->name </option>";
+                                          <?php
+                                                                        foreach($allSuplier as $suplier){
+                                                                        echo "<option value='{$suplier->id}'>$suplier->name - $suplier->contact_no</option>";
                                                                         }
 																?>
                                     </select>
@@ -71,19 +73,18 @@
 
                           <div class="col-md-3 mb-3">
                                     <div class="form-group">
-                                  <label for="store">Receiving Store </label>
+                                  <label for="store_id">Receiving Store </label>
                                   <div class="select_2_container">
-                                    <select name="store"  id="store"     class="form-control frm_select select2">
-                                       <option  value="">  Select  </option>
+                                    <select name="store_id"  id="store_id"     class="form-control frm_select select2">
                                                        <?php
-                                                                      foreach($allBrand as $bnd){
-                                                                        echo "<option value='{$bnd->id}'>$bnd->name </option>";
+                                                                      foreach($allInv as $store){
+                                                                        echo "<option value='{$store->id}'>$store->name </option>";
                                                                         }
 																?>
                                     </select>
                                     <i class="fas fa-caret-down"></i>
                                   </div>
-                                  <span class="text-error small"> <?php echo form_error('store'); ?>   </span>
+                                  <span class="text-error small"> <?php echo form_error('store_id'); ?>   </span>
                                 </div></div>
                                 <!-- end Brand -->
                                  
@@ -151,6 +152,13 @@
             <input type="text" name="sales_price" id="sales_price" value="" class="form-control sales_price">
         </div>
     </div>
+                                                          <div class="col-md-3 mb-2" id="warrenty_input" style="display:none;">
+																<div class="form-group">
+																<label for="warrenty">Warrenty <span class="text-error"> *</span></label>
+									      						<input type="text"  name="warrenty" id="warrenty" value=""   class="form-control " >
+																<span class="text-error small"><?php echo form_error('warrenty'); ?></span>
+																</div>
+									      					</div>
 
   <div class="col-md-6 mb-2" id="unique_input" style="display:none;">
 																<div class="form-group">
@@ -167,6 +175,8 @@
 																<span class="text-error small"><?php echo form_error('item_serial'); ?></span>
 																</div>
 									      					</div>
+<input type="hidden" id="invoice_id" name="invoice_id" value="<?php echo date("dmYHis")?>">
+                                                           
                                    <!-- Brand -->  
 	<div class="row">
                               <div class="col-12">
@@ -197,6 +207,40 @@
     <tbody>
         <!-- rows will append here -->
     </tbody>
+    <tfoot class="table-secondary">
+        <tr>
+            <td colspan="5" class="text-end fw-bold">Total Order:</td>
+            <td>
+                <input type="number" name="totalOrderAmount" id="totalOrderAmount"
+                       class="form-control text-end" readonly>
+            </td>
+            <td colspan="2"></td>
+        </tr>
+        <tr>
+            <td colspan="5" class="text-end fw-bold">Total  Amount:</td>
+            <td>
+                <input type="number" name="totalAmount" id="totalAmount"
+                       class="form-control text-end" readonly required>
+            </td>
+            <td colspan="2"></td>
+        </tr>
+        <tr>
+            <td colspan="5" class="text-end fw-bold">Total Received Amount:</td>
+            <td>
+                <input type="number" name="paidAmount" id="paidAmount"
+                       class="form-control text-end" >
+            </td>
+            <td colspan="2"></td>
+        </tr>
+        <tr>
+            <td colspan="5" class="text-end fw-bold">Due Amount:</td>
+            <td>
+                <input type="number" name="dueAmount" id="dueAmount"
+                       class="form-control text-end" readonly>
+            </td>
+            <td colspan="2"></td>
+        </tr>
+    </tfoot>
 </table>
 
 </div>
@@ -212,10 +256,16 @@
   
 											</div>
 											</div>
+
+                                                <div class="row">
+                                                                        <div class="col-12">
+                                                                                    <button type="submit"
+                                                                                                class="btn btn_bg">Save</button>
+                                                                        </div> 
 										</div>
 									</div>
 
-<input type="hidden" id="invoice_id" value="<?php echo date("dmYHis")?>">
+
 
 
                                 	
@@ -226,7 +276,7 @@
 											
                                                                         
 
-                                                                      
+                                                                  
 
 
                                                                     
@@ -237,11 +287,7 @@
 
 
 
-                                                            <div class="row">
-                                                                        <div class="col-12">
-                                                                                    <button type="submit"
-                                                                                                class="btn btn_bg">Save</button>
-                                                                        </div>
+                                                           
                                                             </div>
                                                 </form>
       </div>
@@ -255,6 +301,41 @@
 
 
   <script>
+
+       function calculateTotals() {
+             let totalOrder = 0;
+             let totalQtyOrder = 0;
+
+            
+            $('#itemsTable tbody tr').each(function() {
+                let subTotal = parseFloat($(this).find('.sub_total').val()) || 0;
+                totalOrder += subTotal;
+
+                //
+                let subQty = parseFloat($(this).find('.qty').val()) || 0;
+                totalQtyOrder += subQty;
+            });
+
+            let totalReceived = parseFloat($('#paidAmount').val()) || 0;
+          if (totalReceived > totalOrder) {
+        alert("Paid amount cannot exceed the total order amount!");
+        totalReceived = totalOrder; // সীমাবদ্ধ করো
+        $('#paidAmount').val(totalOrder.toFixed(2));
+    }
+            // Due = Total Order - Received
+            let dueAmount = totalOrder - totalReceived;
+
+            // ফিল্ডগুলো আপডেট করো
+            $('#totalOrderAmount').val(totalQtyOrder.toFixed(2));
+            $('#totalAmount').val(totalOrder.toFixed(2));
+            $('#dueAmount').val(dueAmount.toFixed(2));
+        }
+
+        // যখন paid amount পরিবর্তন হবে, due amount অটো আপডেট করো
+$('#paidAmount').on('input', function() {
+    calculateTotals();
+});
+
                       // Auto update price and subtotal when product changes
 $('#product_id').change(function(){
     var price = $(this).find(':selected').data('price') || 0;
@@ -280,11 +361,14 @@ $('#addItemBtn').on('click', function() {
     var qty = parseInt($('#qty').val());
     var sub_total = parseFloat($('#subtotal').val());
     var serial_number = $('#item_serial').val();
+    var warrenty = $('#warrenty').val();
 
     if(!product_id){
         alert("Select a product!");
         return;
     }
+
+ 
 
     $.ajax({
         url: '<?= base_url("purchase/add_item_ajax") ?>',
@@ -296,6 +380,7 @@ $('#addItemBtn').on('click', function() {
             price: price,
             qty: qty,
             sub_total: sub_total,
+            warrenty: warrenty,
             serial_number: serial_number
         },
        success: function(res){
@@ -305,6 +390,7 @@ $('#addItemBtn').on('click', function() {
             existingRow.find('.qty').val(res.item.qty);
             existingRow.find('.sub_total').val(res.item.sub_total);
             existingRow.find('.serial_number').val(res.item.serial_number);
+             calculateTotals();
         } else {
             var newRow = '<tr data-id="'+res.item.id+'">'+
                 '<td>'+($('#itemsTable tbody tr').length+1)+'</td>'+
@@ -317,6 +403,8 @@ $('#addItemBtn').on('click', function() {
                 '<td><button type="button" class="btn  btn-sm btn-outline-danger removeItem">✖</button></td>'+
             '</tr>';
             $('#itemsTable tbody').append(newRow);
+             // টোটাল হিসাব আপডেট করো
+             calculateTotals();
         }
 
         // reset input fields
@@ -348,14 +436,19 @@ $(document).on('click', '.removeItem', function(){
         data: { item_id: item_id },
         dataType: 'json',
         success: function(res){
-            if(res.status == 'success'){
+            if(res.status === 'success'){
+                // রো রিমুভ করো
                 row.remove();
-                // Optional: re-number line#
+
+                // লাইন নম্বর আবার সাজাও
                 $('#itemsTable tbody tr').each(function(index){
-                    $(this).find('td:first').text(index+1);
+                    $(this).find('td:first').text(index + 1);
                 });
+
+                // ✅ টোটাল রিক্যালকুলেট করো
+                calculateTotals();
             } else {
-                alert('Error deleting item: '+res.msg);
+                alert('Error deleting item: ' + res.msg);
             }
         },
         error: function(){
@@ -364,10 +457,6 @@ $(document).on('click', '.removeItem', function(){
     });
 });
 
-// Remove row
-$(document).on('click', '.removeRow', function(){
-    $(this).closest('tr').remove();
-});
 
 </script>
 <script>
@@ -388,7 +477,7 @@ $(document).ready(function() {
                     $('#price').val(data.price);
                     $('#sales_price').val(data.sales_price);
                     $('#subtotal').val(data.price * $('#qty').val());  // Subtotal = Price * Qty
-
+                    $('#warrenty').val(data.warrenty);
                     // Check serial_type and update Qty field accordingly
                     if (data.serial_type === 'common') {
                         $('#qty').prop('readonly', false);  // Make Qty editable
@@ -401,6 +490,14 @@ $(document).ready(function() {
                         $("#unique_input").slideDown();
                         $("#common_input").slideUp();
                     }
+
+                    if (data.warrenty > 0) {
+                        $("#warrenty_input").slideDown();
+                    }else{
+                        $("#warrenty_input").slideUp();
+                    }
+
+                  
                 }
             });
         } else {
@@ -421,7 +518,7 @@ $(document).ready(function() {
 
       $('#price').on('input', function() {
         var price = $(this).val();
-        var qty = $('#price').val();
+        var qty = $('#qty').val();
         $('#subtotal').val(qty * price);
     });
 });
@@ -500,3 +597,25 @@ $(document).ready(function () {
 
 
 
+ <script>
+    $(document).ready(function() {
+   
+
+   $("#purchase_date").datepicker({
+  dateFormat: "dd-mm-yy",
+  changeMonth: true,
+  changeYear: true,
+  yearRange: "1900:2100",
+});
+
+
+// Set a default date (e.g., today's date)
+var today = $.datepicker.formatDate("dd-mm-yy", new Date());
+$("#purchase_date,.to_date").val(today);
+
+  });
+
+
+
+     
+    </script>
