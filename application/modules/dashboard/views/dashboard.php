@@ -234,7 +234,9 @@
       border-radius: 3px;
     }
   </style>
+ <div class="container-fluid">
 
+  <div class="row px-3">
   <!-- === Quick Links Section === -->
   <div class="quick-links">
     <h3>Quick Links</h3>
@@ -371,6 +373,10 @@
     </div>
   </div>
 
+
+   </div>
+
+    </div>
    <script>
     const ctx = document.getElementById('overviewChart').getContext('2d');
     const overviewChart = new Chart(ctx, {

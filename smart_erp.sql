@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 08, 2025 at 12:33 PM
+-- Generation Time: Nov 09, 2025 at 12:16 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -151,10 +151,10 @@ CREATE TABLE `business_partner` (
 --
 
 INSERT INTO `business_partner` (`id`, `organization_id`, `name`, `partner_type`, `contact_no`, `email`, `address`, `credit_limit`, `payment_terms`, `sales_representative`, `region`, `business_category`, `delivery_method`, `notes`, `is_active`, `customer_group_id`, `reference_id`, `opening_balance_type`, `opening_balance`, `current_balance`, `create_user`, `create_date`, `created_at`, `updated_at`) VALUES
-(19, 3, 'MD. YASIN', 'Customer', ' 01683189893', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', 1, 0, 0, '', 0.00, 0.00, 17, 1762591465, '2025-11-08 08:44:25', '2025-11-08 08:44:25'),
+(19, 3, 'MD. YASIN', 'Customer', ' 01683189893', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', 1, 0, 0, '', 0.00, 600.00, 17, 1762591465, '2025-11-08 08:44:25', '2025-11-09 05:48:24'),
 (20, 3, 'Md sabbir', 'Supplier', '01601325244', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', 1, 0, 0, '', 0.00, 0.00, 17, 1762591480, '2025-11-08 08:44:40', '2025-11-08 08:44:40'),
-(21, 3, 'sujon das', 'Both', ' 01872665152', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', 1, 0, 0, '', 0.00, 0.00, 17, 1762591489, '2025-11-08 08:44:49', '2025-11-08 08:44:49'),
-(22, 3, 'Sohin lalmai', 'Customer', '01830596631', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', 1, 0, 0, '', 0.00, 0.00, 17, 1762591501, '2025-11-08 08:45:01', '2025-11-08 08:45:01'),
+(21, 3, 'sujon das', 'Both', ' 01872665152', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', 1, 0, 0, '', 0.00, 500.00, 17, 1762591489, '2025-11-08 08:44:49', '2025-11-09 05:48:19'),
+(22, 3, 'Sohin lalmai', 'Customer', '01830596631', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', 1, 0, 0, '', 0.00, 600.00, 17, 1762591501, '2025-11-08 08:45:01', '2025-11-09 05:48:14'),
 (23, 3, 'REAL SOLUTION', 'Supplier', ' 01745441700', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', 1, 0, 0, '', 0.00, 0.00, 17, 1762591509, '2025-11-08 08:45:09', '2025-11-08 08:45:09');
 
 -- --------------------------------------------------------
@@ -185,7 +185,7 @@ INSERT INTO `login_credential` (`id`, `organization_id`, `branch_id`, `user_id`,
 (1, 0, 0, 1, 'system', 'UHZVdVBOTWI0VkwrN0MvQjRRRUZkdz09', 1, 1, '2025-11-08 16:55:52', '2024-10-21 15:42:57', '2025-11-08 16:55:52'),
 (2, 0, 0, 2, 'litan@gmail.com', 'UHZVdVBOTWI0VkwrN0MvQjRRRUZkdz09', 1, 1, '2024-11-27 11:06:55', '2024-10-21 15:42:57', '2025-10-30 14:29:54'),
 (5, 0, 0, 6, 'admin@gmail.com', 'UHZVdVBOTWI0VkwrN0MvQjRRRUZkdz09', 2, 1, '2025-11-01 14:35:31', '2024-11-16 23:35:56', '2025-11-01 14:35:31'),
-(17, 3, 0, 10, '01829', 'UHZVdVBOTWI0VkwrN0MvQjRRRUZkdz09', 3, 1, '2025-11-08 16:57:58', '2025-10-30 23:30:08', '2025-11-08 16:57:58');
+(17, 3, 1, 10, '01829', 'UHZVdVBOTWI0VkwrN0MvQjRRRUZkdz09', 3, 1, '2025-11-09 14:48:59', '2025-10-30 23:30:08', '2025-11-09 14:48:59');
 
 -- --------------------------------------------------------
 
@@ -402,6 +402,30 @@ CREATE TABLE `partner_group` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `payment_method`
+--
+
+CREATE TABLE `payment_method` (
+  `id` int(11) NOT NULL,
+  `organization_id` int(11) NOT NULL,
+  `branch_id` int(11) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `description` text NOT NULL,
+  `is_active` int(11) NOT NULL,
+  `create_user` int(11) NOT NULL,
+  `create_date` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+--
+-- Dumping data for table `payment_method`
+--
+
+INSERT INTO `payment_method` (`id`, `organization_id`, `branch_id`, `name`, `description`, `is_active`, `create_user`, `create_date`) VALUES
+(1, 3, 1, 'Cash', '', 1, 0, 0);
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `permissions`
 --
 
@@ -553,6 +577,27 @@ CREATE TABLE `purchase_invoice` (
   `is_active` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
+--
+-- Dumping data for table `purchase_invoice`
+--
+
+INSERT INTO `purchase_invoice` (`id`, `organization_id`, `supplier_id`, `invoice_code`, `is_active`) VALUES
+(38, 3, 0, '09112025113212', 0),
+(39, 3, 0, '09112025152149', 0),
+(40, 3, 0, '09112025153306', 0),
+(41, 3, 0, '09112025153344', 0),
+(42, 3, 0, '09112025153434', 0),
+(43, 3, 0, '09112025153500', 0),
+(44, 3, 0, '09112025154831', 0),
+(45, 3, 0, '09112025155105', 0),
+(46, 3, 0, '09112025155134', 0),
+(47, 3, 0, '09112025155337', 0),
+(48, 3, 0, '09112025155746', 0),
+(49, 3, 0, '09112025160206', 0),
+(50, 3, 0, '09112025160240', 0),
+(51, 3, 0, '09112025160332', 0),
+(52, 3, 0, '09112025171217', 0);
+
 -- --------------------------------------------------------
 
 --
@@ -568,65 +613,23 @@ CREATE TABLE `purchase_items` (
   `qty` int(11) NOT NULL,
   `sub_total` decimal(10,2) NOT NULL,
   `warrenty` int(11) NOT NULL,
-  `serial_number` text DEFAULT NULL
+  `warrenty_days` varchar(50) DEFAULT NULL,
+  `serial_number` text DEFAULT NULL,
+  `barcode_serial` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `purchase_items`
 --
 
-INSERT INTO `purchase_items` (`id`, `invoice_id`, `serial_type`, `product_id`, `price`, `qty`, `sub_total`, `warrenty`, `serial_number`) VALUES
-(14, '777', '', 2, 3.00, 1, 3.00, 0, ''),
-(15, '777', '', 3, 100.00, 11, 10500.00, 0, ''),
-(20, '2147483647', '', 3, 500.00, 1, 500.00, 0, ''),
-(22, '2147483647', '', 5, 0.00, 1, 0.00, 0, ''),
-(23, '2147483647', '', 5, 0.00, 1, 0.00, 0, ''),
-(24, '06112025234504', '', 5, 0.00, 2, 0.00, 0, ''),
-(25, '08112025115803', '', 3, 500.00, 1, 500.00, 0, ''),
-(26, '08112025120909', '', 5, 0.00, 1, 0.00, 0, ''),
-(27, '08112025120909', '', 2, 3.00, 1, 3.00, 0, ''),
-(28, '08112025122839', '', 5, 55.00, 1, 3025.00, 0, ''),
-(29, '08112025122839', '', 2, 3.00, 1, 3.00, 30, ''),
-(30, '08112025123246', '', 4, 450.00, 2, 900.00, 0, ''),
-(31, '08112025123246', '', 5, 0.00, 2, 0.00, 0, ''),
-(32, '08112025123246', 'unique', 2, 3.00, 1, 3.00, 3, ''),
-(33, '08112025123344', 'unique', 5, 0.00, 1, 0.00, 0, ''),
-(34, '08112025123458', 'common', 6, 5765.00, 1, 5765.00, 7, 'eee'),
-(35, '08112025150637', 'unique', 5, 0.00, 2, 0.00, 0, ''),
-(36, '08112025150637', 'unique', 2, 3.00, 1, 3.00, 3, ''),
-(37, '08112025150714', 'common', 6, 5765.00, 1, 5765.00, 7, ''),
-(38, '08112025150810', 'unique', 5, 0.00, 1, 0.00, 0, ''),
-(39, '08112025150810', 'common', 3, 500.00, 1, 500.00, 0, ''),
-(40, '08112025151640', 'common', 6, 5765.00, 2, 11530.00, 7, ''),
-(41, '08112025151640', 'common', 3, 500.00, 1, 500.00, 0, ''),
-(42, '08112025151832', 'common', 6, 5765.00, 2, 11530.00, 7, ''),
-(43, '08112025151832', 'unique', 4, 450.00, 1, 450.00, 0, ''),
-(46, '08112025151943', 'unique', 5, 0.00, 1, 0.00, 0, ''),
-(50, '08112025153004', 'common', 6, 5765.00, 1, 5765.00, 7, ''),
-(51, '08112025153204', 'common', 6, 5765.00, 1, 5765.00, 7, ''),
-(52, '08112025153302', 'common', 6, 5765.00, 3, 17295.00, 7, ''),
-(53, '08112025153330', 'common', 6, 5765.00, 2, 11530.00, 7, ''),
-(54, '08112025153523', 'common', 6, 5765.00, 1, 5765.00, 7, ''),
-(55, '08112025153539', 'common', 6, 5765.00, 2, 11530.00, 7, ''),
-(56, '08112025153608', 'common', 6, 5765.00, 1, 5765.00, 7, ''),
-(57, '08112025153642', 'common', 6, 5765.00, 1, 5765.00, 7, ''),
-(58, '08112025153700', 'common', 6, 5765.00, 1, 5765.00, 7, ''),
-(59, '08112025153756', 'common', 6, 5765.00, 1, 5765.00, 7, ''),
-(60, '08112025153816', 'common', 6, 5765.00, 1, 5765.00, 7, ''),
-(61, '08112025153833', 'common', 6, 5765.00, 1, 5765.00, 7, ''),
-(62, '08112025153859', 'common', 6, 5765.00, 1, 5765.00, 7, ''),
-(63, '08112025153912', 'common', 6, 5765.00, 1, 5765.00, 7, ''),
-(65, '08112025153932', 'unique', 5, 0.00, 1, 0.00, 0, ''),
-(66, '08112025153932', 'common', 3, 500.00, 1, 500.00, 0, ''),
-(68, '08112025154104', 'common', 6, 5765.00, 1, 5765.00, 7, ''),
-(69, '08112025154243', 'common', 6, 5765.00, 1, 5765.00, 7, ''),
-(70, '08112025155348', 'common', 6, 5765.00, 1, 5765.00, 7, ''),
-(71, '08112025155406', 'common', 6, 5765.00, 1, 5765.00, 7, ''),
-(72, '08112025155511', 'common', 6, 5765.00, 1, 5765.00, 7, ''),
-(73, '08112025155919', 'common', 3, 500.00, 1, 500.00, 0, ''),
-(74, '08112025163402', 'unique', 5, 50.00, 1, 2500.00, 0, ''),
-(75, '08112025163959', 'unique', 5, 500.00, 1, 500.00, 0, ''),
-(76, '08112025164249', 'unique', 5, 0.00, 1, 0.00, 0, '');
+INSERT INTO `purchase_items` (`id`, `invoice_id`, `serial_type`, `product_id`, `price`, `qty`, `sub_total`, `warrenty`, `warrenty_days`, `serial_number`, `barcode_serial`) VALUES
+(88, '09112025160206', 'common', 6, 5765.00, 2, 11530.00, 7, 'Days', '', NULL),
+(89, '09112025160240', 'unique', 4, 450.00, 1, 450.00, 0, 'Days', '55555', NULL),
+(90, '09112025160240', 'common', 6, 5765.00, 1, 5765.00, 7, 'Days', '', NULL),
+(91, '09112025160332', 'common', 6, 5765.00, 1, 5765.00, 7, 'Days', '', '4444'),
+(92, '09112025171217', 'common', 6, 5765.00, 1, 5765.00, 7, 'Days', '', '444444'),
+(93, '09112025171217', 'unique', 4, 450.00, 2, 900.00, 0, 'Days', '44444,6gggg', ''),
+(94, '09112025171217', 'unique', 2, 3.00, 1, 3.00, 3, 'Days', '555555', '');
 
 -- --------------------------------------------------------
 
@@ -963,6 +966,12 @@ ALTER TABLE `partner_group`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `payment_method`
+--
+ALTER TABLE `payment_method`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `permissions`
 --
 ALTER TABLE `permissions`
@@ -1119,6 +1128,12 @@ ALTER TABLE `partner_group`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT for table `payment_method`
+--
+ALTER TABLE `payment_method`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
 -- AUTO_INCREMENT for table `permissions`
 --
 ALTER TABLE `permissions`
@@ -1146,13 +1161,13 @@ ALTER TABLE `purchase`
 -- AUTO_INCREMENT for table `purchase_invoice`
 --
 ALTER TABLE `purchase_invoice`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=53;
 
 --
 -- AUTO_INCREMENT for table `purchase_items`
 --
 ALTER TABLE `purchase_items`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=77;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=95;
 
 --
 -- AUTO_INCREMENT for table `roles`

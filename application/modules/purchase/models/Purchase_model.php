@@ -48,7 +48,7 @@ public function number_generator() {
 		 }
 
        public function get_product_by_id($product_id) {
-        $this->db->select('purchase_price, sales_price, serial_type, warrenty');
+        $this->db->select('purchase_price, sales_price, serial_type, warrenty ,warrenty_days');
         $this->db->from('products');
         $this->db->where('id', $product_id);
         $query = $this->db->get();
@@ -70,5 +70,19 @@ public function number_generator() {
         return $this->db->get()->result();
     }
     
-  
+  public function get_items_by_invoice()
+{
+    $invoice_id = $this->input->post('invoice_id'); // বা GET থেকে নিতে পারো
+    
+    if ($invoice_id) {
+        $this->db->where('invoice_id', $invoice_id);
+        $query = $this->db->get('purchase_items');
+       return $result = $query->result();
+        
+      
+    } else {
+        return NULL;
+    }
+}
+
 }

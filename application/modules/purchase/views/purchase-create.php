@@ -37,14 +37,14 @@
                 <form  action="<?php echo base_url(); ?>purchase/create" method="post" enctype="multipart/form-data">
                                                             <div class="row mb-3">
 
-                                     <div class="col-md-3 mb-2">
+                                     <div class="col-md-2 mb-2">
 																<div class="form-group">
 																<label for="invoice_no">Invoice No <span class="text-error"> *</span></label>
 									      						<input type="text"  name="invoice_no" id="invoice_no" value="<?= $invoice_no; ?>"   class="form-control" readonly>
 																<span class="text-error small"><?php echo form_error('invoice_no'); ?></span>
 																</div>
 									      					</div>   
-                                                             <div class="col-md-3 mb-2">
+                                                             <div class="col-md-2 mb-2">
 																<div class="form-group">
 																<label for="purchase_date">Purchase Date<span class="text-error"> *</span></label>
 									      						<input type="text"  name="purchase_date" id="purchase_date" value=""   class="form-control" >
@@ -52,26 +52,27 @@
 																</div>
 									      					</div>     
 
-                                   <div class="col-md-3 mb-3">
-                                    <div class="form-group">
-                                  <label for="supplier_id">Select Supplier</label>
-                                  <div class="select_2_container">
-                                    <select name="supplier_id"  id="supplier_id"     class="form-control frm_select select2">
-                                       <option  value="">  Select  </option>
-                                          <?php
-                                                                        foreach($allSuplier as $suplier){
-                                                                        echo "<option value='{$suplier->id}'>$suplier->name - $suplier->contact_no</option>";
-                                                                        }
-																?>
+                                  <div class="col-md-3 mb-3">
+                                <div class="form-group">
+                                    <label for="supplier_id">Select Supplier</label>
+                                    <div class="select_2_container">
+                                    <select name="supplier_id" id="supplier_id" class="form-control frm_select select2" required>
+                                        <option value="">Select</option>
+                                        <?php foreach($allSuplier as $suplier){ ?>
+                                            <option value="<?= $suplier->id; ?>">
+                                                <?= $suplier->name . ' - ' . $suplier->contact_no; ?>
+                                            </option>
+                                        <?php } ?>
                                     </select>
                                     <i class="fas fa-caret-down"></i>
-                                  </div>
-                                   <span class="text-error small"> <?php echo form_error('supplier_id'); ?>   </span>
-                                </div></div>
+                                    </div>
+                                    <span class="text-error small"><?= form_error('supplier_id'); ?></span>
+                                </div>
+                                </div>
 
                                 <!-- Brand -->  
 
-                          <div class="col-md-3 mb-3">
+                          <div class="col-md-2 mb-3">
                                     <div class="form-group">
                                   <label for="store_id">Receiving Store </label>
                                   <div class="select_2_container">
@@ -109,7 +110,7 @@
                                 <!-- end Brand -->
                                   <!-- Brand -->  
 
-                          <div class="col-md-3 mb-3">
+                          <div class="col-md-5 mb-3">
                                     <div class="form-group">
                                   <label for="product_id">Product Name </label>
                                   <div class="select_2_container">
@@ -125,34 +126,34 @@
                                 </div></div>
                                 <!-- end Brand -->
 
-                                <div class="col-md-3 mb-2">
+                                <div class="col-md-2 mb-2">
         <div class="form-group">
             <label for="price">Price <span class="text-error"> *</span></label>
             <input type="text" name="price" id="price" value="" class="form-control price" >
         </div>
     </div>
 
-    <div class="col-md-3 mb-2">
+    <div class="col-md-2 mb-2">
         <div class="form-group">
             <label for="qty">Qty <span class="text-error"> *</span></label>
             <input type="text" name="qty" id="qty" value="1" class="form-control qty">
         </div>
     </div>
 
-    <div class="col-md-3 mb-2">
+    <div class="col-md-2 mb-2">
         <div class="form-group">
             <label for="subtotal">Sub Total <span class="text-error"> *</span></label>
             <input type="text" name="subtotal" id="subtotal" value="" class="form-control sub_total" readonly>
         </div>
     </div>
 
-    <div class="col-md-3 mb-2">
+    <div class="col-md-2 mb-2">
         <div class="form-group">
             <label for="sales_price">Unit Sales Price <span class="text-error"> *</span></label>
             <input type="text" name="sales_price" id="sales_price" value="" class="form-control sales_price">
         </div>
     </div>
-                                                          <div class="col-md-3 mb-2" id="warrenty_input" style="display:none;">
+                                                          <div class="col-md-1 mb-2" id="warrenty_input" style="display:none;">
 																<div class="form-group">
 																<label for="warrenty">Warrenty <span class="text-error"> *</span></label>
 									      						<input type="text"  name="warrenty" id="warrenty" value=""   class="form-control " >
@@ -160,19 +161,27 @@
 																</div>
 									      					</div>
 
+                                                            <div class="col-md-2 mb-2" id="warrenty_days_input" style="display:none;">
+																<div class="form-group">
+																<label for="warrenty_days">Warrenty Days <span class="text-error"> *</span></label>
+									      						<input type="text"  name="warrenty_days" id="warrenty_days" value=""   class="form-control " >
+																<span class="text-error small"><?php echo form_error('warrenty_days'); ?></span>
+																</div>
+									      					</div>
+
   <div class="col-md-6 mb-2" id="unique_input" style="display:none;">
 																<div class="form-group">
-																<label for="item_serial3">প্রতি পণ্যে আলাদা সিরিয়াল  <span class="text-error"> *</span></label>
-									      						<input type="text"  name="item_serial3" id="item_serial3" value=""   class="form-control serial_number" >
+																<label for="item_serial">প্রতি পণ্যে আলাদা সিরিয়াল  <span class="text-error"> *</span></label>
+									      						<input type="text"  name="item_serial" id="item_serial" value=""   class="form-control serial_number" >
 																<span class="text-error small"><?php echo form_error('item_serial'); ?></span>
 																</div>
 									      					</div>
                                   
                                    <div class="col-md-6 mb-2"  id="common_input"  style="display:none;">
 																<div class="form-group">
-																<label for="item_serial">একই সিরিয়ালে  একাধিক  পণ্য<span class="text-error"> *</span></label>
-									      						<input type="text"  name="item_serial" id="item_serial" value=""   class="form-control serial_number" >
-																<span class="text-error small"><?php echo form_error('item_serial'); ?></span>
+																<label for="barcode_serial">একই সিরিয়ালে  একাধিক  পণ্য<span class="text-error"> *</span></label>
+									      						<input type="text"  name="barcode_serial" id="barcode_serial" value=""   class="form-control serial_number" >
+																<span class="text-error small"><?php echo form_error('barcode_serial'); ?></span>
 																</div>
 									      					</div>
 <input type="hidden" id="invoice_id" name="invoice_id" value="<?php echo date("dmYHis")?>">
@@ -180,7 +189,7 @@
                                    <!-- Brand -->  
 	<div class="row">
                               <div class="col-12">
-                                <button type="button" id="addItemBtn" class="btn btn_bg">Add items</button>
+                                <button type="button" id="addItemBtn" width="100%" class="btn btn_bg">Add to Cart</button>
                               </div>
                           </div><br><br><br>
 
@@ -209,15 +218,24 @@
     </tbody>
     <tfoot class="table-secondary">
         <tr>
-            <td colspan="5" class="text-end fw-bold">Total Order:</td>
+            <td colspan="5" class="text-end fw-bold">Total Quantity:</td>
             <td>
                 <input type="number" name="totalOrderAmount" id="totalOrderAmount"
                        class="form-control text-end" readonly>
             </td>
             <td colspan="2"></td>
         </tr>
+       <!-- Previous Due -->
+                <tr>
+                <td colspan="5" class="text-end fw-bold">Previous Due:</td>
+                <td>
+                    <input type="number" name="previousDue" id="previousDue"
+                            class="form-control text-end" readonly>
+                </td>
+                <td colspan="2"></td>
+                </tr>
         <tr>
-            <td colspan="5" class="text-end fw-bold">Total  Amount:</td>
+            <td colspan="5" class="text-end fw-bold">Total Order:</td>
             <td>
                 <input type="number" name="totalAmount" id="totalAmount"
                        class="form-control text-end" readonly required>
@@ -225,7 +243,7 @@
             <td colspan="2"></td>
         </tr>
         <tr>
-            <td colspan="5" class="text-end fw-bold">Total Received Amount:</td>
+            <td colspan="5" class="text-end fw-bold">Paid Amount:</td>
             <td>
                 <input type="number" name="paidAmount" id="paidAmount"
                        class="form-control text-end" >
@@ -233,7 +251,7 @@
             <td colspan="2"></td>
         </tr>
         <tr>
-            <td colspan="5" class="text-end fw-bold">Due Amount:</td>
+            <td colspan="5" class="text-end fw-bold">Payable Amount:</td>
             <td>
                 <input type="number" name="dueAmount" id="dueAmount"
                        class="form-control text-end" readonly>
@@ -244,7 +262,11 @@
 </table>
 
 </div>
-
+<div class="row">
+                                                                        <div class="col-12 text-end">
+                                                                                    <button type="submit"
+                                                                                                class="btn btn_bg">Confirm Order</button>
+                                                                        </div>
      	<div class="row">
 									      					<div class="col-12">
 									      		  
@@ -257,11 +279,7 @@
 											</div>
 											</div>
 
-                                                <div class="row">
-                                                                        <div class="col-12">
-                                                                                    <button type="submit"
-                                                                                                class="btn btn_bg">Save</button>
-                                                                        </div> 
+                                                 
 										</div>
 									</div>
 
@@ -298,7 +316,23 @@
 </div>
 
 
+    <!-- Payment  Method -->  
 
+                          <div class="col-md-4 mb-3" style="display:none;">
+                                    <div class="form-group">
+                                  <label for="payment_method_id">Payment Method</label>
+                                  <div class="select_2_container">
+                                    <select name="payment_method_id"  id="payment_method_id"     class="form-control frm_select select2">
+                                      
+                                        <?php foreach($allPayment as $payment): ?>
+                        <option value="<?= $payment->id ?>"><?= $payment->name ?></option>
+                    <?php endforeach; ?>
+                                    </select>
+                                    <i class="fas fa-caret-down"></i>
+                                  </div>
+                                  <span class="text-error small"> <?php echo form_error('payment_method_id'); ?>   </span>
+                                </div></div>
+                                <!-- end Payment Method -->
 
   <script>
 
@@ -361,7 +395,9 @@ $('#addItemBtn').on('click', function() {
     var qty = parseInt($('#qty').val());
     var sub_total = parseFloat($('#subtotal').val());
     var serial_number = $('#item_serial').val();
+    var barcode_serial = $('#barcode_serial').val();
     var warrenty = $('#warrenty').val();
+    var warrenty_days = $('#warrenty_days').val();
 
     if(!product_id){
         alert("Select a product!");
@@ -381,7 +417,9 @@ $('#addItemBtn').on('click', function() {
             qty: qty,
             sub_total: sub_total,
             warrenty: warrenty,
-            serial_number: serial_number
+            warrenty_days: warrenty_days,
+            serial_number: serial_number,
+            barcode_serial: barcode_serial
         },
        success: function(res){
     if(res.status == 'success'){
@@ -413,6 +451,7 @@ $('#addItemBtn').on('click', function() {
         $('#qty').val(1);
         $('#subtotal').val('');
         $('#item_serial').val('');
+        $('#barcode_serial').val('');
     } else {
         alert('Error saving item: '+res.msg);
     }
@@ -478,6 +517,7 @@ $(document).ready(function() {
                     $('#sales_price').val(data.sales_price);
                     $('#subtotal').val(data.price * $('#qty').val());  // Subtotal = Price * Qty
                     $('#warrenty').val(data.warrenty);
+                    $('#warrenty_days').val(data.warrenty_days);
                     // Check serial_type and update Qty field accordingly
                     if (data.serial_type === 'common') {
                         $('#qty').prop('readonly', false);  // Make Qty editable
@@ -493,8 +533,10 @@ $(document).ready(function() {
 
                     if (data.warrenty > 0) {
                         $("#warrenty_input").slideDown();
+                        $("#warrenty_days_input").slideDown();
                     }else{
                         $("#warrenty_input").slideUp();
+                        $("#warrenty_days_input").slideUp();
                     }
 
                   
@@ -619,3 +661,29 @@ $("#purchase_date,.to_date").val(today);
 
      
     </script>
+
+<script>
+$(document).ready(function() {
+    $('#supplier_id').on('change', function() {
+        var supplier_id = $(this).val();
+
+        if(supplier_id != '') {
+            $.ajax({
+                url: '<?= base_url("purchase/get_supplier_balance"); ?>', // controller path
+                type: 'POST',
+                dataType: 'json',
+                data: { supplier_id: supplier_id },
+                success: function(response) {
+                    $('#previousDue').val(response.balance);
+                },
+                error: function() {
+                    alert('Something went wrong while fetching balance.');
+                }
+            });
+        } else {
+            $('#previousDue').val('');
+        }
+    });
+});
+</script>
+

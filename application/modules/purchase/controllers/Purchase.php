@@ -28,7 +28,13 @@ public function index()
   
   } else {
 
-    echo $totalAmount = $this->common_model->xss_clean($this->input->post("totalAmount"));
+   $invoice_code = $this->common_model->xss_clean($this->input->post("invoice_id"));
+   
+    $existing = $this->purchase_model->get_items_by_invoice($invoice_code);
+
+    echo "<pre>";print_r($existing);
+   
+   exit();
 
     $int_no = $this->purchase_model->number_generator();
   	$invoice_no = 'GRN-'.str_pad($int_no,4,"0",STR_PAD_LEFT);
@@ -77,6 +83,7 @@ public function index()
     $data['allInv']         = $this->main_model->getRecordsByOrg("warehouse");
     $data['allPro']         = $this->main_model->getRecordsByOrg("products");
     $data['allSuplier']     = $this->purchase_model->getSuplier();
+    $data['allPayment']         = $this->main_model->getRecordsByOrg("payment_method");
     // inv 
     $int_no = $this->purchase_model->number_generator();
   	$invoice_no = 'GRN-'.str_pad($int_no,4,"0",STR_PAD_LEFT);
@@ -155,9 +162,10 @@ public function update(){
                 // Return product details as JSON
                 echo json_encode([
                     'price' => $product->purchase_price,  // Example: Purchase Price
-                    'sales_price' => $product->sales_price,
-                    'serial_type' => $product->serial_type,
-                    'warrenty' => $product->warrenty
+                    'sales_price'   => $product->sales_price,
+                    'serial_type'   => $product->serial_type,
+                    'warrenty'      => $product->warrenty,
+                    'warrenty_days' => $product->warrenty_days
                 ]);
             } else {
                 echo json_encode([]);
@@ -174,8 +182,10 @@ public function add_item_ajax()
     $price      = $this->input->post('price');
     $qty        = $this->input->post('qty');
     $sub_total  = $this->input->post('sub_total');
-    $warrenty  = $this->input->post('warrenty');
+    $warrenty      = $this->input->post('warrenty');
+    $warrenty_days  = $this->input->post('warrenty_days');
     $serial_number = $this->input->post('serial_number');
+    $barcode_serial = $this->input->post('barcode_serial');
 
     if(!$product_id || !$invoice_id){
         echo json_encode(['status' => 'error', 'msg' => 'Missing invoice or product']);
@@ -243,11 +253,19 @@ public function add_item_ajax()
             'qty' => $qty,
             'sub_total' => $sub_total,
             'warrenty' => $warrenty,
-            'serial_number' => $serial_number
+            'warrenty_days' => $warrenty_days,
+            'serial_number' => $serial_number,
+            'barcode_serial' => $barcode_serial,
         ]);
         $item_id = $this->db->insert_id();
     }
 
+    if($serial_type == 'unique'){
+      $is_serial_number =  $existing ? $new_serials : $serial_number;
+    }else{
+         $is_serial_number =  $barcode_serial;
+    }
+//barcode_serial
     echo json_encode([
         'status' => 'success',
         'item' => [
@@ -257,7 +275,8 @@ public function add_item_ajax()
             'price' => $price,
             'sub_total' => $existing ? $new_subtotal : $sub_total,
             'warrenty' => $warrenty,
-            'serial_number' => $existing ? $new_serials : $serial_number,
+            'warrenty_days' => $warrenty_days,
+            'serial_number' => $is_serial_number,
             'unit_name' => $unit_name
         ]
     ]);
@@ -284,5 +303,19 @@ public function delete_item_ajax()
     }
 }
 
+public function get_supplier_balance()
+{
+    $supplier_id = $this->input->post('supplier_id');
+    $balance = 0;
+
+    if ($supplier_id) {
+        $supplier = $this->db->get_where('business_partner', ['id' => $supplier_id])->row();
+        if ($supplier) {
+            $balance = $supplier->current_balance;
+        }
+    }
+
+    echo json_encode(['balance' => $balance]);
+}
 
 }
