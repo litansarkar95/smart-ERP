@@ -29,12 +29,11 @@ public function index()
   } else {
 
    $invoice_code = $this->common_model->xss_clean($this->input->post("invoice_id"));
-   
-    $existing = $this->purchase_model->get_items_by_invoice($invoice_code);
+   $store_id     = $this->common_model->xss_clean($this->input->post("supplier_id"));
+   $branch_id    = $this->session->userdata("loggedin_branch_id");
 
-    echo "<pre>";print_r($existing);
    
-   exit();
+   
 
     $int_no = $this->purchase_model->number_generator();
   	$invoice_no = 'GRN-'.str_pad($int_no,4,"0",STR_PAD_LEFT);
@@ -64,6 +63,167 @@ public function index()
    
     if ($this->common_model->save_data("purchase", $data)) {
       $id = $this->common_model->Id;
+   #######################################################################
+   ####################### Start inv_stock_item_serial #########################
+   #####################################################################
+    // Start inv_stock_item_serial
+    $items  = $this->purchase_model->get_items_by_invoice($invoice_code);
+  // echo "<pre>"; print_r($items);exit();
+    foreach($items  as $item){
+        if ($item->serial_type == 'common') {
+            // যদি barcode_serial থাকে
+            if (!empty($item->barcode_serial)) {
+                for ($i = 1; $i <= $item->qty; $i++) {
+                     $pdata = array(   
+                    "organization_id"            => $this->session->userdata('loggedin_org_id'),
+                    "branch_id"                  => $this->session->userdata('loggedin_branch_id'), 
+                    "purchase_id"                => $id,  
+                    "store_id"                   => $this->common_model->xss_clean($this->input->post("store_id")),   
+                    "product_id"                 => $item->product_id,   
+                    "purchase_price"             => $item->price,     
+                    "sales_price"                => $item->sales_price,        
+                    "quanity"                    => 1,   
+                    "is_available"               => 1,   
+                    "serial_type"                => $item->serial_type,   
+                    "serial"                     => $item->barcode_serial,
+                    "create_user"                => $this->session->userdata('loggedin_id'),
+                    "create_date"                => strtotime($date),
+                
+                );
+            $this->common_model->save_data("inv_stock_item_serial", $pdata);
+                }
+            } else {
+                // barcode_serial ফাঁকা => unique code generate করো
+                for ($i = 1; $i <= $item->qty; $i++) {
+                    $unique_code = strtoupper(uniqid('SN'));
+                     $pdata = array(   
+                    "organization_id"            => $this->session->userdata('loggedin_org_id'),
+                    "branch_id"                  => $this->session->userdata('loggedin_branch_id'), 
+                    "purchase_id"                => $id,   
+                    "store_id"                   => $this->common_model->xss_clean($this->input->post("store_id")),   
+                    "product_id"                 => $item->product_id,   
+                    "purchase_price"             => $item->price,     
+                    "sales_price"                => $item->sales_price,        
+                    "quanity"                    => 1,   
+                    "is_available"               => 1,   
+                    "serial_type"                => $item->serial_type,   
+                    "serial"                     => $unique_code,
+                    "create_user"                => $this->session->userdata('loggedin_id'),
+                    "create_date"                => strtotime($date),
+                
+                );
+                    $this->common_model->save_data("inv_stock_item_serial", $pdata);
+                 //   echo "Invoice: {$item->invoice_id} | Product: {$item->product_id} | Unique Code: {$unique_code} <br>";
+                }
+            }
+        }elseif ($item->serial_type == 'unique') {
+         if (!empty($item->serial_number)) {
+                // serial_number ফিল্ডে মান থাকলে কমা দিয়ে split করো
+                $serials = explode(',', $item->serial_number);
+                foreach ($serials as $serial) {
+                    $serial = trim($serial);
+                    $pdata = array(   
+                    "organization_id"            => $this->session->userdata('loggedin_org_id'),
+                    "branch_id"                  => $this->session->userdata('loggedin_branch_id'), 
+                    "purchase_id"                => 1,  
+                    "store_id"                   => $this->common_model->xss_clean($this->input->post("store_id")),   
+                    "product_id"                 => $item->product_id,   
+                    "purchase_price"             => $item->price,     
+                    "sales_price"                => $item->sales_price,        
+                    "quanity"                    => 1,   
+                    "is_available"               => 1,   
+                    "serial_type"                => $item->serial_type,   
+                    "serial"                     => $serial,
+                    "create_user"                => $this->session->userdata('loggedin_id'),
+                    "create_date"                => strtotime($date),
+                
+                );
+                    $this->common_model->save_data("inv_stock_item_serial", $pdata);
+                  //  echo "Invoice: {$item->invoice_id} | Product: {$item->product_id} | Serial: {$serial} <br>";
+                }
+            } else {
+                // serial_number ফাঁকা ⇒ qty সংখ্যক unique code বানাও
+                for ($i = 1; $i <= $item->qty; $i++) {
+                    $unique_serial = strtoupper(uniqid('UNQ'));
+                     $pdata = array(   
+                    "organization_id"            => $this->session->userdata('loggedin_org_id'),
+                    "branch_id"                  => $this->session->userdata('loggedin_branch_id'), 
+                    "purchase_id"                => $id,  
+                    "store_id"                   => $this->common_model->xss_clean($this->input->post("store_id")),   
+                    "product_id"                 => $item->product_id,   
+                    "purchase_price"             => $item->price,     
+                    "sales_price"                => $item->sales_price,        
+                    "quanity"                    => 1,   
+                    "is_available"               => 1,   
+                    "serial_type"                => $item->serial_type,   
+                    "serial"                     => $unique_serial,
+                    "create_user"                => $this->session->userdata('loggedin_id'),
+                    "create_date"                => strtotime($date),
+                
+                );
+                    $this->common_model->save_data("inv_stock_item_serial", $pdata);
+                    //echo "Invoice: {$item->invoice_id} | Product: {$item->product_id} | Generated Serial: {$unique_serial} <br>";
+                }
+            }
+        }
+         
+   
+    }
+ // inv_stock_item_serial 
+   #######################################################################
+   ####################### End inv_stock_item_serial #########################
+   #####################################################################
+
+          // Start Stock
+    $existing = $this->purchase_model->get_items_by_invoice($invoice_code);
+    foreach($existing as $products){
+        $product_id     = $products->product_id;
+        $price          = $products->price;
+        $quanity        = $products->qty;
+        $sales_price    = $products->sales_price;
+
+        $date = date("Y-m-d H:i:s");
+
+        $is_product = $this->purchase_model->get_stock_products($store_id ,$product_id );
+
+         
+            if($is_product){
+                foreach($is_product as $mdata){
+                    $new_qty =  $mdata->quanity;
+            
+        
+
+            $this->db->where('branch_id', $branch_id);
+            $this->db->where('store_id', $store_id);
+            $this->db->where('product_id', $product_id);
+            $this->db->update('inv_stock_master', [
+                'purchase_price'     => $price,
+                'sales_price'        => $sales_price,
+                'quanity'            => $new_qty + $quanity,
+                'update_user'        => $this->session->userdata('loggedin_id'),
+                'update_date'        => strtotime($date),
+            ]);
+
+            }
+        } else {
+            $this->db->insert('inv_stock_master', [
+                'organization_id'    => $this->session->userdata("loggedin_org_id"),
+                'branch_id'          => $this->session->userdata("loggedin_branch_id"),
+                'store_id'           => $store_id,
+                'product_id'         => $product_id,
+                'purchase_price'     => $price,
+                'sales_price'        => $sales_price,
+                'quanity'            => $quanity,
+                'is_active'          => 1,
+                'create_user'        => $this->session->userdata('loggedin_id'),
+                'create_date'        => strtotime($date),
+            ]);
+            $item_id = $this->db->insert_id();
+        }
+
+            
+    
+        }
 
         $this->session->set_flashdata('success', 'Record has been successfully saved.');
       }else{
@@ -177,15 +337,16 @@ public function update(){
 // Controller: Purchase.php
 public function add_item_ajax()
 {
-    $product_id = $this->input->post('product_id');
-    $invoice_id = $this->input->post('invoice_id');
-    $price      = $this->input->post('price');
-    $qty        = $this->input->post('qty');
-    $sub_total  = $this->input->post('sub_total');
-    $warrenty      = $this->input->post('warrenty');
-    $warrenty_days  = $this->input->post('warrenty_days');
-    $serial_number = $this->input->post('serial_number');
-    $barcode_serial = $this->input->post('barcode_serial');
+    $product_id          = $this->input->post('product_id');
+    $invoice_id          = $this->input->post('invoice_id');
+    $price               = $this->input->post('price');
+    $qty                 = $this->input->post('qty');
+    $sub_total           = $this->input->post('sub_total');
+    $sales_price         = $this->input->post('sales_price');
+    $warrenty            = $this->input->post('warrenty');
+    $warrenty_days       = $this->input->post('warrenty_days');
+    $serial_number       = $this->input->post('serial_number');
+    $barcode_serial      = $this->input->post('barcode_serial');
 
     if(!$product_id || !$invoice_id){
         echo json_encode(['status' => 'error', 'msg' => 'Missing invoice or product']);
@@ -252,6 +413,7 @@ public function add_item_ajax()
             'price' => $price,
             'qty' => $qty,
             'sub_total' => $sub_total,
+            'sales_price' => $sales_price,
             'warrenty' => $warrenty,
             'warrenty_days' => $warrenty_days,
             'serial_number' => $serial_number,

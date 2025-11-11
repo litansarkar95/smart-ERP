@@ -69,6 +69,20 @@ public function number_generator() {
         $this->db->order_by("id", "DESC");
         return $this->db->get()->result();
     }
+
+       public function get_stock_products($store_id ,$product_id) {
+         $loggedin_org_id     = $this->session->userdata("loggedin_org_id");
+         $branch_id           = $this->session->userdata("loggedin_branch_id");
+        
+		$this->db->select("inv_stock_master.*");
+        $this->db->from("inv_stock_master");
+        $this->db->where("inv_stock_master.organization_id", $loggedin_org_id);
+        $this->db->where("inv_stock_master.branch_id", $branch_id);
+        $this->db->where("inv_stock_master.store_id", $store_id);
+        $this->db->where("inv_stock_master.product_id", $product_id);
+        $this->db->order_by("id", "DESC");
+        return $this->db->get()->result();
+    }
     
   public function get_items_by_invoice()
 {

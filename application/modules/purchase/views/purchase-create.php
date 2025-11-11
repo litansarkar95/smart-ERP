@@ -394,6 +394,7 @@ $('#addItemBtn').on('click', function() {
     var price = parseFloat($('#price').val());
     var qty = parseInt($('#qty').val());
     var sub_total = parseFloat($('#subtotal').val());
+    var sales_price = parseFloat($('#sales_price').val());
     var serial_number = $('#item_serial').val();
     var barcode_serial = $('#barcode_serial').val();
     var warrenty = $('#warrenty').val();
@@ -416,6 +417,7 @@ $('#addItemBtn').on('click', function() {
             price: price,
             qty: qty,
             sub_total: sub_total,
+            sales_price: sales_price,
             warrenty: warrenty,
             warrenty_days: warrenty_days,
             serial_number: serial_number,
