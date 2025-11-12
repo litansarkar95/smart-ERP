@@ -29,7 +29,6 @@ class Stockmaster extends MX_Controller
         } 
         
       
-      
 
       $data['org_id']             = $this->input->get("org_id") ;
       $data['depertment_id']      = $this->input->get("is_active") ;

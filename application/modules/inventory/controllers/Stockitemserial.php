@@ -20,20 +20,18 @@ class Stockitemserial extends MX_Controller
  
       //start
 
-      $org_id           = $this->input->get("org_id") ;
-      $is_active        = $this->input->get("is_active") ;
+    $org_id           = $this->input->get("org_id") ;
+    $is_active        = $this->input->get("is_active") ;
 
 
 
-        if( $org_id == NULL  ){ 
+      if( $org_id == NULL  ){ 
         $org_id        =  0;
         } 
         
-      
-      
 
-      $data['org_id']             = $this->input->get("org_id") ;
-      $data['depertment_id']      = $this->input->get("is_active") ;
+    $data['org_id']             = $this->input->get("org_id") ;
+    $data['depertment_id']      = $this->input->get("is_active") ;
   
   
     $data['allorg'] =  $this->common_model->view_data("organizations", array("is_active" => 1), "id", "DESC");

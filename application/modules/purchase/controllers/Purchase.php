@@ -31,8 +31,6 @@ public function index()
    $invoice_code = $this->common_model->xss_clean($this->input->post("invoice_id"));
    $store_id     = $this->common_model->xss_clean($this->input->post("supplier_id"));
    $branch_id    = $this->session->userdata("loggedin_branch_id");
-
-   
    
 
     $int_no = $this->purchase_model->number_generator();
@@ -63,6 +61,7 @@ public function index()
    
     if ($this->common_model->save_data("purchase", $data)) {
       $id = $this->common_model->Id;
+      
    #######################################################################
    ####################### Start inv_stock_item_serial #########################
    #####################################################################
