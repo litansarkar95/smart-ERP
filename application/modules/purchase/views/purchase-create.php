@@ -146,6 +146,12 @@
             <input type="text" name="subtotal" id="subtotal" value="" class="form-control sub_total" readonly>
         </div>
     </div>
+    <div class="col-md-2 mb-2">
+        <div class="form-group">
+            <label for="total_rebate">Total Rebate<span class="text-error"> *</span></label>
+            <input type="text" name="total_rebate" id="total_rebate" value="0" class="form-control total_rebate">
+        </div>
+    </div>
 
     <div class="col-md-2 mb-2">
         <div class="form-group">
@@ -153,6 +159,8 @@
             <input type="text" name="sales_price" id="sales_price" value="" class="form-control sales_price">
         </div>
     </div>
+
+       
                                                           <div class="col-md-1 mb-2" id="warrenty_input" style="display:none;">
 																<div class="form-group">
 																<label for="warrenty">Warrenty <span class="text-error"> *</span></label>
@@ -169,7 +177,7 @@
 																</div>
 									      					</div>
 
-  <div class="col-md-6 mb-2" id="unique_input" style="display:none;">
+  <div class="col-md-4 mb-2" id="unique_input" style="display:none;">
 																<div class="form-group">
 																<label for="item_serial">প্রতি পণ্যে আলাদা সিরিয়াল  <span class="text-error"> *</span></label>
 									      						<input type="text"  name="item_serial" id="item_serial" value=""   class="form-control serial_number" >
@@ -177,7 +185,7 @@
 																</div>
 									      					</div>
                                   
-                                   <div class="col-md-6 mb-2"  id="common_input"  style="display:none;">
+                                   <div class="col-md-4 mb-2"  id="common_input"  style="display:none;">
 																<div class="form-group">
 																<label for="barcode_serial">একই সিরিয়ালে  একাধিক  পণ্য<span class="text-error"> *</span></label>
 									      						<input type="text"  name="barcode_serial" id="barcode_serial" value=""   class="form-control serial_number" >
@@ -207,7 +215,7 @@
             <th>Product Name <span class="text-danger">*</span></th>
             <th>Quantity</th>
             <th>Rate</th>
-            <th>UoM</th>
+            <th>Unit</th>
             <th>Sub Total</th>
             <th>Item Serials / Lot</th>
             <th>Action</th>
@@ -216,52 +224,63 @@
     <tbody>
         <!-- rows will append here -->
     </tbody>
-    <tfoot class="table-secondary">
-        <tr>
-            <td colspan="5" class="text-end fw-bold">Total Quantity:</td>
-            <td>
-                <input type="number" name="totalOrderAmount" id="totalOrderAmount"
-                       class="form-control text-end" readonly>
-            </td>
-            <td colspan="2"></td>
-        </tr>
-       <!-- Previous Due -->
-                <tr>
-                <td colspan="5" class="text-end fw-bold">Previous Due:</td>
-                <td>
-                    <input type="number" name="previousDue" id="previousDue"
-                            class="form-control text-end" readonly>
-                </td>
-                <td colspan="2"></td>
-                </tr>
-        <tr>
-            <td colspan="5" class="text-end fw-bold">Total Order:</td>
-            <td>
-                <input type="number" name="totalAmount" id="totalAmount"
-                       class="form-control text-end" readonly required>
-            </td>
-            <td colspan="2"></td>
-        </tr>
-        <tr>
-            <td colspan="5" class="text-end fw-bold">Paid Amount:</td>
-            <td>
-                <input type="number" name="paidAmount" id="paidAmount"
-                       class="form-control text-end" >
-            </td>
-            <td colspan="2"></td>
-        </tr>
-        <tr>
-            <td colspan="5" class="text-end fw-bold">Payable Amount:</td>
-            <td>
-                <input type="number" name="dueAmount" id="dueAmount"
-                       class="form-control text-end" readonly>
-            </td>
-            <td colspan="2"></td>
-        </tr>
-    </tfoot>
+   
 </table>
 
 </div>
+ <div class="row">
+                        <div class="col-md-2 mb-2">
+        <div class="form-group">
+            <label for="previousDue">Previous Due </label>
+            <input type="text" name="previousDue" id="previousDue" value="" class="form-control previousDue" >
+        </div>
+    </div>
+    <div class="col-md-2 mb-2">
+        <div class="form-group">
+            <label for="totalOrderAmount">Total Order </label>
+            <input type="text" name="totalOrderAmount" id="totalOrderAmount" value="" class="form-control totalOrderAmount" >
+        </div>
+    </div>
+
+
+    <div class="col-md-2 mb-2">
+        <div class="form-group">
+            <label for="subtotalAmount">Sub Total </label>
+            <input type="text" name="subtotalAmount" id="subtotalAmount" value="" class="form-control price" >
+        </div>
+    </div>
+
+     <div class="col-md-2 mb-2">
+        <div class="form-group">
+            <label for="totalRebate">Rebate  </label>
+            <input type="text" name="totalRebate" id="totalRebate" value="" class="form-control totalRebate" >
+        </div>
+    </div>
+
+     <div class="col-md-2 mb-2">
+        <div class="form-group">
+            <label for="totalAmount"> Total </label>
+            <input type="text" name="totalAmount" id="totalAmount" value="" class="form-control " >
+        </div>
+    </div>
+
+    <div class="col-md-2 mb-2">
+        <div class="form-group">
+            <label for="dueAmount">Payable Amount </label>
+            <input type="text" name="dueAmount" id="dueAmount" value="" class="form-control dueAmount" >
+        </div>
+    </div>
+
+    
+    <div class="col-md-2 mb-2">
+        <div class="form-group">
+            <label for="paidAmount">Paid Amount </label>
+            <input type="text" name="paidAmount" id="paidAmount" value="" class="form-control paidAmount" >
+        </div>
+    </div>
+
+                      
+                                     </div>
 <div class="row">
                                                                         <div class="col-12 text-end">
                                                                                     <button type="submit"
@@ -283,25 +302,7 @@
 										</div>
 									</div>
 
-
-
-
-                                	
-
-									      				
-									      			
-									      		
-											
-                                                                        
-
-                                                                  
-
-
-                                                                    
-
-
-
-                                                            </div>
+     </div>
 
 
 
@@ -339,6 +340,7 @@
        function calculateTotals() {
              let totalOrder = 0;
              let totalQtyOrder = 0;
+             let totalRebateOrder = 0;
 
             
             $('#itemsTable tbody tr').each(function() {
@@ -348,6 +350,9 @@
                 //
                 let subQty = parseFloat($(this).find('.qty').val()) || 0;
                 totalQtyOrder += subQty;
+
+                let subrebate = parseFloat($(this).find('.rebate').val()) || 0;
+                totalRebateOrder += subrebate;
             });
 
             let totalReceived = parseFloat($('#paidAmount').val()) || 0;
@@ -356,12 +361,18 @@
         totalReceived = totalOrder; // সীমাবদ্ধ করো
         $('#paidAmount').val(totalOrder.toFixed(2));
     }
-            // Due = Total Order - Received
-            let dueAmount = totalOrder - totalReceived;
+          
+            //
+           let submtotal = totalOrder-totalRebateOrder;
+
+             // Due = Total Order - Received
+            let dueAmount = submtotal - totalReceived;
 
             // ফিল্ডগুলো আপডেট করো
             $('#totalOrderAmount').val(totalQtyOrder.toFixed(2));
-            $('#totalAmount').val(totalOrder.toFixed(2));
+            $('#totalRebate').val(totalRebateOrder.toFixed(2));
+            $('#subtotalAmount').val(totalOrder.toFixed(2));
+            $('#totalAmount').val(submtotal.toFixed(2));
             $('#dueAmount').val(dueAmount.toFixed(2));
         }
 
@@ -394,6 +405,7 @@ $('#addItemBtn').on('click', function() {
     var price = parseFloat($('#price').val());
     var qty = parseInt($('#qty').val());
     var sub_total = parseFloat($('#subtotal').val());
+    var total_rebate = parseFloat($('#total_rebate').val());
     var sales_price = parseFloat($('#sales_price').val());
     var serial_number = $('#item_serial').val();
     var barcode_serial = $('#barcode_serial').val();
@@ -417,6 +429,7 @@ $('#addItemBtn').on('click', function() {
             price: price,
             qty: qty,
             sub_total: sub_total,
+            total_rebate: total_rebate,
             sales_price: sales_price,
             warrenty: warrenty,
             warrenty_days: warrenty_days,
@@ -436,7 +449,7 @@ $('#addItemBtn').on('click', function() {
                 '<td>'+($('#itemsTable tbody tr').length+1)+'</td>'+
                 '<td>'+res.item.product_name+'</td>'+
                 '<td><input type="number" class="qty form-control" value="'+res.item.qty+'" readonly></td>'+
-                '<td><input type="number" class="price form-control" value="'+res.item.price+'" readonly></td>'+
+                '<td><input type="hidden" class="rebate form-control" value="'+res.item.rebate+'" readonly><input type="number" class="price form-control" value="'+res.item.price+'" readonly></td>'+
                 '<td>'+res.item.unit_name+'</td>'+
                 '<td><input type="number" class="sub_total form-control" value="'+res.item.sub_total+'" readonly></td>'+
                 '<td><textarea class="serial_number form-control" readonly>'+res.item.serial_number+'</textarea></td>'+
@@ -447,15 +460,30 @@ $('#addItemBtn').on('click', function() {
              calculateTotals();
         }
 
+        //start show
+        	iziToast.success({
+				//title: 'Success',
+				message: 'Add to cart Success !',
+				position: 'topRight'
+				});
+
+        //end show 
+
         // reset input fields
-        $('#product_id').val('').trigger('change');
-        $('#price').val('');
-        $('#qty').val(1);
-        $('#subtotal').val('');
-        $('#item_serial').val('');
-        $('#barcode_serial').val('');
+       // $('#product_id').val('').trigger('change');
+         $('#price').val('');
+         $('#qty').val(1);
+         $('#subtotal').val('');
+         $('#item_serial').val('');
+         $('#total_rebate').val('');
+         $('#barcode_serial').val('');
     } else {
-        alert('Error saving item: '+res.msg);
+        iziToast.error({
+				// title: 'Error',
+				message: 'Error saving item: !'+res.msg ,
+				position: 'topRight'
+				});
+       // alert('Error saving item: '+res.msg);
     }
 },
         error: function(){
@@ -522,12 +550,12 @@ $(document).ready(function() {
                     $('#warrenty_days').val(data.warrenty_days);
                     // Check serial_type and update Qty field accordingly
                     if (data.serial_type === 'common') {
-                        $('#qty').prop('readonly', false);  // Make Qty editable
+                      //  $('#qty').prop('readonly', false);  // Make Qty editable
                         $('#qty').val(1);  // Default value for common serial type
                         $("#common_input").slideDown();
                         $("#unique_input").slideUp();
                     } else if (data.serial_type === 'unique') {
-                        $('#qty').prop('readonly', true);  // Make Qty readonly
+                      //  $('#qty').prop('readonly', true);  // Make Qty readonly
                         $('#qty').val(1);  // Set Qty to 1 for unique serial type
                         $("#unique_input").slideDown();
                         $("#common_input").slideUp();

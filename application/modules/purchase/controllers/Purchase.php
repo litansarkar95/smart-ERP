@@ -47,6 +47,8 @@ public function index()
         "supplier_id"                => $this->common_model->xss_clean($this->input->post("supplier_id")),   
         "store_id"                   => $this->common_model->xss_clean($this->input->post("store_id")),   
         "totalQty"                   => $this->common_model->xss_clean($this->input->post("totalOrderAmount")),   
+        "allTotal"                   => $this->common_model->xss_clean($this->input->post("subtotalAmount")),   
+        "totalRebate"                => $this->common_model->xss_clean($this->input->post("totalRebate")),   
         "totalAmount"                => $this->common_model->xss_clean($this->input->post("totalAmount")),   
         "paidAmount"                 => $this->common_model->xss_clean($this->input->post("paidAmount")),   
         "dueAmount"                  => $this->common_model->xss_clean($this->input->post("dueAmount")),  
@@ -341,6 +343,7 @@ public function add_item_ajax()
     $price               = $this->input->post('price');
     $qty                 = $this->input->post('qty');
     $sub_total           = $this->input->post('sub_total');
+    $total_rebate        = $this->input->post('total_rebate');
     $sales_price         = $this->input->post('sales_price');
     $warrenty            = $this->input->post('warrenty');
     $warrenty_days       = $this->input->post('warrenty_days');
@@ -405,18 +408,23 @@ public function add_item_ajax()
 
         $item_id = $existing->id;
     } else {
+        $date = date("Y-m-d H:i:s");
+
         $this->db->insert('purchase_items', [
             'invoice_id' => $invoice_id,
             'serial_type' => $serial_type,
             'product_id' => $product_id,
             'price' => $price,
             'qty' => $qty,
-            'sub_total' => $sub_total,
+            'with_total_rebate' => $sub_total,
+            'total_rebate' => $total_rebate,
+            'sub_total' => $sub_total - $total_rebate,
             'sales_price' => $sales_price,
             'warrenty' => $warrenty,
             'warrenty_days' => $warrenty_days,
             'serial_number' => $serial_number,
             'barcode_serial' => $barcode_serial,
+            "create_date"                => strtotime($date),
         ]);
         $item_id = $this->db->insert_id();
     }
@@ -426,6 +434,8 @@ public function add_item_ajax()
     }else{
          $is_serial_number =  $barcode_serial;
     }
+
+  //  $psub_total = $sub_total - $total_rebate;
 //barcode_serial
     echo json_encode([
         'status' => 'success',
@@ -435,6 +445,7 @@ public function add_item_ajax()
             'qty' => $existing ? $new_qty : $qty,
             'price' => $price,
             'sub_total' => $existing ? $new_subtotal : $sub_total,
+            'rebate' => $total_rebate,
             'warrenty' => $warrenty,
             'warrenty_days' => $warrenty_days,
             'serial_number' => $is_serial_number,
