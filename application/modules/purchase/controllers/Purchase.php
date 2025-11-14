@@ -81,7 +81,7 @@ public function index()
                     "purchase_id"                => $id,  
                     "store_id"                   => $this->common_model->xss_clean($this->input->post("store_id")),   
                     "product_id"                 => $item->product_id,   
-                    "purchase_price"             => $item->price,     
+                    "purchase_price"             => $item->price - $item->rebate,     
                     "sales_price"                => $item->sales_price,        
                     "quanity"                    => 1,   
                     "is_available"               => 1,   
@@ -103,7 +103,7 @@ public function index()
                     "purchase_id"                => $id,   
                     "store_id"                   => $this->common_model->xss_clean($this->input->post("store_id")),   
                     "product_id"                 => $item->product_id,   
-                    "purchase_price"             => $item->price,     
+                    "purchase_price"             => $item->price - $item->rebate,     
                     "sales_price"                => $item->sales_price,        
                     "quanity"                    => 1,   
                     "is_available"               => 1,   
@@ -129,7 +129,7 @@ public function index()
                     "purchase_id"                => 1,  
                     "store_id"                   => $this->common_model->xss_clean($this->input->post("store_id")),   
                     "product_id"                 => $item->product_id,   
-                    "purchase_price"             => $item->price,     
+                    "purchase_price"             => $item->price - $item->rebate,    
                     "sales_price"                => $item->sales_price,        
                     "quanity"                    => 1,   
                     "is_available"               => 1,   
@@ -152,7 +152,7 @@ public function index()
                     "purchase_id"                => $id,  
                     "store_id"                   => $this->common_model->xss_clean($this->input->post("store_id")),   
                     "product_id"                 => $item->product_id,   
-                    "purchase_price"             => $item->price,     
+                    "purchase_price"             => $item->price - $item->rebate,    
                     "sales_price"                => $item->sales_price,        
                     "quanity"                    => 1,   
                     "is_available"               => 1,   
@@ -343,6 +343,7 @@ public function add_item_ajax()
     $price               = $this->input->post('price');
     $qty                 = $this->input->post('qty');
     $sub_total           = $this->input->post('sub_total');
+    $rebate              = $this->input->post('rebate');
     $total_rebate        = $this->input->post('total_rebate');
     $sales_price         = $this->input->post('sales_price');
     $warrenty            = $this->input->post('warrenty');
@@ -411,20 +412,21 @@ public function add_item_ajax()
         $date = date("Y-m-d H:i:s");
 
         $this->db->insert('purchase_items', [
-            'invoice_id' => $invoice_id,
-            'serial_type' => $serial_type,
-            'product_id' => $product_id,
-            'price' => $price,
-            'qty' => $qty,
-            'with_total_rebate' => $sub_total,
-            'total_rebate' => $total_rebate,
-            'sub_total' => $sub_total - $total_rebate,
-            'sales_price' => $sales_price,
-            'warrenty' => $warrenty,
-            'warrenty_days' => $warrenty_days,
-            'serial_number' => $serial_number,
-            'barcode_serial' => $barcode_serial,
-            "create_date"                => strtotime($date),
+            'invoice_id'              => $invoice_id,
+            'serial_type'             => $serial_type,
+            'product_id'              => $product_id,
+            'price'                   => $price,
+            'qty'                     => $qty,
+            'with_total_rebate'       => $sub_total,
+            'rebate'                  => $rebate,
+            'total_rebate'            => $total_rebate,
+            'sub_total'               => $sub_total - $total_rebate,
+            'sales_price'             => $sales_price,
+            'warrenty'                => $warrenty,
+            'warrenty_days'           => $warrenty_days,
+            'serial_number'           => $serial_number,
+            'barcode_serial'          => $barcode_serial,
+            "create_date"             => strtotime($date),
         ]);
         $item_id = $this->db->insert_id();
     }
@@ -445,7 +447,7 @@ public function add_item_ajax()
             'qty' => $existing ? $new_qty : $qty,
             'price' => $price,
             'sub_total' => $existing ? $new_subtotal : $sub_total,
-            'rebate' => $total_rebate,
+            'total_rebate' => $total_rebate,
             'warrenty' => $warrenty,
             'warrenty_days' => $warrenty_days,
             'serial_number' => $is_serial_number,

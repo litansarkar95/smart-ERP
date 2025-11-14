@@ -133,7 +133,7 @@
         </div>
     </div>
 
-    <div class="col-md-2 mb-2">
+    <div class="col-md-1 mb-2">
         <div class="form-group">
             <label for="qty">Qty <span class="text-error"> *</span></label>
             <input type="text" name="qty" id="qty" value="1" class="form-control qty">
@@ -148,14 +148,20 @@
     </div>
     <div class="col-md-2 mb-2">
         <div class="form-group">
-            <label for="total_rebate">Total Rebate<span class="text-error"> *</span></label>
-            <input type="text" name="total_rebate" id="total_rebate" value="0" class="form-control total_rebate">
+            <label for="rebate"> Rebate</label>
+            <input type="text" name="rebate" id="rebate" value="0" class="form-control rebate">
+        </div>
+    </div>
+    <div class="col-md-2 mb-2">
+        <div class="form-group">
+            <label for="total_rebate">Total Rebate</label>
+            <input type="text" name="total_rebate" id="total_rebate" value="0" class="form-control total_rebate" readonly>
         </div>
     </div>
 
     <div class="col-md-2 mb-2">
         <div class="form-group">
-            <label for="sales_price">Unit Sales Price <span class="text-error"> *</span></label>
+            <label for="sales_price">Unit Sales Price </label>
             <input type="text" name="sales_price" id="sales_price" value="" class="form-control sales_price">
         </div>
     </div>
@@ -177,19 +183,27 @@
 																</div>
 									      					</div>
 
-  <div class="col-md-4 mb-2" id="unique_input" style="display:none;">
+                                                            <div class="col-md-4 mb-2" id="unique_input" style="display:none;">
 																<div class="form-group">
 																<label for="item_serial">প্রতি পণ্যে আলাদা সিরিয়াল  <span class="text-error"> *</span></label>
 									      						<input type="text"  name="item_serial" id="item_serial" value=""   class="form-control serial_number" >
 																<span class="text-error small"><?php echo form_error('item_serial'); ?></span>
 																</div>
 									      					</div>
-                                  
-                                   <div class="col-md-4 mb-2"  id="common_input"  style="display:none;">
+
+                                                              <div class="col-md-4 mb-2"  id="common_input"  style="display:none;">
 																<div class="form-group">
 																<label for="barcode_serial">একই সিরিয়ালে  একাধিক  পণ্য<span class="text-error"> *</span></label>
 									      						<input type="text"  name="barcode_serial" id="barcode_serial" value=""   class="form-control serial_number" >
 																<span class="text-error small"><?php echo form_error('barcode_serial'); ?></span>
+																</div>
+									      					</div>
+                                                            
+                                                              <div class="col-md-2 mb-2"  id="remarks"  >
+																<div class="form-group">
+																<label for="remarks">Remarks</label>
+									      						<textarea type="text"  name="remarks" id="remarks" value=""   class="form-control remarks" ></textarea>
+																<span class="text-error small"><?php echo form_error('remarks'); ?></span>
 																</div>
 									      					</div>
 <input type="hidden" id="invoice_id" name="invoice_id" value="<?php echo date("dmYHis")?>">
@@ -214,7 +228,8 @@
             <th>Line#</th>
             <th>Product Name <span class="text-danger">*</span></th>
             <th>Quantity</th>
-            <th>Rate</th>
+            <th>Price</th>
+            <th>Rebate</th>
             <th>Unit</th>
             <th>Sub Total</th>
             <th>Item Serials / Lot</th>
@@ -235,7 +250,7 @@
             <input type="text" name="previousDue" id="previousDue" value="" class="form-control previousDue" >
         </div>
     </div>
-    <div class="col-md-2 mb-2">
+    <div class="col-md-1 mb-2">
         <div class="form-group">
             <label for="totalOrderAmount">Total Order </label>
             <input type="text" name="totalOrderAmount" id="totalOrderAmount" value="" class="form-control totalOrderAmount" >
@@ -250,9 +265,9 @@
         </div>
     </div>
 
-     <div class="col-md-2 mb-2">
+     <div class="col-md-1 mb-2">
         <div class="form-group">
-            <label for="totalRebate">Rebate  </label>
+            <label for="totalRebate">Total Rebate  </label>
             <input type="text" name="totalRebate" id="totalRebate" value="" class="form-control totalRebate" >
         </div>
     </div>
@@ -351,7 +366,7 @@
                 let subQty = parseFloat($(this).find('.qty').val()) || 0;
                 totalQtyOrder += subQty;
 
-                let subrebate = parseFloat($(this).find('.rebate').val()) || 0;
+                let subrebate = parseFloat($(this).find('.total_rebate').val()) || 0;
                 totalRebateOrder += subrebate;
             });
 
@@ -393,7 +408,16 @@ $('#product_id').change(function(){
 $('#qty').on('input', function(){
     var price = parseFloat($('#price').val()) || 0;
     var qty = parseFloat($(this).val()) || 1;
+    var rebate = parseFloat($('#rebate').val()) || 0;
     $('#subtotal').val((price * qty).toFixed(2));
+    $('#total_rebate').val((rebate * qty).toFixed(2));
+});
+
+// Update total_rebate when qty changes
+$('#rebate').on('input', function(){
+    var rebate = parseFloat($('#rebate').val()) || 0;
+    var qty = parseFloat($('#qty').val()) || 1;
+    $('#total_rebate').val((rebate * qty).toFixed(2));
 });
 // Example: assume invoice_id is generated when creating invoice
 var invoice_id =  $('#invoice_id').val();
@@ -405,6 +429,7 @@ $('#addItemBtn').on('click', function() {
     var price = parseFloat($('#price').val());
     var qty = parseInt($('#qty').val());
     var sub_total = parseFloat($('#subtotal').val());
+    var rebate = parseFloat($('#rebate').val());
     var total_rebate = parseFloat($('#total_rebate').val());
     var sales_price = parseFloat($('#sales_price').val());
     var serial_number = $('#item_serial').val();
@@ -430,6 +455,7 @@ $('#addItemBtn').on('click', function() {
             qty: qty,
             sub_total: sub_total,
             total_rebate: total_rebate,
+            rebate: rebate,
             sales_price: sales_price,
             warrenty: warrenty,
             warrenty_days: warrenty_days,
@@ -449,7 +475,8 @@ $('#addItemBtn').on('click', function() {
                 '<td>'+($('#itemsTable tbody tr').length+1)+'</td>'+
                 '<td>'+res.item.product_name+'</td>'+
                 '<td><input type="number" class="qty form-control" value="'+res.item.qty+'" readonly></td>'+
-                '<td><input type="hidden" class="rebate form-control" value="'+res.item.rebate+'" readonly><input type="number" class="price form-control" value="'+res.item.price+'" readonly></td>'+
+                '<td><input type="number" class="price form-control" value="'+res.item.price+'" readonly></td>'+
+                '<td><input type="number" class="total_rebate form-control" value="'+res.item.total_rebate+'" readonly></td>'+
                 '<td>'+res.item.unit_name+'</td>'+
                 '<td><input type="number" class="sub_total form-control" value="'+res.item.sub_total+'" readonly></td>'+
                 '<td><textarea class="serial_number form-control" readonly>'+res.item.serial_number+'</textarea></td>'+
@@ -471,12 +498,13 @@ $('#addItemBtn').on('click', function() {
 
         // reset input fields
        // $('#product_id').val('').trigger('change');
-         $('#price').val('');
-         $('#qty').val(1);
-         $('#subtotal').val('');
-         $('#item_serial').val('');
+        // $('#price').val('');
+        // $('#qty').val(1);
+        // $('#subtotal').val('');
+        // $('#item_serial').val('');
+         $('#rebate').val('');
          $('#total_rebate').val('');
-         $('#barcode_serial').val('');
+         //$('#barcode_serial').val('');
     } else {
         iziToast.error({
 				// title: 'Error',

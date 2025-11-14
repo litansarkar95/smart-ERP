@@ -107,7 +107,7 @@
                                     <div class="form-group">
                                   <label for="serial_type">Serial  Type</label>
                                   <div class="select_2_container">
-                                    <select name="serial_type"  id="serial_type"     class="form-control frm_select select2">
+                                    <select name="serial_type"  id="serial_type"     class="form-control  select2">
                                        <option  value="">  সিরিয়াল টাইপ বেছে  নিন </option>
                                        <option value="common"> একই সিরিয়ালে  একাধিক  পণ্য </option>
                                         <option value="unique"> প্রতি পণ্যে আলাদা সিরিয়াল  </option>
@@ -131,8 +131,8 @@
                           <div class="col-md-3 mb-3">
                                     <div class="form-group">
                                   <label for="tax_method">Tax Method</label>
-                                  <div class="select_2_container">
-                                    <select name="tax_method"  id="tax_method"     class="form-control frm_select ">
+                                  <div class="select_container">
+                                    <select name="tax_method"  id="tax_method"     class="form-control  ">
                                        <option value="Inclusive"> Inclusive</option>
                                         <option value="Exclusive"> Exclusive</option>
                                     </select>
@@ -187,7 +187,7 @@
                                   <div class="col-md-3 mb-3">
                                     <div class="form-group">
                                   <label for="warrenty_days">Days</label>
-                                  <div class="select_2_container">
+                                  <div class="select_container">
                                     <select name="warrenty_days"  id="warrenty_days"     class="form-control frm_select ">
                                        <option value="Days"> Days</option>
                                         <option value="Month"> Month</option>
