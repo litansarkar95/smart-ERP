@@ -117,7 +117,7 @@
                                     <select name="product_id"  id="product_id"     class="form-control frm_select select2">
                                        <option  value="">  Select  </option>
                                      <?php foreach($allPro as $pro): ?>
-                    <option value="<?= $pro->id ?>" data-price="<?= $pro->price ?>"><?= $pro->name ?></option>
+                    <option value="<?= $pro->id ?>" ><?= $pro->name ?></option>
                 <?php endforeach; ?>
                                     </select>
                                     <i class="fas fa-caret-down"></i>
@@ -194,7 +194,7 @@
                                                               <div class="col-md-4 mb-2"  id="common_input"  style="display:none;">
 																<div class="form-group">
 																<label for="barcode_serial">একই সিরিয়ালে  একাধিক  পণ্য<span class="text-error"> *</span></label>
-									      						<input type="text"  name="barcode_serial" id="barcode_serial" value=""   class="form-control serial_number" >
+									      						<input type="text"  name="barcode_serial" id="barcode_serial" value=""   class="form-control serial_number" autofocus>
 																<span class="text-error small"><?php echo form_error('barcode_serial'); ?></span>
 																</div>
 									      					</div>
@@ -244,13 +244,13 @@
 
 </div>
  <div class="row">
-                        <div class="col-md-2 mb-2">
+        <div class="col-md-1 mb-2">
         <div class="form-group">
             <label for="previousDue">Previous Due </label>
             <input type="text" name="previousDue" id="previousDue" value="" class="form-control previousDue" >
         </div>
     </div>
-    <div class="col-md-1 mb-2">
+    <div class="col-md-2 mb-2">
         <div class="form-group">
             <label for="totalOrderAmount">Total Order </label>
             <input type="text" name="totalOrderAmount" id="totalOrderAmount" value="" class="form-control totalOrderAmount" >
@@ -258,7 +258,7 @@
     </div>
 
 
-    <div class="col-md-2 mb-2">
+    <div class="col-md-1 mb-2">
         <div class="form-group">
             <label for="subtotalAmount">Sub Total </label>
             <input type="text" name="subtotalAmount" id="subtotalAmount" value="" class="form-control price" >
@@ -276,6 +276,13 @@
         <div class="form-group">
             <label for="totalAmount"> Total </label>
             <input type="text" name="totalAmount" id="totalAmount" value="" class="form-control " >
+        </div>
+    </div>
+
+    <div class="col-md-1 mb-2">
+        <div class="form-group">
+            <label for="totaldiscount"> Discount </label>
+            <input type="text" name="totaldiscount" id="totaldiscount" value="" class="form-control " >
         </div>
     </div>
 
@@ -331,6 +338,43 @@
 </div>
 </div>
 
+<div class="modal fade" id="editModal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      
+      <div class="modal-header">
+        <h5 class="modal-title">Edit Item</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+
+      <div class="modal-body">
+
+        <input type="hidden" id="edit_row_id">
+
+        <div class="mb-2">
+            <label>Price</label>
+            <input type="number" id="edit_price" class="form-control">
+        </div>
+
+        <div class="mb-2">
+            <label>Rebate</label>
+            <input type="number" id="edit_rebate" class="form-control">
+        </div>
+
+        <div class="mb-2">
+            <label>Serial Number</label>
+            <textarea id="edit_serial" class="form-control"></textarea>
+        </div>
+
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary updateItem">Update</button>
+      </div>
+
+    </div>
+  </div>
+</div>
 
     <!-- Payment  Method -->  
 
@@ -341,8 +385,8 @@
                                     <select name="payment_method_id"  id="payment_method_id"     class="form-control frm_select select2">
                                       
                                         <?php foreach($allPayment as $payment): ?>
-                        <option value="<?= $payment->id ?>"><?= $payment->name ?></option>
-                    <?php endforeach; ?>
+                                        <option value="<?= $payment->id ?>"><?= $payment->name ?></option>
+                                    <?php endforeach; ?>
                                     </select>
                                     <i class="fas fa-caret-down"></i>
                                   </div>
@@ -391,12 +435,19 @@
             $('#dueAmount').val(dueAmount.toFixed(2));
         }
 
-        // যখন paid amount পরিবর্তন হবে, due amount অটো আপডেট করো
 $('#paidAmount').on('input', function() {
     calculateTotals();
 });
 
-                      // Auto update price and subtotal when product changes
+//discount
+$('#totaldiscount').on('input', function() {
+       var total =  $('#totalAmount').val();
+      var discount = parseFloat($(this).val()) || 0;
+    var price = total - discount;
+      $('#dueAmount').val(price);
+    
+});
+
 $('#product_id').change(function(){
     var price = $(this).find(':selected').data('price') || 0;
     $('#price').val(price);
@@ -422,20 +473,22 @@ $('#rebate').on('input', function(){
 // Example: assume invoice_id is generated when creating invoice
 var invoice_id =  $('#invoice_id').val();
 
+
 $('#addItemBtn').on('click', function() {
     var invoice_id = $('#invoice_id').val();
     var product_id = $('#product_id').val();
     var product_name = $('#product_id option:selected').text();
-    var price = parseFloat($('#price').val());
-    var qty = parseInt($('#qty').val());
-    var sub_total = parseFloat($('#subtotal').val());
-    var rebate = parseFloat($('#rebate').val());
-    var total_rebate = parseFloat($('#total_rebate').val());
-    var sales_price = parseFloat($('#sales_price').val());
-    var serial_number = $('#item_serial').val();
-    var barcode_serial = $('#barcode_serial').val();
-    var warrenty = $('#warrenty').val();
-    var warrenty_days = $('#warrenty_days').val();
+    var price          = parseFloat($('#price').val())          || 0;
+    var qty            = parseInt($('#qty').val())              || 1;
+    var sub_total      = parseFloat($('#subtotal').val())       || 0;
+    var rebate         = parseFloat($('#rebate').val())         || 0;
+    var total_rebate   = parseFloat($('#total_rebate').val())   || 0;
+    var sales_price    = parseFloat($('#sales_price').val())    || 0;
+    var serial_number  = $('#item_serial').val()                || "";
+    var barcode_serial = $('#barcode_serial').val()             || "";
+    var warrenty       = $('#warrenty').val()                   || 0;
+    var warrenty_days  = $('#warrenty_days').val()              || 0;
+
 
     if(!product_id){
         alert("Select a product!");
@@ -463,6 +516,7 @@ $('#addItemBtn').on('click', function() {
             barcode_serial: barcode_serial
         },
        success: function(res){
+       
     if(res.status == 'success'){
         var existingRow = $('#itemsTable tbody tr[data-id="'+res.item.id+'"]');
         if(existingRow.length){
@@ -480,7 +534,10 @@ $('#addItemBtn').on('click', function() {
                 '<td>'+res.item.unit_name+'</td>'+
                 '<td><input type="number" class="sub_total form-control" value="'+res.item.sub_total+'" readonly></td>'+
                 '<td><textarea class="serial_number form-control" readonly>'+res.item.serial_number+'</textarea></td>'+
-                '<td><button type="button" class="btn  btn-sm btn-outline-danger removeItem">✖</button></td>'+
+                 '<td>' +
+                '<button type="button" class="btn btn-sm btn-info editItem">✎</button> ' + 
+                '<button type="button" class="btn btn-sm btn-outline-danger removeItem">✖</button>' +
+            '</td>'+
             '</tr>';
             $('#itemsTable tbody').append(newRow);
              // টোটাল হিসাব আপডেট করো
@@ -513,12 +570,52 @@ $('#addItemBtn').on('click', function() {
 				});
        // alert('Error saving item: '+res.msg);
     }
-},
-        error: function(){
+},error: function(){
             alert('AJAX error!');
         }
     });
 });
+
+let lastTime = 0;
+let fastCount = 0;   // দ্রুত input গোনা হবে
+let scanTimer;
+
+$('#barcode_serial, #item_serial').on('input', function(){
+
+    let inputField = $(this);
+    let now = Date.now();
+
+    let delta = now - lastTime;
+    lastTime = now;
+
+    if(delta < 40){
+        fastCount++;
+    } else {
+        fastCount = 0; // টাইপ করলে reset
+    }
+
+    if(fastCount >= 5){
+
+        clearTimeout(scanTimer);
+
+        scanTimer = setTimeout(function(){
+            // স্ক্যান নিশ্চিত!
+            inputField.trigger('scan');
+            fastCount = 0;
+        }, 10);
+    }
+});
+
+// এখন scan event handle করুন
+$('#barcode_serial, #item_serial').on('scan', function(){
+    let inputField = $(this);
+
+    $('#addItemBtn').click(); // Auto Add
+
+    inputField.val('');
+    inputField.focus();
+});
+
 
 
 $(document).on('click', '.removeItem', function(){
@@ -534,15 +631,12 @@ $(document).on('click', '.removeItem', function(){
         dataType: 'json',
         success: function(res){
             if(res.status === 'success'){
-                // রো রিমুভ করো
                 row.remove();
 
-                // লাইন নম্বর আবার সাজাও
                 $('#itemsTable tbody tr').each(function(index){
                     $(this).find('td:first').text(index + 1);
                 });
 
-                // ✅ টোটাল রিক্যালকুলেট করো
                 calculateTotals();
             } else {
                 alert('Error deleting item: ' + res.msg);
@@ -648,13 +742,11 @@ $(document).ready(function() {
 <script>
 $(document).ready(function () {
 
-    // ✅ Purchase price টাইপ করলে মোট Amount আপডেট হবে
     $(document).on('keyup', '#purchase_price', function () {
         let cost = parseFloat($(this).val()) || 0;
         $("#total_amount").val(cost.toFixed(2));
     });
 
-    // ✅ Product Tax টাইপ করলে ট্যাক্স ও টোটাল হিসাব হবে
     $(document).on('keyup', '#product_tax', function () {
         let taxPercent = parseFloat($(this).val()) || 0;
         let price = parseFloat($("#purchase_price").val()) || 0;
@@ -666,7 +758,6 @@ $(document).ready(function () {
         $("#total_amount").val(total.toFixed(2));
     });
 
-    // ✅ Tax Method পরিবর্তন হলে ট্যাক্স ফিল্ড show/hide হবে
     $('#tax_method').on('change', function() {
         let method = $(this).val();
 
@@ -695,7 +786,10 @@ $(document).ready(function () {
 		</script> 
 
 
-
+<script>
+    document.getElementById('barcode_serial').focus();
+    document.getElementById('item_serial').focus();
+</script>
 
  <script>
     $(document).ready(function() {
@@ -743,5 +837,67 @@ $(document).ready(function() {
         }
     });
 });
-</script>
 
+
+
+$(document).on('click', '.editItem', function(){
+
+    let row = $(this).closest('tr');
+
+    $('#edit_row_id').val(row.data('id'));
+    $('#edit_price').val(row.find('.price').val());
+    $('#edit_rebate').val(row.find('.total_rebate').val());
+    $('#edit_serial').val(row.find('.serial_number').val());
+
+    $('#editModal').modal('show');
+});
+
+</script>
+<script>
+$('.updateItem').on('click', function(){
+
+    let id = $('#edit_row_id').val();
+    let price = parseFloat($('#edit_price').val()) || 0;
+    let rebate = parseFloat($('#edit_rebate').val()) || 0;
+    let serial = $('#edit_serial').val();
+
+    $.ajax({
+        url: "<?= base_url('purchase/update_item_ajax') ?>",
+        type: "POST",
+        dataType: "json",
+        data: {
+            id: id,
+            price: price,
+            rebate: rebate,
+            serial_number: serial
+        },
+        success: function(res){
+
+            if(res.status === "success"){
+
+                // Update table row without refresh
+                let row = $('#itemsTable tbody tr[data-id="'+id+'"]');
+                row.find('.price').val(price);
+                row.find('.total_rebate').val(rebate);
+                row.find('.serial_number').val(serial);
+
+                let qty = parseFloat(row.find('.qty').val());
+                let sub_total = (price * qty) - rebate;
+                if(sub_total < 0) sub_total = 0;
+
+                row.find('.sub_total').val(sub_total);
+
+                calculateTotals();
+
+                $('#editModal').modal('hide');
+
+                iziToast.success({
+                    message: 'Item updated!',
+                    position: 'topRight'
+                });
+            }
+        }
+    });
+});
+
+</script>
