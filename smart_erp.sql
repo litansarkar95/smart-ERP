@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 15, 2025 at 12:40 PM
+-- Generation Time: Nov 16, 2025 at 10:30 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -221,7 +221,7 @@ INSERT INTO `login_credential` (`id`, `organization_id`, `branch_id`, `user_id`,
 (1, 0, 0, 1, 'system', 'UHZVdVBOTWI0VkwrN0MvQjRRRUZkdz09', 1, 1, '2025-11-11 15:55:43', '2024-10-21 15:42:57', '2025-11-11 15:55:43'),
 (2, 0, 0, 2, 'litan@gmail.com', 'UHZVdVBOTWI0VkwrN0MvQjRRRUZkdz09', 1, 1, '2024-11-27 11:06:55', '2024-10-21 15:42:57', '2025-10-30 14:29:54'),
 (5, 0, 0, 6, 'admin@gmail.com', 'UHZVdVBOTWI0VkwrN0MvQjRRRUZkdz09', 2, 1, '2025-11-01 14:35:31', '2024-11-16 23:35:56', '2025-11-01 14:35:31'),
-(17, 3, 1, 10, '01829', 'UHZVdVBOTWI0VkwrN0MvQjRRRUZkdz09', 3, 1, '2025-11-15 12:35:19', '2025-10-30 23:30:08', '2025-11-15 12:35:19');
+(17, 3, 1, 10, '01829', 'UHZVdVBOTWI0VkwrN0MvQjRRRUZkdz09', 3, 1, '2025-11-16 11:55:42', '2025-10-30 23:30:08', '2025-11-16 11:55:42');
 
 -- --------------------------------------------------------
 
@@ -625,76 +625,9 @@ CREATE TABLE `purchase` (
 CREATE TABLE `purchase_invoice` (
   `id` int(11) NOT NULL,
   `organization_id` int(11) NOT NULL,
-  `supplier_id` int(11) NOT NULL,
-  `invoice_code` varchar(255) NOT NULL,
-  `is_active` int(11) NOT NULL
+  `invoice_code` varchar(100) NOT NULL,
+  `create_date` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
-
---
--- Dumping data for table `purchase_invoice`
---
-
-INSERT INTO `purchase_invoice` (`id`, `organization_id`, `supplier_id`, `invoice_code`, `is_active`) VALUES
-(100, 3, 0, '3', 0),
-(101, 3, 0, '3', 0),
-(102, 3, 0, '3', 0),
-(103, 3, 0, '3', 0),
-(104, 3, 0, '15112025142600', 0),
-(105, 3, 0, '15112025142616', 0),
-(106, 3, 0, '15112025142703', 0),
-(107, 3, 0, '15112025142731', 0),
-(108, 3, 0, '15112025142745', 0),
-(109, 3, 0, '15112025142844', 0),
-(110, 3, 0, '15112025142924', 0),
-(111, 3, 0, '15112025142937', 0),
-(112, 3, 0, '15112025143031', 0),
-(113, 3, 0, '15112025143100', 0),
-(114, 3, 0, '15112025143137', 0),
-(115, 3, 0, '15112025143233', 0),
-(116, 3, 0, '15112025143359', 0),
-(117, 3, 0, '15112025143705', 0),
-(118, 3, 0, '15112025144011', 0),
-(119, 3, 0, '15112025144201', 0),
-(120, 3, 0, '15112025144250', 0),
-(121, 3, 0, '15112025144320', 0),
-(122, 3, 0, '15112025144459', 0),
-(123, 3, 0, '15112025144554', 0),
-(124, 3, 0, '15112025144624', 0),
-(125, 3, 0, '15112025144726', 0),
-(126, 3, 0, '15112025144806', 0),
-(127, 3, 0, '15112025144952', 0),
-(128, 3, 0, '15112025145041', 0),
-(129, 3, 0, '15112025145221', 0),
-(130, 3, 0, '15112025145241', 0),
-(131, 3, 0, '15112025145316', 0),
-(132, 3, 0, '15112025145420', 0),
-(133, 3, 0, '15112025145445', 0),
-(134, 3, 0, '15112025145527', 0),
-(135, 3, 0, '15112025145547', 0),
-(136, 3, 0, '15112025145852', 0),
-(137, 3, 0, '15112025145908', 0),
-(138, 3, 0, '15112025150137', 0),
-(139, 3, 0, '15112025153624', 0),
-(140, 3, 0, '15112025154417', 0),
-(141, 3, 0, '15112025154541', 0),
-(142, 3, 0, '15112025154554', 0),
-(143, 3, 0, '15112025154635', 0),
-(144, 3, 0, '15112025154905', 0),
-(145, 3, 0, '15112025155047', 0),
-(146, 3, 0, '15112025155304', 0),
-(147, 3, 0, '15112025155513', 0),
-(148, 3, 0, '15112025155557', 0),
-(149, 3, 0, '15112025155739', 0),
-(150, 3, 0, '15112025155936', 0),
-(151, 3, 0, '15112025160350', 0),
-(152, 3, 0, '15112025160426', 0),
-(153, 3, 0, '15112025160532', 0),
-(154, 3, 0, '15112025160748', 0),
-(155, 3, 0, '15112025161025', 0),
-(156, 3, 0, '15112025161120', 0),
-(157, 3, 0, '15112025161525', 0),
-(158, 3, 0, '15112025171811', 0),
-(159, 3, 0, '15112025173824', 0);
 
 -- --------------------------------------------------------
 
@@ -721,26 +654,17 @@ CREATE TABLE `purchase_items` (
   `create_date` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+-- --------------------------------------------------------
+
 --
--- Dumping data for table `purchase_items`
+-- Table structure for table `purchase_item_serials`
 --
 
-INSERT INTO `purchase_items` (`id`, `invoice_id`, `serial_type`, `product_id`, `price`, `qty`, `with_total_rebate`, `rebate`, `total_rebate`, `sub_total`, `sales_price`, `warrenty`, `warrenty_days`, `serial_number`, `barcode_serial`, `create_date`) VALUES
-(240, '15112025155936', 'common', 3, 500.00, 2, 500.00, 50.00, 100.00, 900.00, 1000.00, 1, 'Days', '', '', 1763200785),
-(241, '15112025155936', 'unique', 5, 0.00, 2, 0.00, 0.00, 0.00, 0.00, 0.00, 0, 'Days', 'FR45353445444,FR4535344544443', '', 1763200883),
-(242, '15112025160350', 'common', 6, 5765.00, 1, 5765.00, 0.00, 0.00, 5765.00, 6888.00, 7, 'Days', '', '', 1763201033),
-(243, '15112025160426', 'unique', 5, 0.00, 1, 0.00, 0.00, 0.00, 0.00, 0.00, 0, 'Days', '4rrerreer', '', 1763201071),
-(244, '15112025160426', 'common', 6, 5765.00, 2, 11530.00, 20.00, 40.00, 11490.00, 6888.00, 7, 'Days', '4rrerreer', 'trggggdf', 1763201086),
-(245, '15112025160532', 'common', 6, 5765.00, 1, 5765.00, 3.00, 3.00, 5762.00, 6888.00, 7, 'Days', '', '', 1763201139),
-(246, '15112025160748', 'common', 6, 5765.00, 1, 5765.00, 0.00, 0.00, 5765.00, 6888.00, 7, 'Days', '', 'esdfssfs', 1763201276),
-(247, '15112025160748', 'unique', 2, 900.00, 2, 3.00, 200.00, 200.00, 1600.00, 0.00, 3, 'Days', 'ffsdfds,555rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr5', 'esdfssfs', 1763201283),
-(248, '15112025161025', 'unique', 4, 250.00, 4, 1000.00, 200.00, 200.00, 800.00, 700.00, 0, 'Days', '', '', 1763201433),
-(249, '15112025161120', 'unique', 4, 450.00, 5, 1800.00, 50.00, 250.00, 2000.00, 700.00, 0, 'Days', '', '', 1763201495),
-(250, '15112025161525', 'common', 3, 500.00, 2, 1000.00, 100.00, 100.00, 900.00, 1000.00, 1, 'Days', 'vgggghh', '', 1763201735),
-(251, '15112025171811', 'common', 3, 500.00, 2, 1000.00, 0.00, 0.00, 1000.00, 1000.00, 1, 'Days', '', '', 1763205501),
-(252, '15112025173824', 'common', 6, 5765.00, 1, 5765.00, 0.00, 0.00, 5765.00, 6888.00, 7, 'Days', '', '', 1763206707),
-(253, '15112025173824', 'unique', 4, 450.00, 1, 450.00, 0.00, 0.00, 450.00, 700.00, 0, 'Days', '', '', 1763206720),
-(254, '15112025173824', 'common', 3, 500.00, 1, 500.00, 0.00, 0.00, 500.00, 1000.00, 1, 'Days', '', '', 1763206738);
+CREATE TABLE `purchase_item_serials` (
+  `id` int(11) NOT NULL,
+  `item_id` int(11) NOT NULL,
+  `serial_number` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 -- --------------------------------------------------------
 
@@ -1134,6 +1058,13 @@ ALTER TABLE `purchase_items`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `purchase_item_serials`
+--
+ALTER TABLE `purchase_item_serials`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `item_id` (`item_id`);
+
+--
 -- Indexes for table `roles`
 --
 ALTER TABLE `roles`
@@ -1299,13 +1230,19 @@ ALTER TABLE `purchase`
 -- AUTO_INCREMENT for table `purchase_invoice`
 --
 ALTER TABLE `purchase_invoice`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=160;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
 
 --
 -- AUTO_INCREMENT for table `purchase_items`
 --
 ALTER TABLE `purchase_items`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=255;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=312;
+
+--
+-- AUTO_INCREMENT for table `purchase_item_serials`
+--
+ALTER TABLE `purchase_item_serials`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
 
 --
 -- AUTO_INCREMENT for table `roles`
@@ -1364,6 +1301,12 @@ ALTER TABLE `warehouse`
 --
 -- Constraints for dumped tables
 --
+
+--
+-- Constraints for table `purchase_item_serials`
+--
+ALTER TABLE `purchase_item_serials`
+  ADD CONSTRAINT `purchase_item_serials_ibfk_1` FOREIGN KEY (`item_id`) REFERENCES `purchase_items` (`id`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `role_menu`

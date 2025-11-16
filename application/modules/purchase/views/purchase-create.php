@@ -4,6 +4,21 @@
   
     padding:10px !important;
 }
+.serial-item {
+    background-color: #f9f9f9;
+    padding: 5px 10px;
+    margin-bottom: 5px;
+    border-radius: 5px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.serial-item h4 {
+    margin: 0;
+    font-size: 14px;
+}
+
   </style>
   	  <link rel="stylesheet" href="https://code.jquery.com/ui/1.14.1/themes/base/jquery-ui.css">
   <script src="https://code.jquery.com/ui/1.14.1/jquery-ui.js"></script>
@@ -361,15 +376,27 @@
             <input type="number" id="edit_rebate" class="form-control">
         </div>
 
-        <div class="mb-2">
-            <label>Serial Number</label>
-            <textarea id="edit_serial" class="form-control"></textarea>
-        </div>
+      <div class="mb-2">
+    <label>Serial Numbers</label>
+    <table class="table table-bordered table-sm" id="serial_list_container">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Serial Number</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Serial rows will be injected here via JS -->
+        </tbody>
+    </table>
+</div>
+
 
       </div>
 
       <div class="modal-footer">
-        <button type="button" class="btn btn-primary updateItem">Update</button>
+          <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
       </div>
 
     </div>
@@ -522,9 +549,15 @@ $('#addItemBtn').on('click', function() {
         if(existingRow.length){
             existingRow.find('.qty').val(res.item.qty);
             existingRow.find('.sub_total').val(res.item.sub_total);
+            existingRow.find('.total_rebate').val(res.item.total_rebate);
             existingRow.find('.serial_number').val(res.item.serial_number);
              calculateTotals();
         } else {
+           let editBtn = '';
+            if(res.item.serial_type == 'unique'){
+                editBtn = '<button type="button" class="btn btn-sm btn-info editItem">✎</button> ';
+            }
+
             var newRow = '<tr data-id="'+res.item.id+'">'+
                 '<td>'+($('#itemsTable tbody tr').length+1)+'</td>'+
                 '<td>'+res.item.product_name+'</td>'+
@@ -534,12 +567,14 @@ $('#addItemBtn').on('click', function() {
                 '<td>'+res.item.unit_name+'</td>'+
                 '<td><input type="number" class="sub_total form-control" value="'+res.item.sub_total+'" readonly></td>'+
                 '<td><textarea class="serial_number form-control" readonly>'+res.item.serial_number+'</textarea></td>'+
-                 '<td>' +
-                '<button type="button" class="btn btn-sm btn-info editItem">✎</button> ' + 
-                '<button type="button" class="btn btn-sm btn-outline-danger removeItem">✖</button>' +
-            '</td>'+
+                '<td>' +
+                    editBtn + 
+                    '<button type="button" class="btn btn-sm btn-outline-danger removeItem">✖</button>' +
+                '</td>'+
             '</tr>';
+
             $('#itemsTable tbody').append(newRow);
+
              // টোটাল হিসাব আপডেট করো
              calculateTotals();
         }
@@ -558,7 +593,7 @@ $('#addItemBtn').on('click', function() {
         // $('#price').val('');
         // $('#qty').val(1);
         // $('#subtotal').val('');
-        // $('#item_serial').val('');
+         $('#item_serial').val('');
          $('#rebate').val('');
          $('#total_rebate').val('');
          //$('#barcode_serial').val('');
@@ -606,7 +641,7 @@ $('#barcode_serial, #item_serial').on('input', function(){
     }
 });
 
-// এখন scan event handle করুন
+// 🔹 Scan event
 $('#barcode_serial, #item_serial').on('scan', function(){
     let inputField = $(this);
 
@@ -614,6 +649,19 @@ $('#barcode_serial, #item_serial').on('scan', function(){
 
     inputField.val('');
     inputField.focus();
+});
+
+
+// 🔹 Enter চাপলে Add Item হবে
+$('#barcode_serial, #item_serial').on('keydown', function(e){
+    if(e.key === "Enter"){
+        e.preventDefault();   // form submit হওয়া বন্ধ
+
+        $('#addItemBtn').click(); // Auto Add
+
+        $(this).val('');
+        $(this).focus();
+    }
 });
 
 
@@ -840,64 +888,109 @@ $(document).ready(function() {
 
 
 
+
+
+</script>
+<script>
 $(document).on('click', '.editItem', function(){
 
     let row = $(this).closest('tr');
 
-    $('#edit_row_id').val(row.data('id'));
+    let item_id = row.data('id');
+
+    $('#edit_row_id').val(item_id);
     $('#edit_price').val(row.find('.price').val());
     $('#edit_rebate').val(row.find('.total_rebate').val());
-    $('#edit_serial').val(row.find('.serial_number').val());
+
+    // Load serials via AJAX
+    refreshSerialList(item_id);
 
     $('#editModal').modal('show');
 });
 
-</script>
-<script>
-$('.updateItem').on('click', function(){
-
-    let id = $('#edit_row_id').val();
-    let price = parseFloat($('#edit_price').val()) || 0;
-    let rebate = parseFloat($('#edit_rebate').val()) || 0;
-    let serial = $('#edit_serial').val();
+function refreshSerialList(item_id) {
+    let container = $('#serial_list_container');
+    container.empty();
 
     $.ajax({
-        url: "<?= base_url('purchase/update_item_ajax') ?>",
-        type: "POST",
+        url: "<?= base_url('purchase/get_item_serials') ?>",
+        type: "GET",
+        data: { item_id: item_id },
         dataType: "json",
-        data: {
-            id: id,
-            price: price,
-            rebate: rebate,
-            serial_number: serial
-        },
         success: function(res){
-
-            if(res.status === "success"){
-
-                // Update table row without refresh
-                let row = $('#itemsTable tbody tr[data-id="'+id+'"]');
-                row.find('.price').val(price);
-                row.find('.total_rebate').val(rebate);
-                row.find('.serial_number').val(serial);
-
-                let qty = parseFloat(row.find('.qty').val());
-                let sub_total = (price * qty) - rebate;
-                if(sub_total < 0) sub_total = 0;
-
-                row.find('.sub_total').val(sub_total);
-
-                calculateTotals();
-
-                $('#editModal').modal('hide');
-
-                iziToast.success({
-                    message: 'Item updated!',
-                    position: 'topRight'
+            if(res.status === 'success' && res.serials.length > 0){
+                res.serials.forEach(function(serial){
+                    let html = `<div class="serial-item d-flex justify-content-between align-items-center mb-1 p-2 border rounded" data-id="${serial.id}">
+                                    <span>${serial.serial_number}</span>
+                                    <button type="button" class="btn btn-sm btn-danger delete-serial">Delete</button>
+                                </div>`;
+                    container.append(html);
                 });
+            } else {
+                container.append('<div class="text-center text-muted">No serials found.</div>');
             }
         }
     });
+}
+
+
+
+function refreshSerialList(item_id) {
+    $.ajax({
+        url: "<?= base_url('purchase/get_item_serials') ?>",
+        type: "GET",
+        data: { item_id: item_id },
+        dataType: "json",
+        success: function(res){
+            let container = $('#serial_list_container');
+            container.empty();
+            if(res.status === 'success'){
+                res.serials.forEach(function(serial){
+                 let html = `<div class="serial-item d-flex justify-content-between align-items-center mb-1 p-2 border rounded" data-id="${serial.id}">
+                <span>${serial.serial_number}</span>
+                <button type="button" class="btn btn-sm btn-danger delete-serial">Delete</button>
+            </div>`;
+            container.append(html);
+
+                });
+            } else {
+                container.html('<p>No serials found.</p>');
+            }
+        }
+    });
+}
+
+$(document).on('click', '.delete-serial', function(){
+    let serialDiv = $(this).closest('.serial-item'); // div থেকে closest নেওয়া
+    let serial_id = serialDiv.data('id');
+    let item_id = $('#edit_row_id').val();
+
+    if(confirm('Are you sure you want to remove this serial?')){
+        $.ajax({
+            url: "<?= base_url('purchase/delete_item_serial') ?>",
+            type: "POST",
+            data: { serial_id: serial_id, item_id: item_id },
+            dataType: "json",
+            success: function(res){
+                if(res.status === 'success'){
+                    serialDiv.remove(); // remove the div
+
+                    // update main table qty and sub_total
+                    let mainRow = $('tr[data-id="'+item_id+'"]');
+                    mainRow.find('.qty').val(res.new_qty);
+                    mainRow.find('.sub_total').val(res.new_sub_total);
+
+                    if(res.new_qty === 0){
+                        $('#serial_list_container').html('<div class="text-center text-muted">No serials left.</div>');
+                    }
+                } else {
+                    alert(res.msg || 'Failed to delete serial.');
+                }
+            }
+        });
+    }
 });
+
+
 
 </script>
