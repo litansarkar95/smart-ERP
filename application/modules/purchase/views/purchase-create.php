@@ -259,7 +259,7 @@
 
 </div>
  <div class="row">
-        <div class="col-md-1 mb-2">
+            <div class="col-md-2 mb-2">
         <div class="form-group">
             <label for="previousDue">Previous Due </label>
             <input type="text" name="previousDue" id="previousDue" value="" class="form-control previousDue" >
@@ -273,14 +273,14 @@
     </div>
 
 
-    <div class="col-md-1 mb-2">
+     <div class="col-md-2 mb-2">
         <div class="form-group">
             <label for="subtotalAmount">Sub Total </label>
             <input type="text" name="subtotalAmount" id="subtotalAmount" value="" class="form-control price" >
         </div>
     </div>
 
-     <div class="col-md-1 mb-2">
+      <div class="col-md-2 mb-2">
         <div class="form-group">
             <label for="totalRebate">Total Rebate  </label>
             <input type="text" name="totalRebate" id="totalRebate" value="" class="form-control totalRebate" >
@@ -294,7 +294,7 @@
         </div>
     </div>
 
-    <div class="col-md-1 mb-2">
+     <div class="col-md-2 mb-2">
         <div class="form-group">
             <label for="totaldiscount"> Discount </label>
             <input type="text" name="totaldiscount" id="totaldiscount" value="" class="form-control " >
@@ -310,6 +310,21 @@
 
     
     <div class="col-md-2 mb-2">
+        <div class="form-group">
+            <label for="payment_method_id">Payment Method</label>
+                                  <div class="select_2_container">
+                                    <select name="payment_method_id"  id="payment_method_id"     class="form-control frm_select select2">
+                                      
+                                        <?php foreach($allPayment as $payment): ?>
+                                        <option value="<?= $payment->id ?>"><?= $payment->name ?></option>
+                                    <?php endforeach; ?>
+                                    </select>
+                                    <i class="fas fa-caret-down"></i>
+                                  </div>
+        </div>
+    </div>
+
+       <div class="col-md-2 mb-2">
         <div class="form-group">
             <label for="paidAmount">Paid Amount </label>
             <input type="text" name="paidAmount" id="paidAmount" value="" class="form-control paidAmount" >
@@ -405,21 +420,7 @@
 
     <!-- Payment  Method -->  
 
-                          <div class="col-md-4 mb-3" style="display:none;">
-                                    <div class="form-group">
-                                  <label for="payment_method_id">Payment Method</label>
-                                  <div class="select_2_container">
-                                    <select name="payment_method_id"  id="payment_method_id"     class="form-control frm_select select2">
-                                      
-                                        <?php foreach($allPayment as $payment): ?>
-                                        <option value="<?= $payment->id ?>"><?= $payment->name ?></option>
-                                    <?php endforeach; ?>
-                                    </select>
-                                    <i class="fas fa-caret-down"></i>
-                                  </div>
-                                  <span class="text-error small"> <?php echo form_error('payment_method_id'); ?>   </span>
-                                </div></div>
-                                <!-- end Payment Method -->
+                     
 
   <script>
 
@@ -441,37 +442,44 @@
                 totalRebateOrder += subrebate;
             });
 
-            let totalReceived = parseFloat($('#paidAmount').val()) || 0;
+             let discount = parseFloat($('#totaldiscount').val()) || 0;
+
+             let distotalOrder = totalOrder - discount;
+
+            let totalReceived = parseFloat($('#paidAmount').val() ) || 0;
+
+           
+
           if (totalReceived > totalOrder) {
         alert("Paid amount cannot exceed the total order amount!");
-        totalReceived = totalOrder; // সীমাবদ্ধ করো
-        $('#paidAmount').val(totalOrder.toFixed(2));
+        totalReceived = distotalOrder; // সীমাবদ্ধ করো
+        $('#paidAmount').val(distotalOrder.toFixed(2));
     }
           
             //
-           let submtotal = totalOrder-totalRebateOrder;
+           let submtotal = distotalOrder;
 
              // Due = Total Order - Received
             let dueAmount = submtotal - totalReceived;
 
+            //total
+            let totalOrderwith = totalOrder + totalRebateOrder;
+
             // ফিল্ডগুলো আপডেট করো
             $('#totalOrderAmount').val(totalQtyOrder.toFixed(2));
             $('#totalRebate').val(totalRebateOrder.toFixed(2));
-            $('#subtotalAmount').val(totalOrder.toFixed(2));
+            $('#subtotalAmount').val(totalOrderwith.toFixed(2));
             $('#totalAmount').val(submtotal.toFixed(2));
             $('#dueAmount').val(dueAmount.toFixed(2));
         }
 
-$('#paidAmount').on('input', function() {
-    calculateTotals();
-});
+    $('#paidAmount').on('input', function() {
+        calculateTotals();
+    });
 
 //discount
 $('#totaldiscount').on('input', function() {
-       var total =  $('#totalAmount').val();
-      var discount = parseFloat($(this).val()) || 0;
-    var price = total - discount;
-      $('#dueAmount').val(price);
+       calculateTotals();
     
 });
 
@@ -611,56 +619,54 @@ $('#addItemBtn').on('click', function() {
     });
 });
 
-let lastTime = 0;
-let fastCount = 0;   // দ্রুত input গোনা হবে
-let scanTimer;
 
-$('#barcode_serial, #item_serial').on('input', function(){
+/* ------------------------------------
+   UNIVERSAL BARCODE / MANUAL ENTER HANDLER
+   ------------------------------------ */
 
-    let inputField = $(this);
-    let now = Date.now();
+let scanBuffer = "";
+let lastKeyTime = 0;
 
-    let delta = now - lastTime;
-    lastTime = now;
+function resetScan() {
+    scanBuffer = "";
+    lastKeyTime = 0;
+}
 
-    if(delta < 40){
-        fastCount++;
-    } else {
-        fastCount = 0; // টাইপ করলে reset
+function isFastScan(timeDiff) {
+    return timeDiff < 30; // barcode scanner usually sends keys <30ms apart
+}
+
+$('#barcode_serial, #item_serial').on('keydown', function(e) {
+    const now = Date.now();
+    const timeDiff = now - lastKeyTime;
+    lastKeyTime = now;
+
+    // If slow typing, reset buffer
+    if (!isFastScan(timeDiff)) {
+        scanBuffer = "";
     }
 
-    if(fastCount >= 5){
-
-        clearTimeout(scanTimer);
-
-        scanTimer = setTimeout(function(){
-            // স্ক্যান নিশ্চিত!
-            inputField.trigger('scan');
-            fastCount = 0;
-        }, 10);
+    // Only capture character keys
+    if (e.key.length === 1) {
+        scanBuffer += e.key;
     }
-});
 
-// 🔹 Scan event
-$('#barcode_serial, #item_serial').on('scan', function(){
-    let inputField = $(this);
+    // Enter key pressed
+    if (e.key === "Enter") {
+        e.preventDefault();
 
-    $('#addItemBtn').click(); // Auto Add
+        // If buffer is likely a scan
+        if (scanBuffer.length > 3) {
+            $(this).val(scanBuffer);   // set input value from scanner
+            $('#addItemBtn').click();  // trigger add item
+        } else {
+            // Normal Enter (manual typing)
+            $('#addItemBtn').click();
+        }
 
-    inputField.val('');
-    inputField.focus();
-});
-
-
-// 🔹 Enter চাপলে Add Item হবে
-$('#barcode_serial, #item_serial').on('keydown', function(e){
-    if(e.key === "Enter"){
-        e.preventDefault();   // form submit হওয়া বন্ধ
-
-        $('#addItemBtn').click(); // Auto Add
-
-        $(this).val('');
-        $(this).focus();
+        // Reset and refocus input
+        resetScan();
+        $(this).val('').focus();
     }
 });
 
@@ -961,7 +967,7 @@ function refreshSerialList(item_id) {
 }
 
 $(document).on('click', '.delete-serial', function(){
-    let serialDiv = $(this).closest('.serial-item'); // div থেকে closest নেওয়া
+    let serialDiv = $(this).closest('.serial-item');
     let serial_id = serialDiv.data('id');
     let item_id = $('#edit_row_id').val();
 
@@ -975,12 +981,20 @@ $(document).on('click', '.delete-serial', function(){
                 if(res.status === 'success'){
                     serialDiv.remove(); // remove the div
 
-                    // update main table qty and sub_total
                     let mainRow = $('tr[data-id="'+item_id+'"]');
-                    mainRow.find('.qty').val(res.new_qty);
-                    mainRow.find('.sub_total').val(res.new_sub_total);
 
-                    if(res.new_qty === 0){
+                    // update qty and subtotal
+                    mainRow.find('.qty').val(res.item.qty);
+                    mainRow.find('.sub_total').val(res.item.sub_total);
+
+                    // 🔥 Update total rebate
+                    mainRow.find('.total_rebate').val(res.item.total_rebate);
+
+                    // 🔥 update serial textarea also
+                    mainRow.find('.serial_number').val(res.item.serial_number);
+
+                    // optional message if empty
+                    if(res.item.qty === 0){
                         $('#serial_list_container').html('<div class="text-center text-muted">No serials left.</div>');
                     }
                 } else {
@@ -990,6 +1004,7 @@ $(document).on('click', '.delete-serial', function(){
         });
     }
 });
+
 
 
 
