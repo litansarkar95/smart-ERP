@@ -942,6 +942,7 @@ function refreshSerialList(item_id) {
 
 
 function refreshSerialList(item_id) {
+    
     $.ajax({
         url: "<?= base_url('purchase/get_item_serials') ?>",
         type: "GET",
@@ -997,6 +998,8 @@ $(document).on('click', '.delete-serial', function(){
                     if(res.item.qty === 0){
                         $('#serial_list_container').html('<div class="text-center text-muted">No serials left.</div>');
                     }
+                     // 🔥 Recalculate totals
+                    calculateTotals();
                 } else {
                     alert(res.msg || 'Failed to delete serial.');
                 }

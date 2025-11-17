@@ -48,6 +48,7 @@ public function index()
         "store_id"                   => $this->common_model->xss_clean($this->input->post("store_id")),   
         "totalQty"                   => $this->common_model->xss_clean($this->input->post("totalOrderAmount")),   
         "allTotal"                   => $this->common_model->xss_clean($this->input->post("subtotalAmount")),   
+        "totalDiscount"              => $this->common_model->xss_clean($this->input->post("totaldiscount")),   
         "totalRebate"                => $this->common_model->xss_clean($this->input->post("totalRebate")),   
         "totalAmount"                => $this->common_model->xss_clean($this->input->post("totalAmount")),   
         "paidAmount"                 => $this->common_model->xss_clean($this->input->post("paidAmount")),   
@@ -69,7 +70,7 @@ public function index()
    #####################################################################
     // Start inv_stock_item_serial
     $items  = $this->purchase_model->get_items_by_invoice($invoice_code);
-  // echo "<pre>"; print_r($items);exit();
+ 
     foreach($items  as $item){
         if ($item->serial_type == 'common') {
             // যদি barcode_serial থাকে
@@ -81,7 +82,8 @@ public function index()
                     "purchase_id"                => $id,  
                     "store_id"                   => $this->common_model->xss_clean($this->input->post("store_id")),   
                     "product_id"                 => $item->product_id,   
-                    "purchase_price"             => $item->price - $item->rebate,     
+                    "purchase_price"             => $item->price - $item->rebate,   
+                    "rebate"                     =>  $item->rebate,    
                     "sales_price"                => $item->sales_price,        
                     "quanity"                    => 1,   
                     "is_available"               => 1,   
@@ -104,6 +106,7 @@ public function index()
                     "store_id"                   => $this->common_model->xss_clean($this->input->post("store_id")),   
                     "product_id"                 => $item->product_id,   
                     "purchase_price"             => $item->price - $item->rebate,     
+                    "rebate"                     =>  $item->rebate,  
                     "sales_price"                => $item->sales_price,        
                     "quanity"                    => 1,   
                     "is_available"               => 1,   
@@ -130,6 +133,7 @@ public function index()
                     "store_id"                   => $this->common_model->xss_clean($this->input->post("store_id")),   
                     "product_id"                 => $item->product_id,   
                     "purchase_price"             => $item->price - $item->rebate,    
+                    "rebate"                     =>  $item->rebate,    
                     "sales_price"                => $item->sales_price,        
                     "quanity"                    => 1,   
                     "is_available"               => 1,   
@@ -153,6 +157,7 @@ public function index()
                     "store_id"                   => $this->common_model->xss_clean($this->input->post("store_id")),   
                     "product_id"                 => $item->product_id,   
                     "purchase_price"             => $item->price - $item->rebate,    
+                    "rebate"                     =>  $item->rebate,  
                     "sales_price"                => $item->sales_price,        
                     "quanity"                    => 1,   
                     "is_available"               => 1,   
@@ -180,10 +185,74 @@ public function index()
     foreach($existing as $products){
         $product_id     = $products->product_id;
         $price          = $products->price;
+        $rebate         = $products->rebate;
         $quanity        = $products->qty;
         $sales_price    = $products->sales_price;
 
         $date = date("Y-m-d H:i:s");
+
+            ###################################################################
+        ############# Previus Stock History 
+        #############################################################################
+
+         $is_previous_stock = $this->purchase_model->get_stock_previous_products($store_id ,$product_id );
+         if($is_previous_stock){
+
+            $previous_purchase_price = $is_previous_stock->purchase_price;
+            $previous_rebate         = $is_previous_stock->rebate;
+            $previous_sales_price    = $is_previous_stock->sales_price;
+            $previous_quanity        = $is_previous_stock->quanity;
+
+            $this->db->insert('inv_stock_history', [
+                'organization_id'                     => $this->session->userdata("loggedin_org_id"),
+                'branch_id'                           => $this->session->userdata("loggedin_branch_id"),
+                "purchase_id"                         => $id,  
+                'store_id'                            => $store_id,
+                'product_id'                          => $product_id,
+                'previous_purchase_price'             => $previous_purchase_price,
+                'previous_rebate'                     => $previous_rebate,
+                'previous_sales_price'                => $previous_sales_price,
+                'previous_quanity'                    => $previous_quanity,
+                'purchase_price'                      => $price - $rebate,
+                'rebate'                              => $rebate,
+                'sales_price'                         => $sales_price,
+                'quanity'                             => $quanity,
+                'is_active'                           => 1,
+                'create_user'                         => $this->session->userdata('loggedin_id'),
+                'create_date'                         => strtotime($date),
+            ]);
+            $history_id = $this->db->insert_id();
+
+         }else{
+            $this->db->insert('inv_stock_history', [
+                'organization_id'                     => $this->session->userdata("loggedin_org_id"),
+                'branch_id'                           => $this->session->userdata("loggedin_branch_id"),
+                "purchase_id"                         => $id,  
+                'store_id'                            => $store_id,
+                'product_id'                          => $product_id,
+                'previous_purchase_price'             => 0,
+                'previous_rebate'                     => 0,
+                'previous_sales_price'                => 0,
+                'previous_quanity'                    => 0,
+                'purchase_price'                      => $price - $rebate,
+                'rebate'                              => $rebate,
+                'sales_price'                         => $sales_price,
+                'quanity'                             => $quanity,
+                'is_active'                           => 1,
+                'create_user'                         => $this->session->userdata('loggedin_id'),
+                'create_date'                         => strtotime($date),
+            ]);
+            $history_id = $this->db->insert_id();
+
+         }
+
+          
+
+        ###################################################################
+        ############# End Previus Stock History 
+        #############################################################################
+        
+
 
         $is_product = $this->purchase_model->get_stock_products($store_id ,$product_id );
 
@@ -198,12 +267,14 @@ public function index()
             $this->db->where('store_id', $store_id);
             $this->db->where('product_id', $product_id);
             $this->db->update('inv_stock_master', [
-                'purchase_price'     => $price,
+                'purchase_price'     => $price - $rebate,
+                'rebate'             => $rebate,
                 'sales_price'        => $sales_price,
                 'quanity'            => $new_qty + $quanity,
                 'update_user'        => $this->session->userdata('loggedin_id'),
                 'update_date'        => strtotime($date),
             ]);
+
 
             }
         } else {
@@ -212,7 +283,8 @@ public function index()
                 'branch_id'          => $this->session->userdata("loggedin_branch_id"),
                 'store_id'           => $store_id,
                 'product_id'         => $product_id,
-                'purchase_price'     => $price,
+                'purchase_price'     => $price - $rebate,
+                'rebate'             => $rebate,
                 'sales_price'        => $sales_price,
                 'quanity'            => $quanity,
                 'is_active'          => 1,

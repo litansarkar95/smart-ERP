@@ -84,19 +84,42 @@ public function number_generator() {
         return $this->db->get()->result();
     }
     
-  public function get_items_by_invoice()
+public function get_items_by_invoice()
 {
-    $invoice_id = $this->input->post('invoice_id'); // বা GET থেকে নিতে পারো
-    
+    $invoice_id = $this->input->post('invoice_id'); 
+
     if ($invoice_id) {
-        $this->db->where('invoice_id', $invoice_id);
-        $query = $this->db->get('purchase_items');
-       return $result = $query->result();
-        
-      
+        $this->db->select('purchase_items.*, purchase_item_serials.serial_number');
+        $this->db->from('purchase_items');
+        $this->db->join('purchase_item_serials', 'purchase_item_serials.item_id = purchase_items.id', 'left');
+        $this->db->where('purchase_items.invoice_id', $invoice_id);
+
+        $query = $this->db->get();
+        return $query->result();
     } else {
         return NULL;
     }
 }
+
+
+public function get_stock_previous_products($store_id, $product_id)
+{
+    $this->db->select('id, organization_id, branch_id, store_id, product_id, purchase_price, rebate, sales_price, quanity, is_active, create_user, create_date, update_user, update_date');
+    $this->db->from('inv_stock_master');
+    $this->db->where('store_id', $store_id);
+    $this->db->where('product_id', $product_id);
+    $this->db->order_by('create_date', 'DESC'); 
+    $this->db->limit(1); 
+
+    $query = $this->db->get();
+
+    if ($query->num_rows() > 0) {
+        return $query->row();  
+    }
+
+    return null;  
+}
+
+
 
 }
