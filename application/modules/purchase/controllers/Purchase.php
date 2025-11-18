@@ -28,9 +28,10 @@ public function index()
   
   } else {
 
-   $invoice_code = $this->common_model->xss_clean($this->input->post("invoice_id"));
-   $store_id     = $this->common_model->xss_clean($this->input->post("supplier_id"));
-   $branch_id    = $this->session->userdata("loggedin_branch_id");
+   $invoice_code   = $this->common_model->xss_clean($this->input->post("invoice_id"));
+   $store_id        = $this->common_model->xss_clean($this->input->post("store_id"));
+   $supplier_id     = $this->common_model->xss_clean($this->input->post("supplier_id"));
+   $branch_id       = $this->session->userdata("loggedin_branch_id");
    
 
     $int_no = $this->purchase_model->number_generator();
@@ -64,6 +65,106 @@ public function index()
    
     if ($this->common_model->save_data("purchase", $data)) {
       $id = $this->common_model->Id;
+      
+
+      //update
+      $invoice_code              = $this->common_model->xss_clean($this->input->post("invoice_id"));
+      
+       $this->db->where('invoice_code', $invoice_code)->update('purchase_invoice', ['status' => 'Approved']);
+       #######################################################################
+   ####################### Start Accounts Ledger  #########################
+   #####################################################################
+
+        $totalOrderAmount = $this->input->post('totalOrderAmount');
+        $subtotalAmount = $this->input->post('subtotalAmount');
+        $totalRebate = $this->input->post('totalRebate');
+        $totalDiscount = $this->input->post('totaldiscount');
+        $dueAmount = $this->input->post('dueAmount');
+        $paymentMethodId = $this->input->post('payment_method_id');
+        $paidAmount = $this->input->post('paidAmount');
+      
+
+        // Calculate net amount after rebate and discount
+        $netAmount = $subtotalAmount  - $totalDiscount;
+
+
+        $total_tr_data = array(   
+        "organization_id"            => $this->session->userdata('loggedin_org_id'),
+        "branch_id"                  => $this->session->userdata('loggedin_branch_id'), 
+        "voucher_type"               => 'Purchase',  
+        "purchase_invoice_id"        => $id,   
+        "party_id"                   => $supplier_id,   
+        "account_name"               => 'Supplier Purchase', 
+        "particulars"                =>'Purchase for order',   
+        "date"                       => $date,   
+        "debit"                      => $netAmount,   
+        "credit"                     => 0,   
+        "gl_date"                    => strtotime($date),
+        "acc_coa_head_id"            => 0,   
+        "payment_method"             => 0,    
+        "remarks"                    => 'Purchase order ',
+        "is_active"                  => 1,
+        "create_user"                => $this->session->userdata('loggedin_id'),
+        "create_date"                => strtotime($date),
+       
+    );
+    $this->common_model->save_data("acc_general_ledger", $total_tr_data);
+
+    if($paidAmount > 0){
+        $total_pay_data = array(   
+        "organization_id"            => $this->session->userdata('loggedin_org_id'),
+        "branch_id"                  => $this->session->userdata('loggedin_branch_id'), 
+        "voucher_type"               => 'Supplier Payment',  
+        "purchase_invoice_id"        => $id,   
+        "party_id"                   => $supplier_id,   
+        "account_name"               => 'Supplier Account', 
+        "particulars"                => 'Payment for order',   
+        "date"                       => $date,   
+        "debit"                      => 0,   
+        "credit"                     => $paidAmount,   
+        "gl_date"                    => strtotime($date),
+        "acc_coa_head_id"            => 0,   
+        "payment_method"             => $paymentMethodId,    
+        "remarks"                    => 'Payment for order ',
+        "is_active"                  => 1,
+        "create_user"                => $this->session->userdata('loggedin_id'),
+        "create_date"                => strtotime($date),
+       
+    );
+    $this->common_model->save_data("acc_general_ledger", $total_pay_data);
+
+  
+      //update suplier payment
+      $this->purchase_model->update_current_balance($supplier_id, $paidAmount);
+    }
+
+     if($totalRebate > 0){
+        $total_pay_data = array(   
+        "organization_id"            => $this->session->userdata('loggedin_org_id'),
+        "branch_id"                  => $this->session->userdata('loggedin_branch_id'), 
+        "voucher_type"               => 'Supplier Rebate',  
+        "purchase_invoice_id"        => $id,   
+        "party_id"                   => $supplier_id,   
+        "account_name"               => 'Rebate', 
+        "particulars"                => 'Rebate for order',   
+        "date"                       => $date,   
+        "debit"                      => 0,   
+        "credit"                     => $totalRebate,   
+        "gl_date"                    => strtotime($date),
+        "acc_coa_head_id"            => 0,   
+        "payment_method"             => 0,    
+        "remarks"                    => 'Payment for order with rebate and discount ',
+        "is_active"                  => 1,
+        "create_user"                => $this->session->userdata('loggedin_id'),
+        "create_date"                => strtotime($date),
+       
+    );
+    $this->common_model->save_data("acc_general_ledger", $total_pay_data);
+    }
+
+   #######################################################################
+   ####################### End Accounts Ledger #########################
+   #####################################################################
       
    #######################################################################
    ####################### Start inv_stock_item_serial #########################
@@ -457,6 +558,20 @@ public function add_item_ajax()
                 return; // 🚫 Stop everything (NO item update)
             }
         }
+    }
+
+    // start invoice
+
+    $is_invoice = $this->db->get_where('purchase_invoice', [
+        'invoice_code' => $invoice_id,
+    ])->row();
+
+    if(!$is_invoice){
+         $this->db->insert('purchase_invoice', [
+            'organization_id' =>$this->session->userdata('loggedin_org_id'),
+            'invoice_code' => $invoice_id]);
+              $item_id = $this->db->insert_id();
+
     }
 
     // ======================

@@ -121,5 +121,28 @@ public function get_stock_previous_products($store_id, $product_id)
 }
 
 
+//update
+ public function get_current_balance($supplier_id) {
+        $this->db->select('current_balance');
+        $this->db->where('id', $supplier_id);  
+        $query = $this->db->get('business_partner'); 
+        
+        if ($query->num_rows() > 0) {
+            return $query->row()->current_balance; 
+        } else {
+            return 0; 
+        }
+    }
+
+    public function update_current_balance($supplier_id, $paidAmount) {
+        $current_balance = $this->get_current_balance($supplier_id);
+        $new_balance = $current_balance + $paidAmount;
+
+        $this->db->where('id', $supplier_id); 
+        $this->db->update('business_partner', ['current_balance' => $new_balance]); 
+        return $this->db->affected_rows() > 0;
+    }
+
+
 
 }
