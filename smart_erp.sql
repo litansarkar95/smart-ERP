@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 18, 2025 at 07:33 AM
+-- Generation Time: Nov 19, 2025 at 12:30 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -50,15 +50,6 @@ CREATE TABLE `acc_general_ledger` (
   `update_user` int(11) NOT NULL,
   `update_date` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
-
---
--- Dumping data for table `acc_general_ledger`
---
-
-INSERT INTO `acc_general_ledger` (`id`, `organization_id`, `branch_id`, `voucher_type`, `purchase_invoice_id`, `sales_invoice_id`, `party_id`, `account_name`, `particulars`, `date`, `debit`, `credit`, `gl_date`, `acc_coa_head_id`, `payment_method`, `remarks`, `is_active`, `create_user`, `create_date`, `update_user`, `update_date`) VALUES
-(6, 3, 1, 'Purchase', 11, 0, 20, 'Supplier Purchase', 'Purchase for order', '2025-11-18', 900.00, 0.00, 1763447464, 0, 0, 'Purchase order ', 1, 17, 1763447464, 0, 0),
-(7, 3, 1, 'Supplier Payment', 11, 0, 20, 'Supplier Account', 'Payment for order', '2025-11-18', 0.00, 500.00, 1763447464, 0, 1, 'Payment for order ', 1, 17, 1763447464, 0, 0),
-(8, 3, 1, 'Supplier Rebate', 11, 0, 20, 'Rebate', 'Rebate for order', '2025-11-18', 0.00, 100.00, 1763447464, 0, 0, 'Payment for order with rebate and discount ', 1, 17, 1763447464, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -149,11 +140,7 @@ CREATE TABLE `business_partner` (
 --
 
 INSERT INTO `business_partner` (`id`, `organization_id`, `name`, `partner_type`, `contact_no`, `email`, `address`, `credit_limit`, `payment_terms`, `sales_representative`, `region`, `business_category`, `delivery_method`, `notes`, `is_active`, `customer_group_id`, `reference_id`, `opening_balance_type`, `opening_balance`, `current_balance`, `create_user`, `create_date`, `created_at`, `updated_at`) VALUES
-(19, 3, 'MD. YASIN', 'Customer', ' 01683189893', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', 1, 0, 0, '', 0.00, 600.00, 17, 1762591465, '2025-11-08 08:44:25', '2025-11-09 05:48:24'),
-(20, 3, 'Md sabbir', 'Supplier', '01601325244', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', 1, 0, 0, '', 0.00, 500.00, 17, 1762591480, '2025-11-08 08:44:40', '2025-11-18 06:31:05'),
-(21, 3, 'sujon das', 'Both', ' 01872665152', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', 1, 0, 0, '', 0.00, 500.00, 17, 1762591489, '2025-11-08 08:44:49', '2025-11-09 05:48:19'),
-(22, 3, 'Sohin lalmai', 'Customer', '01830596631', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', 1, 0, 0, '', 0.00, 600.00, 17, 1762591501, '2025-11-08 08:45:01', '2025-11-09 05:48:14'),
-(23, 3, 'REAL SOLUTION', 'Supplier', ' 01745441700', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', 1, 0, 0, '', 0.00, 0.00, 17, 1762591509, '2025-11-08 08:45:09', '2025-11-08 08:45:09');
+(26, 3, 'Mintu', 'Both', '', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', 1, 0, 0, 'Supplier', 500.00, -10262.00, 17, 1763532091, '2025-11-19 06:01:31', '2025-11-19 11:09:22');
 
 -- --------------------------------------------------------
 
@@ -181,17 +168,6 @@ CREATE TABLE `inv_stock_history` (
   `create_date` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
---
--- Dumping data for table `inv_stock_history`
---
-
-INSERT INTO `inv_stock_history` (`id`, `organization_id`, `branch_id`, `purchase_id`, `store_id`, `product_id`, `previous_purchase_price`, `previous_rebate`, `previous_sales_price`, `previous_quanity`, `purchase_price`, `rebate`, `sales_price`, `quanity`, `is_active`, `create_user`, `create_date`) VALUES
-(1, 3, 1, 9, 21, 4, 0.00, 0.00, 0.00, 0, 450.00, 0.00, 700.00, 1, 1, 17, 1763375562),
-(2, 3, 1, 9, 21, 3, 0.00, 0.00, 0.00, 0, 450.00, 50.00, 1000.00, 1, 1, 17, 1763375562),
-(3, 3, 1, 10, 21, 4, 450.00, 0.00, 700.00, 1, 400.00, 50.00, 700.00, 1, 1, 17, 1763375602),
-(4, 3, 1, 11, 1, 4, 0.00, 0.00, 0.00, 0, 400.00, 50.00, 700.00, 1, 1, 17, 1763447466),
-(5, 3, 1, 11, 1, 3, 0.00, 0.00, 0.00, 0, 450.00, 50.00, 1000.00, 1, 1, 17, 1763447466);
-
 -- --------------------------------------------------------
 
 --
@@ -218,18 +194,6 @@ CREATE TABLE `inv_stock_item_serial` (
   `update_date` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
---
--- Dumping data for table `inv_stock_item_serial`
---
-
-INSERT INTO `inv_stock_item_serial` (`id`, `organization_id`, `branch_id`, `purchase_id`, `store_id`, `product_id`, `purchase_price`, `rebate`, `sales_price`, `quanity`, `is_available`, `serial_type`, `serial`, `create_user`, `create_date`, `update_user`, `update_date`) VALUES
-(16, 3, 1, 1, 1, 4, 400, 0.00, 700, 1, 1, 'unique', 'gb66', 17, 1763373155, 0, 0),
-(17, 3, 1, 1, 1, 4, 450, 0.00, 700, 1, 1, 'unique', '4444', 17, 1763375562, 0, 0),
-(18, 3, 1, 9, 1, 3, 450, 50.00, 1000, 1, 1, 'common', '55555', 17, 1763375562, 0, 0),
-(19, 3, 1, 1, 1, 4, 400, 50.00, 700, 1, 1, 'unique', '5555', 17, 1763375601, 0, 0),
-(20, 3, 1, 1, 1, 4, 400, 50.00, 700, 1, 1, 'unique', 'rrrrrrrrrrr', 17, 1763447464, 0, 0),
-(21, 3, 1, 11, 1, 3, 450, 50.00, 1000, 1, 1, 'common', 'SN691C12A9C79C2', 17, 1763447464, 0, 0);
-
 -- --------------------------------------------------------
 
 --
@@ -252,16 +216,6 @@ CREATE TABLE `inv_stock_master` (
   `update_user` int(11) NOT NULL,
   `update_date` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
-
---
--- Dumping data for table `inv_stock_master`
---
-
-INSERT INTO `inv_stock_master` (`id`, `organization_id`, `branch_id`, `store_id`, `product_id`, `purchase_price`, `rebate`, `sales_price`, `quanity`, `is_active`, `create_user`, `create_date`, `update_user`, `update_date`) VALUES
-(8, 3, 1, 21, 4, 400.00, 50.00, 700.00, 2, 1, 17, 1763375562, 17, 1763375602),
-(9, 3, 1, 21, 3, 450.00, 50.00, 1000.00, 1, 1, 17, 1763375562, 0, 0),
-(10, 3, 1, 1, 4, 400.00, 50.00, 700.00, 1, 1, 17, 1763447466, 0, 0),
-(11, 3, 1, 1, 3, 450.00, 50.00, 1000.00, 1, 1, 17, 1763447466, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -288,10 +242,10 @@ CREATE TABLE `login_credential` (
 --
 
 INSERT INTO `login_credential` (`id`, `organization_id`, `branch_id`, `user_id`, `username`, `password`, `role`, `active`, `last_login`, `created_at`, `updated_at`) VALUES
-(1, 0, 0, 1, 'system', 'UHZVdVBOTWI0VkwrN0MvQjRRRUZkdz09', 1, 1, '2025-11-11 15:55:43', '2024-10-21 15:42:57', '2025-11-11 15:55:43'),
+(1, 0, 0, 1, 'system', 'UHZVdVBOTWI0VkwrN0MvQjRRRUZkdz09', 1, 1, '2025-11-19 17:10:42', '2024-10-21 15:42:57', '2025-11-19 17:10:42'),
 (2, 0, 0, 2, 'litan@gmail.com', 'UHZVdVBOTWI0VkwrN0MvQjRRRUZkdz09', 1, 1, '2024-11-27 11:06:55', '2024-10-21 15:42:57', '2025-10-30 14:29:54'),
 (5, 0, 0, 6, 'admin@gmail.com', 'UHZVdVBOTWI0VkwrN0MvQjRRRUZkdz09', 2, 1, '2025-11-01 14:35:31', '2024-11-16 23:35:56', '2025-11-01 14:35:31'),
-(17, 3, 1, 10, '01829', 'UHZVdVBOTWI0VkwrN0MvQjRRRUZkdz09', 3, 1, '2025-11-18 09:17:02', '2025-10-30 23:30:08', '2025-11-18 09:17:02');
+(17, 3, 1, 10, '01829', 'UHZVdVBOTWI0VkwrN0MvQjRRRUZkdz09', 3, 1, '2025-11-19 17:12:03', '2025-10-30 23:30:08', '2025-11-19 17:12:03');
 
 -- --------------------------------------------------------
 
@@ -462,7 +416,147 @@ INSERT INTO `logs` (`id`, `message`, `record_id`, `user_id`, `action`, `ip_addre
 (143, 'New Record inserted On acc_general_ledger id 7', 7, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-11-18 06:31:05', '2025-11-18'),
 (144, 'New Record inserted On acc_general_ledger id 8', 8, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-11-18 06:31:05', '2025-11-18'),
 (145, 'New Record inserted On inv_stock_item_serial id 20', 20, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-11-18 06:31:05', '2025-11-18'),
-(146, 'New Record inserted On inv_stock_item_serial id 21', 21, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-11-18 06:31:05', '2025-11-18');
+(146, 'New Record inserted On inv_stock_item_serial id 21', 21, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-11-18 06:31:05', '2025-11-18'),
+(147, 'New Record inserted On business_partner id 24', 24, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-11-19 05:46:38', '2025-11-19'),
+(148, 'New Record inserted On acc_general_ledger id 9', 9, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-11-19 05:46:38', '2025-11-19'),
+(149, 'New Record inserted On business_partner id 25', 25, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-11-19 05:47:50', '2025-11-19'),
+(150, 'New Record inserted On acc_general_ledger id 10', 10, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-11-19 05:47:50', '2025-11-19'),
+(151, 'New Record inserted On purchase id 12', 12, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-11-19 05:48:33', '2025-11-19'),
+(152, 'New Record inserted On purchase id 13', 13, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-11-19 05:48:36', '2025-11-19'),
+(153, 'New Record inserted On purchase id 14', 14, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-11-19 05:49:24', '2025-11-19'),
+(154, 'New Record inserted On purchase id 15', 15, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-11-19 05:49:42', '2025-11-19'),
+(155, 'New Record inserted On purchase id 16', 16, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-11-19 05:54:05', '2025-11-19'),
+(156, 'New Record inserted On purchase id 17', 17, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-11-19 05:54:15', '2025-11-19'),
+(157, 'New Record inserted On purchase id 18', 18, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-11-19 05:54:24', '2025-11-19'),
+(158, 'New Record inserted On purchase id 19', 19, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-11-19 05:54:30', '2025-11-19'),
+(159, 'New Record inserted On purchase id 20', 20, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-11-19 05:54:41', '2025-11-19'),
+(160, 'New Record inserted On purchase id 21', 21, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-11-19 05:54:48', '2025-11-19'),
+(161, 'New Record inserted On purchase id 22', 22, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-11-19 05:55:00', '2025-11-19'),
+(162, 'New Record inserted On purchase id 23', 23, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-11-19 05:55:20', '2025-11-19'),
+(163, 'New Record inserted On purchase id 24', 24, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-11-19 05:55:25', '2025-11-19'),
+(164, 'New Record inserted On purchase id 25', 25, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-11-19 05:56:04', '2025-11-19'),
+(165, 'New Record inserted On purchase id 26', 26, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-11-19 05:56:10', '2025-11-19'),
+(166, 'New Record inserted On purchase id 27', 27, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-11-19 05:56:20', '2025-11-19'),
+(167, 'New Record inserted On purchase id 28', 28, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-11-19 05:56:45', '2025-11-19'),
+(168, 'New Record inserted On purchase id 29', 29, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-11-19 05:57:02', '2025-11-19'),
+(169, 'New Record inserted On purchase id 30', 30, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-11-19 05:57:15', '2025-11-19'),
+(170, 'New Record inserted On purchase id 31', 31, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-11-19 05:57:21', '2025-11-19'),
+(171, 'New Record inserted On purchase id 32', 32, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-11-19 05:57:39', '2025-11-19'),
+(172, 'New Record inserted On purchase id 33', 33, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-11-19 05:58:12', '2025-11-19'),
+(173, 'New Record inserted On purchase id 34', 34, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-11-19 05:58:23', '2025-11-19'),
+(174, 'New Record inserted On purchase id 35', 35, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-11-19 05:59:01', '2025-11-19'),
+(175, 'New Record inserted On purchase id 36', 36, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-11-19 05:59:06', '2025-11-19'),
+(176, 'New Record inserted On purchase id 37', 37, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-11-19 05:59:09', '2025-11-19'),
+(177, 'New Record inserted On purchase id 38', 38, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-11-19 05:59:23', '2025-11-19'),
+(178, 'New Record inserted On acc_general_ledger id 11', 11, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-11-19 05:59:23', '2025-11-19'),
+(179, 'New Record inserted On acc_general_ledger id 12', 12, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-11-19 05:59:24', '2025-11-19'),
+(180, 'New Record inserted On inv_stock_item_serial id 22', 22, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-11-19 05:59:24', '2025-11-19'),
+(181, 'New Record inserted On business_partner id 26', 26, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-11-19 06:01:33', '2025-11-19'),
+(182, 'New Record inserted On acc_general_ledger id 13', 13, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-11-19 06:01:33', '2025-11-19'),
+(183, 'New Record inserted On purchase id 39', 39, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-11-19 06:01:56', '2025-11-19'),
+(184, 'New Record inserted On acc_general_ledger id 14', 14, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-11-19 06:01:56', '2025-11-19'),
+(185, 'New Record inserted On acc_general_ledger id 15', 15, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-11-19 06:01:56', '2025-11-19'),
+(186, 'New Record inserted On inv_stock_item_serial id 23', 23, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-11-19 06:01:57', '2025-11-19'),
+(187, 'New Record inserted On purchase id 40', 40, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-11-19 06:04:18', '2025-11-19'),
+(188, 'New Record inserted On acc_general_ledger id 16', 16, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-11-19 06:04:18', '2025-11-19'),
+(189, 'New Record inserted On acc_general_ledger id 17', 17, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-11-19 06:04:18', '2025-11-19'),
+(190, 'New Record inserted On inv_stock_item_serial id 24', 24, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-11-19 06:04:18', '2025-11-19'),
+(191, 'New Record inserted On purchase id 41', 41, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-11-19 06:05:13', '2025-11-19'),
+(192, 'New Record inserted On acc_general_ledger id 18', 18, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-11-19 06:05:13', '2025-11-19'),
+(193, 'New Record inserted On acc_general_ledger id 19', 19, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-11-19 06:05:14', '2025-11-19'),
+(194, 'New Record inserted On inv_stock_item_serial id 25', 25, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-11-19 06:05:14', '2025-11-19'),
+(195, 'New Record inserted On purchase id 42', 42, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-11-19 06:05:56', '2025-11-19'),
+(196, 'New Record inserted On acc_general_ledger id 20', 20, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-11-19 06:05:56', '2025-11-19'),
+(197, 'New Record inserted On acc_general_ledger id 21', 21, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-11-19 06:05:57', '2025-11-19'),
+(198, 'New Record inserted On inv_stock_item_serial id 26', 26, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-11-19 06:05:57', '2025-11-19'),
+(199, 'New Record inserted On purchase id 43', 43, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-11-19 09:49:44', '2025-11-19'),
+(200, 'New Record inserted On acc_general_ledger id 22', 22, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-11-19 09:49:44', '2025-11-19'),
+(201, 'New Record inserted On acc_general_ledger id 23', 23, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-11-19 09:49:44', '2025-11-19'),
+(202, 'New Record inserted On acc_general_ledger id 24', 24, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-11-19 09:49:44', '2025-11-19'),
+(203, 'New Record inserted On inv_stock_item_serial id 27', 27, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-11-19 09:49:45', '2025-11-19'),
+(204, 'New Record inserted On inv_stock_item_serial id 28', 28, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-11-19 09:49:45', '2025-11-19'),
+(205, 'New Record inserted On inv_stock_item_serial id 29', 29, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-11-19 09:49:45', '2025-11-19'),
+(206, 'New Record inserted On purchase id 44', 44, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-11-19 10:16:28', '2025-11-19'),
+(207, 'New Record inserted On acc_general_ledger id 25', 25, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-11-19 10:16:28', '2025-11-19'),
+(208, 'New Record inserted On acc_general_ledger id 26', 26, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-11-19 10:16:28', '2025-11-19'),
+(209, 'New Record inserted On inv_stock_item_serial id 30', 30, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-11-19 10:16:29', '2025-11-19'),
+(210, 'New Record inserted On purchase id 45', 45, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-11-19 10:17:06', '2025-11-19'),
+(211, 'New Record inserted On acc_general_ledger id 27', 27, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-11-19 10:17:06', '2025-11-19'),
+(212, 'New Record inserted On acc_general_ledger id 28', 28, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-11-19 10:17:06', '2025-11-19'),
+(213, 'New Record inserted On inv_stock_item_serial id 31', 31, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-11-19 10:17:06', '2025-11-19'),
+(214, 'New Record inserted On purchase id 46', 46, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-11-19 10:17:35', '2025-11-19'),
+(215, 'New Record inserted On acc_general_ledger id 29', 29, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-11-19 10:17:36', '2025-11-19'),
+(216, 'New Record inserted On acc_general_ledger id 30', 30, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-11-19 10:17:36', '2025-11-19'),
+(217, 'New Record inserted On inv_stock_item_serial id 32', 32, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-11-19 10:17:36', '2025-11-19'),
+(218, 'New Record inserted On inv_stock_item_serial id 33', 33, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-11-19 10:17:36', '2025-11-19'),
+(219, 'New Record inserted On purchase id 47', 47, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-11-19 10:43:19', '2025-11-19'),
+(220, 'New Record inserted On acc_general_ledger id 31', 31, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-11-19 10:43:19', '2025-11-19'),
+(221, 'New Record inserted On acc_general_ledger id 32', 32, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-11-19 10:43:20', '2025-11-19'),
+(222, 'New Record inserted On inv_stock_item_serial id 34', 34, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-11-19 10:43:20', '2025-11-19'),
+(223, 'New Record inserted On inv_stock_item_serial id 35', 35, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-11-19 10:43:20', '2025-11-19'),
+(224, 'New Record inserted On inv_stock_item_serial id 36', 36, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-11-19 10:43:20', '2025-11-19'),
+(225, 'New Record inserted On inv_stock_item_serial id 37', 37, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-11-19 10:43:20', '2025-11-19'),
+(226, 'New Record inserted On purchase id 48', 48, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-11-19 10:57:11', '2025-11-19'),
+(227, 'New Record inserted On acc_general_ledger id 33', 33, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-11-19 10:57:11', '2025-11-19'),
+(228, 'New Record inserted On acc_general_ledger id 34', 34, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-11-19 10:57:11', '2025-11-19'),
+(229, 'New Record inserted On inv_stock_item_serial id 38', 38, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-11-19 10:57:11', '2025-11-19'),
+(230, 'New Record inserted On inv_stock_item_serial id 39', 39, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-11-19 10:57:12', '2025-11-19'),
+(231, 'New Record inserted On inv_stock_item_serial id 40', 40, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-11-19 10:57:12', '2025-11-19'),
+(232, 'New Record inserted On inv_stock_item_serial id 41', 41, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-11-19 10:57:12', '2025-11-19'),
+(233, 'New Record inserted On inv_stock_item_serial id 42', 42, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-11-19 10:57:12', '2025-11-19'),
+(234, 'New Record inserted On purchase id 49', 49, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-11-19 10:58:52', '2025-11-19'),
+(235, 'New Record inserted On acc_general_ledger id 35', 35, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-11-19 10:58:52', '2025-11-19'),
+(236, 'New Record inserted On acc_general_ledger id 36', 36, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-11-19 10:58:52', '2025-11-19'),
+(237, 'New Record inserted On inv_stock_item_serial id 43', 43, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-11-19 10:58:53', '2025-11-19'),
+(238, 'New Record inserted On inv_stock_item_serial id 44', 44, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-11-19 10:58:53', '2025-11-19'),
+(239, 'New Record inserted On inv_stock_item_serial id 45', 45, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-11-19 10:58:53', '2025-11-19'),
+(240, 'New Record inserted On inv_stock_item_serial id 46', 46, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-11-19 10:58:53', '2025-11-19'),
+(241, 'New Record inserted On inv_stock_item_serial id 47', 47, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-11-19 10:58:53', '2025-11-19'),
+(242, 'New Record inserted On inv_stock_item_serial id 48', 48, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-11-19 10:58:53', '2025-11-19'),
+(243, 'New Record inserted On purchase id 50', 50, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-11-19 11:01:51', '2025-11-19'),
+(244, 'New Record inserted On acc_general_ledger id 37', 37, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-11-19 11:01:52', '2025-11-19'),
+(245, 'New Record inserted On acc_general_ledger id 38', 38, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-11-19 11:01:52', '2025-11-19'),
+(246, 'New Record inserted On inv_stock_item_serial id 49', 49, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-11-19 11:01:53', '2025-11-19'),
+(247, 'New Record inserted On inv_stock_item_serial id 50', 50, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-11-19 11:01:53', '2025-11-19'),
+(248, 'New Record inserted On purchase id 51', 51, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-11-19 11:03:02', '2025-11-19'),
+(249, 'New Record inserted On acc_general_ledger id 39', 39, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-11-19 11:03:02', '2025-11-19'),
+(250, 'New Record inserted On acc_general_ledger id 40', 40, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-11-19 11:03:03', '2025-11-19'),
+(251, 'New Record inserted On inv_stock_item_serial id 51', 51, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-11-19 11:03:03', '2025-11-19'),
+(252, 'New Record inserted On inv_stock_item_serial id 52', 52, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-11-19 11:03:03', '2025-11-19'),
+(253, 'New Record inserted On purchase id 52', 52, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-11-19 11:04:47', '2025-11-19'),
+(254, 'New Record inserted On acc_general_ledger id 41', 41, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-11-19 11:04:47', '2025-11-19'),
+(255, 'New Record inserted On acc_general_ledger id 42', 42, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-11-19 11:04:48', '2025-11-19'),
+(256, 'New Record inserted On purchase id 53', 53, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-11-19 11:04:55', '2025-11-19'),
+(257, 'New Record inserted On acc_general_ledger id 43', 43, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-11-19 11:04:55', '2025-11-19'),
+(258, 'New Record inserted On acc_general_ledger id 44', 44, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-11-19 11:04:55', '2025-11-19'),
+(259, 'New Record inserted On purchase id 54', 54, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-11-19 11:06:11', '2025-11-19'),
+(260, 'New Record inserted On acc_general_ledger id 45', 45, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-11-19 11:06:11', '2025-11-19'),
+(261, 'New Record inserted On acc_general_ledger id 46', 46, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-11-19 11:06:12', '2025-11-19'),
+(262, 'New Record inserted On inv_stock_item_serial id 53', 53, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-11-19 11:06:12', '2025-11-19'),
+(263, 'New Record inserted On inv_stock_item_serial id 54', 54, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-11-19 11:06:12', '2025-11-19'),
+(264, 'New Record inserted On purchase id 55', 55, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-11-19 11:07:42', '2025-11-19'),
+(265, 'New Record inserted On acc_general_ledger id 47', 47, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-11-19 11:07:43', '2025-11-19'),
+(266, 'New Record inserted On acc_general_ledger id 48', 48, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-11-19 11:07:43', '2025-11-19'),
+(267, 'New Record inserted On inv_stock_item_serial id 55', 55, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-11-19 11:07:43', '2025-11-19'),
+(268, 'New Record inserted On inv_stock_item_serial id 56', 56, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-11-19 11:07:43', '2025-11-19'),
+(269, 'New Record inserted On purchase id 56', 56, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-11-19 11:07:54', '2025-11-19'),
+(270, 'New Record inserted On acc_general_ledger id 49', 49, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-11-19 11:07:55', '2025-11-19'),
+(271, 'New Record inserted On acc_general_ledger id 50', 50, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-11-19 11:07:55', '2025-11-19'),
+(272, 'New Record inserted On inv_stock_item_serial id 57', 57, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-11-19 11:07:55', '2025-11-19'),
+(273, 'New Record inserted On inv_stock_item_serial id 58', 58, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-11-19 11:07:55', '2025-11-19'),
+(274, 'New Record inserted On purchase id 57', 57, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-11-19 11:08:10', '2025-11-19'),
+(275, 'New Record inserted On acc_general_ledger id 51', 51, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-11-19 11:08:11', '2025-11-19'),
+(276, 'New Record inserted On acc_general_ledger id 52', 52, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-11-19 11:08:11', '2025-11-19');
+INSERT INTO `logs` (`id`, `message`, `record_id`, `user_id`, `action`, `ip_address`, `platform`, `agent`, `time`, `created_at`) VALUES
+(277, 'New Record inserted On inv_stock_item_serial id 59', 59, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-11-19 11:08:11', '2025-11-19'),
+(278, 'New Record inserted On inv_stock_item_serial id 60', 60, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-11-19 11:08:11', '2025-11-19'),
+(279, 'New Record inserted On purchase id 58', 58, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-11-19 11:09:22', '2025-11-19'),
+(280, 'New Record inserted On acc_general_ledger id 53', 53, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-11-19 11:09:22', '2025-11-19'),
+(281, 'New Record inserted On acc_general_ledger id 54', 54, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-11-19 11:09:23', '2025-11-19'),
+(282, 'New Record inserted On inv_stock_item_serial id 61', 61, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-11-19 11:09:23', '2025-11-19'),
+(283, 'New Record inserted On inv_stock_item_serial id 62', 62, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-11-19 11:09:23', '2025-11-19'),
+(284, 'New Record inserted On menus id 20', 20, 1, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-11-19 11:11:16', '2025-11-19'),
+(285, 'New Record inserted On menus id 21', 21, 1, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-11-19 11:11:45', '2025-11-19');
 
 -- --------------------------------------------------------
 
@@ -502,7 +596,9 @@ INSERT INTO `menus` (`id`, `name`, `url`, `parent_id`, `position`, `icon`, `is_a
 (16, 'Create Partner', 'partner/create', 10, 3, '', 1, 1762599454),
 (17, 'Inventory', '#', 0, 9, '', 1, 1762855013),
 (18, 'Stock Balance', 'inventory/stockmaster', 17, 3, '', 1, 1762855248),
-(19, 'Stock Item Serial', 'inventory/stockitemserial', 17, 4, '', 1, 1762855294);
+(19, 'Stock Item Serial', 'inventory/stockitemserial', 17, 4, '', 1, 1762855294),
+(20, 'Reports', '#', 0, 56, '', 1, 1763550676),
+(21, 'Purchase Reports', 'reports/purchase', 20, 2, '', 1, 1763550705);
 
 -- --------------------------------------------------------
 
@@ -703,19 +799,6 @@ CREATE TABLE `purchase` (
   `create_date` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
---
--- Dumping data for table `purchase`
---
-
-INSERT INTO `purchase` (`id`, `organization_id`, `branch_id`, `ip_address`, `invoice_code`, `code_random`, `invoice_no`, `purchase_date`, `supplier_id`, `store_id`, `totalQty`, `allTotal`, `totalDiscount`, `totalRebate`, `totalAmount`, `paidAmount`, `dueAmount`, `is_active`, `create_user`, `create_date`) VALUES
-(5, 3, 1, '', '17112025152356', 1, 'GRN-0001', 1763316000, 21, 1, 2, 6215.00, 155.00, 60.00, 6000.00, 5000.00, 1000.00, 1, 17, 1763371480),
-(6, 3, 1, '', '17112025152356', 2, 'GRN-0002', 1763316000, 21, 1, 2, 6215.00, 155.00, 60.00, 6000.00, 5000.00, 1000.00, 1, 17, 1763371724),
-(7, 3, 1, '', '17112025154115', 3, 'GRN-0003', 1763316000, 21, 1, 1, 450.00, 0.00, 50.00, 400.00, 0.00, 400.00, 1, 17, 1763373081),
-(8, 3, 1, '', '17112025154115', 4, 'GRN-0004', 1763316000, 21, 1, 1, 450.00, 0.00, 50.00, 400.00, 0.00, 400.00, 1, 17, 1763373155),
-(9, 3, 1, '', '17112025163214', 5, 'GRN-0005', 1763316000, 21, 1, 2, 950.00, 0.00, 50.00, 900.00, 0.00, 900.00, 1, 17, 1763375562),
-(10, 3, 1, '', '17112025163243', 6, 'GRN-0006', 1763316000, 21, 1, 1, 450.00, 0.00, 50.00, 400.00, 0.00, 400.00, 1, 17, 1763375601),
-(11, 3, 1, '', '18112025122916', 7, 'GRN-0007', 1763402400, 20, 1, 2, 950.00, 50.00, 100.00, 800.00, 500.00, 300.00, 1, 17, 1763447464);
-
 -- --------------------------------------------------------
 
 --
@@ -729,15 +812,9 @@ CREATE TABLE `purchase_invoice` (
   `supplier_id` int(11) DEFAULT 0,
   `remarks` text DEFAULT NULL,
   `status` enum('Pending','Approved') NOT NULL DEFAULT 'Pending',
-  `create_date` timestamp NOT NULL DEFAULT current_timestamp()
+  `create_user` int(11) NOT NULL,
+  `create_date` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
-
---
--- Dumping data for table `purchase_invoice`
---
-
-INSERT INTO `purchase_invoice` (`id`, `organization_id`, `invoice_code`, `supplier_id`, `remarks`, `status`, `create_date`) VALUES
-(52, 3, '18112025122916', 0, NULL, 'Pending', '2025-11-18 06:29:32');
 
 -- --------------------------------------------------------
 
@@ -764,14 +841,6 @@ CREATE TABLE `purchase_items` (
   `create_date` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Dumping data for table `purchase_items`
---
-
-INSERT INTO `purchase_items` (`id`, `invoice_id`, `serial_type`, `product_id`, `price`, `qty`, `with_total_rebate`, `rebate`, `total_rebate`, `sub_total`, `sales_price`, `warrenty`, `warrenty_days`, `serial_number`, `barcode_serial`, `create_date`) VALUES
-(365, '18112025122916', 'unique', 4, 450.00, 1, 0.00, 50.00, 50.00, 400.00, 700.00, 0, 'Days', NULL, '', 1763447373),
-(366, '18112025122916', 'common', 3, 500.00, 1, 0.00, 50.00, 50.00, 450.00, 1000.00, 1, 'Days', NULL, '', 1763447433);
-
 -- --------------------------------------------------------
 
 --
@@ -783,13 +852,6 @@ CREATE TABLE `purchase_item_serials` (
   `item_id` int(11) NOT NULL,
   `serial_number` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
-
---
--- Dumping data for table `purchase_item_serials`
---
-
-INSERT INTO `purchase_item_serials` (`id`, `item_id`, `serial_number`) VALUES
-(116, 365, 'rrrrrrrrrrr');
 
 -- --------------------------------------------------------
 
@@ -855,7 +917,9 @@ INSERT INTO `role_menu` (`id`, `role_id`, `menu_id`) VALUES
 (15, 3, 16),
 (17, 3, 17),
 (18, 3, 18),
-(19, 3, 19);
+(19, 3, 19),
+(20, 3, 20),
+(21, 3, 21);
 
 -- --------------------------------------------------------
 
@@ -1265,7 +1329,7 @@ ALTER TABLE `warehouse`
 -- AUTO_INCREMENT for table `acc_general_ledger`
 --
 ALTER TABLE `acc_general_ledger`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=55;
 
 --
 -- AUTO_INCREMENT for table `branch`
@@ -1283,25 +1347,25 @@ ALTER TABLE `brands`
 -- AUTO_INCREMENT for table `business_partner`
 --
 ALTER TABLE `business_partner`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
 
 --
 -- AUTO_INCREMENT for table `inv_stock_history`
 --
 ALTER TABLE `inv_stock_history`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
 
 --
 -- AUTO_INCREMENT for table `inv_stock_item_serial`
 --
 ALTER TABLE `inv_stock_item_serial`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=63;
 
 --
 -- AUTO_INCREMENT for table `inv_stock_master`
 --
 ALTER TABLE `inv_stock_master`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT for table `login_credential`
@@ -1313,13 +1377,13 @@ ALTER TABLE `login_credential`
 -- AUTO_INCREMENT for table `logs`
 --
 ALTER TABLE `logs`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=147;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=286;
 
 --
 -- AUTO_INCREMENT for table `menus`
 --
 ALTER TABLE `menus`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT for table `organizations`
@@ -1361,25 +1425,25 @@ ALTER TABLE `products_groups`
 -- AUTO_INCREMENT for table `purchase`
 --
 ALTER TABLE `purchase`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=59;
 
 --
 -- AUTO_INCREMENT for table `purchase_invoice`
 --
 ALTER TABLE `purchase_invoice`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=53;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=70;
 
 --
 -- AUTO_INCREMENT for table `purchase_items`
 --
 ALTER TABLE `purchase_items`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=367;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=389;
 
 --
 -- AUTO_INCREMENT for table `purchase_item_serials`
 --
 ALTER TABLE `purchase_item_serials`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=117;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=145;
 
 --
 -- AUTO_INCREMENT for table `roles`
@@ -1391,7 +1455,7 @@ ALTER TABLE `roles`
 -- AUTO_INCREMENT for table `role_menu`
 --
 ALTER TABLE `role_menu`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT for table `role_permissions`

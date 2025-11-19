@@ -1,5 +1,5 @@
 <?php
-class Purchase extends MX_Controller
+class Order extends MX_Controller
 {
   public function __construct() {
     parent::__construct();
@@ -10,10 +10,10 @@ public function index()
 {
  
     $data = array();
-    $data['active']    = "purchase";
-    $data['title'] = "Purchase List"; 
-    $data['allPdt']       = $this->purchase_model->getPurchaseList();
-    $data['content'] = $this->load->view("purchase-list", $data, TRUE);
+    $data['active']    = "order";
+    $data['title'] = "Order List"; 
+    $data['allPdt']       = $this->purchase_model->getOrderList();
+    $data['content'] = $this->load->view("order-list", $data, TRUE);
     $this->load->view('layout/master', $data);
  }
  
@@ -289,8 +289,7 @@ public function index()
    #####################################################################
 
           // Start Stock
-    $existing = $this->purchase_model->get_items_by_stock($invoice_code);
-    
+    $existing = $this->purchase_model->get_items_by_invoice($invoice_code);
     foreach($existing as $products){
         $product_id     = $products->product_id;
         $price          = $products->price;
@@ -300,8 +299,7 @@ public function index()
 
         $date = date("Y-m-d H:i:s");
 
-
- ###################################################################
+            ###################################################################
         ############# Previus Stock History 
         #############################################################################
 
@@ -362,7 +360,6 @@ public function index()
         ############# End Previus Stock History 
         #############################################################################
         
-          
 
 
         $is_product = $this->purchase_model->get_stock_products($store_id ,$product_id );
@@ -405,15 +402,9 @@ public function index()
             $item_id = $this->db->insert_id();
         }
 
-
-
             
     
         }
-
-        
-         
-
 
         $this->session->set_flashdata('success', 'Record has been successfully saved.');
       }else{

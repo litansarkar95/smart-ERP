@@ -297,7 +297,7 @@
      <div class="col-md-2 mb-2">
         <div class="form-group">
             <label for="totaldiscount"> Discount </label>
-            <input type="text" name="totaldiscount" id="totaldiscount" value="" class="form-control " >
+            <input type="text" name="totaldiscount" id="totaldiscount" value="0" class="form-control " >
         </div>
     </div>
 

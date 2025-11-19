@@ -70,6 +70,21 @@ public function number_generator() {
         return $this->db->get()->result();
     }
 
+      public function getOrderList($id=NULL) {
+         $loggedin_org_id = $this->session->userdata("loggedin_org_id");
+        if($id){
+            $this->db->where("purchase_invoice.id",$id); 
+        }
+		$this->db->select("purchase_invoice.*, staff.first_name ");
+        $this->db->from("purchase_invoice");
+        $this->db->join('login_credential', "purchase_invoice.create_user = login_credential.id",'left');
+        $this->db->join('staff', "login_credential.user_id = staff.id",'left');
+        $this->db->where("purchase_invoice.organization_id", $loggedin_org_id);
+        $this->db->where("purchase_invoice.status", 'Pending');
+        $this->db->order_by("id", "DESC");
+        return $this->db->get()->result();
+    }
+
        public function get_stock_products($store_id ,$product_id) {
          $loggedin_org_id     = $this->session->userdata("loggedin_org_id");
          $branch_id           = $this->session->userdata("loggedin_branch_id");
@@ -84,14 +99,30 @@ public function number_generator() {
         return $this->db->get()->result();
     }
     
-public function get_items_by_invoice()
+public function get_items_by_invoice($invoice_id)
 {
-    $invoice_id = $this->input->post('invoice_id'); 
+  
 
     if ($invoice_id) {
         $this->db->select('purchase_items.*, purchase_item_serials.serial_number');
         $this->db->from('purchase_items');
         $this->db->join('purchase_item_serials', 'purchase_item_serials.item_id = purchase_items.id', 'left');
+        $this->db->where('purchase_items.invoice_id', $invoice_id);
+
+        $query = $this->db->get();
+        return $query->result();
+    } else {
+        return NULL;
+    }
+}
+
+public function get_items_by_stock($invoice_id)
+{
+
+
+    if ($invoice_id) {
+        $this->db->select('purchase_items.*');
+        $this->db->from('purchase_items');
         $this->db->where('purchase_items.invoice_id', $invoice_id);
 
         $query = $this->db->get();
@@ -134,9 +165,9 @@ public function get_stock_previous_products($store_id, $product_id)
         }
     }
 
-    public function update_current_balance($supplier_id, $paidAmount) {
+    public function update_current_balance($supplier_id, $dueAmount) {
         $current_balance = $this->get_current_balance($supplier_id);
-        $new_balance = $current_balance + $paidAmount;
+        $new_balance = $current_balance - $dueAmount;
 
         $this->db->where('id', $supplier_id); 
         $this->db->update('business_partner', ['current_balance' => $new_balance]); 

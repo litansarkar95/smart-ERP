@@ -53,7 +53,7 @@ public function index()
               $data['current_balance'] = $this->common_model->xss_clean($this->input->post("customer_balance"));
       }else{
               $data['opening_balance'] = $this->common_model->xss_clean($this->input->post("supplier_balance"));
-              $data['current_balance'] = $this->common_model->xss_clean($this->input->post("supplier_balance"));
+              $data['current_balance'] = - $this->common_model->xss_clean($this->input->post("supplier_balance"));
       }
         
 
