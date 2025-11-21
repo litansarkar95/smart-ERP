@@ -208,11 +208,26 @@
 
                                                               <div class="col-md-4 mb-2"  id="common_input"  style="display:none;">
 																<div class="form-group">
-																<label for="barcode_serial">একই সিরিয়ালে  একাধিক  পণ্য<span class="text-error"> *</span></label>
+																<label for="barcode_serial">একই সিরিয়ালে  একাধিক  পণ্য ( কোড ) <span class="text-error"> *</span></label>
 									      						<input type="text"  name="barcode_serial" id="barcode_serial" value=""   class="form-control serial_number" autofocus>
 																<span class="text-error small"><?php echo form_error('barcode_serial'); ?></span>
 																</div>
 									      					</div>
+                                                            <div class="col-md-4 mb-2" id="common_extra" style="display:none;">
+                                                                <div class="row">
+                                                                <div class="col-md-6 mb-2">
+                                                               <div class="form-group">
+                                                                    <label>Last Purchase Price</label>
+                                                                    <input type="text" id="last_purchase_price" class="form-control" readonly>
+                                                                </div></div>
+                                                                   <div class="col-md-6 mb-2">
+                                                                <div class="form-group">
+                                                                    <label>Last Barcode Serial</label>
+                                                                    <textarea id="last_barcode_serial" class="form-control" rows="2" readonly></textarea>
+                                                                </div>
+                                                                </div>
+                                                            </div></div>
+
                                                             
                                                               <div class="col-md-2 mb-2"  id="remarks"  >
 																<div class="form-group">
@@ -367,6 +382,59 @@
 </div>
 </div>
 </div>
+
+
+
+<div class="modal fade" id="editBatchModal">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+
+      <!-- Header -->
+      <div class="modal-header">
+        <h5 class="modal-title">Edit Item</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+
+      <!-- Body -->
+      <div class="modal-body">
+
+        <input type="hidden" id="edit_batch_row_id">
+
+        <!-- Price -->
+        <div class="mb-2">
+            <label>Price</label>
+            <input type="number" id="edit_batch_price" class="form-control">
+        </div>
+         <!-- Price -->
+        <div class="mb-2">
+            <label>Qty</label>
+            <input type="number" id="edit_batch_qty" class="form-control">
+        </div>
+
+        <!-- Rebate -->
+        <div class="mb-2">
+            <label>Total Rebate</label>
+            <input type="number" id="edit_batch_rebate" class="form-control">
+        </div>
+
+        <!-- Serial List Table -->
+         <div class="mb-2">
+            <label>Barcode</label>
+            <input type="text" id="edit_batch" class="form-control">
+        </div>
+
+      </div> <!-- modal-body end -->
+
+      <!-- Footer -->
+      <div class="modal-footer">
+        <button type="button" class="btn btn-success" id="updateItemBtn">Update</button>
+        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
 
 <div class="modal fade" id="editModal">
   <div class="modal-dialog">
@@ -564,6 +632,8 @@ $('#addItemBtn').on('click', function() {
            let editBtn = '';
             if(res.item.serial_type == 'unique'){
                 editBtn = '<button type="button" class="btn btn-sm btn-info editItem">✎</button> ';
+            }else{
+                  editBtn = '<button type="button" class="btn btn-sm btn-info editBatchItem">✎</button> ';
             }
 
             var newRow = '<tr data-id="'+res.item.id+'">'+
@@ -706,9 +776,9 @@ $(document).on('click', '.removeItem', function(){
 </script>
 <script>
 $(document).ready(function() {
-    // When Product Name changes
+   
     $('#product_id').change(function() {
-        var product_id = $(this).val();  // Get selected product id
+        var product_id = $(this).val();  
 
         if (product_id) {
             $.ajax({
@@ -716,25 +786,30 @@ $(document).ready(function() {
                 type: 'POST',
                 data: {product_id: product_id},
                 success: function(response) {
-                    var data = JSON.parse(response);  // Parse JSON response
-                    
-                    // Populate Price, Sales Price, Sub Total
+                    var data = JSON.parse(response);  
+   
                     $('#price').val(data.price);
                     $('#sales_price').val(data.sales_price);
                     $('#subtotal').val(data.price * $('#qty').val());  // Subtotal = Price * Qty
                     $('#warrenty').val(data.warrenty);
                     $('#warrenty_days').val(data.warrenty_days);
-                    // Check serial_type and update Qty field accordingly
+               
                     if (data.serial_type === 'common') {
-                      //  $('#qty').prop('readonly', false);  // Make Qty editable
+                      //  $('#qty').prop('readonly', false); 
                         $('#qty').val(1);  // Default value for common serial type
                         $("#common_input").slideDown();
+                        $("#common_extra").slideDown();
                         $("#unique_input").slideUp();
+
+                         // Fill Last purchase info
+                        $('#last_purchase_price').val(data.last_price);
+                        $('#last_barcode_serial').val(data.barcode_serial);
                     } else if (data.serial_type === 'unique') {
                       //  $('#qty').prop('readonly', true);  // Make Qty readonly
                         $('#qty').val(1);  // Set Qty to 1 for unique serial type
                         $("#unique_input").slideDown();
                         $("#common_input").slideUp();
+                        $("#common_extra").slideUp();
                     }
 
                     if (data.warrenty > 0) {
@@ -1010,5 +1085,72 @@ $(document).on('click', '.delete-serial', function(){
 
 
 
+$(document).on('click', '.editBatchItem', function() {
+
+    let row = $(this).closest('tr');
+    let item_id = row.data('id');
+
+    $('#edit_batch_row_id').val(item_id);
+    $('#edit_batch_price').val(row.find('.price').val());
+    $('#edit_batch_qty').val(row.find('.qty').val());
+    $('#edit_batch_rebate').val(row.find('.total_rebate').val());
+    $('#edit_batch').val(row.find('.serial_number').val());
+
+    // Load serial list via AJAX
+    $.ajax({
+        url: "<?= site_url('purchase/get_serials'); ?>",
+        type: "POST",
+        dataType: "json",
+        data: { item_id: item_id },
+        success: function(res) {
+
+            let tbody = $("#serial_list_container tbody");
+            tbody.html("");
+
+
+            $('#editBatchModal').modal('show');
+        }
+    });
+
+});
+
+
+$(document).on('click', '#updateItemBtn', function () {
+
+    let item_id = $('#edit_batch_row_id').val();
+    let price = $('#edit_batch_price').val();
+    let qty = $('#edit_batch_qty').val();
+    let rebate = $('#edit_batch_rebate').val();
+    let batch = $('#edit_batch').val();
+
+   
+
+    $.ajax({
+        url: "<?= site_url('purchase/update_item'); ?>",
+        type: "POST",
+        dataType: "json",
+        data: {
+            item_id: item_id,
+            price: price,
+            qty: qty,
+            rebate: rebate,
+            batch: batch
+        },
+        success: function(res) {
+            if (res.success) {
+
+                let row = $('tr[data-id="' + item_id + '"]');
+                row.find('.price').val(price);
+                row.find('.qty').val(qty);
+                row.find('.total_rebate').val(rebate);
+                row.find('.sub_total').val(price*qty);
+                row.find('.serial_number').val(batch);
+
+                $('#editBatchModal').modal('hide');
+            }
+        }
+    });
+
+});
 
 </script>

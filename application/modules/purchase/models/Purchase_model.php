@@ -55,6 +55,19 @@ public function number_generator() {
 
         return $query->row();  // Return the product as an object
     }
+    public function get_last_purchase_info($product_id)
+{
+    $this->db->select("price, barcode_serial");
+    $this->db->from("purchase_items");
+    $this->db->where("product_id", $product_id);
+    $this->db->order_by("id", "DESC");  // Latest record
+    $this->db->limit(1);
+
+    $query = $this->db->get();
+
+    return $query->row(); // return object or null
+}
+
 	
     public function getPurchaseList($id=NULL) {
          $loggedin_org_id = $this->session->userdata("loggedin_org_id");
@@ -173,6 +186,7 @@ public function get_stock_previous_products($store_id, $product_id)
         $this->db->update('business_partner', ['current_balance' => $new_balance]); 
         return $this->db->affected_rows() > 0;
     }
+
 
 
 

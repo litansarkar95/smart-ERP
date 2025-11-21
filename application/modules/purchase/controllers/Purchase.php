@@ -507,6 +507,10 @@ public function update(){
         if ($product_id) {
             // Fetch product details from database
             $product = $this->purchase_model->get_product_by_id($product_id);
+
+
+             // Latest purchase info
+            $last_purchase = $this->purchase_model->get_last_purchase_info($product_id);
             
             if ($product) {
                 // Return product details as JSON
@@ -515,7 +519,11 @@ public function update(){
                     'sales_price'   => $product->sales_price,
                     'serial_type'   => $product->serial_type,
                     'warrenty'      => $product->warrenty,
-                    'warrenty_days' => $product->warrenty_days
+                    'warrenty_days' => $product->warrenty_days,
+
+                    // Extra fields for common type
+                    'last_price'     => $last_purchase->price ?? 0,
+                    'barcode_serial' => $last_purchase->barcode_serial ?? '',
                 ]);
             } else {
                 echo json_encode([]);
@@ -784,14 +792,14 @@ public function delete_item_serial() {
     $serial_string = implode(',', array_column($serial_list, 'serial_number'));
 
     // return full updated info
- echo json_encode([
+     echo json_encode([
     'status' => 'success',
     'item' => [
         'id' => $item_id,
         'qty' => $new_qty,
         'sub_total' => $new_sub_total,
-        'total_rebate' => $new_total_rebate,   // 🔥 Add this
-        'serial_number' => $serial_string        // 🔥 Updated serial
+        'total_rebate' => $new_total_rebate,   
+        'serial_number' => $serial_string       
     ]
 ]);
 
@@ -799,6 +807,36 @@ public function delete_item_serial() {
 }
 
 
+public function get_serials()
+{
+    $item_id = $this->input->post('item_id');
 
+    echo json_encode([
+        'success' => true
+    ]);
+}
+
+public function update_item()
+{
+    $item_id = $this->input->post('item_id');
+    $qty = $this->input->post('qty');
+    $price = $this->input->post('price');
+    $rebate = $this->input->post('rebate');
+    $serial_number = $this->input->post('batch');
+
+
+
+    $data = [
+        'qty' => $qty,
+        'price' => $price,
+        'total_rebate' => $rebate,
+        'barcode_serial' => $serial_number,
+    ];
+
+    $this->db->where('id', $item_id);
+    $this->db->update('purchase_items', $data);
+
+    echo json_encode(['success' => true]);
+}
 
 }
