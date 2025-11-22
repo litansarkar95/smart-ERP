@@ -73,6 +73,23 @@
                                   <span class="text-error small"> <?php echo form_error('brand_id'); ?>   </span>
                                 </div></div>
                                 <!-- end Brand -->
+                                   <div class="col-md-3 mb-3">
+                                                        <div class="form-group">
+                                                            <label for="product_code">Product Code <span class="text-error">*</span></label>
+                                                            
+                                                            <div class="input-group">
+                                                            <input type="text" name="product_code" id="product_code" 
+                                                                    value="<?php echo set_value('product_code'); ?>" 
+                                                                    class="form-control" placeholder="Enter product code">
+                                                            
+                                                            <span class="input-group-text pointer random_num" id="random_num" style="cursor:pointer;">
+                                                                <i class="fa fa-random"></i>
+                                                            </span>
+                                                            </div>
+
+                                                            <span class="text-error small"><?php echo form_error('product_code'); ?></span>
+                                                        </div>
+                                                        </div>
                                   <!-- start input -->
                                  
                                             <div class="col-md-3 mb-3">
@@ -358,7 +375,8 @@ $(document).ready(function () {
 		<script> 
 
              $(".random_num").click(function() {
-                $("#product_code").val(Math.floor(Math.random() * 100000000) );
+                $("#product_code").val(Math.floor(Math.random() * (9999 - 100 + 1)) + 100);
+
             });
 
 

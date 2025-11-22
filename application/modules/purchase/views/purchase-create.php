@@ -208,7 +208,7 @@
 
                                                               <div class="col-md-4 mb-2"  id="common_input"  style="display:none;">
 																<div class="form-group">
-																<label for="barcode_serial">একই সিরিয়ালে  একাধিক  পণ্য ( কোড ) <span class="text-error"> *</span></label>
+																<label for="barcode_serial">Batch Number <span class="text-error"> *</span></label>
 									      						<input type="text"  name="barcode_serial" id="barcode_serial" value=""   class="form-control serial_number" autofocus>
 																<span class="text-error small"><?php echo form_error('barcode_serial'); ?></span>
 																</div>
@@ -222,7 +222,7 @@
                                                                 </div></div>
                                                                    <div class="col-md-6 mb-2">
                                                                 <div class="form-group">
-                                                                    <label>Last Barcode Serial</label>
+                                                                    <label>Last Batch Number</label>
                                                                     <textarea id="last_barcode_serial" class="form-control" rows="2" readonly></textarea>
                                                                 </div>
                                                                 </div>

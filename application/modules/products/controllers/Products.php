@@ -33,6 +33,7 @@ public function index()
     $date = date("Y-m-d H:i:s");
     $data = array(   
         "organization_id"            => $this->session->userdata('loggedin_org_id'),
+        "product_code"               => $this->common_model->xss_clean($this->input->post("product_code")),   
         "name"                       => $this->common_model->xss_clean($this->input->post("name")),   
         "group_id"                   => $this->common_model->xss_clean($this->input->post("group_id")),   
         "brand_id"                   => $this->common_model->xss_clean($this->input->post("brand_id")),   

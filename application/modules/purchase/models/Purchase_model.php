@@ -83,6 +83,20 @@ public function number_generator() {
         return $this->db->get()->result();
     }
 
+
+    public function PurchaseItemDetailsList($id) {
+        $loggedin_org_id = $this->session->userdata("loggedin_org_id");
+       
+		$this->db->select("inv_stock_history.* , products.name title , unit.name unit");
+        $this->db->from("inv_stock_history");
+        $this->db->join('products', "inv_stock_history.product_id = products.id",'left');
+        $this->db->join('unit', "products.unit_id = unit.id",'left');
+        $this->db->where("inv_stock_history.organization_id", $loggedin_org_id);
+        $this->db->where("inv_stock_history.purchase_id",$id);
+        $this->db->order_by("id", "DESC");
+        return $this->db->get()->result();
+    }
+
       public function getOrderList($id=NULL) {
          $loggedin_org_id = $this->session->userdata("loggedin_org_id");
         if($id){

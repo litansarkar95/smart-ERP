@@ -178,12 +178,14 @@ public function index()
    #####################################################################
     // Start inv_stock_item_serial
     $items  = $this->purchase_model->get_items_by_invoice($invoice_code);
+
+ 
  
     foreach($items  as $item){
         if ($item->serial_type == 'common') {
             // যদি barcode_serial থাকে
             if (!empty($item->barcode_serial)) {
-                for ($i = 1; $i <= $item->qty; $i++) {
+              //  for ($i = 1; $i <= $item->qty; $i++) {
                      $pdata = array(   
                     "organization_id"            => $this->session->userdata('loggedin_org_id'),
                     "branch_id"                  => $this->session->userdata('loggedin_branch_id'), 
@@ -191,21 +193,21 @@ public function index()
                     "store_id"                   => $this->common_model->xss_clean($this->input->post("store_id")),   
                     "product_id"                 => $item->product_id,   
                     "purchase_price"             => $item->price - $item->rebate,   
-                    "rebate"                     =>  $item->rebate,    
+                    "rebate"                     => $item->rebate,    
                     "sales_price"                => $item->sales_price,        
-                    "quanity"                    => 1,   
+                    "quanity"                    => $item->qty,   
                     "is_available"               => 1,   
                     "serial_type"                => $item->serial_type,   
-                    "serial"                     => $item->barcode_serial,
+                    "batch_number"               => $item->barcode_serial,
                     "create_user"                => $this->session->userdata('loggedin_id'),
                     "create_date"                => strtotime($date),
                 
                 );
-            $this->common_model->save_data("inv_stock_item_serial", $pdata);
-                }
+            $this->common_model->save_data("inv_stock_item_batch", $pdata);
+                //}
             } else {
                 // barcode_serial ফাঁকা => unique code generate করো
-                for ($i = 1; $i <= $item->qty; $i++) {
+              //  for ($i = 1; $i <= $item->qty; $i++) {
                     $unique_code = strtoupper(uniqid('SN'));
                      $pdata = array(   
                     "organization_id"            => $this->session->userdata('loggedin_org_id'),
@@ -216,17 +218,17 @@ public function index()
                     "purchase_price"             => $item->price - $item->rebate,     
                     "rebate"                     =>  $item->rebate,  
                     "sales_price"                => $item->sales_price,        
-                    "quanity"                    => 1,   
+                    "quanity"                    => $item->qty,    
                     "is_available"               => 1,   
                     "serial_type"                => $item->serial_type,   
-                    "serial"                     => $unique_code,
+                    "batch_number"               => $unique_code,
                     "create_user"                => $this->session->userdata('loggedin_id'),
                     "create_date"                => strtotime($date),
                 
                 );
-                    $this->common_model->save_data("inv_stock_item_serial", $pdata);
+                    $this->common_model->save_data("inv_stock_item_batch", $pdata);
                  //   echo "Invoice: {$item->invoice_id} | Product: {$item->product_id} | Unique Code: {$unique_code} <br>";
-                }
+               // }
             }
         }elseif ($item->serial_type == 'unique') {
          if (!empty($item->serial_number)) {
@@ -838,5 +840,17 @@ public function update_item()
 
     echo json_encode(['success' => true]);
 }
+
+
+public function invoice($id)
+{
+ 
+    $data = array();
+    $data['active']       = "order";
+    $data['title']        = "Order List"; 
+    $data['allPdt']       = $this->purchase_model->getPurchaseList($id);
+    $data['allDets']       = $this->purchase_model->PurchaseItemDetailsList($id);
+    $this->load->view('invoice', $data);
+ }
 
 }
