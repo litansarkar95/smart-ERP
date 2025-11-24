@@ -157,178 +157,53 @@ public function add_item_ajax()
 {
     $product_id      = $this->input->post('product_id');
     $invoice_id      = $this->input->post('invoice_id');
-    $qty             = $this->input->post('qty') ?: 0;
-    $price           = $this->input->post('price') ?: 0;
-    $rebate          = $this->input->post('rebate') ?: 0;
-    $serial_numbers  = $this->input->post('serial_number') ?: '';
-    $barcode_serial  = $this->input->post('barcode_serial') ?: '';
-    $sales_price     = $this->input->post('sales_price') ?: 0;
-    $warrenty        = $this->input->post('warrenty') ?: 0;
-    $warrenty_days   = $this->input->post('warrenty_days') ?: '';
-
     if(!$product_id || !$invoice_id){
         echo json_encode(['status' => 'error', 'msg' => 'Missing invoice or product']);
         return;
     }
 
     // Load product info
-    $this->db->select('p.name as product_name, u.name as unit_name, p.serial_type');
-    $this->db->from('products p');
+    $this->db->select('inv.*,p.name as product_name, u.name as unit_name, p.serial_type');
+    $this->db->from('inv_stock_master inv');
+    $this->db->join('products p', 'p.id = inv.product_id', 'left');
     $this->db->join('unit u', 'u.id = p.unit_id', 'left');
     $this->db->where('p.id', $product_id);
     $product = $this->db->get()->row();
-
     $serial_type = $product->serial_type ?? 'common';
     $unit_name = $product->unit_name ?? '';
 
     // ======================
-    // 1. SERIAL DUPLICATE CHECK (BEFORE ITEM UPDATE)
-    // ======================
 
-    if($serial_type == 'unique' && !empty($serial_numbers)){
-
-        $serial_array = explode(',', $serial_numbers);
-
-        foreach($serial_array as $s){
-            $s = trim($s);
-            if($s == '') continue;
-
-            $exists = $this->db->get_where('purchase_item_serials', [
-                'serial_number' => $s
-            ])->row();
-
-            if($exists){
-                echo json_encode([
-                    'status' => 'error',
-                    'msg' => "Duplicate Serial Found: $s"
-                ]);
-                return; // 🚫 Stop everything (NO item update)
-            }
-        }
-    }
-
-    // start invoice
-
-    $is_invoice = $this->db->get_where('purchase_invoice', [
-        'invoice_code' => $invoice_id,
-    ])->row();
-  
-    if(!$is_invoice){
-          $date = date("Y-m-d H:i:s");
-         $this->db->insert('purchase_invoice', [
-            'organization_id' =>$this->session->userdata('loggedin_org_id'),
-            'invoice_code' => $invoice_id,
-            'create_user' => $this->session->userdata('loggedin_id'),
-            'create_date' => strtotime($date)]);
-            $item_id = $this->db->insert_id();
-
-    }
-
-    // ======================
-    // 2. ITEM INSERT / UPDATE
-    // ======================
-
-    $existing_item = $this->db->get_where('purchase_items', [
+    $existing_item = $this->db->get_where('sales_items', [
         'invoice_id' => $invoice_id,
         'product_id' => $product_id
     ])->row();
 
-    $date = date("Y-m-d H:i:s");
-
     if($existing_item){
-
-        $new_qty = $existing_item->qty + $qty;
-
-        $total_rebate = $existing_item->rebate * $new_qty;
-        $sub_total = ($price * $new_qty) - $total_rebate;
-
-        $this->db->where('id', $existing_item->id)->update('purchase_items', [
-            'price' => $price,
-            'qty' => $new_qty,
-            'total_rebate' => $total_rebate,
-            'sub_total' => $sub_total,
-            'sales_price' => $sales_price,
-            'warrenty' => $warrenty,
-            'warrenty_days' => $warrenty_days,
-            'barcode_serial' => $barcode_serial
-        ]);
-
-        $item_id = $existing_item->id;
-
-    } else {
-
-        $total_rebate = $rebate * $qty;
-        $sub_total = ($price * $qty) - $total_rebate;
-
-        $this->db->insert('purchase_items', [
-            'invoice_id'    => $invoice_id,
-            'product_id'    => $product_id,
-            'serial_type'   => $serial_type,
-            'price'         => $price,
-            'qty'           => $qty,
-            'rebate'        => $rebate,
-            'total_rebate'  => $total_rebate,
-            'sub_total'     => $sub_total,
-            'sales_price'   => $sales_price,
-            'warrenty'      => $warrenty,
-            'warrenty_days' => $warrenty_days,
-            'barcode_serial'=> $barcode_serial,
-            'create_date'   => strtotime($date)
-        ]);
-
-        $item_id = $this->db->insert_id();
+      $serial_type ="asse";
+    }else{
+         $serial_type ="noi";
     }
 
-    // ======================
-    // 3. SERIAL INSERT (SAFE NOW)
-    // ======================
+     $qty             =  1;
+     $price           =  $product->sales_price;
+     $sub_total = ($qty * $price);
+   
+ 
 
-    if($serial_type == 'unique' && !empty($serial_numbers)){
-
-        $serial_array = explode(',', $serial_numbers);
-
-        foreach($serial_array as $serial){
-            $serial = trim($serial);
-            if($serial == '') continue;
-
-            $this->db->insert('purchase_item_serials', [
-                'item_id' => $item_id,
-                'serial_number' => $serial
-            ]);
-        }
-
-        // Update qty from serial count
-        $new_qty = $this->db->where('item_id', $item_id)->count_all_results('purchase_item_serials');
-        $this->db->where('id', $item_id)->update('purchase_items', ['qty' => $new_qty]);
-    }
-
-    // ======================
-    // 4. FINAL OUTPUT
-    // ======================
-
-    $item = $this->db->get_where('purchase_items', ['id' => $item_id])->row();
-
-    if($serial_type == 'unique'){
-        $serial_list = $this->db->select('serial_number')->where('item_id', $item_id)->get('purchase_item_serials')->result_array();
-        $serial_str = implode(',', array_column($serial_list, 'serial_number'));
-    } else {
-        $serial_str = $barcode_serial;
-    }
 
     echo json_encode([
         'status' => 'success',
         'item' => [
-            'id' => $item->id,
-            'serial_type' => $item->serial_type,
-            'product_name' => $product->product_name,
-            'qty' => $item->qty,
-            'price' => $item->price,
-            'sub_total' => $item->sub_total,
-            'total_rebate' => $item->total_rebate ,
-            'warrenty' => $item->warrenty,
-            'warrenty_days' => $item->warrenty_days,
-            'serial_number' => $serial_str,
-            'unit_name' => $unit_name
+            'id'               => $item->id,
+            'product_name'     => $product->product_name,
+            'unit_name'        => $unit_name,
+            'warrenty'         => $product->warrenty,
+            'warrenty_days'    => $product->warrenty_days,
+            'price'            => $price,
+            'qty'              => $qty,
+            'sub_total'        => $sub_total,
+            'rebate'        => $rebate,
         ]
     ]);
 }

@@ -299,6 +299,8 @@ public function index()
         $rebate         = $products->rebate;
         $quanity        = $products->qty;
         $sales_price    = $products->sales_price;
+        $warrenty       = $products->warrenty;
+        $warrenty_days  = $products->warrenty_days;
 
         $date = date("Y-m-d H:i:s");
 
@@ -384,6 +386,8 @@ public function index()
                 'rebate'             => $rebate,
                 'sales_price'        => $sales_price,
                 'quanity'            => $new_qty + $quanity,
+                'warrenty'           => $warrenty,
+                'warrenty_days'      => $warrenty_days,
                 'update_user'        => $this->session->userdata('loggedin_id'),
                 'update_date'        => strtotime($date),
             ]);
@@ -400,6 +404,8 @@ public function index()
                 'rebate'             => $rebate,
                 'sales_price'        => $sales_price,
                 'quanity'            => $quanity,
+                'warrenty'           => $warrenty,
+                'warrenty_days'      => $warrenty_days,
                 'is_active'          => 1,
                 'create_user'        => $this->session->userdata('loggedin_id'),
                 'create_date'        => strtotime($date),
