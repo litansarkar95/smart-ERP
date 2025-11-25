@@ -1,6 +1,6 @@
 <?php
 
-class Purchase_model extends CI_Model {
+class Sales_model extends CI_Model {
 
       public function get_products_by_group($group_id) {
          $loggedin_org_id = $this->session->userdata("loggedin_org_id");
@@ -12,8 +12,10 @@ class Purchase_model extends CI_Model {
         $this->db->where('is_inventory', 1);
         $query = $this->db->get();
 
-        return $query->result(); // Return the result as an array of objects
+        return $query->result(); 
     }
+
+    
 
  public function getSuplier() {
     $loggedin_org_id = $this->session->userdata("loggedin_org_id");

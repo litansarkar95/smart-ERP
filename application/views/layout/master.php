@@ -51,6 +51,7 @@
 								<div class="nav_bar_container">
 									<div class="nav_left">
 										
+										<!-- top menu end -->
 
 										<!-- top menu start -->
 									 <?php include('top_menu.php'); ?>

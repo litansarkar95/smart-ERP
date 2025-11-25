@@ -201,7 +201,7 @@ p{
 }
 
 .header_menu li:hover .nav_sub_menu{
-	display: block!important;
+	display: block !important;
 }
 .nav_sub_menu li{
 	padding: 0;

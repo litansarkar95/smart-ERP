@@ -51,11 +51,17 @@
           <div class="col-12">
                 <form  action="<?php echo base_url(); ?>sales/create" method="post" enctype="multipart/form-data">
                                                             <div class="row mb-3">
+    <div class="col-md-12 mb-2">
+        <div class="form-group">
+           
+           <input type="text" name="previousDue" placeholder="Scan Barcode & Hit Enter....."     class="form-control " autofocus>
 
+        </div>
+    </div>
                                      <div class="col-md-2 mb-2">
 																<div class="form-group">
 																<label for="invoice_no">Invoice No <span class="text-error"> *</span></label>
-									      						<input type="text"  name="invoice_no" id="invoice_no" value="<?= $invoice_no; ?>"   class="form-control" readonly>
+									      						<input type="text"   name="invoice_no" id="invoice_no" value="<?= $invoice_no; ?>"   class="form-control" readonly>
 																<span class="text-error small"><?php echo form_error('invoice_no'); ?></span>
 																</div>
 									      					</div>   
@@ -89,7 +95,7 @@
                                 <div class="form-group">
                                     <label for="customer_name">Customer Name</label>
                           
-                                       <input type="text" name="customer_name" id="customer_name" value="" class="form-control ">
+                                       <input type="text"  name="customer_name" id="customer_name" value="" class="form-control ">
                                  
                                     <span class="text-error small"><?= form_error('customer_name'); ?></span>
                                 </div>
@@ -164,8 +170,8 @@
                                     <select name="product_id"  id="product_id"     class="form-control frm_select select2">
                                        <option  value="">  Select  </option>
                                      <?php foreach($allPro as $pro): ?>
-                    <option value="<?= $pro->id ?>" ><?= $pro->name ?></option>
-                <?php endforeach; ?>
+                            <option value="<?= $pro->id ?>" ><?= $pro->name ?></option>
+                        <?php endforeach; ?>
                                     </select>
                                     <i class="fas fa-caret-down"></i>
                                   </div>
@@ -176,14 +182,19 @@
 
        
                                                          
+<div class="col-md-4 mb-2" id="uniqueSerialBox" style="display:none;">
+    <div class="form-group">
+        <label for="unique_serial">Unique Serial <span class="text-error">*</span></label>
+        <div class="select_2_container">
+            <select name="unique_serial" id="unique_serial" class="form-control frm_select select2">
+                <option value="">Select</option>
+            </select>
+            <i class="fas fa-caret-down"></i>
+        </div>
+        <span class="text-error small"></span>
+    </div>
+</div>
 
-                                                            <div class="col-md-4 mb-2" id="unique_input" >
-																<div class="form-group">
-																<label for="item_serial">প্রতি পণ্যে আলাদা সিরিয়াল  <span class="text-error"> *</span></label>
-									      						<input type="text"  name="item_serial" id="item_serial" value=""   class="form-control serial_number" >
-																<span class="text-error small"><?php echo form_error('item_serial'); ?></span>
-																</div>
-									      					</div>
 
                                                              
                                                         
@@ -259,8 +270,8 @@
 
       <div class="col-md-2 mb-2">
         <div class="form-group">
-            <label for="totalRebate">Total Rebate  </label>
-            <input type="text" name="totalRebate" id="totalRebate" value="" class="form-control totalRebate" >
+            <label for="totalDiscount">Total Discount  </label>
+            <input type="text" name="totalDiscount" id="totalDiscount" value="" class="form-control totalDiscount" >
         </div>
     </div>
 
@@ -273,8 +284,8 @@
 
      <div class="col-md-2 mb-2">
         <div class="form-group">
-            <label for="totaldiscount"> Discount </label>
-            <input type="text" name="totaldiscount" id="totaldiscount" value="0" class="form-control " >
+            <label for="adjustment"> Adjustment </label>
+            <input type="text" name="adjustment" id="adjustment" value="0" class="form-control " >
         </div>
     </div>
 
@@ -345,56 +356,361 @@
 </div>
 </div>
 
+<script>
+$(document).ready(function() {
+  
+    $('#group_id').change(function() {
+        var group_id = $(this).val();  
 
+        if(group_id) {
+            $.ajax({
+                url: '<?php echo base_url("sales/get_products_by_group"); ?>',  
+                type: 'POST',
+                data: {group_id: group_id},
+                success: function(response) {
+                    $('#product_id').html(response);
+                }
+            });
+        } else {
+            $('#product_id').html('<option value="">Select</option>');
+        }
+    });
+
+    
+$('#product_id').change(function() {
+
+    var product_id = $(this).val();  
+
+    if(product_id) {
+
+        $.ajax({
+            url: '<?= base_url("sales/get_unique_serial_by_products"); ?>',
+            type: 'POST',
+            data: {product_id: product_id},
+
+            success: function(response) {
+
+                // destroy old select2
+                $('#unique_serial').select2('destroy');
+
+                if(response.trim() === "common"){
+                    $('#uniqueSerialBox').hide();
+
+                    // empty dropdown
+                    $('#unique_serial').html('<option value="">Select</option>');
+                } 
+                else {
+                    $('#uniqueSerialBox').show();
+
+                    // load new serial list
+                    $('#unique_serial').html(response);
+                }
+
+                // reinitialize select2
+                $('#unique_serial').select2();
+            }
+        });
+
+    } else {
+
+        $('#uniqueSerialBox').hide();
+
+        // destroy + reset + reinit select2
+        $('#unique_serial').select2('destroy');
+        $('#unique_serial').html('<option value="">Select</option>');
+        $('#unique_serial').select2();
+    }
+});
+
+
+});
+
+function updateOrderSummary(){
+    let subtotal = 0;
+    let totalDiscount = 0;
+
+    $('#itemsTable tbody tr').each(function(){
+        let sub_total = parseFloat($(this).find('.sub_total').val()) || 0;
+        let discount_amount = parseFloat($(this).find('.discount_amount').val()) || 0;
+
+        subtotal += sub_total;
+        totalDiscount += discount_amount;
+    });
+
+    let total = subtotal - totalDiscount;
+
+    let adjustment = parseFloat($('#adjustment').val()) || 0;
+    let payable = total + adjustment;
+
+    // Update fields
+    $('#subtotalAmount').val(subtotal.toFixed(2));
+    $('#totalDiscount').val(totalDiscount.toFixed(2));
+    $('#totalOrderAmount').val(subtotal.toFixed(2)); // if totalOrder = subtotal
+    $('#totalAmount').val(total.toFixed(2));
+    $('#dueAmount').val(payable.toFixed(2));
+}
+</script>
 
 
 <script>
 $('#addItemBtn').on('click', function() {
-    var invoice_id = $('#invoice_id').val();
+
     var product_id = $('#product_id').val();
-    var product_name = $('#product_id option:selected').text();
+    var unique_serial = $('#unique_serial').val();
 
-
-
-    if(!product_id){
-        alert("Select a product!");
+    if (!product_id) {
+        iziToast.error({
+            message: "Please select a product!",
+            position: 'topRight'
+        });
         return;
     }
 
-     $.ajax({
-        url: '<?= base_url("sales/add_item_ajax") ?>',
-        type: 'POST',
-        dataType: 'json',
-        data: {
-            invoice_id: invoice_id,
-            product_id: product_id,
-      
+    $.ajax({
+        url: "<?= base_url('sales/add_item_ajax') ?>",
+        type: "POST",
+        dataType: "json",
+        data: { product_id: product_id },
+        success: function(res) {
+
+            if(res.status !== "success"){
+                iziToast.error({
+                    message: "Error: " + (res.msg || "Something went wrong!"),
+                    position: "topRight"
+                });
+                return;
+            }
+
+            let serial_type = res.item.serial_type;
+
+            /* *********************
+             UNIQUE SERIAL PRODUCT  
+            *********************** */
+            if(serial_type === "unique"){
+
+                if(unique_serial === ""){
+                    iziToast.error({
+                        message: "Please select a serial first!",
+                        position: 'topRight'
+                    });
+                    return;
+                }
+
+                var found = false;
+
+                $('#itemsTable tbody tr').each(function(){
+                    let rowProduct  = $(this).attr("data-product");
+                    let serialField = $(this).find(".serial_number");
+
+                    if(rowProduct == product_id){
+
+                        found = true;
+
+                        // Get existing serials
+                        let oldSerials = serialField.val() ? serialField.val().split(",") : [];
+
+                        if(oldSerials.includes(unique_serial)){
+                            iziToast.error({
+                                message: "This serial already added!",
+                                position: "topRight"
+                            });
+                            return false;
+                        }
+
+                        // Append new serial
+                        oldSerials.push(unique_serial);
+                        serialField.val(oldSerials.join(","));
+
+                        // Increase qty
+                        let qtyInput = $(this).find(".qty");
+                        let newQty = parseInt(qtyInput.val()) + 1;
+                        qtyInput.val(newQty);
+
+                        // Update subtotal & net total
+                        let price = parseFloat($(this).find(".price").val());
+                        let subTotal = price * newQty;
+                       $(this).find(".sub_total").val(subTotal);
+                        $(this).find(".net_total").val(subTotal);
+
+         
+
+
+                        iziToast.success({
+                            message: "Serial added successfully!",
+                            position: "topRight"
+                        });
+
+                        return false;
+                    }
+                   
+                });
+
+                // If no existing line → add new row
+                if(!found){
+                    addNewRow(res, unique_serial);
+                    iziToast.success({
+                        message: "Item added successfully!",
+                        position: "topRight"
+                    });
+                }
+                 updateOrderSummary();
+
+                return;
+            }
+
+            /* *********************
+               COMMON PRODUCT
+            *********************** */
+            var exists = false;
+
+            $('#itemsTable tbody tr').each(function(){
+                let rowProduct = $(this).attr("data-product");
+
+                if(rowProduct == product_id){
+                    exists = true;
+
+                    // increase qty
+                    let qtyInput = $(this).find(".qty");
+                    let newQty = parseInt(qtyInput.val()) + 1;
+                    qtyInput.val(newQty);
+
+                    // Update subtotal & net total
+                    let price = parseFloat($(this).find(".price").val());
+                    let subTotal = price * newQty;
+                    $(this).find(".sub_total").val(subTotal);
+                    $(this).find(".net_total").val(subTotal);
+
+                   
+
+
+                    iziToast.success({
+                        message: "Quantity updated successfully!",
+                        position: "topRight"
+                    });
+
+                    return false;
+                }
+            });
+
+            if(!exists){
+                addNewRow(res, "");
+                iziToast.success({
+                    message: "Item added successfully!",
+                    position: "topRight"
+                });
+              
+            }
+
+             updateOrderSummary();
+
+              
         },
-       success: function(res){
 
-         if(res.status == 'success'){
-          var newRow = '<tr data-id="'+res.item.id+'">'+
-                '<td>'+($('#itemsTable tbody tr').length+1)+'</td>'+
-                '<td>'+res.item.product_name+'</td>'+
-                '<td>'+res.item.warrenty+ ' '+res.item.warrenty_days +'</td>'+
-                '<td><input type="number" class="price form-control" value="'+res.item.price+'" ></td>'+
-                '<td><input type="number" class="qty form-control" value="'+res.item.qty+'" ></td>'+
-                '<td><input type="number" class="sub_total form-control" value="'+res.item.sub_total+'" readonly></td>'+
-                '<td><input type="number" class="sub_total form-control" value="" placeholder="%"></td>'+
-                '<td><input type="number" class="sub_total form-control" value="" ></td>'+
-                '<td><input type="number" class="sub_total form-control" value="" ></td>'+
-                '<td><textarea class="serial_number form-control" readonly>'+res.item.serial_number+'</textarea></td>'+
-               
-             
-            '</tr>';
-
-            $('#itemsTable tbody').append(newRow);
-       }
-    }
-
-        });
-
+        error: function(xhr, status, error){
+            iziToast.error({
+                message: "Request failed: " + error,
+                position: "topRight"
+            });
+        }
     });
+
+});
+
+
+
+// ---------------- ADD NEW ROW FOR BOTH UNIQUE & COMMON ----------------
+function addNewRow(res, serial){
+  
+    let product_id = $('#product_id').val();
+    let serial_type = res.item.serial_type; // unique / common
+    let qtyValue = (serial_type === 'unique') ? 1 : res.item.qty;
+    let priceValue = res.item.price;
+    let subTotal = priceValue * qtyValue;
+
+    // Qty readonly for unique, editable for common
+    let qtyField = (serial_type === 'unique') ? 
+        '<input type="number" class="qty form-control" value="'+qtyValue+'" readonly>' : 
+        '<input type="number" class="qty form-control" value="'+qtyValue+'">';
+
+  
+        // Discount fields (editable for all products)
+    let discountPercentField = '<input type="number" class="discount_percent form-control" value="">';
+    let discountAmountField = '<input type="number" class="discount_amount form-control" value="">';
+
+    let newRow = '<tr data-product="'+product_id+'">'+
+        '<td>' + ($('#itemsTable tbody tr').length + 1) + '</td>'+
+        '<td>' + res.item.product_name + '</td>'+
+        '<td>' + res.item.warrenty + ' ' + res.item.warrenty_days + '</td>'+
+        '<td><input type="number" class="price form-control" value="'+priceValue+'" ></td>'+
+        '<td>' + qtyField + '</td>'+
+        '<td><input type="number" class="sub_total form-control" value="'+subTotal+'" readonly></td>'+
+        '<td>' + discountPercentField + '</td>'+
+        '<td>' + discountAmountField + '</td>'+
+        '<td><input type="number" class="net_total form-control" value="'+subTotal+'" readonly></td>'+
+        '<td><textarea class="serial_number form-control" readonly>'+serial+'</textarea></td>'+
+    '</tr>';
+
+    $('#itemsTable tbody').append(newRow);
+
+    // ----------------- Event Handlers -----------------
+    let $row = $('#itemsTable tbody tr').last();
+
+    // When discount_percent changes
+    $row.find('.discount_percent').on('input', function(){
+        let percent = parseFloat($(this).val()) || 0;
+        let sub_total = parseFloat($row.find('.sub_total').val()) || 0;
+        let discount_amount = (sub_total * percent / 100).toFixed(2);
+
+        $row.find('.discount_amount').val(discount_amount);
+        $row.find('.net_total').val((sub_total - discount_amount).toFixed(2));
+         updateOrderSummary();
+    });
+
+    $('#adjustment').on('input', function(){
+    updateOrderSummary();
+});
+
+    // When discount_amount changes
+   $row.find('.discount_amount').on('input', function(){
+    let discount_amount = parseFloat($(this).val()) || 0;
+    let sub_total = parseFloat($row.find('.sub_total').val()) || 0;
+
+    $row.find('.net_total').val((sub_total - discount_amount).toFixed(2));
+
+    updateOrderSummary(); // <-- ADD
+});
+
+
+    // When qty changes (only for common products)
+    $row.find('.qty').on('input', function(){
+        let qty = parseFloat($(this).val()) || 0;
+        let price = parseFloat($row.find('.price').val()) || 0;
+        let sub_total = (qty * price).toFixed(2);
+        $row.find('.sub_total').val(sub_total);
+
+        // Update net_total based on discount
+        let discount_amount = parseFloat($row.find('.discount_amount').val()) || 0;
+        $row.find('.net_total').val((sub_total - discount_amount).toFixed(2));
+    });
+
+    // When price changes (only for common products)
+    $row.find('.price').on('input', function(){
+        let qty = parseFloat($row.find('.qty').val()) || 0;
+        let price = parseFloat($(this).val()) || 0;
+        let sub_total = (qty * price).toFixed(2);
+        $row.find('.sub_total').val(sub_total);
+
+        let discount_amount = parseFloat($row.find('.discount_amount').val()) || 0;
+        $row.find('.net_total').val((sub_total - discount_amount).toFixed(2));
+    });
+
+
+   
+}
+
+
+
+
     </script>
 
  

@@ -3,7 +3,7 @@ class Sales extends MX_Controller
 {
   public function __construct() {
     parent::__construct();
-       $this->load->model("purchase_model");
+       $this->load->model("sales_model");
  
 }
 public function index()
@@ -12,7 +12,7 @@ public function index()
     $data = array();
     $data['active']    = "purchase";
     $data['title'] = "Purchase List"; 
-    $data['allPdt']       = $this->purchase_model->getPurchaseList();
+    $data['allPdt']       = $this->sales_model->getPurchaseList();
     $data['content'] = $this->load->view("purchase-list", $data, TRUE);
     $this->load->view('layout/master', $data);
  }
@@ -41,7 +41,7 @@ public function index()
    $branch_id       = $this->session->userdata("loggedin_branch_id");
    
 
-    $int_no = $this->purchase_model->number_generator();
+    $int_no = $this->sales_model->number_generator();
   	$invoice_no = 'INV-'.str_pad($int_no,4,"0",STR_PAD_LEFT);
     
  
@@ -55,10 +55,10 @@ public function index()
     $data['allCat']         = $this->main_model->getRecordsByOrg("products_groups");
     $data['allInv']         = $this->main_model->getRecordsByOrg("warehouse");
     $data['allPro']         = $this->main_model->getRecordsByOrg("products");
-    $data['allSuplier']     = $this->purchase_model->getSuplier();
+    $data['allSuplier']     = $this->sales_model->getSuplier();
     $data['allPayment']         = $this->main_model->getRecordsByOrg("payment_method");
     // inv 
-    $int_no = $this->purchase_model->number_generator();
+    $int_no = $this->sales_model->number_generator();
   	$invoice_no = 'INV-'.str_pad($int_no,4,"0",STR_PAD_LEFT);
     $data['invoice_no'] = $invoice_no; 
     $data['content']        = $this->load->view("sales-create", $data, TRUE);
@@ -111,7 +111,7 @@ public function update(){
         
         if ($group_id) {
             // Fetch products by group_id
-            $products = $this->purchase_model->get_products_by_group($group_id);
+            $products = $this->sales_model->get_products_by_group($group_id);
 
             // Prepare options for product select
             $options = '<option value="">Select</option>';
@@ -122,6 +122,31 @@ public function update(){
             echo $options;
         }
     }
+
+
+ public function get_unique_serial_by_products()
+{
+    $product_id = $this->input->post('product_id');
+
+    // get serial type
+    $product = $this->db->get_where('products', ['id' => $product_id])->row();
+
+    if($product->serial_type == 'unique'){
+        $serials = $this->db
+            ->where('product_id', $product_id)
+            ->where('is_available', 1)
+            ->get('inv_stock_item_serial')
+            ->result();
+
+        echo '<option value="">Select</option>';
+        foreach($serials as $s){
+            echo '<option value="'.$s->serial.'">'.$s->serial.'</option>';
+        }
+    } else {
+        echo 'common';
+    }
+}
+
 
 
     public function get_product_details() {
@@ -155,58 +180,63 @@ public function update(){
     }
 public function add_item_ajax()
 {
-    $product_id      = $this->input->post('product_id');
-    $invoice_id      = $this->input->post('invoice_id');
-    if(!$product_id || !$invoice_id){
+    $product_id = $this->input->post('product_id');
+    $invoice_id = $this->input->post('invoice_id');
+
+    if(!$product_id ){
         echo json_encode(['status' => 'error', 'msg' => 'Missing invoice or product']);
         return;
     }
 
     // Load product info
-    $this->db->select('inv.*,p.name as product_name, u.name as unit_name, p.serial_type');
-    $this->db->from('inv_stock_master inv');
-    $this->db->join('products p', 'p.id = inv.product_id', 'left');
+    $this->db->select('p.*, u.name as unit_name');
+    $this->db->from('products p');
     $this->db->join('unit u', 'u.id = p.unit_id', 'left');
     $this->db->where('p.id', $product_id);
     $product = $this->db->get()->row();
-    $serial_type = $product->serial_type ?? 'common';
-    $unit_name = $product->unit_name ?? '';
 
-    // ======================
-
-    $existing_item = $this->db->get_where('sales_items', [
-        'invoice_id' => $invoice_id,
-        'product_id' => $product_id
-    ])->row();
-
-    if($existing_item){
-      $serial_type ="asse";
-    }else{
-         $serial_type ="noi";
+    if(!$product){
+        echo json_encode(['status' => 'error', 'msg' => 'Product not found']);
+        return;
     }
 
-     $qty             =  1;
-     $price           =  $product->sales_price;
-     $sub_total = ($qty * $price);
-   
- 
+    // SERIAL TYPE: unique / common
+    $serial_type = $product->serial_type;
 
+    // ================== GET SERIAL LIST IF UNIQUE ==================
+    $serial_list = [];
+    if($serial_type == 'unique'){
+        $serial_list = $this->db
+            ->where('product_id', $product_id)
+            ->where('is_available', 1)
+            ->where('serial_type', 'unique')
+            ->get('inv_stock_item_serial')
+            ->result();
+    }
+
+    // default qty & price
+    $qty = 1;
+    $price = $product->sales_price;
+    $sub_total = $qty * $price;
 
     echo json_encode([
         'status' => 'success',
         'item' => [
-            'id'               => $item->id,
-            'product_name'     => $product->product_name,
-            'unit_name'        => $unit_name,
-            'warrenty'         => $product->warrenty,
-            'warrenty_days'    => $product->warrenty_days,
-            'price'            => $price,
-            'qty'              => $qty,
-            'sub_total'        => $sub_total,
-            'rebate'        => $rebate,
+            'product_name'  => $product->name,
+            'unit_name'     => $product->unit_name,
+            'warrenty'      => $product->warrenty,
+            'warrenty_days' => $product->warrenty_days,
+            'serial_type'   => $serial_type,
+            'price'         => $price,
+            'qty'           => $qty,
+            'sub_total'     => $sub_total,
+
+            // NEW FIELD FOR UNIQUE SERIAL LIST
+            'serial_list'   => $serial_list
         ]
     ]);
 }
+
 
 
 // Controller: Purchase.php
