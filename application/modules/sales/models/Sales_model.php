@@ -70,7 +70,34 @@ public function number_generator() {
     return $query->row(); // return object or null
 }
 
-	
+public function get_total_quantity($product_id, $invoice_code = null) 
+{
+    $organization_id = $this->session->userdata("loggedin_org_id");
+
+    // 1️⃣ total stock
+    $this->db->select('SUM(quanity) AS stock_qty');
+    $this->db->from('inv_stock_master');
+    $this->db->where('organization_id', $organization_id);
+    $this->db->where('product_id', $product_id);
+    $stock = $this->db->get()->row()->stock_qty;
+
+    // 2️⃣ total sold (exclude current invoice if provided)
+    $this->db->select('SUM(qty) AS sold_qty');
+    $this->db->from('sales_items');
+    $this->db->where('organization_id', $organization_id);
+    $this->db->where('product_id', $product_id);
+    if($invoice_code) {
+        $this->db->where('invoice_id !=', $invoice_code); // ❌ exclude current invoice
+    }
+    $sold = $this->db->get()->row()->sold_qty;
+
+    // 3️⃣ available = stock - sold
+    $available = ($stock ? $stock : 0) - ($sold ? $sold : 0);
+
+    return $available > 0 ? $available : 0;
+}
+
+
     public function getPurchaseList($id=NULL) {
          $loggedin_org_id = $this->session->userdata("loggedin_org_id");
         if($id){
