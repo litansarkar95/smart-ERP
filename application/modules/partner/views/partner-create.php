@@ -162,7 +162,16 @@
 
                                  
                                    
-                                                                       
+                                               <!-- start input -->
+                                 
+                                      <div class="col-md-3 mb-3 " >
+                                                              <div class="form-group">
+                                  <label for="address">Address</label>
+                                <textarea type="text"  name="address" id="address"   class="form-control" ><?php echo set_value('address'); ?></textarea>
+                                    <span class="text-error small"> <?php echo form_error('address'); ?>   </span>
+                                </div></div>
+                                 <!-- end input -->
+                                                           
 
                                           
                                   <!-- start input -->

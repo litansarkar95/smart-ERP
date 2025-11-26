@@ -67,27 +67,29 @@
 									      					</div>   
                                                              <div class="col-md-2 mb-2">
 																<div class="form-group">
-																<label for="purchase_date">Sales Date<span class="text-error"> *</span></label>
-									      						<input type="text"  name="purchase_date" id="purchase_date" value=""   class="form-control" >
-																<span class="text-error small"><?php echo form_error('purchase_date'); ?></span>
+																<label for="sales_date">Sales Date<span class="text-error"> *</span></label>
+									      						<input type="text"  name="sales_date" id="sales_date" value=""   class="form-control" >
+																<span class="text-error small"><?php echo form_error('sales_date'); ?></span>
 																</div>
 									      					</div>     
 
                                   <div class="col-md-3 mb-3">
                                 <div class="form-group">
-                                    <label for="supplier_id">Select Customer</label>
+                                    <label for="customer_id">Select Customer</label>
                                     <div class="select_2_container">
-                                    <select name="supplier_id" id="supplier_id" class="form-control frm_select select2" required>
-                                        <option value="">Select</option>
-                                        <?php foreach($allSuplier as $suplier){ ?>
-                                            <option value="<?= $suplier->id; ?>">
-                                                <?= $suplier->name . ' - ' . $suplier->contact_no; ?>
-                                            </option>
-                                        <?php } ?>
-                                    </select>
+                                   <select name="customer_id" id="customer_id" class="form-control frm_select select2" required>
+                                    <option value="">Select</option>
+                                    <?php foreach($allCustomer as $customer){ ?>
+                                        <option value="<?= $customer->id; ?>" 
+                                            <?= ($customer->name=='Cash') ? 'selected' : '' ?>>
+                                            <?= $customer->name . ' - ' . $customer->contact_no; ?>
+                                        </option>
+                                    <?php } ?>
+                                </select>
+
                                     <i class="fas fa-caret-down"></i>
                                     </div>
-                                    <span class="text-error small"><?= form_error('supplier_id'); ?></span>
+                                    <span class="text-error small"><?= form_error('customer_id'); ?></span>
                                 </div>
                                 </div>
 
@@ -101,7 +103,7 @@
                                 </div>
                                 </div>
 
-                                <!-- Brand -->  
+                                <!-- Mobile No -->  
                                         <div class="col-md-3 mb-3">
                                 <div class="form-group">
                                     <label for="mobile_no">Mobile No</label>
@@ -111,7 +113,7 @@
                                 </div>
                                 </div>
 
-                                <!-- Brand -->  
+                                <!-- Address -->  
 
                                 <div class="col-md-3 mb-3">
                                 <div class="form-group">
@@ -215,6 +217,9 @@
                                                                                 <button type="button" id="addItemBtn" width="100%" class="btn btn_bg">Add to Cart</button>
                                                                             </div>
                                                                         </div><br><br><br>
+<div class="col-md-12 mb-3" id="save_customer_box" style="display:none;">
+    <label><input type="checkbox" name="save_customer" value="1"> Is Customer Save?</label>
+</div>
 
                                                                         <div class="card">
                                                     <div class="card-header bg-light">Lines</div>
@@ -455,8 +460,10 @@ function updateOrderSummary(){
 <script>
 $('#addItemBtn').on('click', function() {
 
-    var product_id = $('#product_id').val();
-    var unique_serial = $('#unique_serial').val();
+    var product_id     = $('#product_id').val();
+    var invoice_id     = $('#invoice_id').val();
+    var product_name   = $('#product_id option:selected').text();
+    var unique_serial   = $('#unique_serial').val();
 
     if (!product_id) {
         iziToast.error({
@@ -470,7 +477,7 @@ $('#addItemBtn').on('click', function() {
         url: "<?= base_url('sales/add_item_ajax') ?>",
         type: "POST",
         dataType: "json",
-        data: { product_id: product_id },
+        data: { product_id: product_id ,invoice_id: invoice_id ,unique_serial: unique_serial },
         success: function(res) {
 
             if(res.status !== "success"){
@@ -641,7 +648,7 @@ function addNewRow(res, serial){
         '<td>' + ($('#itemsTable tbody tr').length + 1) + '</td>'+
         '<td>' + res.item.product_name + '</td>'+
         '<td>' + res.item.warrenty + ' ' + res.item.warrenty_days + '</td>'+
-        '<td><input type="number" class="price form-control" value="'+priceValue+'" ></td>'+
+        '<td><input type="number" class="price form-control" name="price" value="'+priceValue+'" ></td>'+
         '<td>' + qtyField + '</td>'+
         '<td><input type="number" class="sub_total form-control" value="'+subTotal+'" readonly></td>'+
         '<td>' + discountPercentField + '</td>'+
@@ -711,6 +718,79 @@ function addNewRow(res, serial){
 
 
 
-    </script>
+  
 
- 
+ $(document).ready(function () {
+
+    function loadCustomerInfo(customer_id) {
+        $.ajax({
+            url: "<?= base_url('sales/get_customer_info'); ?>",
+            type: "POST",
+            data: { id: customer_id },
+            dataType: "json",
+            success: function (data) {
+
+                $("#customer_name").val(data.name);
+                $("#mobile_no").val(data.contact_no);
+                $("#address").val(data.address);
+
+                if (data.name === "Cash") {
+                    // Editable
+                    $("#customer_name").prop("readonly", false);
+                    $("#mobile_no").prop("readonly", false);
+                    $("#address").prop("readonly", false);
+
+                    // Show Save Option
+                    $("#save_customer_box").show();
+                } else {
+                    // Read only
+                    $("#customer_name").prop("readonly", true);
+                    $("#mobile_no").prop("readonly", true);
+                    $("#address").prop("readonly", true);
+
+                    // Hide Save Option
+                    $("#save_customer_box").hide();
+                }
+            }
+        });
+    }
+
+    // 🔥 Page Load হলে Cash লোড হবে
+    let defaultCustomer = $("#customer_id").val();
+    if (defaultCustomer) {
+        loadCustomerInfo(defaultCustomer);
+    }
+
+    // Dropdown Change
+    $("#customer_id").change(function () {
+        let id = $(this).val();
+        if (id !== "") {
+            loadCustomerInfo(id);
+        }
+    });
+});
+  </script>
+
+
+ <script>
+    $(document).ready(function() {
+   
+
+   $("#sales_date").datepicker({
+  dateFormat: "dd-mm-yy",
+  changeMonth: true,
+  changeYear: true,
+  yearRange: "1900:2100",
+});
+
+
+// Set a default date (e.g., today's date)
+var today = $.datepicker.formatDate("dd-mm-yy", new Date());
+$("#sales_date,.to_date").val(today);
+
+  });
+
+
+
+     
+    </script>

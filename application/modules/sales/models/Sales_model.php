@@ -17,7 +17,7 @@ class Sales_model extends CI_Model {
 
     
 
- public function getSuplier() {
+ public function getCustomer() {
     $loggedin_org_id = $this->session->userdata("loggedin_org_id");
     
     $this->db->select('*');
@@ -26,7 +26,7 @@ class Sales_model extends CI_Model {
     
     // Use grouping for OR condition
     $this->db->group_start()
-             ->where('business_partner.partner_type', 'Supplier')
+             ->where('business_partner.partner_type', 'Customer')
              ->or_where('business_partner.partner_type', 'Both')
              ->group_end();
     

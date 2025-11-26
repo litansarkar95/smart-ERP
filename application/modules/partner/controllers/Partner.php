@@ -35,27 +35,29 @@ public function index()
         "name"                       => $this->common_model->xss_clean($this->input->post("name")),   
         "partner_type"               => $this->common_model->xss_clean($this->input->post("type_id")),   
         "contact_no"                 => $this->common_model->xss_clean($this->input->post("mobile_no")),   
-        "email"                      => $this->common_model->xss_clean($this->input->post("email")),    
+        "email"                      => $this->common_model->xss_clean($this->input->post("email")), 
+        "address"                    => $this->common_model->xss_clean($this->input->post("address")),      
         "customer_group_id"          => $this->common_model->xss_clean($this->input->post("cgroup_id")),    
         "reference_id"               => $this->common_model->xss_clean($this->input->post("reference_id")),    
         "opening_balance_type"       => $this->common_model->xss_clean($this->input->post("balance_type")), 
-        "notes"                       => $this->common_model->xss_clean($this->input->post("note")),   
+        
+        "notes"                      => $this->common_model->xss_clean($this->input->post("note")),   
         "is_active"                  => 1,
         "create_user"                => $this->session->userdata('loggedin_id'),
         "create_date"                => strtotime($date),
        
     );
 
-   $balance_type =  $this->common_model->xss_clean($this->input->post("balance_type"));
+   $balance_type =  $this->common_model->xss_clean($this->input->post("balance_type")) ;
 
       if($balance_type  == 'Customer'){
               $data['opening_balance'] = $this->common_model->xss_clean($this->input->post("customer_balance"));
               $data['current_balance'] = $this->common_model->xss_clean($this->input->post("customer_balance"));
-      }else{
+      }else  if($balance_type  == 'Supplier'){
               $data['opening_balance'] = $this->common_model->xss_clean($this->input->post("supplier_balance"));
               $data['current_balance'] = - $this->common_model->xss_clean($this->input->post("supplier_balance"));
       }
-        
+     
 
    
     if ($this->common_model->save_data("business_partner", $data)) {
