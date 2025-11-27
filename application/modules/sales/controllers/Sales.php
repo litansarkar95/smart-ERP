@@ -20,9 +20,10 @@ public function index()
  public function create()
 {
 
+  
   $this->form_validation->set_rules("totalAmount", "Total Amount", "required");
-  $this->form_validation->set_rules("purchase_date", "Purchase date", "required");
-  $this->form_validation->set_rules("supplier_id", "Supplier", "required");
+  $this->form_validation->set_rules("sales_date", "Sales date", "required");
+  $this->form_validation->set_rules("customer_id", "Customer Name", "required");
 
   if ($this->form_validation->run() == NULL) {
   
@@ -37,7 +38,7 @@ public function index()
 
    $invoice_code   = $this->common_model->xss_clean($this->input->post("invoice_id"));
    $store_id        = $this->common_model->xss_clean($this->input->post("store_id"));
-   $supplier_id     = $this->common_model->xss_clean($this->input->post("supplier_id"));
+   $customer_id     = $this->common_model->xss_clean($this->input->post("customer_id"));
    $branch_id       = $this->session->userdata("loggedin_branch_id");
    
 
@@ -163,6 +164,9 @@ public function add_item_ajax()
     $product_id = $this->input->post('product_id');
     $invoice_id = $this->input->post('invoice_id');
     $unique_serial = $this->input->post('unique_serial') ?: '';
+    $loggedin_org_id = $this->session->userdata('loggedin_org_id');
+
+     $date = date("Y-m-d H:i:s");
 
     if (!$product_id || !$invoice_id) {
         echo json_encode(['status' => 'error', 'msg' => 'Missing invoice or product']);
@@ -217,7 +221,7 @@ public function add_item_ajax()
     ])->row();
     
     if (!$is_invoice) {
-        $date = date("Y-m-d H:i:s");
+       
         $this->db->insert('sales_invoice', [
             'organization_id' => $this->session->userdata('loggedin_org_id'),
             'invoice_code' => $invoice_id,
@@ -229,9 +233,18 @@ public function add_item_ajax()
     // ============================
     // INSERT OR UPDATE ITEM
     // ============================
-    $qty = 1;
-    $price = $product->sales_price;
-    $sub_total = $qty * $price;
+
+    $this->db->select('m.*');
+    $this->db->from('inv_stock_master m');
+    $this->db->where('m.organization_id', $loggedin_org_id);
+    $this->db->where('m.product_id', $product_id);
+    $stock_master = $this->db->get()->row();
+
+
+    $qty                    = 1;
+    $purchase_price         = $stock_master->purchase_price;
+    $price                  = $stock_master->sales_price;
+    $sub_total              = $qty * $price;
 
     if ($existing_item) {
 
@@ -240,6 +253,8 @@ public function add_item_ajax()
         $this->db->where('id', $existing_item->id)->update('sales_items', [
             'price' => $price,
             'qty'   => $new_qty,
+            'sub_total'       => $price * $new_qty,
+            'net_total'       => $price * $new_qty,
         ]);
 
         $item_id = $existing_item->id;
@@ -251,8 +266,15 @@ public function add_item_ajax()
             'invoice_id'      => $invoice_id,
             'product_id'      => $product_id,
             'serial_type'     => $serial_type,
+            'purchase_price'  => $purchase_price,
             'price'           => $price,
             'qty'             => $qty,
+            'sub_total'       => $price * $qty,
+            'net_total'       => $price * $qty,
+            'warrenty'        => $stock_master->warrenty,
+            'warrenty_days'   => $stock_master->warrenty_days,
+            "create_user"     => $this->session->userdata('loggedin_id'),
+            "create_date"     => strtotime($date)
         ]);
 
         $item_id = $this->db->insert_id();
@@ -289,7 +311,8 @@ public function add_item_ajax()
             'price'         => $price,
             'qty'           => $qty,
             'sub_total'     => $sub_total,
-            'stockQty'     => $available_qty,
+            'stockQty'      => $available_qty,
+            'item_id'       => $item_id,
             // NEW FIELD FOR UNIQUE SERIAL LIST
             'serial_list'   => $serial_list
         ]
@@ -305,20 +328,49 @@ public function delete_item_ajax()
 {
     $item_id = $this->input->post('item_id');
 
-    if(!$item_id){
-        echo json_encode(['status'=>'error','msg'=>'Missing item ID']);
+    if (!$item_id) {
+        echo json_encode(["status" => "error", "msg" => "Invalid ID"]);
         return;
     }
 
-    $this->db->where('id', $item_id);
-    $deleted = $this->db->delete('purchase_items');
+    $deleted = $this->db->where('id', $item_id)->delete('sales_items');
+    $deleted = $this->db->where('item_id', $item_id)->delete('sales_item_serials');
 
-    if($deleted){
-        echo json_encode(['status'=>'success']);
+    if ($deleted) {
+        echo json_encode(["status" => "success"]);
     } else {
-        echo json_encode(['status'=>'error','msg'=>'Failed to delete']);
+        echo json_encode(["status" => "error", "msg" => "DB delete failed"]);
     }
 }
+public function update_item_ajax() {
+
+    $item_id = $this->input->post("item_id");
+
+    if (!$item_id) {
+        echo json_encode(["status"=>"error","msg"=>"Invalid Item ID"]);
+        return;
+    }
+
+    $data = [
+        "price"                => $this->input->post("price"),
+        "qty"                  => $this->input->post("qty"),
+        "sub_total"            => $this->input->post("sub_total"),
+        "discount_percent"     => $this->input->post("discount_percent"),
+        "discount_amount"      => $this->input->post("discount_amount"),
+        "net_total"            => $this->input->post("net_total"),
+        "warrenty"             => $this->input->post("warrenty"),
+    ];
+
+    $this->db->where("id", $item_id);
+    $updated = $this->db->update("sales_items", $data);
+
+    if ($updated) {
+        echo json_encode(["status"=>"success"]);
+    } else {
+        echo json_encode(["status"=>"error","msg"=>"DB update failed"]);
+    }
+}
+
 
 public function get_supplier_balance()
 {

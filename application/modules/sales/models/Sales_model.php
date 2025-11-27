@@ -86,8 +86,9 @@ public function get_total_quantity($product_id, $invoice_code = null)
     $this->db->from('sales_items');
     $this->db->where('organization_id', $organization_id);
     $this->db->where('product_id', $product_id);
+    $this->db->where('status', "Pending");
     if($invoice_code) {
-        $this->db->where('invoice_id !=', $invoice_code); // ❌ exclude current invoice
+        $this->db->where('invoice_id !=', $invoice_code); 
     }
     $sold = $this->db->get()->row()->sold_qty;
 

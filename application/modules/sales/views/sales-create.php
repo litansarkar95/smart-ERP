@@ -28,9 +28,9 @@
 
 
 
-  <div class="row px-3">
+  <div class="row ">
     <div class="col-12">
-      <div class="content">
+      <div class="">
         <div class="row">
           <div class="col-auto">
             <h3>Add New  Sales </h3>
@@ -51,21 +51,21 @@
           <div class="col-12">
                 <form  action="<?php echo base_url(); ?>sales/create" method="post" enctype="multipart/form-data">
                                                             <div class="row mb-3">
-    <div class="col-md-12 mb-2">
+    <!-- <div class="col-md-12 ">
         <div class="form-group">
            
            <input type="text" name="previousDue" placeholder="Scan Barcode & Hit Enter....."     class="form-control " autofocus>
 
         </div>
-    </div>
-                                     <div class="col-md-2 mb-2">
+    </div> -->
+                                     <div class="col-md-2 ">
 																<div class="form-group">
 																<label for="invoice_no">Invoice No <span class="text-error"> *</span></label>
 									      						<input type="text"   name="invoice_no" id="invoice_no" value="<?= $invoice_no; ?>"   class="form-control" readonly>
 																<span class="text-error small"><?php echo form_error('invoice_no'); ?></span>
 																</div>
 									      					</div>   
-                                                             <div class="col-md-2 mb-2">
+                                                             <div class="col-md-2 ">
 																<div class="form-group">
 																<label for="sales_date">Sales Date<span class="text-error"> *</span></label>
 									      						<input type="text"  name="sales_date" id="sales_date" value=""   class="form-control" >
@@ -93,7 +93,7 @@
                                 </div>
                                 </div>
 
-                                  <div class="col-md-3 mb-3">
+                                  <div class="col-md-2 mb-3">
                                 <div class="form-group">
                                     <label for="customer_name">Customer Name</label>
                           
@@ -104,7 +104,7 @@
                                 </div>
 
                                 <!-- Mobile No -->  
-                                        <div class="col-md-3 mb-3">
+                                        <div class="col-md-2 mb-3">
                                 <div class="form-group">
                                     <label for="mobile_no">Mobile No</label>
                             
@@ -115,7 +115,7 @@
 
                                 <!-- Address -->  
 
-                                <div class="col-md-3 mb-3">
+                                <div class="col-md-2 mb-3">
                                 <div class="form-group">
                                     <label for="address">Address</label>
                             
@@ -127,7 +127,7 @@
 
                                 <!-- Brand -->  
 
-                          <div class="col-md-2 mb-3">
+                          <div class="col-md-2 mb-3" style="display:none;">
                                     <div class="form-group">
                                   <label for="store_id">Receiving Store </label>
                                   <div class="select_2_container">
@@ -146,7 +146,7 @@
                                  
                                    <!-- Brand -->  
 
-                          <div class="col-md-3 mb-3">
+                          <div class="col-md-2 mb-3">
                                     <div class="form-group">
                                   <label for="group_id">Select Product Group </label>
                                   <div class="select_2_container">
@@ -165,7 +165,7 @@
                                 <!-- end Brand -->
                                   <!-- Brand -->  
 
-                                                                                <div class="col-md-5 mb-3">
+                                                                                <div class="col-md-3 mb-3">
                                                                                             <div class="form-group">
                                                                                         <label for="product_id">Select Product  </label>
                                                                                         <div class="select_2_container">
@@ -184,7 +184,7 @@
 
                                                             
                                                                                                                 
-                                                        <div class="col-md-4 mb-2" id="uniqueSerialBox" style="display:none;">
+                                                        <div class="col-md-3 " id="uniqueSerialBox" style="display:none;">
                                                             <div class="form-group">
                                                                 <label for="unique_serial">Select Serial <span class="text-error">*</span></label>
                                                                 <div class="select_2_container">
@@ -202,7 +202,7 @@
                                                         
 
                                                             
-                                                              <div class="col-md-2 mb-2"  id="remarks"  >
+                                                              <div class="col-md-2 "  id="remarks"  >
 																<div class="form-group">
 																<label for="remarks">Remarks</label>
 									      						<textarea type="text"  name="remarks" id="remarks" value=""   class="form-control remarks" ></textarea>
@@ -216,10 +216,8 @@
                                                                             <div class="col-12">
                                                                                 <button type="button" id="addItemBtn" width="100%" class="btn btn_bg">Add to Cart</button>
                                                                             </div>
-                                                                        </div><br><br><br>
-<div class="col-md-12 mb-3" id="save_customer_box" style="display:none;">
-    <label><input type="checkbox" name="save_customer" value="1"> Is Customer Save?</label>
-</div>
+                                                                        </div>
+
 
                                                                         <div class="card">
                                                     <div class="card-header bg-light">Lines</div>
@@ -241,7 +239,7 @@
             <th>Discount(%)</th>
             <th>Discount Amnt</th>
             <th>Net Total</th>
-            <th>Item Serials / Lot</th>
+            <th>Item Serials</th>
             <th>Action</th>
         </tr>
     </thead>
@@ -253,49 +251,52 @@
 
 </div>
  <div class="row">
-            <div class="col-md-2 mb-2">
+            <div class="col-md-2 ">
         <div class="form-group">
             <label for="previousDue">Previous Due </label>
             <input type="text" name="previousDue" id="previousDue" value="" class="form-control previousDue" >
         </div>
     </div>
-    <div class="col-md-2 mb-2">
+    <div class="col-md-2 ">
         <div class="form-group">
-            <label for="totalOrderAmount">Total Order </label>
-            <input type="text" name="totalOrderAmount" id="totalOrderAmount" value="" class="form-control totalOrderAmount" >
+            <label for="totalOrder">Total Order </label>
+            <input type="text" name="totalOrder" id="totalOrder" value="" class="form-control totalOrder" >
         </div>
     </div>
 
 
-     <div class="col-md-2 mb-2">
+     <div class="col-md-2 ">
         <div class="form-group">
             <label for="subtotalAmount">Sub Total </label>
+            	<span class="text-error small"><?php echo form_error('subtotalAmount'); ?></span>
             <input type="text" name="subtotalAmount" id="subtotalAmount" value="" class="form-control price" >
         </div>
     </div>
 
-      <div class="col-md-2 mb-2">
+      <div class="col-md-2 ">
         <div class="form-group">
             <label for="totalDiscount">Total Discount  </label>
             <input type="text" name="totalDiscount" id="totalDiscount" value="" class="form-control totalDiscount" >
         </div>
     </div>
 
-     <div class="col-md-2 mb-2">
+     <div class="col-md-2 ">
         <div class="form-group">
+             <span class="text-error small"><?php echo form_error('totalAmount'); ?></span>
             <label for="totalAmount"> Total </label>
+           
             <input type="text" name="totalAmount" id="totalAmount" value="" class="form-control " >
         </div>
     </div>
 
-     <div class="col-md-2 mb-2">
+     <div class="col-md-2 ">
         <div class="form-group">
             <label for="adjustment"> Adjustment </label>
             <input type="text" name="adjustment" id="adjustment" value="0" class="form-control " >
         </div>
     </div>
 
-    <div class="col-md-2 mb-2">
+    <div class="col-md-2 ">
         <div class="form-group">
             <label for="dueAmount">Payable Amount </label>
             <input type="text" name="dueAmount" id="dueAmount" value="" class="form-control dueAmount" >
@@ -303,7 +304,7 @@
     </div>
 
     
-    <div class="col-md-2 mb-2">
+    <div class="col-md-2 ">
         <div class="form-group">
             <label for="payment_method_id">Payment Method</label>
                                   <div class="select_2_container">
@@ -318,7 +319,7 @@
         </div>
     </div>
 
-       <div class="col-md-2 mb-2">
+       <div class="col-md-2 ">
         <div class="form-group">
             <label for="paidAmount">Paid Amount </label>
             <input type="text" name="paidAmount" id="paidAmount" value="" class="form-control paidAmount" >
@@ -329,6 +330,9 @@
                                      </div>
 <div class="row">
                                                                         <div class="col-12 text-end">
+                                                                            <div class="col-md-12 mb-3" id="save_customer_box" style="display:none;">
+    <label><input type="checkbox" name="save_customer" value="1"> Is Customer Save?</label>
+</div>
                                                                                     <button type="submit"
                                                                                                 class="btn btn_bg">Confirm Order</button>
                                                                         </div>
@@ -432,14 +436,17 @@ $('#product_id').change(function() {
 });
 
 function updateOrderSummary(){
+    let sqty = 0;
     let subtotal = 0;
     let totalDiscount = 0;
 
     $('#itemsTable tbody tr').each(function(){
         let sub_total = parseFloat($(this).find('.sub_total').val()) || 0;
+        let qty = parseFloat($(this).find('.qty').val()) || 0;
         let discount_amount = parseFloat($(this).find('.discount_amount').val()) || 0;
 
         subtotal += sub_total;
+        sqty += qty;
         totalDiscount += discount_amount;
     });
 
@@ -451,10 +458,48 @@ function updateOrderSummary(){
     // Update fields
     $('#subtotalAmount').val(subtotal.toFixed(2));
     $('#totalDiscount').val(totalDiscount.toFixed(2));
-    $('#totalOrderAmount').val(subtotal.toFixed(2)); // if totalOrder = subtotal
+    $('#totalOrder').val(sqty); // if totalOrder = subtotal
     $('#totalAmount').val(total.toFixed(2));
     $('#dueAmount').val(payable.toFixed(2));
 }
+
+
+function updateSalesItem(row) {
+
+    let item_id = row.data("id");
+    let price = parseFloat(row.find(".price").val()) || 0;
+    let qty = parseInt(row.find(".qty").val()) || 0;
+    let discount_percent = parseFloat(row.find(".discount_percent").val()) || 0;
+    let discount_amount = parseFloat(row.find(".discount_amount").val()) || 0;
+    let sub_total = parseFloat(row.find(".sub_total").val()) || 0;
+    let net_total = parseFloat(row.find(".net_total").val()) || 0;
+    let warrenty = parseFloat(row.find(".warrenty").val()) || 0;
+
+    $.ajax({
+        url: "<?= base_url('sales/update_item_ajax') ?>",
+        type: "POST",
+        dataType: "json",
+        data: {
+            item_id: item_id,
+            price: price,
+            qty: qty,
+            discount_percent: discount_percent,
+            discount_amount: discount_amount,
+            sub_total: sub_total,
+            net_total: net_total,
+            warrenty : warrenty,
+        },
+        success: function(res) {
+            if (res.status !== "success") {
+                iziToast.error({
+                    message: "Update failed!",
+                    position: "topRight"
+                });
+            }
+        }
+    });
+}
+
 </script>
 
 
@@ -677,19 +722,19 @@ function addNewRow(res, serial){
 
     // Qty readonly for unique, editable for common
     let qtyField = (serial_type === 'unique') ? 
-        '<input type="number" class="qty form-control" value="'+qtyValue+'" readonly>' : 
-        '<input type="number" class="qty form-control" value="'+qtyValue+'">';
+        '<input type="number" class="qty form-control"  name="qty" value="'+qtyValue+'" readonly>' : 
+        '<input type="number" class="qty form-control" name="qty" value="'+qtyValue+'">';
 
   
         // Discount fields (editable for all products)
     let discountPercentField = '<input type="number" class="discount_percent form-control" value="">';
     let discountAmountField = '<input type="number" class="discount_amount form-control" value="">';
 
-    let newRow = '<tr data-product="'+product_id+'">'+
+    let newRow = '<tr data-id="'+res.item.item_id+'"  data-product="'+product_id+'">'+
         '<td>' + ($('#itemsTable tbody tr').length + 1) + '</td>'+
         '<td>' + res.item.product_name + '</td>'+
         '<td><input type="number" class="warrenty form-control" name="warrenty" value="'+res.item.warrenty+'" >'  + res.item.warrenty_days + '</td>'+
-        '<td><input type="number" class="stock_qty form-control" name="stock_qty" value="'+res.item.stockQty+'" ></td>'+
+        '<td><input type="number" class="stock_qty form-control" name="stock_qty" value="'+res.item.stockQty+'" readonly></td>'+
         '<td><input type="number" class="price form-control" name="price" value="'+priceValue+'" ></td>'+
         '<td>' + qtyField + '</td>'+
         '<td><input type="number" class="sub_total form-control" value="'+subTotal+'" readonly></td>'+
@@ -697,6 +742,10 @@ function addNewRow(res, serial){
         '<td>' + discountAmountField + '</td>'+
         '<td><input type="number" class="net_total form-control" value="'+subTotal+'" readonly></td>'+
         '<td><textarea class="serial_number form-control" readonly>'+serial+'</textarea></td>'+
+         '<td>' +
+                
+                    '<button type="button" class="btn btn-sm btn-outline-danger removeItem">✖</button>' +
+                '</td>'+
     '</tr>';
 
     $('#itemsTable tbody').append(newRow);
@@ -713,6 +762,7 @@ function addNewRow(res, serial){
         $row.find('.discount_amount').val(discount_amount);
         $row.find('.net_total').val((sub_total - discount_amount).toFixed(2));
          updateOrderSummary();
+         updateSalesItem($row);
     });
 
     $('#adjustment').on('input', function(){
@@ -727,6 +777,16 @@ function addNewRow(res, serial){
     $row.find('.net_total').val((sub_total - discount_amount).toFixed(2));
 
     updateOrderSummary(); // <-- ADD
+    updateSalesItem($row);
+});
+
+    // When discount_amount changes
+   $row.find('.warrenty').on('input', function(){
+
+    //$row.find('.warrenty').val(warrenty);
+
+    updateOrderSummary(); // <-- ADD
+    updateSalesItem($row);
 });
 
 
@@ -755,6 +815,7 @@ function addNewRow(res, serial){
     $row.find('.net_total').val((sub_total - discount_amount).toFixed(2));
 
     updateOrderSummary();
+    updateSalesItem($row);
 });
 
 
@@ -769,6 +830,7 @@ function addNewRow(res, serial){
         $row.find('.net_total').val((sub_total - discount_amount).toFixed(2));
 
         updateOrderSummary();
+        updateSalesItem($row);
     });
 
 
@@ -829,6 +891,42 @@ function addNewRow(res, serial){
         }
     });
 });
+
+
+$(document).on('click', '.removeItem', function(){
+    if(!confirm('Are you sure to remove this item?')) return;
+
+    var row = $(this).closest('tr');
+    var item_id = row.data('id'); // এখন ID পাবে
+
+    $.ajax({
+        url: "<?= base_url('sales/delete_item_ajax'); ?>",
+        type: "POST",
+        data: { item_id: item_id },
+        dataType: "json",
+        success: function(res){
+            if(res.status === 'success'){
+                row.remove();
+
+                // Reorder SL
+                $('#itemsTable tbody tr').each(function(index){
+                    $(this).find('td:first').text(index + 1);
+                });
+
+                calculateTotals();
+            } else {
+                alert('Error: ' + res.msg);
+            }
+        },
+        error: function(){
+            alert("AJAX Error!");
+        }
+    });
+});
+
+
+
+
   </script>
 
 
