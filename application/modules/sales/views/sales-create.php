@@ -31,24 +31,32 @@
   <div class="row ">
     <div class="col-12">
       <div class="">
-        <div class="row">
-          <div class="col-auto">
-            <h3>Add New  Sales </h3>
-          </div>
-          <div class="col-auto ms-auto">
-            <!-- Button trigger modal -->
-               <div class="right">
-                 <?php if (has_permission('products', 'index')): ?>
-                <a type="button" href="<?php echo base_url(); ?>sales" class="btn btn_bg" >
-                    <i class="fa-solid fa-list"></i> Sales  List
-                </a>
-                   <?php endif; ?>
-            </div>
-
-          </div>
-        </div>
+       
         <div class="row">
           <div class="col-12">
+           <div class="panel-heading p-3 border rounded bg-light">
+            
+    <i class="fa fa-shopping-bag me-2"></i>
+    <strong>Add New  Sales --   Sales Order :: Order No - IN1764256114</strong>
+    
+    <div class="order-buttons mt-2 d-flex flex-wrap gap-1">
+        <a href="#" class="btn btn-primary btn-sm" target="_blank">IN1764088446</a>
+        <a href="#" class="btn btn-success btn-sm" target="_blank"><i class="fa fa-edit"></i></a>
+        
+        <a href="#" class="btn btn-primary btn-sm" target="_blank">IN1764088333</a>
+        <a href="#" class="btn btn-success btn-sm" target="_blank"><i class="fa fa-edit"></i></a>
+        
+        <a href="/Sales/sales_invoice_print/IN1764088022.html" class="btn btn-primary btn-sm" target="_blank">IN1764088022</a>
+        <a href="#" class="btn btn-success btn-sm" target="_blank"><i class="fa fa-edit"></i></a>
+        
+        <a href="#" class="btn btn-primary btn-sm" target="_blank">IN1764087571</a>
+        <a href="#" class="btn btn-success btn-sm" target="_blank"><i class="fa fa-edit"></i></a>
+        
+        <a href="#l" class="btn btn-primary btn-sm" target="_blank">IN1764087304</a>
+        <a href="#" class="btn btn-success btn-sm" target="_blank"><i class="fa fa-edit"></i></a>
+    </div>
+</div>
+
                 <form  action="<?php echo base_url(); ?>sales/create" method="post" enctype="multipart/form-data">
                                                             <div class="row mb-3">
     <!-- <div class="col-md-12 ">
@@ -122,6 +130,24 @@
                                              <input type="text" name="address" id="address" value="" class="form-control ">
                                 
                                     <span class="text-error small"><?= form_error('address'); ?></span>
+                                </div>
+                                </div>
+                                <div class="col-md-2 mb-3">
+                                <div class="form-group">
+                                    <label for="customer_group_id">Select Customer Group</label>
+                                    <div class="select_2_container">
+                                   <select name="customer_group_id" id="customer_group_id" class="form-control frm_select select2" >
+                                    <option value="">Select</option>
+                                    <?php foreach($allGroup as $group){ ?>
+                                        <option value="<?= $group->id; ?>"  >
+                                            <?= $group->name ; ?>
+                                        </option>
+                                    <?php } ?>
+                                </select>
+
+                                    <i class="fas fa-caret-down"></i>
+                                    </div>
+                                    <span class="text-error small"><?= form_error('customer_group_id'); ?></span>
                                 </div>
                                 </div>
 
@@ -298,11 +324,16 @@
 
     <div class="col-md-2 ">
         <div class="form-group">
-            <label for="dueAmount">Payable Amount </label>
+            <label for="payableAmount">Payable Amount </label>
+            <input type="text" name="payableAmount" id="payableAmount" value="" class="form-control payableAmount" >
+        </div>
+    </div>
+<div class="col-md-2 ">
+        <div class="form-group">
+            <label for="dueAmount">Due Amount </label>
             <input type="text" name="dueAmount" id="dueAmount" value="" class="form-control dueAmount" >
         </div>
     </div>
-
     
     <div class="col-md-2 ">
         <div class="form-group">
@@ -325,22 +356,39 @@
             <input type="text" name="paidAmount" id="paidAmount" value="" class="form-control paidAmount" >
         </div>
     </div>
+    <div class="col-md-2 ">
+																<div class="form-group">
+																<label for="due_paid_date">Next Due Paid Date<span class="text-error"> *</span></label>
+									      						<input type="text"  name="due_paid_date" id="due_paid_date" value=""   class="form-control" >
+																<span class="text-error small"><?php echo form_error('due_paid_date'); ?></span>
+																</div>
+									      					</div> 
 
                       
                                      </div>
-<div class="row">
-                                                                        <div class="col-12 text-end">
-                                                                            <div class="col-md-12 mb-3" id="save_customer_box" style="display:none;">
-    <label><input type="checkbox" name="save_customer" value="1"> Is Customer Save?</label>
+<div class="row align-items-center">
+    <!-- Left side: checkboxes -->
+    <div class="col-md-8" >
+        <div class="form-check" id="save_customer_box">
+            <input class="form-check-input" type="checkbox" name="save_customer" value="1" id="saveCustomer">
+            <label class="form-check-label" for="saveCustomer">Is Customer Save?</label>
+        </div>
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" name="send_bill_sms" value="1" id="sendBillSMS">
+            <label class="form-check-label" for="sendBillSMS">Send Bill SMS</label>
+        </div>
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" name="send_bill_email" value="1" id="sendBillEmail">
+            <label class="form-check-label" for="sendBillEmail">Send Bill Invoice Email</label>
+        </div>
+    </div>
+
+    <!-- Right side: button -->
+    <div class="col-md-4 text-end">
+        <button type="submit" class="btn btn_bg">Confirm Order</button>
+    </div>
 </div>
-                                                                                    <button type="submit"
-                                                                                                class="btn btn_bg">Confirm Order</button>
-                                                                        </div>
-     	<div class="row">
-									      					<div class="col-12">
-									      		  
-									      					</div>
-									      				</div>
+
     </div>
   </div>
 
@@ -364,6 +412,56 @@
   </div>
 </div>
 </div>
+</div>
+
+<div class="modal fade" id="editModal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      
+      <div class="modal-header">
+        <h5 class="modal-title">Edit Item</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+
+      <div class="modal-body">
+
+        <input type="hidden" id="edit_row_id">
+
+        <div class="mb-2">
+            <label>Price</label>
+            <input type="number" id="edit_price" class="form-control">
+        </div>
+
+        
+
+      <div class="mb-2">
+    <label>Serial Numbers</label>
+    <table class="table table-bordered table-sm" id="serial_list_container">
+        <thead>
+    <tr>
+        <th>#</th>
+        <th>Serial Number</th>
+        <th>Purchase Date</th>
+        <th>Remaining Warranty</th>
+        <th>Action</th>
+    </tr>
+</thead>
+
+        <tbody>
+            <!-- Serial rows will be injected here via JS -->
+        </tbody>
+    </table>
+</div>
+
+
+      </div>
+
+      <div class="modal-footer">
+          <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+      </div>
+
+    </div>
+  </div>
 </div>
 
 <script>
@@ -451,17 +549,37 @@ function updateOrderSummary(){
     });
 
     let total = subtotal - totalDiscount;
-
     let adjustment = parseFloat($('#adjustment').val()) || 0;
     let payable = total + adjustment;
+
+    let customerName = $('#customer_id option:selected').text().split(' - ')[0];
+
+    let paid = parseFloat($('#paidAmount').val()) || 0;
+    let due = 0;
+
+    if(customerName === "Cash") {
+        // Cash হলে paidAmount = payable, due = 0
+        paid = payable;
+        due = 0;
+        $('#paidAmount').prop('readonly', true);
+    } else {
+        // Non-Cash, due calculate
+        if(paid > payable) paid = payable;
+        due = payable - paid;
+        $('#paidAmount').prop('readonly', false);
+    }
 
     // Update fields
     $('#subtotalAmount').val(subtotal.toFixed(2));
     $('#totalDiscount').val(totalDiscount.toFixed(2));
-    $('#totalOrder').val(sqty); // if totalOrder = subtotal
+    $('#totalOrder').val(sqty);
     $('#totalAmount').val(total.toFixed(2));
-    $('#dueAmount').val(payable.toFixed(2));
+    $('#payableAmount').val(payable.toFixed(2));
+    $('#dueAmount').val(due.toFixed(2));
+    $('#paidAmount').val(paid.toFixed(2));
 }
+
+
 
 
 function updateSalesItem(row) {
@@ -499,6 +617,30 @@ function updateSalesItem(row) {
         }
     });
 }
+// Paid amount input check
+$('#paidAmount').on('input', function() {
+    let total = parseFloat($('#totalAmount').val()) || 0;
+    let adjustment = parseFloat($('#adjustment').val()) || 0;
+    let payable = total + adjustment;
+
+    let customerName = $('#customer_id option:selected').text().split(' - ')[0];
+
+
+        let paid = parseFloat($(this).val()) || 0;
+        if(paid > payable){
+            iziToast.error({
+                message: "Paid amount cannot exceed payable (" + payable.toFixed(2) + ")",
+                position: "topRight"
+            });
+            paid = payable;
+            $(this).val(payable.toFixed(2));
+        }
+        $('#dueAmount').val((payable - paid).toFixed(2));
+        $(this).prop('readonly', false);
+   
+});
+
+
 
 </script>
 
@@ -725,6 +867,9 @@ function addNewRow(res, serial){
         '<input type="number" class="qty form-control"  name="qty" value="'+qtyValue+'" readonly>' : 
         '<input type="number" class="qty form-control" name="qty" value="'+qtyValue+'">';
 
+    let editBtn = (serial_type === 'unique') ? 
+        '<button type="button" class="btn btn-sm btn-info editItem">✎</button> ' : ''  
+
   
         // Discount fields (editable for all products)
     let discountPercentField = '<input type="number" class="discount_percent form-control" value="">';
@@ -743,7 +888,7 @@ function addNewRow(res, serial){
         '<td><input type="number" class="net_total form-control" value="'+subTotal+'" readonly></td>'+
         '<td><textarea class="serial_number form-control" readonly>'+serial+'</textarea></td>'+
          '<td>' +
-                
+                editBtn +
                     '<button type="button" class="btn btn-sm btn-outline-danger removeItem">✖</button>' +
                 '</td>'+
     '</tr>';
@@ -897,7 +1042,7 @@ $(document).on('click', '.removeItem', function(){
     if(!confirm('Are you sure to remove this item?')) return;
 
     var row = $(this).closest('tr');
-    var item_id = row.data('id'); // এখন ID পাবে
+    var item_id = row.data('id');
 
     $.ajax({
         url: "<?= base_url('sales/delete_item_ajax'); ?>",
@@ -906,25 +1051,135 @@ $(document).on('click', '.removeItem', function(){
         dataType: "json",
         success: function(res){
             if(res.status === 'success'){
+
                 row.remove();
 
-                // Reorder SL
+                // iziToast success message
+                iziToast.success({
+                    message: "Item delete successfully!",
+                    position: "topRight"
+                });
+
+                // Reorder SL number
                 $('#itemsTable tbody tr').each(function(index){
                     $(this).find('td:first').text(index + 1);
                 });
 
-                calculateTotals();
+                updateOrderSummary(); // total calculation
+                
             } else {
-                alert('Error: ' + res.msg);
+                iziToast.error({
+                    message: res.msg,
+                    position: "topRight"
+                });
             }
         },
         error: function(){
-            alert("AJAX Error!");
+            iziToast.error({
+                message: "AJAX Error!",
+                position: "topRight"
+            });
         }
     });
 });
 
 
+$(document).on('click', '.editItem', function(){
+
+    let row = $(this).closest('tr');
+
+    let item_id = row.data('id');
+
+    $('#edit_row_id').val(item_id);
+    $('#edit_price').val(row.find('.price').val());
+
+    // Load serials via AJAX
+    refreshSerialList(item_id);
+
+    $('#editModal').modal('show');
+});
+
+function formatDate(dateObj) {
+    let d = dateObj.getDate().toString().padStart(2, '0');
+    let m = (dateObj.getMonth() + 1).toString().padStart(2, '0');
+    let y = dateObj.getFullYear();
+    return `${d}/${m}/${y}`;
+}
+function refreshSerialList(item_id) {
+
+    let tbody = $('#serial_list_container tbody');
+    tbody.empty();
+
+    $.ajax({
+        url: "<?= base_url('sales/get_item_serials') ?>",
+        type: "GET",
+        data: { item_id: item_id },
+        dataType: "json",
+        success: function(res){
+
+            if(res.status === 'success' && res.serials.length > 0){
+
+                let sl = 1;
+
+                res.serials.forEach(function(s){
+
+                    let purchaseDate = new Date(s.purchase_date * 1000);  
+                    let today = new Date();
+
+                    // warranty calculation
+                    let expireDate = new Date(purchaseDate);
+
+                    if(s.warrenty_days === "Days"){
+                        expireDate.setDate(expireDate.getDate() + parseInt(s.warrenty));
+                    }
+                    else if(s.warrenty_days === "Month"){
+                        expireDate.setMonth(expireDate.getMonth() + parseInt(s.warrenty));
+                    }
+
+                    let diff = expireDate - today;
+                    let remaining = Math.ceil(diff / (1000 * 3600 * 24));
+                    if(remaining < 0) remaining = 0;
+
+                    // purchase_price hide field
+                    let purchase_price_hidden = `
+                        <span class="purchase_price d-none">${s.purchase_price}</span>
+                    `;
+
+                    let html = `
+                        <tr data-id="${s.id}">
+                            <td>${sl++}</td>
+                            <td>
+                                ${s.serial_number}
+                                ${purchase_price_hidden}
+                            </td>
+                            <td>${formatDate(purchaseDate)}</td>
+                            <td>${remaining} Days</td>
+                            <td>
+                                <button class="btn btn-sm btn-info show-cost">Show Price</button>
+                                <button class="btn btn-sm btn-danger delete-serial">Delete</button>
+                            </td>
+                        </tr>
+                    `;
+
+                    tbody.append(html);
+                });
+
+            } else {
+                tbody.append('<tr><td colspan="5" class="text-center text-muted">No serials found.</td></tr>');
+            }
+        }
+    });
+}
+
+$(document).on("click", ".show-cost", function(){
+    let row = $(this).closest("tr");
+    let price = row.find(".purchase_price").text();
+
+    iziToast.info({
+        message: "Purchase Price: " + price,
+        position: 'topRight'
+    });
+});
 
 
   </script>
@@ -934,7 +1189,7 @@ $(document).on('click', '.removeItem', function(){
     $(document).ready(function() {
    
 
-   $("#sales_date").datepicker({
+   $("#sales_date ,#due_paid_date").datepicker({
   dateFormat: "dd-mm-yy",
   changeMonth: true,
   changeYear: true,
@@ -948,7 +1203,85 @@ $("#sales_date,.to_date").val(today);
 
   });
 
+function updateItemRowUI(item_id, qty){
+    let row = $('#itemsTable tbody tr[data-id="'+item_id+'"]');
+
+    // qty update
+    row.find('.qty').val(qty);
+
+    // price
+    let price = parseFloat(row.find('.price').val());
+
+    // sub total
+    let sub_total = price * qty;
+    row.find('.sub_total').val(sub_total);
+
+    // discount
+    let discount = parseFloat(row.find('.discountAmount').val() || 0);
+
+    // net total
+    let net_total = sub_total - discount;
+    row.find('.net_total').val(net_total);
+
+    // Global total update
+    updateOrderSummary();
+}
+
+function removeSerialFromTextArea(item_id, serial_number){
+
+    let row = $('#itemsTable tbody tr[data-id="'+item_id+'"]');
+
+    let textarea = row.find('.serial_number');
+
+    // Serial list split by comma
+    let serialList = textarea.val().split(',');
+
+    // Remove matched serial
+    serialList = serialList.filter(s => s.trim() !== serial_number.trim());
+
+    // Join again with comma
+    textarea.val(serialList.join(","));
+}
 
 
-     
+
+     $(document).on("click", ".delete-serial", function(){
+
+    if(!confirm("Are you sure to delete this serial?")) return;
+
+    let row = $(this).closest("tr");
+    let serial_id = row.data("id");  // sales_item_serials.id
+    let item_id = $("#edit_row_id").val(); // sales_items.id
+
+    $.ajax({
+        url: "<?= base_url('sales/delete_serial_ajax') ?>",
+        type: "POST",
+        data: { serial_id: serial_id },
+        dataType: "json",
+        success: function(res){
+
+            if(res.status === "success"){
+
+                // Remove Serial Row
+                row.remove();
+
+                iziToast.success({
+                    message: "Serial removed successfully",
+                    position: "topRight"
+                });
+
+                // Update Main Items Table
+                updateItemRowUI(res.item_id, res.new_qty, res.sub_total, res.net_total);
+                removeSerialFromTextArea(res.item_id, res.serial_number);
+
+            } else {
+                iziToast.error({
+                    message: res.msg,
+                    position: "topRight"
+                });
+            }
+        }
+    });
+});
+
     </script>

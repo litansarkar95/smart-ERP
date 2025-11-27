@@ -56,8 +56,9 @@ public function index()
     $data['allCat']         = $this->main_model->getRecordsByOrg("products_groups");
     $data['allInv']         = $this->main_model->getRecordsByOrg("warehouse");
     $data['allPro']         = $this->main_model->getRecordsByOrg("products");
-    $data['allCustomer']     = $this->sales_model->getCustomer();
-    $data['allPayment']         = $this->main_model->getRecordsByOrg("payment_method");
+    $data['allGroup']       = $this->main_model->getRecordsByOrg("partner_group");
+    $data['allCustomer']    = $this->sales_model->getCustomer();
+    $data['allPayment']     = $this->main_model->getRecordsByOrg("payment_method");
     // inv 
     $int_no = $this->sales_model->number_generator();
   	$invoice_no = 'INV-'.str_pad($int_no,4,"0",STR_PAD_LEFT);
@@ -391,12 +392,25 @@ public function get_supplier_balance()
 // Fetch serials for an item
 public function get_item_serials() {
     $item_id = $this->input->get('item_id');
-    $serials = $this->db->select('id, serial_number')
-                        ->where('item_id', $item_id)
-                        ->get('purchase_item_serials')
-                        ->result_array();
+
+    $serials = $this->db->select("
+            s.id,
+            s.serial_number,
+            st.serial AS stock_serial,
+            st.purchase_date,
+            st.warrenty,
+            st.warrenty_days,
+            st.purchase_price
+        ")
+        ->from("sales_item_serials s")
+        ->join("inv_stock_item_serial st", "st.serial = s.serial_number", "left")
+        ->where("s.item_id", $item_id)
+        ->get()
+        ->result_array();
+
     echo json_encode(['status'=>'success','serials'=>$serials]);
 }
+
 
 // Delete a serial
 public function delete_item_serial() {
@@ -456,6 +470,46 @@ public function get_serials()
         'success' => true
     ]);
 }
+public function delete_serial_ajax() {
+
+    $serial_id = $this->input->post('serial_id');
+
+    $serial = $this->db->where('id', $serial_id)->get('sales_item_serials')->row();
+
+    if(!$serial){
+        echo json_encode(['status'=>'error','msg'=>'Serial not found']);
+        return;
+    }
+
+    $item_id = $serial->item_id;
+    $serial_number = $serial->serial_number;
+
+    // delete serial
+    $this->db->where('id', $serial_id)->delete('sales_item_serials');
+
+    // update qty
+    $item = $this->db->where('id', $item_id)->get('sales_items')->row();
+
+    if($item){
+        $new_qty = max(0, $item->qty - 1);
+        $new_sub_total = $item->price * $new_qty;
+        $new_net_total = $new_sub_total - $item->discount_amount;
+
+        $this->db->where('id', $item_id)->update('sales_items', [
+            'qty' => $new_qty,
+            'sub_total' => $new_sub_total,
+            'net_total' => $new_net_total
+        ]);
+    }
+
+    echo json_encode([
+        'status' => 'success',
+        'item_id' => $item_id,
+        'serial_number' => $serial_number,
+        'new_qty' => $new_qty,
+    ]);
+}
+
 
 public function update_item()
 {
