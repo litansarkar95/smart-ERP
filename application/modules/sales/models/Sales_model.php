@@ -15,7 +15,53 @@ class Sales_model extends CI_Model {
         return $query->result(); 
     }
 
-    
+
+
+    public function get_all_products_with_available_stock()
+    {
+        $this->db->select("
+            p.id,
+            p.name AS product_name,
+            g.name AS group_name,
+
+            -- Total stock in
+            IFNULL( (SELECT SUM(quanity) 
+                     FROM inv_stock_master 
+                     WHERE product_id = p.id AND is_active = 1), 0 ) AS stock_in,
+
+            -- Pending Sales
+            IFNULL( (SELECT SUM(qty) 
+                     FROM sales_items 
+                     WHERE product_id = p.id AND status = 'Pending'), 0 ) AS pending_sales,
+
+            -- Sales Price (latest stock record)
+            IFNULL( (SELECT sales_price 
+                     FROM inv_stock_master 
+                     WHERE product_id = p.id 
+                     ORDER BY id DESC 
+                     LIMIT 1), 0 ) AS sales_price,
+
+            -- Final Available Stock
+            (
+                IFNULL( (SELECT SUM(quanity) 
+                         FROM inv_stock_master 
+                         WHERE product_id = p.id AND is_active = 1), 0 )
+                -
+                IFNULL( (SELECT SUM(qty) 
+                         FROM sales_items 
+                         WHERE product_id = p.id AND status = 'Pending'), 0 )
+            ) AS available_stock
+        ");
+
+        $this->db->from('products p');
+        $this->db->join('products_groups g', 'g.id = p.group_id', 'left');
+        $this->db->order_by('p.name', 'ASC');
+
+        return $this->db->get()->result();
+    }
+
+
+   
 
  public function getCustomer() {
     $loggedin_org_id = $this->session->userdata("loggedin_org_id");
@@ -37,7 +83,7 @@ public function number_generator() {
         
   
 		$this->db->select_max('code_random');      
-		$this->db->from('purchase');
+		$this->db->from('sales');
 		$query = $this->db->get();
 		$result =  $query->result_array();
 		$invoice_no = $result[0]['code_random'];
@@ -99,16 +145,16 @@ public function get_total_quantity($product_id, $invoice_code = null)
 }
 
 
-    public function getPurchaseList($id=NULL) {
+    public function getSalesList($id=NULL) {
          $loggedin_org_id = $this->session->userdata("loggedin_org_id");
         if($id){
-            $this->db->where("purchase.id",$id); 
+            $this->db->where("sales.id",$id); 
         }
-		$this->db->select("purchase.*, warehouse.name warehouse , business_partner.name partner");
-        $this->db->from("purchase");
-        $this->db->join('business_partner', "purchase.supplier_id = business_partner.id",'left');
-        $this->db->join('warehouse', "purchase.store_id = warehouse.id",'left');
-        $this->db->where("purchase.organization_id", $loggedin_org_id);
+		$this->db->select("sales.*, warehouse.name warehouse , business_partner.name partner");
+        $this->db->from("sales");
+        $this->db->join('business_partner', "sales.customer_id = business_partner.id",'left');
+        $this->db->join('warehouse', "sales.store_id = warehouse.id",'left');
+        $this->db->where("sales.organization_id", $loggedin_org_id);
         $this->db->order_by("id", "DESC");
         return $this->db->get()->result();
     }

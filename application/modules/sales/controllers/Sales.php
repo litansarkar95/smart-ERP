@@ -9,11 +9,11 @@ class Sales extends MX_Controller
 public function index()
 {
  
-    $data = array();
-    $data['active']    = "purchase";
-    $data['title'] = "Purchase List"; 
-    $data['allPdt']       = $this->sales_model->getPurchaseList();
-    $data['content'] = $this->load->view("purchase-list", $data, TRUE);
+    $data                 = array();
+    $data['active']       = "sales";
+    $data['title']        = "Sales List"; 
+    $data['allPdt']       = $this->sales_model->getSalesList();
+    $data['content']      = $this->load->view("sales-list", $data, TRUE);
     $this->load->view('layout/master', $data);
  }
  
@@ -38,12 +38,82 @@ public function index()
 
    $invoice_code   = $this->common_model->xss_clean($this->input->post("invoice_id"));
    $store_id        = $this->common_model->xss_clean($this->input->post("store_id"));
-   $customer_id     = $this->common_model->xss_clean($this->input->post("customer_id"));
+   
    $branch_id       = $this->session->userdata("loggedin_branch_id");
    
 
     $int_no = $this->sales_model->number_generator();
   	$invoice_no = 'INV-'.str_pad($int_no,4,"0",STR_PAD_LEFT);
+
+
+    $save_customer =  $this->common_model->xss_clean($this->input->post("save_customer"));
+    if($save_customer == 1){
+        $date = date("Y-m-d H:i:s");
+        $data_custome = array(   
+                "organization_id"            => $this->session->userdata('loggedin_org_id'),
+                "name"                       => $this->common_model->xss_clean($this->input->post("customer_name")),   
+                "partner_type"               => "Both",   
+                "contact_no"                 => $this->common_model->xss_clean($this->input->post("mobile_no")),  
+                "address"                    => $this->common_model->xss_clean($this->input->post("address")),      
+                "customer_group_id"          => $this->common_model->xss_clean($this->input->post("customer_group_id")),  
+                "is_active"                  => 1,
+                "create_user"                => $this->session->userdata('loggedin_id'),
+                "create_date"                => strtotime($date),
+       
+    );
+     if ($this->common_model->save_data("business_partner", $data_custome)) {
+      $customer_id = $this->common_model->Id;
+     }
+    }else{
+      $customer_id     = $this->common_model->xss_clean($this->input->post("customer_id"));
+    }
+    $date = date("Y-m-d H:i:s");
+    $data = array(   
+        "organization_id"            => $this->session->userdata('loggedin_org_id'),
+        "branch_id"                  => $this->session->userdata('loggedin_branch_id'), 
+        "invoice_code"               => $this->common_model->xss_clean($this->input->post("invoice_id")),  
+        "code_random"                => $int_no,   
+        "invoice_no"                 => $invoice_no,   
+        "sales_date"                 => strtotime($this->common_model->xss_clean($this->input->post("sales_date"))),   
+        "customer_id"                => $customer_id,   
+        "store_id"                   => $this->common_model->xss_clean($this->input->post("store_id")),   
+        "totalQty"                   => $this->common_model->xss_clean($this->input->post("totalOrder")),   
+        "subTotal"                   => $this->common_model->xss_clean($this->input->post("subtotalAmount")),   
+        "total_discount"             => $this->common_model->xss_clean($this->input->post("totalDiscount")),   
+        "adjustment"                 => $this->common_model->xss_clean($this->input->post("adjustment")),   
+        "payableAmount"              => $this->common_model->xss_clean($this->input->post("payableAmount")),   
+        "dueAmount"                  => $this->common_model->xss_clean($this->input->post("dueAmount")),   
+        "paidAmount"                 => $this->common_model->xss_clean($this->input->post("paidAmount")),  
+        "payment_method_id"          => $this->common_model->xss_clean($this->input->post("payment_method_id")),  
+        "next_due_paid_date"         => strtotime($this->common_model->xss_clean($this->input->post("due_paid_date"))),
+        "is_customer"                => $this->common_model->xss_clean($this->input->post("save_customer")),  
+        "customer_name"              => $this->common_model->xss_clean($this->input->post("customer_name")),  
+        "mobile_no"                  => $this->common_model->xss_clean($this->input->post("mobile_no")),  
+        "address"                    => $this->common_model->xss_clean($this->input->post("address")),  
+        "is_active"                  => 1,
+        "create_user"                => $this->session->userdata('loggedin_id'),
+        "create_date"                => strtotime($date),
+       
+    );
+   
+    if ($this->common_model->save_data("sales", $data)) {
+      $id = $this->common_model->Id;
+
+       //update
+      $invoice_code              = $this->common_model->xss_clean($this->input->post("invoice_id"));
+      
+       $this->db->where('invoice_code', $invoice_code)->update('sales_invoice', ['status' => 'Approved']);
+       $this->db->where('invoice_id', $invoice_code)->update('sales_items', ['status' => 'Approved']);
+
+
+      $this->session->set_flashdata('success', 'Record has been successfully saved.');
+      }else{
+        
+     $this->session->set_flashdata('error', 'An error occurred. Please try again.');
+      }
+    
+   redirect(base_url() . "sales/create");
+   
     
  
   }
@@ -55,7 +125,7 @@ public function index()
     $data['allBrand']       = $this->main_model->getRecordsByOrg("brands");
     $data['allCat']         = $this->main_model->getRecordsByOrg("products_groups");
     $data['allInv']         = $this->main_model->getRecordsByOrg("warehouse");
-    $data['allPro']         = $this->main_model->getRecordsByOrg("products");
+    $data['allPro']         = $this->sales_model->get_all_products_with_available_stock();
     $data['allGroup']       = $this->main_model->getRecordsByOrg("partner_group");
     $data['allCustomer']    = $this->sales_model->getCustomer();
     $data['allPayment']     = $this->main_model->getRecordsByOrg("payment_method");
@@ -539,10 +609,10 @@ public function invoice($id)
 {
  
     $data = array();
-    $data['active']       = "order";
-    $data['title']        = "Order List"; 
-    $data['allPdt']       = $this->purchase_model->getPurchaseList($id);
-    $data['allDets']       = $this->purchase_model->PurchaseItemDetailsList($id);
+    $data['active']       = "invoice";
+    $data['title']        = "invoice"; 
+    $data['allPdt']       = $this->sales_model->getSalesList($id);
+  //  $data['allDets']       = $this->purchase_model->PurchaseItemDetailsList($id);
     $this->load->view('invoice', $data);
  }
 

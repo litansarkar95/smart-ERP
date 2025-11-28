@@ -2,230 +2,250 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>GRN Report</title>
+<title>Premium Invoice - A4</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
 <style>
-    @page {
-        size: A4;
-        margin: 15mm;
-    }
+    @page { size: A4; margin: 12mm; }
 
     body {
-        font-family: Arial, sans-serif;
+        font-family: 'Inter', sans-serif;
         margin: 0;
         padding: 0;
-        background: #f4f4f4;
+        background: #f2f4f7;
     }
 
-    .print-area {
+    .invoice-page {
+        background: #fff;
+        margin: 0 auto;
+        padding: 20mm;
         width: 210mm;
         min-height: 297mm;
-        background: #fff;
-        padding: 20px 25px;
-        margin: auto;
-        box-shadow: 0 0 8px rgba(0,0,0,0.4);
+        box-shadow: 0 0 10px rgba(0,0,0,0.15);
+        position: relative;
+        box-sizing: border-box;
+        border-radius: 4px;
     }
 
-    .header {
+    /* Header */
+    .header-title {
+        font-size: 30px;
+        font-weight: 700;
         text-align: center;
+        margin-bottom: 5px;
+        letter-spacing: 1px;
     }
 
-    .header img {
-        width: 120px;
+    .sub-header {
+        text-align: center;
+        font-size: 14px;
+        color: #444;
+        margin-bottom: 25px;
+        line-height: 20px;
+    }
+
+    .info-row {
+        display: flex;
+        justify-content: space-between;
+        font-size: 14px;
+        margin-bottom: 6px;
+    }
+
+    /* Table */
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 12px;
+        font-size: 14px;
+    }
+
+    th {
+        background: #e9eef5;
+        font-weight: 600;
+        text-align: center;
+        border: 1px solid #bfc9d6;
+        padding: 8px;
+    }
+
+    td {
+        border: 1px solid #c9d3df;
+        padding: 8px;
+        vertical-align: top;
+    }
+
+    .due-title {
+        margin-top: 20px;
+        text-align: center;
+        font-size: 22px;
+        font-weight: 700;
+        color: #333;
+    }
+
+    .totals-row {
+        text-align: right;
+        font-size: 14px;
+        margin-top: 5px;
+    }
+
+    .narration {
+        font-size: 14px;
+        margin-top: 15px;
+        border-top: 1px dashed #aaa;
+        padding-top: 10px;
+    }
+
+    /* Footer fixed area */
+    .footer-area {
+        position: absolute;
+        bottom: 20mm;
+        left: 20mm;
+        right: 20mm;
+    }
+
+    .signatures {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 25px;
+        text-align: center;
+        font-size: 14px;
+    }
+
+    .sign-box {
+        width: 45%;
+    }
+
+    .sign-box hr {
+        border: none;
+        border-top: 1px solid #444;
         margin-bottom: 5px;
     }
 
-    .title {
-        font-size: 20px;
-        font-weight: bold;
-        margin-top: -10px;
-    }
-
-    .subtitle {
-        font-size: 15px;
-        margin-bottom: 10px;
-    }
-
-    .print-time {
-        text-align: right;
-        font-size: 12px;
-        margin-bottom: 8px;
-    }
-
-    table.info {
-        width: 100%;
-        margin-bottom: 15px;
-        font-size: 14px;
-    }
-
-    table.info td {
-        padding: 3px 0;
-    }
-
-    table.data {
-        width: 100%;
-        border-collapse: collapse;
-        font-size: 14px;
-    }
-
-    table.data th, table.data td {
-        border: 1px solid #000;
-        padding: 6px;
-    }
-
-    table.data th {
+    .footer-note {
         text-align: center;
-        background: #e8e8e8;
-        font-weight: bold;
-    }
-
-    tfoot td {
-        font-weight: bold;
-        background: #f2f2f2;
-    }
-
-    .footer {
-        margin-top: 30px;
-        text-align: left;
         font-size: 12px;
+        margin-top: 10px;
+        color: #444;
+        line-height: 18px;
+    }
+
+    .contact-info {
+        text-align: center;
+        font-size: 12.5px;
+        font-weight: 600;
+        margin-top: 6px;
+        line-height: 18px;
     }
 
     .print-btn {
-        padding: 10px 18px;
-        background: #007bff;
-        border: none;
+        padding: 10px 25px;
+        background: #000;
         color: #fff;
-        font-size: 15px;
-        border-radius: 6px;
+        border: none;
         cursor: pointer;
-        margin: 15px auto;
+        margin: 20px auto;
         display: block;
-        text-align: center;
+        border-radius: 6px;
+        font-size: 16px;
     }
 
-    .print-btn:hover {
-        background: #0056b3;
-    }
-
-    /* Hide button on print */
     @media print {
-        .print-btn {
-          display: none;
-        }
-        body {
-            background: #fff;
-        }
-        .print-area {
-            box-shadow: none;
+        body { background: none; }
+        .print-btn { display: none; }
+        .invoice-page {
             margin: 0;
+            box-shadow: none;
+            border-radius: 0;
         }
     }
 </style>
-</head>
 
+</head>
 <body>
 
-<button class="print-btn" onclick="window.print()">Print</button>
-<?php
-if(isset($allPdt)){
-    foreach($allPdt as $pdt){
+<button class="print-btn" onclick="window.print()">🖨 Print</button>
 
-?>
-<div class="print-area">
-    <div class="print-time">Print Date : 22-11-2025 04:10:58 PM</div>
+<div class="invoice-page">
 
-    <div class="header">
-        <!-- <img src="https://waltonbd.com/image/catalog/logo.png"> -->
-        <div class="title">Test Dealer (Demo)</div>
-        <div class="subtitle">Bashundhara</div>
-        <h3>Purchase Invoice</h3>
+    <div class="header-title">LOGIC GO</div>
+    <div class="sub-header">
+        Office: Samir Tower, House-308, 5th Floor, Elephant Road, Dhaka-1205<br>
+        Contact: +8801894821851
     </div>
 
-    <table class="info">
+    <!-- Invoice Info -->
+    <div class="info-row"><strong>Customer:</strong> MASTER IT SOLUTION <span><strong>Invoice No:</strong> LCM/INV/2025005287</span></div>
+    <div class="info-row"><strong>Address:</strong> COMILLA <span><strong>Ref No:</strong> —</span></div>
+    <div class="info-row"><strong>Mobile:</strong> 01840325244 <span><strong>Sold By:</strong> Leton</span></div>
+    <div class="info-row"><strong>Date & Time:</strong> 12/11/2025 — 7:45 PM</div>
+
+    <!-- Table -->
+    <table>
         <tr>
-            <td><strong>Invoice No:</strong> <?php echo $pdt->invoice_no; ?></td>
-            <td><strong>Supplier:</strong> <?php echo $pdt->partner; ?></td>
+            <th>SL</th>
+            <th>Product Description</th>
+            <th>Warranty</th>
+            <th>Qty</th>
+            <th>Unit Price</th>
+            <th>Amount</th>
         </tr>
+
         <tr>
-            <td><strong>Invoice Date:</strong> <?php echo date("d-m-Y",$pdt->purchase_date); ?></td>
-            <td><strong>Total Amount:</strong> <?php echo $pdt->totalAmount; ?></td>
+            <td style="text-align:center;">1</td>
+            <td>
+                EV-IPC-DL12B/4MM/3MP/DUAL LIGHT BULLET/IP CAMERA POE<br>
+                <strong>SN:</strong> 25070130064, 25070130082, 25070130080, 25070130052, 
+                25070130088, 25070130074, 25070130084, 25070130073, 25070130051,
+                25070130050, 25070130048, 25070130054, 25070130058
+            </td>
+            <td style="text-align:center;">1 YEAR</td>
+            <td style="text-align:center;">13</td>
+            <td style="text-align:right;">1,750.00</td>
+            <td style="text-align:right;">22,750.00</td>
         </tr>
     </table>
 
-    <table class="data">
-        <thead>
-            <tr>
-                <th>SL</th>
-                <th>Item Name</th>
-                <th>Unit Price</th>
-                <th>Qty</th>
-                <th>Rebate</th>
-                <th>Unit</th>
-                <th>Amount</th>
-            </tr>
-        </thead>
+    <div class="totals-row"><b>Total Amount:</b> 22,750.00</div>
+    <div class="totals-row"><b>Less Discount:</b> 0.00</div>
+    <div class="totals-row"><b>Add VAT:</b> 0.00</div>
+    <div class="totals-row"><b>Net Payable:</b> 22,750.00</div>
+    <div class="totals-row"><b>Previous Due:</b> 315,450.00</div>
+    <div class="totals-row"><b>Received Amount:</b> 40,000.00</div>
+    <div class="totals-row"><b>Current Due:</b> 298,200.00</div>
 
-        <tbody>
-            <?php
-            $i = 1;
-            if(isset($allDets)){
-                foreach($allDets as $detail){
-               
-            ?>
-            <tr>
-                <td><?= $i++ ?></td>
-                <td><?php echo $detail->title; ?></td>
-                <td><?php echo $detail->purchase_price; ?></td>
-                <td><?php echo $detail->quanity; ?></td>
-                <td><?php echo $detail->rebate; ?></td>
-                <td><?php echo $detail->unit; ?></td>
-                <td><?php echo $detail->quanity * $detail->purchase_price; ?></td>
-            </tr>
-            <?php
-                }
-            }
-            ?>
+    <div class="narration">
+        <strong>Narration:</strong> WARRANTY SWITCH = 1 PCS  
+        <br><strong>Total Qty:</strong> 13  
+        <br><strong>In Words:</strong> Twenty-Two Thousand Seven Hundred Fifty Only
+    </div>
 
-          
-        </tbody>
+    <!-- Footer Area -->
+    <div class="footer-area">
 
-        <tfoot>
-            <tr>
-                <td colspan="6" style="text-align:right;">Total :</td>
-                <td><?php echo $pdt->allTotal; ?></td>
-            </tr>
-            <tr>
-                <td colspan="6" style="text-align:right;">total Discount :</td>
-                 <td><?php echo $pdt->totalDiscount; ?></td>
-            </tr>
-            <tr>
-                <td colspan="6" style="text-align:right;">Total Rebate:</td>
-                <td><?php echo $pdt->totalRebate; ?></td>
-            </tr>
-            <tr>
-                <td colspan="6" style="text-align:right;">Total :</td>
-                   <td><?php echo $pdt->totalAmount; ?></td>
-            </tr>
-             <tr>
-                <td colspan="6" style="text-align:right;">Paid :</td>
-                   <td><?php echo $pdt->paidAmount; ?></td>
-            </tr>
+        <div class="signatures">
+            <div class="sign-box">
+                <hr>
+                Customer Signature
+            </div>
+            <div class="sign-box">
+                <hr>
+                Authorised Signature
+            </div>
+        </div>
 
-             <tr>
-                <td colspan="6" style="text-align:right;">due :</td>
-                 <td><?php echo $pdt->dueAmount; ?></td>
-            </tr>
-        </tfoot>
-    </table>
+        <div class="footer-note">
+            টাকা ইস্যু, মন অর্ডারফর্ম গ্রাহকের ও ওয়্যারান্টি সংক্রান্ত কোন প্রকার ক্লেইম গ্রহণযোগ্য হবে না।
+        </div>
 
-    <!-- <div class="footer">
-        Design and developed by: Master IT
-    </div> -->
+        <div class="contact-info">
+            Warranty & Support: 01706995884 |
+            Sales: 01896199042, 01706995886, 01706995883 |
+            Complain: 01894821850
+        </div>
+
+    </div>
+
 </div>
-<?php
-    }
-}
-?>
+
 </body>
 </html>

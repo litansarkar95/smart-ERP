@@ -16,14 +16,14 @@
       <div class="content">
         <div class="row">
           <div class="col-auto">
-           <h3>Purchase  </h3>
+           <h3>Sales  </h3>
           </div>
           <div class="col-auto ms-auto">
             <!-- Button trigger modal -->
                <div class="right">
                  <?php if (has_permission('products', 'create')): ?>
-                <a type="button" href="<?php echo base_url(); ?>purchase/create" class="btn btn_bg" >
-                    <i class="fa-solid fa-plus"></i> Add New Purchase 
+                <a type="button" href="<?php echo base_url(); ?>sales/create" class="btn btn_bg" >
+                    <i class="fa-solid fa-plus"></i> Add New Sales 
                 </a>
                    <?php endif; ?>
             </div>
@@ -39,8 +39,8 @@
                             <tr>
                                 <th>#</th>
                                 <th>Invoice</th>
-                                <th>Store</th>
-                                <th>Suplier</th>
+                                <th>Name</th>
+                                <th>Mobile No</th>
                                 <th>Total Amout</th>
                                 <th>Paid Amount</th>
                                 <th>Due</th>
@@ -57,12 +57,12 @@
                                             <?= $i++ ?>
                                         </td>
                                            <td><?php echo $pdt->invoice_no;?>    </td>
-                                           <td><?php echo $pdt->warehouse;?>    </td>
-                                           <td><?php echo $pdt->partner;?>    </td>
+                                           <td><?php echo $pdt->customer_name;?>    </td>
+                                           <td><?php echo $pdt->mobile_no;?>    </td>
                                            <td><?php echo $pdt->totalAmount;?>  </td>
                                            <td><?php echo $pdt->paidAmount;?>  </td>
                                            <td><?php echo $pdt->dueAmount;?>  </td>
-                                           <td><?php echo date("d-m-Y",$pdt->purchase_date);?>  </td>
+                                           <td><?php echo date("d-m-Y",$pdt->sales_date);?>  </td>
                                      
                                       
                                                
@@ -70,16 +70,16 @@
                                        <td>
                                     <div class="btn-group" role="group">
 
-                                      <a href="<?php echo base_url()."purchase/invoice/$pdt->id"?>" target="_blank" class="btn btn-sm btn-primary me-1">
+                                      <a href="<?php echo base_url()."sales/invoice/$pdt->id"?>" target="_blank" class="btn btn-sm btn-primary me-1">
                                             <i class="fa fa-eye"></i> 
                                         </a>
-                                        <?php if (has_permission('purchase', 'edit')): ?>
-                                        <a href="<?php echo base_url()."purchase/edit/$pdt->id"?>" class="btn btn-sm btn-primary me-1">
+                                        <?php if (has_permission('sales', 'edit')): ?>
+                                        <a href="<?php echo base_url()."sales/edit/$pdt->id"?>" class="btn btn-sm btn-primary me-1">
                                             <i class="fa fa-pencil"></i> 
                                         </a>
                                         <?php endif; ?>
 
-                                        <?php if (has_permission('purchase', 'delete')): ?>
+                                        <?php if (has_permission('sales', 'delete')): ?>
                                         <a href="#" class="btn btn-sm btn-danger" onclick="confirmDelete(<?php echo $pdt->id; ?>)">
                                             <i class="fa fa-trash"></i> 
                                         </a>
@@ -137,7 +137,7 @@ $(document).on('shown.bs.modal', '[id^="edit_modals"]', function () {
         confirmButtonText: "Yes, delete it!"
         }).then((result) => {
         if (result.value) {
-             window.location.href = "<?php echo base_url(); ?>purchase/delete/"+userId;
+             window.location.href = "<?php echo base_url(); ?>sales/delete/"+userId;
         }
         }); 
 

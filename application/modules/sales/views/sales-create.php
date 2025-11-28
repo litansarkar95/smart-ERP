@@ -19,7 +19,21 @@
     font-size: 14px;
 }
 
-  </style>
+
+    .group-name {
+        font-weight: bold;
+        color: #1e07cdff !important;
+    }
+    .stock-count {
+        color: #0a7cff;
+        font-size: 15px;
+        font-weight: bold;
+    }
+    .price-tag {
+        color: #e60000 !important; 
+        font-weight: bold;
+    }
+</style>
   	  <link rel="stylesheet" href="https://code.jquery.com/ui/1.14.1/themes/base/jquery-ui.css">
   <script src="https://code.jquery.com/ui/1.14.1/jquery-ui.js"></script>
 <div class="container-fluid">
@@ -58,14 +72,14 @@
 </div>
 
                 <form  action="<?php echo base_url(); ?>sales/create" method="post" enctype="multipart/form-data">
-                                                            <div class="row mb-3">
-    <!-- <div class="col-md-12 ">
+                                                            <div class="row ">
+    <div class="col-md-12 ">
         <div class="form-group">
            
            <input type="text" name="previousDue" placeholder="Scan Barcode & Hit Enter....."     class="form-control " autofocus>
 
         </div>
-    </div> -->
+    </div>
                                      <div class="col-md-2 ">
 																<div class="form-group">
 																<label for="invoice_no">Invoice No <span class="text-error"> *</span></label>
@@ -81,7 +95,7 @@
 																</div>
 									      					</div>     
 
-                                  <div class="col-md-3 mb-3">
+                                  <div class="col-md-3 ">
                                 <div class="form-group">
                                     <label for="customer_id">Select Customer</label>
                                     <div class="select_2_container">
@@ -101,7 +115,7 @@
                                 </div>
                                 </div>
 
-                                  <div class="col-md-2 mb-3">
+                                  <div class="col-md-2 ">
                                 <div class="form-group">
                                     <label for="customer_name">Customer Name</label>
                           
@@ -112,7 +126,7 @@
                                 </div>
 
                                 <!-- Mobile No -->  
-                                        <div class="col-md-2 mb-3">
+                                        <div class="col-md-2 ">
                                 <div class="form-group">
                                     <label for="mobile_no">Mobile No</label>
                             
@@ -123,7 +137,7 @@
 
                                 <!-- Address -->  
 
-                                <div class="col-md-2 mb-3">
+                                <div class="col-md-2 ">
                                 <div class="form-group">
                                     <label for="address">Address</label>
                             
@@ -132,7 +146,7 @@
                                     <span class="text-error small"><?= form_error('address'); ?></span>
                                 </div>
                                 </div>
-                                <div class="col-md-2 mb-3">
+                                <div class="col-md-2 ">
                                 <div class="form-group">
                                     <label for="customer_group_id">Select Customer Group</label>
                                     <div class="select_2_container">
@@ -153,7 +167,7 @@
 
                                 <!-- Brand -->  
 
-                          <div class="col-md-2 mb-3" style="display:none;">
+                          <div class="col-md-2 " style="display:none;">
                                     <div class="form-group">
                                   <label for="store_id">Receiving Store </label>
                                   <div class="select_2_container">
@@ -172,7 +186,7 @@
                                  
                                    <!-- Brand -->  
 
-                          <div class="col-md-2 mb-3">
+                          <div class="col-md-2 ">
                                     <div class="form-group">
                                   <label for="group_id">Select Product Group </label>
                                   <div class="select_2_container">
@@ -191,15 +205,22 @@
                                 <!-- end Brand -->
                                   <!-- Brand -->  
 
-                                                                                <div class="col-md-3 mb-3">
+                                                                                <div class="col-md-5 ">
                                                                                             <div class="form-group">
                                                                                         <label for="product_id">Select Product  </label>
                                                                                         <div class="select_2_container">
                                                                                             <select name="product_id"  id="product_id"     class="form-control frm_select select2">
                                                                                             <option  value="">  Select Product </option>
-                                                                                            <?php foreach($allPro as $pro): ?>
-                                                                                    <option value="<?= $pro->id ?>" ><?= $pro->name ?></option>
-                                                                                <?php endforeach; ?>
+                                                                                           <?php foreach ($allPro as $pro): ?>
+                                                                                                    <option value="<?= $pro->id ?>">
+                                                                                                        
+                                                                                                        <?= $pro->product_name ?>  
+                                                                                                        — <span class="group-name">(<?= $pro->group_name ?>)</span> 
+                                                                                                        — <span class="stock-count">Stock: <?= $pro->available_stock ?> </span>
+                                                                                                        — <span class="price-tag">Price: <?= number_format($pro->sales_price,2) ?></span>
+
+                                                                                                    </option>
+                                                                                                <?php endforeach; ?>
                                                                                             </select>
                                                                                             <i class="fas fa-caret-down"></i>
                                                                                         </div>
@@ -226,7 +247,24 @@
 
                                                                                                                     
                                                         
+                                        <div class="col-md-2 ">
+                                <div class="form-group">
+                                    <label for="sales_person_id">Select Sales Person</label>
+                                    <div class="select_2_container">
+                                   <select name="sales_person_id" id="sales_person_id" class="form-control frm_select select2" >
+                                    <option value="">Select</option>
+                                    <?php foreach($allSperson as $person){ ?>
+                                        <option value="<?= $person->id; ?>"  >
+                                            <?= $person->name ; ?>
+                                        </option>
+                                    <?php } ?>
+                                </select>
 
+                                    <i class="fas fa-caret-down"></i>
+                                    </div>
+                                    <span class="text-error small"><?= form_error('sales_person_id'); ?></span>
+                                </div>
+                                </div>
                                                             
                                                               <div class="col-md-2 "  id="remarks"  >
 																<div class="form-group">
@@ -366,9 +404,9 @@
 
                       
                                      </div>
-<div class="row align-items-center">
+<div class="row align-items-right">
     <!-- Left side: checkboxes -->
-    <div class="col-md-8" >
+    <div class="col-md-12 right" >
         <div class="form-check" id="save_customer_box">
             <input class="form-check-input" type="checkbox" name="save_customer" value="1" id="saveCustomer">
             <label class="form-check-label" for="saveCustomer">Is Customer Save?</label>
@@ -381,10 +419,7 @@
             <input class="form-check-input" type="checkbox" name="send_bill_email" value="1" id="sendBillEmail">
             <label class="form-check-label" for="sendBillEmail">Send Bill Invoice Email</label>
         </div>
-    </div>
 
-    <!-- Right side: button -->
-    <div class="col-md-4 text-end">
         <button type="submit" class="btn btn_bg">Confirm Order</button>
     </div>
 </div>
@@ -550,7 +585,16 @@ function updateOrderSummary(){
 
     let total = subtotal - totalDiscount;
     let adjustment = parseFloat($('#adjustment').val()) || 0;
-    let payable = total + adjustment;
+
+    // ========== 🔥 VALIDATION HERE 🔥 ==========
+    // Adjustment cannot exceed total
+    if(adjustment > total){
+        adjustment = total;
+        $('#adjustment').val(total.toFixed(2));  // auto correct
+    }
+    // ===========================================
+
+    let payable = total - adjustment;
 
     let customerName = $('#customer_id option:selected').text().split(' - ')[0];
 
@@ -558,12 +602,13 @@ function updateOrderSummary(){
     let due = 0;
 
     if(customerName === "Cash") {
-        // Cash হলে paidAmount = payable, due = 0
-        paid = payable;
+
+        paid = payable;   // auto full paid
         due = 0;
         $('#paidAmount').prop('readonly', true);
+
     } else {
-        // Non-Cash, due calculate
+
         if(paid > payable) paid = payable;
         due = payable - paid;
         $('#paidAmount').prop('readonly', false);
@@ -578,6 +623,13 @@ function updateOrderSummary(){
     $('#dueAmount').val(due.toFixed(2));
     $('#paidAmount').val(paid.toFixed(2));
 }
+
+
+// Adjustment live update
+$('#adjustment').on('input', function(){
+    updateOrderSummary();
+});
+
 
 
 
@@ -621,7 +673,7 @@ function updateSalesItem(row) {
 $('#paidAmount').on('input', function() {
     let total = parseFloat($('#totalAmount').val()) || 0;
     let adjustment = parseFloat($('#adjustment').val()) || 0;
-    let payable = total + adjustment;
+    let payable = total - adjustment;
 
     let customerName = $('#customer_id option:selected').text().split(' - ')[0];
 
