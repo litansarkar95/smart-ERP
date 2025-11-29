@@ -1,227 +1,342 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="bn">
 <head>
 <meta charset="UTF-8">
 <title>Premium Invoice - A4</title>
-
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-
 <style>
     @page { size: A4; margin: 12mm; }
 
-    body {
+    body{
         font-family: 'Inter', sans-serif;
-        margin: 0;
-        padding: 0;
-        background: #f2f4f7;
+        margin:0;
+        padding:0;
+        background:#f2f4f7;
+        color:#222;
     }
 
-    .invoice-page {
-        background: #fff;
-        margin: 0 auto;
-        padding: 20mm;
-        width: 210mm;
-        min-height: 297mm;
-        box-shadow: 0 0 10px rgba(0,0,0,0.15);
-        position: relative;
-        box-sizing: border-box;
-        border-radius: 4px;
+    .invoice-page{
+        background:#fff;
+        width:210mm;
+        min-height:297mm;
+        margin:0 auto;
+        padding:18mm 18mm 48mm 18mm; /* extra bottom for footer */
+        box-sizing:border-box;
+        position:relative;
+        border-radius:4px;
+        box-shadow:0 0 10px rgba(0,0,0,0.12);
     }
 
-    /* Header */
-    .header-title {
-        font-size: 30px;
-        font-weight: 700;
-        text-align: center;
-        margin-bottom: 5px;
-        letter-spacing: 1px;
+    .print-btn{
+        display:block;
+        margin:18px auto;
+        padding:10px 24px;
+        background:#111;
+        color:#fff;
+        border:none;
+        border-radius:6px;
+        cursor:pointer;
+        font-size:15px;
     }
 
-    .sub-header {
-        text-align: center;
-        font-size: 14px;
-        color: #444;
-        margin-bottom: 25px;
-        line-height: 20px;
+    .header-title{
+        text-align:center;
+        font-size:32px;
+        font-weight:700;
+        margin-bottom:4px;
+        letter-spacing:1px;
     }
 
-    .info-row {
-        display: flex;
-        justify-content: space-between;
-        font-size: 14px;
-        margin-bottom: 6px;
+    .sub-header{
+        text-align:center;
+        color:#444;
+        font-size:13.5px;
+        line-height:1.3;
+        margin-bottom:18px;
     }
 
-    /* Table */
-    table {
-        width: 100%;
-        border-collapse: collapse;
-        margin-top: 12px;
-        font-size: 14px;
+    /* info rows */
+    .info-row{
+        display:flex;
+        justify-content:space-between;
+        gap:12px;
+        margin-bottom:6px;
+        font-size:13.5px;
+    }
+    .info-left, .info-right{ display:flex; gap:8px; align-items:center; }
+    .label { font-weight:600; min-width:86px; display:inline-block; }
+
+    /* table */
+    table{
+        width:100%;
+        border-collapse:collapse;
+        margin-top:12px;
+        font-size:13.5px;
+    }
+    th{
+        background:#e9eef5;
+        border:1px solid #bfc9d6;
+        padding:9px 8px;
+        text-align:center;
+        font-weight:600;
+    }
+    td{
+        border:1px solid #c9d3df;
+        padding:8px;
+        vertical-align:top;
+        font-size:13.5px;
     }
 
-    th {
-        background: #e9eef5;
-        font-weight: 600;
-        text-align: center;
-        border: 1px solid #bfc9d6;
-        padding: 8px;
+    /* after table: layout with narration left + summary right */
+    .after-table{
+        display:flex;
+        justify-content:space-between;
+        gap:18px;
+        margin-top:12px;
+        align-items:flex-start;
     }
 
-    td {
-        border: 1px solid #c9d3df;
-        padding: 8px;
-        vertical-align: top;
+    .narration{
+        flex:1;
+        border-top:1px dashed #ccc;
+        padding-top:10px;
+        font-size:13.5px;
+        line-height:1.6;
     }
 
-    .due-title {
-        margin-top: 20px;
-        text-align: center;
-        font-size: 22px;
-        font-weight: 700;
-        color: #333;
+    .summary-box{
+        width:320px;
+        background:#f9fbff;
+        border:1px solid #e1e8f2;
+        padding:12px;
+        border-radius:6px;
+        box-shadow:0 1px 0 rgba(0,0,0,0.02);
+        font-size:13.5px;
     }
 
-    .totals-row {
-        text-align: right;
-        font-size: 14px;
-        margin-top: 5px;
+    .summary-row{
+        display:flex;
+        justify-content:space-between;
+        padding:6px 0;
+        border-bottom:1px dashed #e6ecf6;
+        align-items:center;
     }
 
-    .narration {
-        font-size: 14px;
-        margin-top: 15px;
-        border-top: 1px dashed #aaa;
-        padding-top: 10px;
+    .summary-row:last-child{ border-bottom:none; }
+
+    .summary-row .label { font-weight:600; color:#333; min-width:120px; }
+    .summary-row .value { font-weight:600; min-width:80px; text-align:right; }
+
+    .summary-row.small .label, .summary-row.small .value { font-weight:500; font-size:13px; color:#444; }
+    .summary-row.total .label, .summary-row.total .value { font-size:15px; font-weight:700; color:#111; }
+
+    .summary-row.current-due {
+        background: linear-gradient(90deg, rgba(255,250,230,0.8), rgba(255,255,255,0));
+        border-radius:4px;
+        padding:8px;
+        margin-top:6px;
     }
 
-    /* Footer fixed area */
-    .footer-area {
-        position: absolute;
-        bottom: 20mm;
-        left: 20mm;
-        right: 20mm;
+    /* footer area */
+    .footer-area{
+        position:absolute;
+        left:18mm;
+        right:18mm;
+        bottom:15mm;
+    }
+    .signatures{
+        display:flex;
+        justify-content:space-between;
+        margin-top:12px;
+        font-size:13px;
+    }
+    .sign-box{ width:45%; text-align:center; }
+    .sign-box hr{ border:none; border-top:1px solid #444; margin-bottom:6px; }
+
+    .footer-note{ text-align:center; font-size:12px; color:#444; margin-top:10px; line-height:1.4; }
+    .contact-info{ text-align:center; font-size:12.5px; font-weight:600; margin-top:8px; }
+
+    @media print{
+        body{ background:none; }
+        .print-btn{ display:none; }
+        .invoice-page{ box-shadow:none; border-radius:0; margin:0; padding-bottom:50mm; }
     }
 
-    .signatures {
-        display: flex;
-        justify-content: space-between;
-        margin-top: 25px;
-        text-align: center;
-        font-size: 14px;
-    }
-
-    .sign-box {
-        width: 45%;
-    }
-
-    .sign-box hr {
-        border: none;
-        border-top: 1px solid #444;
-        margin-bottom: 5px;
-    }
-
-    .footer-note {
-        text-align: center;
-        font-size: 12px;
-        margin-top: 10px;
-        color: #444;
-        line-height: 18px;
-    }
-
-    .contact-info {
-        text-align: center;
-        font-size: 12.5px;
-        font-weight: 600;
-        margin-top: 6px;
-        line-height: 18px;
-    }
-
-    .print-btn {
-        padding: 10px 25px;
-        background: #000;
-        color: #fff;
-        border: none;
-        cursor: pointer;
-        margin: 20px auto;
-        display: block;
-        border-radius: 6px;
-        font-size: 16px;
-    }
-
-    @media print {
-        body { background: none; }
-        .print-btn { display: none; }
-        .invoice-page {
-            margin: 0;
-            box-shadow: none;
-            border-radius: 0;
-        }
-    }
 </style>
-
 </head>
 <body>
 
 <button class="print-btn" onclick="window.print()">🖨 Print</button>
 
 <div class="invoice-page">
+<?php
+if(isset($allPdt)){
+    foreach($allPdt as $pdt){
 
+?>
     <div class="header-title">LOGIC GO</div>
     <div class="sub-header">
         Office: Samir Tower, House-308, 5th Floor, Elephant Road, Dhaka-1205<br>
         Contact: +8801894821851
     </div>
 
-    <!-- Invoice Info -->
-    <div class="info-row"><strong>Customer:</strong> MASTER IT SOLUTION <span><strong>Invoice No:</strong> LCM/INV/2025005287</span></div>
-    <div class="info-row"><strong>Address:</strong> COMILLA <span><strong>Ref No:</strong> —</span></div>
-    <div class="info-row"><strong>Mobile:</strong> 01840325244 <span><strong>Sold By:</strong> Leton</span></div>
-    <div class="info-row"><strong>Date & Time:</strong> 12/11/2025 — 7:45 PM</div>
+    <!-- Info -->
+    <div class="info-row">
+        <div class="info-left">
+            <span class="label">Customer:</span>
+            <span><?php echo $pdt->customer_name; ?></span>
+        </div>
+        <div class="info-right">
+            <span class="label">Invoice No:</span>
+            <span><?php echo $pdt->invoice_no; ?></span>
+        </div>
+    </div>
+
+    <div class="info-row">
+        <div class="info-left">
+            <span class="label">Address:</span>
+            <span><?php echo $pdt->address; ?></span>
+        </div>
+        <div class="info-right">
+            <span class="label">Ref No:</span>
+            <span>—</span>
+        </div>
+    </div>
+
+    <div class="info-row">
+        <div class="info-left">
+            <span class="label">Mobile:</span>
+            <span><?php echo $pdt->mobile_no; ?></span>
+        </div>
+        <div class="info-right">
+            <span class="label">Sold By:</span>
+            <span>Leton</span>
+        </div>
+    </div>
+
+    <div class="info-row">
+        <div class="info-left">
+            <span class="label">Date & Time:</span>
+            <span><?php    echo $formatted_date = date("d/m/Y — g:i A");     ?>
+        </span>
+        </div>
+        <div></div>
+    </div>
 
     <!-- Table -->
     <table>
-        <tr>
-            <th>SL</th>
-            <th>Product Description</th>
-            <th>Warranty</th>
-            <th>Qty</th>
-            <th>Unit Price</th>
-            <th>Amount</th>
-        </tr>
+        <thead>
+            <tr>
+                <th style="width:5%;">SL</th>
+                <th style="width:53%;">Product Description</th>
+                <th style="width:12%;">Warranty</th>
+                <th style="width:6%;">Qty</th>
+                <th style="width:12%;">Unit Price</th>
+                <th style="width:12%;">Amount</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php
+            if(isset($allDets)){
+                foreach($allDets as $details){
 
-        <tr>
-            <td style="text-align:center;">1</td>
-            <td>
-                EV-IPC-DL12B/4MM/3MP/DUAL LIGHT BULLET/IP CAMERA POE<br>
-                <strong>SN:</strong> 25070130064, 25070130082, 25070130080, 25070130052, 
-                25070130088, 25070130074, 25070130084, 25070130073, 25070130051,
-                25070130050, 25070130048, 25070130054, 25070130058
-            </td>
-            <td style="text-align:center;">1 YEAR</td>
-            <td style="text-align:center;">13</td>
-            <td style="text-align:right;">1,750.00</td>
-            <td style="text-align:right;">22,750.00</td>
-        </tr>
+            ?>
+            <tr>
+                <td style="text-align:center;">1</td>
+                <td>
+                    <?php echo $details->title; ?><br>
+                         <?php
+                 if($details->serial_type == 'unique'){
+                    ?>
+                    <strong>S/N:</strong>
+
+                 <?php
+               
+                $allbatch = $this->sales_model->SalesItemBatch($details->id);
+
+                $batch_numbers = [];
+
+                if (!empty($allbatch)) {
+                    foreach ($allbatch as $batch) {
+                        $batch_numbers[] = $batch->batch_number;
+                    }
+
+                    echo implode(", ", $batch_numbers);  // Output: 25070130064, 25070130082, ...
+                }
+            }else{
+
+            }
+                ?>
+
+                </td>
+                <td style="text-align:center;"><?php if($details->warrenty > 0 ){ echo $details->warrenty." ".$details->warrenty_days; }?></td>
+                <td style="text-align:center;"><?php echo $details->qty; ?></td>
+                <td style="text-align:right;"><?php echo $details->price; ?></td>
+                <td style="text-align:right;"><?php echo $details->sub_total; ?></td>
+            </tr>
+            <?php
+    }
+}
+            ?>
+        </tbody>
     </table>
 
-    <div class="totals-row"><b>Total Amount:</b> 22,750.00</div>
-    <div class="totals-row"><b>Less Discount:</b> 0.00</div>
-    <div class="totals-row"><b>Add VAT:</b> 0.00</div>
-    <div class="totals-row"><b>Net Payable:</b> 22,750.00</div>
-    <div class="totals-row"><b>Previous Due:</b> 315,450.00</div>
-    <div class="totals-row"><b>Received Amount:</b> 40,000.00</div>
-    <div class="totals-row"><b>Current Due:</b> 298,200.00</div>
+    <!-- Narration + Summary -->
+    <div class="after-table">
 
-    <div class="narration">
-        <strong>Narration:</strong> WARRANTY SWITCH = 1 PCS  
-        <br><strong>Total Qty:</strong> 13  
-        <br><strong>In Words:</strong> Twenty-Two Thousand Seven Hundred Fifty Only
+        <div class="narration">
+            <strong>Narration:</strong> WARRANTY SWITCH = 1 PCS<br>
+            <strong>In Words:</strong> <br>
+            <br>
+            <strong>Note:</strong> পণ্যের স্থিতি ও ওয়ারেন্টি শর্ত কোম্পানির নিয়ম অনুযায়ী কার্যকর হবে।
+        </div>
+
+        <div class="summary-box" aria-hidden="false">
+            <div class="summary-row small">
+                <div class="label">Total Qty</div>
+                <div class="value"><?php echo $pdt->totalQty; ?></div>
+            </div>
+
+            <div class="summary-row small">
+                <div class="label">Total Amount</div>
+                <div class="value"><?php echo $pdt->subTotal; ?></div>
+            </div>
+
+            <div class="summary-row small">
+                <div class="label">Less Discount</div>
+                <div class="value"><?php echo $pdt->total_discount; ?></div>
+            </div>
+
+            <!-- <div class="summary-row small">
+                <div class="label">Add VAT</div>
+                <div class="value">0.00</div>
+            </div> -->
+
+            <div class="summary-row total">
+                <div class="label">Net Payable</div>
+                <div class="value"><?php echo $pdt->payableAmount; ?></div>
+            </div>
+
+            <div class="summary-row small">
+                <div class="label">Previous Due</div>
+                <div class="value">0</div>
+            </div>
+
+            <div class="summary-row small">
+                <div class="label">Received Amount</div>
+                <div class="value"><?php echo $pdt->paidAmount; ?></div>
+            </div>
+
+            <div class="summary-row current-due total">
+                <div class="label">Current Due</div>
+                <div class="value">0</div>
+            </div>
+        </div>
+
     </div>
 
     <!-- Footer Area -->
     <div class="footer-area">
-
         <div class="signatures">
             <div class="sign-box">
                 <hr>
@@ -242,10 +357,11 @@
             Sales: 01896199042, 01706995886, 01706995883 |
             Complain: 01894821850
         </div>
-
     </div>
-
+<?php
+}
+}
+?>
 </div>
-
 </body>
 </html>

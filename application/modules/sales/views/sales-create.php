@@ -215,7 +215,7 @@
                                                                                                     <option value="<?= $pro->id ?>">
                                                                                                         
                                                                                                         <?= $pro->product_name ?>  
-                                                                                                        — <span class="group-name">(<?= $pro->group_name ?>)</span> 
+                                                                                                        — <span class="group-name" style="color:red;">(<?= $pro->group_name ?>)</span> 
                                                                                                         — <span class="stock-count">Stock: <?= $pro->available_stock ?> </span>
                                                                                                         — <span class="price-tag">Price: <?= number_format($pro->sales_price,2) ?></span>
 

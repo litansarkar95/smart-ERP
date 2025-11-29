@@ -31,7 +31,7 @@ class Sales_model extends CI_Model {
 
             -- Pending Sales
             IFNULL( (SELECT SUM(qty) 
-                     FROM sales_items 
+                     FROM sales_order_items 
                      WHERE product_id = p.id AND status = 'Pending'), 0 ) AS pending_sales,
 
             -- Sales Price (latest stock record)
@@ -48,7 +48,7 @@ class Sales_model extends CI_Model {
                          WHERE product_id = p.id AND is_active = 1), 0 )
                 -
                 IFNULL( (SELECT SUM(qty) 
-                         FROM sales_items 
+                         FROM sales_order_items 
                          WHERE product_id = p.id AND status = 'Pending'), 0 )
             ) AS available_stock
         ");
@@ -129,7 +129,7 @@ public function get_total_quantity($product_id, $invoice_code = null)
 
     // 2️⃣ total sold (exclude current invoice if provided)
     $this->db->select('SUM(qty) AS sold_qty');
-    $this->db->from('sales_items');
+    $this->db->from('sales_order_items');
     $this->db->where('organization_id', $organization_id);
     $this->db->where('product_id', $product_id);
     $this->db->where('status', "Pending");
@@ -160,15 +160,26 @@ public function get_total_quantity($product_id, $invoice_code = null)
     }
 
 
-    public function PurchaseItemDetailsList($id) {
+    public function SalesItemDetailsList($id) {
         $loggedin_org_id = $this->session->userdata("loggedin_org_id");
        
-		$this->db->select("inv_stock_history.* , products.name title , unit.name unit");
-        $this->db->from("inv_stock_history");
-        $this->db->join('products', "inv_stock_history.product_id = products.id",'left');
+		$this->db->select("sales_items.* , products.name title , unit.name unit");
+        $this->db->from("sales_items");
+        $this->db->join('products', "sales_items.product_id = products.id",'left');
         $this->db->join('unit', "products.unit_id = unit.id",'left');
-        $this->db->where("inv_stock_history.organization_id", $loggedin_org_id);
-        $this->db->where("inv_stock_history.purchase_id",$id);
+        $this->db->where("sales_items.organization_id", $loggedin_org_id);
+        $this->db->where("sales_items.sales_id",$id);
+        $this->db->order_by("id", "DESC");
+        return $this->db->get()->result();
+    }
+
+      public function SalesItemBatch($id) {
+        $loggedin_org_id = $this->session->userdata("loggedin_org_id");
+       
+		$this->db->select("sales_item_batch_profit_loss.* ");
+        $this->db->from("sales_item_batch_profit_loss");
+        $this->db->where("sales_item_batch_profit_loss.organization_id", $loggedin_org_id);
+        $this->db->where("sales_item_batch_profit_loss.sales_item_id",$id);
         $this->db->order_by("id", "DESC");
         return $this->db->get()->result();
     }
@@ -207,10 +218,9 @@ public function get_items_by_invoice($invoice_id)
   
 
     if ($invoice_id) {
-        $this->db->select('purchase_items.*, purchase_item_serials.serial_number');
-        $this->db->from('purchase_items');
-        $this->db->join('purchase_item_serials', 'purchase_item_serials.item_id = purchase_items.id', 'left');
-        $this->db->where('purchase_items.invoice_id', $invoice_id);
+        $this->db->select('sales_order_items.*');
+        $this->db->from('sales_order_items');
+         $this->db->where('sales_order_items.invoice_id', $invoice_id);
 
         $query = $this->db->get();
         return $query->result();
