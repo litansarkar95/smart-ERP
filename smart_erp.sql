@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 29, 2025 at 12:40 PM
+-- Generation Time: Nov 30, 2025 at 09:31 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -97,7 +97,13 @@ INSERT INTO `acc_general_ledger` (`id`, `organization_id`, `branch_id`, `voucher
 (118, 3, 1, 'Purchase', 90, 0, 29, 'Supplier Purchase', 'Purchase for order', '2025-11-29', 500.00, 0.00, 1764408907, 0, 0, 'Purchase order ', 1, 17, 1764408907, 0, 0),
 (119, 3, 1, 'Supplier Rebate', 90, 0, 29, 'Rebate', 'Rebate for order', '2025-11-29', 0.00, 1.00, 1764408907, 0, 0, 'Payment for order with rebate and discount ', 1, 17, 1764408907, 0, 0),
 (120, 3, 1, 'Purchase', 91, 0, 29, 'Supplier Purchase', 'Purchase for order', '2025-11-29', 500.00, 0.00, 1764409077, 0, 0, 'Purchase order ', 1, 17, 1764409077, 0, 0),
-(121, 3, 1, 'Supplier Rebate', 91, 0, 29, 'Rebate', 'Rebate for order', '2025-11-29', 0.00, 1.00, 1764409077, 0, 0, 'Payment for order with rebate and discount ', 1, 17, 1764409077, 0, 0);
+(121, 3, 1, 'Supplier Rebate', 91, 0, 29, 'Rebate', 'Rebate for order', '2025-11-29', 0.00, 1.00, 1764409077, 0, 0, 'Payment for order with rebate and discount ', 1, 17, 1764409077, 0, 0),
+(122, 3, 1, 'Purchase', 92, 0, 26, 'Supplier Purchase', 'Purchase for order', '2025-11-30', 1500.00, 0.00, 1764475298, 0, 0, 'Purchase order ', 1, 17, 1764475298, 0, 0),
+(123, 3, 1, 'Supplier Rebate', 92, 0, 26, 'Rebate', 'Rebate for order', '2025-11-30', 0.00, 1.00, 1764475298, 0, 0, 'Payment for order with rebate and discount ', 1, 17, 1764475298, 0, 0),
+(124, 3, 1, 'Purchase', 93, 0, 29, 'Supplier Purchase', 'Purchase for order', '2025-11-30', 165.00, 0.00, 1764484243, 0, 0, 'Purchase order ', 1, 17, 1764484243, 0, 0),
+(125, 3, 1, 'Supplier Rebate', 93, 0, 29, 'Rebate', 'Rebate for order', '2025-11-30', 0.00, 1.00, 1764484243, 0, 0, 'Payment for order with rebate and discount ', 1, 17, 1764484243, 0, 0),
+(126, 3, 1, 'Purchase', 94, 0, 29, 'Supplier Purchase', 'Purchase for order', '2025-11-30', 1500.00, 0.00, 1764491066, 0, 0, 'Purchase order ', 1, 17, 1764491066, 0, 0),
+(127, 3, 1, 'Supplier Rebate', 94, 0, 29, 'Rebate', 'Rebate for order', '2025-11-30', 0.00, 1.00, 1764491066, 0, 0, 'Payment for order with rebate and discount ', 1, 17, 1764491066, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -189,8 +195,8 @@ CREATE TABLE `business_partner` (
 
 INSERT INTO `business_partner` (`id`, `organization_id`, `name`, `partner_type`, `contact_no`, `email`, `address`, `credit_limit`, `payment_terms`, `sales_representative`, `region`, `business_category`, `delivery_method`, `notes`, `is_active`, `customer_group_id`, `reference_id`, `opening_balance_type`, `opening_balance`, `current_balance`, `create_user`, `create_date`, `created_at`, `updated_at`) VALUES
 (2, 3, 'Cash', 'Customer', '0', '', 'Cash', NULL, NULL, NULL, NULL, NULL, NULL, '', 1, 0, 10, '', 0.00, 0.00, 17, 1764140186, '2025-11-26 06:56:26', '2025-11-26 06:58:32'),
-(26, 3, 'Mintu', 'Both', '', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', 1, 0, 0, 'Supplier', 500.00, -377542.00, 17, 1763532091, '2025-11-19 06:01:31', '2025-11-29 09:22:23'),
-(29, 3, 'Litan sarkar', 'Both', '013344444', NULL, 'tangail', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 0, 0, '', 0.00, -119735.00, 17, 1764347142, '2025-11-28 16:25:42', '2025-11-29 09:37:58');
+(26, 3, 'Mintu', 'Both', '', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', 1, 0, 0, 'Supplier', 500.00, -379042.00, 17, 1763532091, '2025-11-19 06:01:31', '2025-11-30 04:01:38'),
+(29, 3, 'Litan sarkar', 'Both', '013344444', NULL, 'tangail', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 0, 0, '', 0.00, -121400.00, 17, 1764347142, '2025-11-28 16:25:42', '2025-11-30 08:24:26');
 
 -- --------------------------------------------------------
 
@@ -218,20 +224,6 @@ CREATE TABLE `inv_stock_history` (
   `create_date` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
---
--- Dumping data for table `inv_stock_history`
---
-
-INSERT INTO `inv_stock_history` (`id`, `organization_id`, `branch_id`, `purchase_id`, `store_id`, `product_id`, `previous_purchase_price`, `previous_rebate`, `previous_sales_price`, `previous_quanity`, `purchase_price`, `rebate`, `sales_price`, `quanity`, `is_active`, `create_user`, `create_date`) VALUES
-(66, 3, 1, 86, 1, 6, 0.00, 0.00, 0.00, 0, 500.00, 0.00, 800.00, 5, 1, 17, 1764408105),
-(67, 3, 1, 86, 1, 5, 0.00, 0.00, 0.00, 0, 1200.00, 0.00, 1500.00, 1, 1, 17, 1764408105),
-(68, 3, 1, 87, 1, 4, 0.00, 0.00, 0.00, 0, 450.00, 0.00, 700.00, 1, 1, 17, 1764408144),
-(69, 3, 1, 87, 1, 6, 500.00, 0.00, 800.00, 5, 200.00, 0.00, 2000.00, 1, 1, 17, 1764408144),
-(70, 3, 1, 88, 1, 6, 200.00, 0.00, 2000.00, 0, 500.00, 0.00, 900.00, 8, 1, 17, 1764408615),
-(71, 3, 1, 89, 1, 4, 450.00, 0.00, 700.00, 0, 450.00, 0.00, 700.00, 2, 1, 17, 1764408881),
-(72, 3, 1, 90, 1, 4, 450.00, 0.00, 700.00, 2, 500.00, 0.00, 700.00, 1, 1, 17, 1764408909),
-(73, 3, 1, 91, 1, 4, 500.00, 0.00, 700.00, 1, 500.00, 0.00, 700.00, 1, 1, 17, 1764409079);
-
 -- --------------------------------------------------------
 
 --
@@ -257,15 +249,6 @@ CREATE TABLE `inv_stock_item_batch` (
   `update_user` int(11) NOT NULL,
   `update_date` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
-
---
--- Dumping data for table `inv_stock_item_batch`
---
-
-INSERT INTO `inv_stock_item_batch` (`id`, `organization_id`, `branch_id`, `purchase_id`, `store_id`, `product_id`, `purchase_price`, `rebate`, `sales_price`, `quanity`, `is_available`, `serial_type`, `batch_number`, `create_user`, `create_date`, `update_user`, `update_date`) VALUES
-(4, 3, 1, 86, 1, 6, 500.00, 0.00, 800.00, 0, 1, 'common', 'MOP', 17, 1764408104, 17, 1764408496),
-(5, 3, 1, 87, 1, 6, 200.00, 0.00, 2000.00, 0, 1, 'common', 'boippp', 17, 1764408142, 17, 1764408585),
-(6, 3, 1, 88, 1, 6, 500.00, 0.00, 900.00, 0, 1, 'common', 'ssssssssss', 17, 1764408614, 17, 1764416395);
 
 -- --------------------------------------------------------
 
@@ -296,18 +279,6 @@ CREATE TABLE `inv_stock_item_serial` (
   `update_date` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
---
--- Dumping data for table `inv_stock_item_serial`
---
-
-INSERT INTO `inv_stock_item_serial` (`id`, `organization_id`, `branch_id`, `purchase_id`, `store_id`, `product_id`, `purchase_date`, `purchase_price`, `rebate`, `sales_price`, `quanity`, `is_available`, `serial_type`, `serial`, `warrenty`, `warrenty_days`, `create_user`, `create_date`, `update_user`, `update_date`) VALUES
-(128, 3, 1, 1, 1, 5, 1764352800, 1200, 0.00, 1500, 1, 0, 'unique', 'r4444', 0, 'Days', 17, 1764408104, 0, 0),
-(129, 3, 1, 1, 1, 4, 1764352800, 450, 0.00, 700, 1, 0, 'unique', 'dassdasd', 0, 'Days', 17, 1764408142, 0, 0),
-(130, 3, 1, 1, 1, 4, 1764352800, 450, 0.00, 700, 1, 0, 'unique', 'rrrrr', 0, 'Days', 17, 1764408878, 0, 0),
-(131, 3, 1, 1, 1, 4, 1764352800, 450, 0.00, 700, 1, 0, 'unique', 'rrrr', 0, 'Days', 17, 1764408878, 0, 0),
-(132, 3, 1, 1, 1, 4, 1764352800, 500, 0.00, 700, 1, 0, 'unique', 'rrrrrrr', 0, 'Days', 17, 1764408907, 0, 0),
-(133, 3, 1, 1, 1, 4, 1764352800, 500, 0.00, 700, 1, 0, 'unique', 'vbbbbbbbbbbbbbbb', 0, 'Days', 17, 1764409077, 0, 0);
-
 -- --------------------------------------------------------
 
 --
@@ -332,15 +303,6 @@ CREATE TABLE `inv_stock_master` (
   `update_user` int(11) NOT NULL,
   `update_date` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
-
---
--- Dumping data for table `inv_stock_master`
---
-
-INSERT INTO `inv_stock_master` (`id`, `organization_id`, `branch_id`, `store_id`, `product_id`, `purchase_price`, `rebate`, `sales_price`, `quanity`, `warrenty`, `warrenty_days`, `is_active`, `create_user`, `create_date`, `update_user`, `update_date`) VALUES
-(40, 3, 1, 1, 6, 500.00, 0.00, 900.00, 0, 7, 'Days', 1, 17, 1764408105, 17, 1764416395),
-(41, 3, 1, 1, 5, 1200.00, 0.00, 1500.00, 0, 0, 'Days', 1, 17, 1764408105, 17, 1764409159),
-(42, 3, 1, 1, 4, 500.00, 0.00, 700.00, 0, 0, 'Days', 1, 17, 1764408144, 17, 1764409101);
 
 -- --------------------------------------------------------
 
@@ -370,7 +332,7 @@ INSERT INTO `login_credential` (`id`, `organization_id`, `branch_id`, `user_id`,
 (1, 0, 0, 1, 'system', 'UHZVdVBOTWI0VkwrN0MvQjRRRUZkdz09', 1, 1, '2025-11-29 17:35:12', '2024-10-21 15:42:57', '2025-11-29 17:35:12'),
 (2, 0, 0, 2, 'litan@gmail.com', 'UHZVdVBOTWI0VkwrN0MvQjRRRUZkdz09', 1, 1, '2024-11-27 11:06:55', '2024-10-21 15:42:57', '2025-10-30 14:29:54'),
 (5, 0, 0, 6, 'admin@gmail.com', 'UHZVdVBOTWI0VkwrN0MvQjRRRUZkdz09', 2, 1, '2025-11-01 14:35:31', '2024-11-16 23:35:56', '2025-11-01 14:35:31'),
-(17, 3, 1, 10, '01829', 'UHZVdVBOTWI0VkwrN0MvQjRRRUZkdz09', 3, 1, '2025-11-29 17:36:15', '2025-10-30 23:30:08', '2025-11-29 17:36:15');
+(17, 3, 1, 10, '01829', 'UHZVdVBOTWI0VkwrN0MvQjRRRUZkdz09', 3, 1, '2025-11-30 09:45:10', '2025-10-30 23:30:08', '2025-11-30 09:45:10');
 
 -- --------------------------------------------------------
 
@@ -1015,7 +977,25 @@ INSERT INTO `logs` (`id`, `message`, `record_id`, `user_id`, `action`, `ip_addre
 (615, 'New Record inserted On menus id 25', 25, 1, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-11-29 11:35:53', '2025-11-29'),
 (616, 'New Record inserted On sales id 56', 56, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-11-29 11:39:55', '2025-11-29'),
 (617, 'New Record inserted On sales_items id 49', 49, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-11-29 11:39:55', '2025-11-29'),
-(618, 'New Record inserted On sales_item_batch_profit_loss id 21', 21, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-11-29 11:39:55', '2025-11-29');
+(618, 'New Record inserted On sales_item_batch_profit_loss id 21', 21, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-11-29 11:39:55', '2025-11-29'),
+(619, 'New Record inserted On purchase id 92', 92, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-11-30 04:01:38', '2025-11-30'),
+(620, 'New Record inserted On acc_general_ledger id 122', 122, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-11-30 04:01:38', '2025-11-30'),
+(621, 'New Record inserted On acc_general_ledger id 123', 123, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-11-30 04:01:38', '2025-11-30'),
+(622, 'New Record inserted On inv_stock_item_serial id 134', 134, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-11-30 04:01:38', '2025-11-30'),
+(623, 'New Record inserted On inv_stock_item_serial id 135', 135, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-11-30 04:01:38', '2025-11-30'),
+(624, 'New Record inserted On inv_stock_item_serial id 136', 136, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-11-30 04:01:39', '2025-11-30'),
+(625, 'New Record inserted On purchase id 93', 93, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-11-30 06:30:43', '2025-11-30'),
+(626, 'New Record inserted On acc_general_ledger id 124', 124, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-11-30 06:30:43', '2025-11-30'),
+(627, 'New Record inserted On acc_general_ledger id 125', 125, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-11-30 06:30:43', '2025-11-30'),
+(628, 'New Record inserted On inv_stock_item_serial id 137', 137, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-11-30 06:30:43', '2025-11-30'),
+(629, 'New Record inserted On inv_stock_item_serial id 138', 138, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-11-30 06:30:44', '2025-11-30'),
+(630, 'New Record inserted On inv_stock_item_serial id 139', 139, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-11-30 06:30:44', '2025-11-30'),
+(631, 'New Record inserted On purchase id 94', 94, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-11-30 08:24:26', '2025-11-30'),
+(632, 'New Record inserted On acc_general_ledger id 126', 126, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-11-30 08:24:26', '2025-11-30'),
+(633, 'New Record inserted On acc_general_ledger id 127', 127, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-11-30 08:24:26', '2025-11-30'),
+(634, 'New Record inserted On inv_stock_item_serial id 140', 140, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-11-30 08:24:26', '2025-11-30'),
+(635, 'New Record inserted On inv_stock_item_serial id 141', 141, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-11-30 08:24:27', '2025-11-30'),
+(636, 'New Record inserted On inv_stock_item_serial id 142', 142, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-11-30 08:24:27', '2025-11-30');
 
 -- --------------------------------------------------------
 
@@ -1264,21 +1244,6 @@ CREATE TABLE `purchase` (
   `create_date` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
---
--- Dumping data for table `purchase`
---
-
-INSERT INTO `purchase` (`id`, `organization_id`, `branch_id`, `ip_address`, `invoice_code`, `code_random`, `invoice_no`, `purchase_date`, `supplier_id`, `store_id`, `totalQty`, `allTotal`, `totalDiscount`, `totalRebate`, `totalAmount`, `paidAmount`, `dueAmount`, `is_active`, `create_user`, `create_date`) VALUES
-(83, 3, 1, '', '29112025144704', 1, 'GRN-0001', 1764352800, 26, 1, 8, 4300.00, 0.00, 0.00, 4300.00, 0.00, 4300.00, 1, 17, 1764406079),
-(84, 3, 1, '', '29112025144801', 2, 'GRN-0002', 1764352800, 29, 1, 3, 1800.00, 0.00, 0.00, 1800.00, 0.00, 1800.00, 1, 17, 1764406106),
-(85, 3, 1, '', '29112025145918', 3, 'GRN-0003', 1764352800, 26, 1, 2, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 1, 17, 1764406778),
-(86, 3, 1, '', '29112025152106', 4, 'GRN-0004', 1764352800, 26, 1, 6, 3700.00, 0.00, 0.00, 3700.00, 0.00, 3700.00, 1, 17, 1764408104),
-(87, 3, 1, '', '29112025152146', 5, 'GRN-0005', 1764352800, 26, 1, 2, 650.00, 0.00, 0.00, 650.00, 0.00, 650.00, 1, 17, 1764408142),
-(88, 3, 1, '', '29112025152926', 6, 'GRN-0006', 1764352800, 29, 1, 8, 4000.00, 0.00, 0.00, 4000.00, 0.00, 4000.00, 1, 17, 1764408614),
-(89, 3, 1, '', '29112025153422', 7, 'GRN-0007', 1764352800, 29, 1, 2, 900.00, 0.00, 0.00, 900.00, 0.00, 900.00, 1, 17, 1764408878),
-(90, 3, 1, '', '29112025153441', 8, 'GRN-0008', 1764352800, 29, 1, 1, 500.00, 0.00, 0.00, 500.00, 0.00, 500.00, 1, 17, 1764408907),
-(91, 3, 1, '', '29112025153510', 9, 'GRN-0009', 1764352800, 29, 1, 1, 500.00, 0.00, 0.00, 500.00, 0.00, 500.00, 1, 17, 1764409077);
-
 -- --------------------------------------------------------
 
 --
@@ -1295,18 +1260,6 @@ CREATE TABLE `purchase_invoice` (
   `create_user` int(11) NOT NULL,
   `create_date` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
-
---
--- Dumping data for table `purchase_invoice`
---
-
-INSERT INTO `purchase_invoice` (`id`, `organization_id`, `invoice_code`, `supplier_id`, `remarks`, `status`, `create_user`, `create_date`) VALUES
-(97, 3, '29112025152106', 0, NULL, 'Approved', 17, 1764408086),
-(98, 3, '29112025152146', 0, NULL, 'Approved', 17, 1764408115),
-(99, 3, '29112025152926', 0, NULL, 'Approved', 17, 1764408607),
-(100, 3, '29112025153422', 0, NULL, 'Approved', 17, 1764408870),
-(101, 3, '29112025153441', 0, NULL, 'Approved', 17, 1764408897),
-(102, 3, '29112025153510', 0, NULL, 'Approved', 17, 1764409074);
 
 -- --------------------------------------------------------
 
@@ -1334,20 +1287,6 @@ CREATE TABLE `purchase_items` (
   `create_date` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Dumping data for table `purchase_items`
---
-
-INSERT INTO `purchase_items` (`id`, `invoice_id`, `serial_type`, `product_id`, `purchase_date`, `price`, `qty`, `with_total_rebate`, `rebate`, `total_rebate`, `sub_total`, `sales_price`, `warrenty`, `warrenty_days`, `serial_number`, `barcode_serial`, `create_date`) VALUES
-(427, '29112025152106', 'common', 6, 0, 500.00, 5, 0.00, 0.00, 0.00, 2500.00, 800.00, 7, 'Days', NULL, 'MOP', 1764408086),
-(428, '29112025152106', 'unique', 5, 0, 1200.00, 1, 0.00, 0.00, 0.00, 1200.00, 1500.00, 0, 'Days', NULL, 'MOP', 1764408097),
-(429, '29112025152146', 'unique', 4, 0, 450.00, 1, 0.00, 0.00, 0.00, 450.00, 700.00, 0, 'Days', NULL, '', 1764408115),
-(430, '29112025152146', 'common', 6, 0, 200.00, 1, 0.00, 0.00, 0.00, 200.00, 2000.00, 7, 'Days', NULL, 'boippp', 1764408136),
-(431, '29112025152926', 'common', 6, 0, 500.00, 8, 0.00, 0.00, 0.00, 4000.00, 900.00, 7, 'Days', NULL, 'ssssssssss', 1764408607),
-(432, '29112025153422', 'unique', 4, 0, 450.00, 2, 0.00, 0.00, 0.00, 900.00, 700.00, 0, 'Days', NULL, '', 1764408870),
-(433, '29112025153441', 'unique', 4, 0, 500.00, 1, 0.00, 0.00, 0.00, 500.00, 700.00, 0, 'Days', NULL, '', 1764408899),
-(434, '29112025153510', 'unique', 4, 0, 500.00, 1, 0.00, 0.00, 0.00, 500.00, 700.00, 0, 'Days', NULL, '', 1764409074);
-
 -- --------------------------------------------------------
 
 --
@@ -1359,18 +1298,6 @@ CREATE TABLE `purchase_item_serials` (
   `item_id` int(11) NOT NULL,
   `serial_number` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
-
---
--- Dumping data for table `purchase_item_serials`
---
-
-INSERT INTO `purchase_item_serials` (`id`, `item_id`, `serial_number`) VALUES
-(179, 428, 'r4444'),
-(180, 429, 'dassdasd'),
-(181, 432, 'rrrrr'),
-(182, 432, 'rrrr'),
-(183, 433, 'rrrrrrr'),
-(184, 434, 'vbbbbbbbbbbbbbbb');
 
 -- --------------------------------------------------------
 
@@ -1512,22 +1439,6 @@ CREATE TABLE `sales` (
   `create_date` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
---
--- Dumping data for table `sales`
---
-
-INSERT INTO `sales` (`id`, `organization_id`, `branch_id`, `ip_address`, `invoice_code`, `code_random`, `invoice_no`, `sales_date`, `customer_id`, `store_id`, `totalQty`, `subTotal`, `total_discount`, `adjustment`, `payableAmount`, `dueAmount`, `paidAmount`, `payment_method_id`, `next_due_paid_date`, `is_customer`, `customer_name`, `mobile_no`, `address`, `is_active`, `create_user`, `create_date`) VALUES
-(47, 3, 1, '', '29112025152238', 1, 'INV-0001', 1764352800, 2, 1, 5, 8700.00, 800.00, 0.00, 7900.00, 7900.00, 0.00, 1, 0, 0, 'Cash', '0', 'Cash', 1, 17, 1764408196),
-(48, 3, 1, '', '29112025152230', 2, 'INV-0002', 1764352800, 2, 1, 1, 2000.00, 200.00, 0.00, 1800.00, 1800.00, 0.00, 1, 0, 0, 'Cash', '0', 'Cash', 1, 17, 1764408496),
-(49, 3, 1, '', '29112025152318', 3, 'INV-0003', 1764352800, 2, 1, 1, 2000.00, 0.00, 0.00, 2000.00, 2000.00, 0.00, 1, 0, 0, 'Cash', '0', 'Cash', 1, 17, 1764408584),
-(50, 3, 1, '', '29112025153020', 4, 'INV-0004', 1764352800, 2, 1, 2, 1800.00, 300.00, 0.00, 1500.00, 1500.00, 0.00, 1, 0, 0, 'Cash', '0', 'Cash', 1, 17, 1764408642),
-(51, 3, 1, '', '29112025153044', 5, 'INV-0005', 1764352800, 2, 1, 2, 1800.00, 300.00, 0.00, 1500.00, 1500.00, 0.00, 1, 0, 0, 'Cash', '0', 'Cash', 1, 17, 1764408758),
-(52, 3, 1, '', '29112025153348', 6, 'INV-0006', 1764352800, 2, 1, 2, 1800.00, 300.00, 0.00, 1500.00, 1500.00, 0.00, 1, 0, 0, 'Cash', '0', 'Cash', 1, 17, 1764408842),
-(53, 3, 1, '', '29112025153510', 7, 'INV-0007', 1764352800, 2, 1, 2, 1400.00, 200.00, 0.00, 1200.00, 1200.00, 0.00, 1, 0, 0, 'Cash', '0', 'Cash', 1, 17, 1764408939),
-(54, 3, 1, '', '29112025153759', 8, 'INV-0008', 1764352800, 2, 1, 2, 1400.00, 300.00, 0.00, 1100.00, 1100.00, 0.00, 1, 0, 0, 'Cash', '0', 'Cash', 1, 17, 1764409100),
-(55, 3, 1, '', '29112025153821', 9, 'INV-0009', 1764352800, 2, 1, 2, 2400.00, 0.00, 0.00, 2400.00, 2400.00, 0.00, 1, 0, 0, 'Cash', '0', 'Cash', 1, 17, 1764409157),
-(56, 3, 1, '', '29112025173946', 10, 'INV-0010', 1764352800, 2, 1, 1, 900.00, 0.00, 0.00, 900.00, 900.00, 0.00, 1, 0, 0, 'Cash', '0', 'Cash', 1, 17, 1764416394);
-
 -- --------------------------------------------------------
 
 --
@@ -1544,36 +1455,6 @@ CREATE TABLE `sales_invoice` (
   `create_user` int(11) NOT NULL,
   `create_date` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
-
---
--- Dumping data for table `sales_invoice`
---
-
-INSERT INTO `sales_invoice` (`id`, `organization_id`, `invoice_code`, `supplier_id`, `remarks`, `status`, `create_user`, `create_date`) VALUES
-(197, 3, '29112025141553', 0, '', 'Approved', 17, 1764404165),
-(198, 3, '29112025141632', 0, '', 'Approved', 17, 1764404255),
-(199, 3, '29112025141740', 0, '', 'Approved', 17, 1764404300),
-(200, 3, '29112025141922', 0, '', 'Approved', 17, 1764404365),
-(201, 3, '29112025142055', 0, '', 'Approved', 17, 1764404460),
-(202, 3, '29112025143554', 0, '', 'Approved', 17, 1764405361),
-(203, 3, '29112025144303', 0, '', 'Approved', 17, 1764405790),
-(204, 3, '29112025144316', 0, '', 'Approved', 17, 1764405854),
-(205, 3, '29112025144924', 0, '', 'Approved', 17, 1764406205),
-(206, 3, '29112025145020', 0, '', 'Approved', 17, 1764406269),
-(207, 3, '29112025145123', 0, '', 'Approved', 17, 1764406477),
-(208, 3, '29112025145604', 0, '', 'Approved', 17, 1764406599),
-(209, 3, '29112025145943', 0, '', 'Approved', 17, 1764406787),
-(210, 3, '29112025150006', 0, '', 'Approved', 17, 1764406812),
-(211, 3, '29112025152238', 0, '', 'Approved', 17, 1764408172),
-(212, 3, '29112025152230', 0, '', 'Approved', 17, 1764408489),
-(213, 3, '29112025152318', 0, '', 'Approved', 17, 1764408581),
-(214, 3, '29112025153020', 0, '', 'Approved', 17, 1764408626),
-(215, 3, '29112025153044', 0, '', 'Approved', 17, 1764408745),
-(216, 3, '29112025153348', 0, '', 'Approved', 17, 1764408832),
-(217, 3, '29112025153510', 0, '', 'Approved', 17, 1764408919),
-(218, 3, '29112025153759', 0, '', 'Approved', 17, 1764409085),
-(219, 3, '29112025153821', 0, '', 'Approved', 17, 1764409150),
-(220, 3, '29112025173946', 0, '', 'Approved', 17, 1764416391);
 
 -- --------------------------------------------------------
 
@@ -1604,24 +1485,6 @@ CREATE TABLE `sales_items` (
   `create_date` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Dumping data for table `sales_items`
---
-
-INSERT INTO `sales_items` (`id`, `organization_id`, `branch_id`, `invoice_id`, `sales_id`, `store_id`, `serial_type`, `product_id`, `purchase_price`, `price`, `qty`, `sub_total`, `discount_percent`, `discount_amount`, `net_total`, `warrenty`, `warrenty_days`, `status`, `create_user`, `create_date`) VALUES
-(38, 3, 1, '', 47, 1, 'unique', 4, 450.00, 700.00, 1, 700.00, 0.00, 0.00, 700.00, 0, 'Days', 'Approved', 17, 1764408196),
-(39, 3, 1, '', 47, 1, 'common', 6, 200.00, 2000.00, 4, 8000.00, 10.00, 800.00, 7200.00, 7, 'Days', 'Approved', 17, 1764408196),
-(40, 3, 1, '', 48, 1, 'common', 6, 200.00, 2000.00, 1, 2000.00, 10.00, 200.00, 1800.00, 7, 'Days', 'Approved', 17, 1764408496),
-(41, 3, 1, '', 49, 1, 'common', 6, 200.00, 2000.00, 1, 2000.00, 0.00, 0.00, 2000.00, 7, 'Days', 'Approved', 17, 1764408584),
-(42, 3, 1, '', 50, 1, 'common', 6, 500.00, 900.00, 2, 1800.00, 0.00, 300.00, 1500.00, 7, 'Days', 'Approved', 17, 1764408642),
-(43, 3, 1, '', 51, 1, 'common', 6, 500.00, 900.00, 2, 1800.00, 0.00, 300.00, 1500.00, 7, 'Days', 'Approved', 17, 1764408758),
-(44, 3, 1, '', 52, 1, 'common', 6, 500.00, 900.00, 2, 1800.00, 0.00, 300.00, 1500.00, 7, 'Days', 'Approved', 17, 1764408842),
-(45, 3, 1, '', 53, 1, 'unique', 4, 500.00, 700.00, 2, 1400.00, 0.00, 200.00, 1200.00, 0, 'Days', 'Approved', 17, 1764408939),
-(46, 3, 1, '', 54, 1, 'unique', 4, 500.00, 700.00, 2, 1400.00, 0.00, 300.00, 1100.00, 0, 'Days', 'Approved', 17, 1764409100),
-(47, 3, 1, '', 55, 1, 'common', 6, 500.00, 900.00, 1, 900.00, 0.00, 0.00, 900.00, 7, 'Days', 'Approved', 17, 1764409157),
-(48, 3, 1, '', 55, 1, 'unique', 5, 1200.00, 1500.00, 1, 1500.00, 0.00, 0.00, 1500.00, 0, 'Days', 'Approved', 17, 1764409157),
-(49, 3, 1, '', 56, 1, 'common', 6, 500.00, 900.00, 1, 900.00, 0.00, 0.00, 900.00, 7, 'Days', 'Approved', 17, 1764416394);
-
 -- --------------------------------------------------------
 
 --
@@ -1646,26 +1509,6 @@ CREATE TABLE `sales_item_batch_profit_loss` (
   `create_user` int(11) NOT NULL,
   `create_date` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
-
---
--- Dumping data for table `sales_item_batch_profit_loss`
---
-
-INSERT INTO `sales_item_batch_profit_loss` (`id`, `organization_id`, `branch_id`, `sales_id`, `sales_item_id`, `product_id`, `batch_id`, `batch_number`, `qty_sold`, `purchase_price`, `sales_price`, `profit_loss`, `serial_type`, `sales_date`, `create_user`, `create_date`) VALUES
-(8, 3, 1, 47, 38, 4, 129, 'dassdasd', 1, 450.00, 700.00, 250.00, 'unique', 0, 17, 1764408196),
-(9, 3, 1, 47, 39, 6, 4, 'MOP', 4, 500.00, 2000.00, 2800.00, 'common', 0, 17, 1764408197),
-(10, 3, 1, 48, 40, 6, 4, 'MOP', 1, 500.00, 2000.00, 1300.00, 'common', 0, 17, 1764408496),
-(11, 3, 1, 49, 41, 6, 5, 'boippp', 1, 200.00, 2000.00, 1800.00, 'common', 0, 17, 1764408584),
-(12, 3, 1, 50, 42, 6, 6, 'ssssssssss', 2, 500.00, 900.00, 200.00, 'common', 0, 17, 1764408644),
-(13, 3, 1, 51, 43, 6, 6, 'ssssssssss', 2, 500.00, 900.00, 200.00, 'common', 0, 17, 1764408758),
-(14, 3, 1, 52, 44, 6, 6, 'ssssssssss', 2, 500.00, 900.00, 500.00, 'common', 0, 17, 1764408843),
-(15, 3, 1, 53, 45, 4, 132, 'rrrrrrr', 1, 500.00, 700.00, 0.00, 'unique', 0, 17, 1764408939),
-(16, 3, 1, 53, 45, 4, 131, 'rrrr', 1, 450.00, 700.00, 50.00, 'unique', 0, 17, 1764408940),
-(17, 3, 1, 54, 46, 4, 130, 'rrrrr', 1, 450.00, 700.00, 100.00, 'unique', 0, 17, 1764409100),
-(18, 3, 1, 54, 46, 4, 133, 'vbbbbbbbbbbbbbbb', 1, 500.00, 700.00, 50.00, 'unique', 0, 17, 1764409100),
-(19, 3, 1, 55, 47, 6, 6, 'ssssssssss', 1, 500.00, 900.00, 400.00, 'common', 0, 17, 1764409158),
-(20, 3, 1, 55, 48, 5, 128, 'r4444', 1, 1200.00, 1500.00, 300.00, 'unique', 0, 17, 1764409158),
-(21, 3, 1, 56, 49, 6, 6, 'ssssssssss', 1, 500.00, 900.00, 400.00, 'common', 1764352800, 17, 1764416395);
 
 -- --------------------------------------------------------
 
@@ -1693,24 +1536,6 @@ CREATE TABLE `sales_order_items` (
   `create_date` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
---
--- Dumping data for table `sales_order_items`
---
-
-INSERT INTO `sales_order_items` (`id`, `organization_id`, `invoice_id`, `serial_type`, `product_id`, `purchase_price`, `price`, `qty`, `sub_total`, `discount_percent`, `discount_amount`, `net_total`, `warrenty`, `warrenty_days`, `status`, `create_user`, `create_date`) VALUES
-(258, 3, '29112025152238', 'unique', 4, 450.00, 700.00, 1, 700.00, 0.00, 0.00, 700.00, 0, 'Days', 'Approved', 17, 1764408172),
-(259, 3, '29112025152238', 'common', 6, 200.00, 2000.00, 4, 8000.00, 10.00, 800.00, 7200.00, 7, 'Days', 'Approved', 17, 1764408179),
-(260, 3, '29112025152230', 'common', 6, 200.00, 2000.00, 1, 2000.00, 10.00, 200.00, 1800.00, 7, 'Days', 'Approved', 17, 1764408489),
-(261, 3, '29112025152318', 'common', 6, 200.00, 2000.00, 1, 2000.00, 0.00, 0.00, 2000.00, 7, 'Days', 'Approved', 17, 1764408581),
-(262, 3, '29112025153020', 'common', 6, 500.00, 900.00, 2, 1800.00, 0.00, 300.00, 1500.00, 7, 'Days', 'Approved', 17, 1764408626),
-(263, 3, '29112025153044', 'common', 6, 500.00, 900.00, 2, 1800.00, 0.00, 300.00, 1500.00, 7, 'Days', 'Approved', 17, 1764408745),
-(264, 3, '29112025153348', 'common', 6, 500.00, 900.00, 2, 1800.00, 0.00, 300.00, 1500.00, 7, 'Days', 'Approved', 17, 1764408832),
-(265, 3, '29112025153510', 'unique', 4, 500.00, 700.00, 2, 1400.00, 0.00, 200.00, 1200.00, 0, 'Days', 'Approved', 17, 1764408919),
-(266, 3, '29112025153759', 'unique', 4, 500.00, 700.00, 2, 1400.00, 0.00, 300.00, 1100.00, 0, 'Days', 'Approved', 17, 1764409085),
-(267, 3, '29112025153821', 'common', 6, 500.00, 900.00, 1, 900.00, 0.00, 0.00, 900.00, 7, 'Days', 'Approved', 17, 1764409150),
-(268, 3, '29112025153821', 'unique', 5, 1200.00, 1500.00, 1, 1500.00, 0.00, 0.00, 1500.00, 0, 'Days', 'Approved', 17, 1764409156),
-(269, 3, '29112025173946', 'common', 6, 500.00, 900.00, 1, 900.00, 0.00, 0.00, 900.00, 7, 'Days', 'Approved', 17, 1764416391);
-
 -- --------------------------------------------------------
 
 --
@@ -1724,18 +1549,6 @@ CREATE TABLE `sales_order_item_serials` (
   `batch_number` varchar(255) NOT NULL,
   `serial_number` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
-
---
--- Dumping data for table `sales_order_item_serials`
---
-
-INSERT INTO `sales_order_item_serials` (`id`, `item_id`, `is_available`, `batch_number`, `serial_number`) VALUES
-(133, 258, 0, '', 'dassdasd'),
-(134, 265, 0, '', 'rrrrrrr'),
-(135, 265, 0, '', 'rrrr'),
-(136, 266, 0, '', 'rrrrr'),
-(137, 266, 0, '', 'vbbbbbbbbbbbbbbb'),
-(138, 268, 0, '', 'r4444');
 
 -- --------------------------------------------------------
 
@@ -2154,7 +1967,7 @@ ALTER TABLE `warehouse`
 -- AUTO_INCREMENT for table `acc_general_ledger`
 --
 ALTER TABLE `acc_general_ledger`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=122;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=128;
 
 --
 -- AUTO_INCREMENT for table `branch`
@@ -2178,7 +1991,7 @@ ALTER TABLE `business_partner`
 -- AUTO_INCREMENT for table `inv_stock_history`
 --
 ALTER TABLE `inv_stock_history`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=74;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=77;
 
 --
 -- AUTO_INCREMENT for table `inv_stock_item_batch`
@@ -2190,7 +2003,7 @@ ALTER TABLE `inv_stock_item_batch`
 -- AUTO_INCREMENT for table `inv_stock_item_serial`
 --
 ALTER TABLE `inv_stock_item_serial`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=134;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=143;
 
 --
 -- AUTO_INCREMENT for table `inv_stock_master`
@@ -2208,7 +2021,7 @@ ALTER TABLE `login_credential`
 -- AUTO_INCREMENT for table `logs`
 --
 ALTER TABLE `logs`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=619;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=637;
 
 --
 -- AUTO_INCREMENT for table `menus`
@@ -2256,25 +2069,25 @@ ALTER TABLE `products_groups`
 -- AUTO_INCREMENT for table `purchase`
 --
 ALTER TABLE `purchase`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=92;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=95;
 
 --
 -- AUTO_INCREMENT for table `purchase_invoice`
 --
 ALTER TABLE `purchase_invoice`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=103;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=106;
 
 --
 -- AUTO_INCREMENT for table `purchase_items`
 --
 ALTER TABLE `purchase_items`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=435;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=438;
 
 --
 -- AUTO_INCREMENT for table `purchase_item_serials`
 --
 ALTER TABLE `purchase_item_serials`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=185;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=194;
 
 --
 -- AUTO_INCREMENT for table `roles`
@@ -2304,7 +2117,7 @@ ALTER TABLE `sales`
 -- AUTO_INCREMENT for table `sales_invoice`
 --
 ALTER TABLE `sales_invoice`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=221;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=232;
 
 --
 -- AUTO_INCREMENT for table `sales_items`
@@ -2322,13 +2135,13 @@ ALTER TABLE `sales_item_batch_profit_loss`
 -- AUTO_INCREMENT for table `sales_order_items`
 --
 ALTER TABLE `sales_order_items`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=270;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=335;
 
 --
 -- AUTO_INCREMENT for table `sales_order_item_serials`
 --
 ALTER TABLE `sales_order_item_serials`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=139;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=244;
 
 --
 -- AUTO_INCREMENT for table `setting`

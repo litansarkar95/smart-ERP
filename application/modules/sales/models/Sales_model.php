@@ -287,6 +287,79 @@ public function get_stock_previous_products($store_id, $product_id)
         return $this->db->affected_rows() > 0;
     }
 
+public function find_product_by_serial($serial,$invoice_id)
+{
+    // SERIAL খুঁজে বের করা
+    $this->db->select("
+        inv_stock_item_serial.id as serial_id,
+        inv_stock_item_serial.product_id,
+        inv_stock_item_serial.serial,
+        inv_stock_item_serial.serial_type,
+        inv_stock_item_serial.purchase_price,
+        inv_stock_item_serial.sales_price,
+        inv_stock_item_serial.warrenty,
+        inv_stock_item_serial.warrenty_days,
+        products.name product_name
+    ");
+
+    $this->db->from("inv_stock_item_serial");
+    $this->db->join("products", "products.id = inv_stock_item_serial.product_id", "left");
+
+    $this->db->where("inv_stock_item_serial.serial", $serial);
+    $this->db->where("inv_stock_item_serial.is_available", 1); // Only available serial
+
+    $query = $this->db->get();
+    $row = $query->row();
+
+    // যদি serial না পাওয়া যায়
+    if (!$row) {
+        return false;
+    }
+
+    // এখন এই Product এর মোট স্টক বের করব
+    $stock = $this->db
+                 ->select("COUNT(id) AS total_stock")
+                 ->from("inv_stock_item_serial")
+                 ->where("product_id", $row->product_id)
+                 ->where("is_available", 1)
+                 ->get()
+                 ->row()
+                 ->total_stock;
+
+
+                 //insert
+        $this->db->insert('sales_order_items', [
+            'organization_id' => $this->session->userdata('loggedin_org_id'),
+            'invoice_id'      => $invoice_id,
+            'product_id'      => $row->product_id,
+            // 'serial_type'     => $serial_type,
+            // 'purchase_price'  => $purchase_price,
+            // 'price'           => $price,
+            // 'qty'             => $qty,
+            // 'sub_total'       => $price * $qty,
+            // 'net_total'       => $price * $qty,
+            // 'warrenty'        => $stock_master->warrenty,
+            // 'warrenty_days'   => $stock_master->warrenty_days,
+            "create_user"     => $this->session->userdata('loggedin_id'),
+            "create_date"     => strtotime($date)
+        ]);
+
+        $item_id = $this->db->insert_id();
+
+    // RESPONSE READY
+    return [
+        "item_id"       => $row->serial_id,
+        "product_id"    => $row->product_id,
+        "product_name"  => $row->product_name,
+        "serial"        => $row->serial,
+        "serial_type"   => $row->serial_type,   // unique / common
+        "price"         => $row->sales_price,
+        "purchase_price"=> $row->purchase_price,
+        "warrenty"      => $row->warrenty,
+        "warrenty_days" => $row->warrenty_days,
+        "stockQty"      => $stock
+    ];
+}
 
 
 

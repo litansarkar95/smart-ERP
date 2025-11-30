@@ -72,14 +72,18 @@
 </div>
 
                 <form  action="<?php echo base_url(); ?>sales/create" method="post" enctype="multipart/form-data">
-                                                            <div class="row ">
-    <div class="col-md-12 ">
+
+                <div class="row">
+                      <div class="col-md-6 ">
         <div class="form-group">
            
-           <input type="text" name="previousDue" placeholder="Scan Barcode & Hit Enter....."     class="form-control " autofocus>
+           <input type="text" name="item_serial" id="item_serial" placeholder="Scan Barcode & Hit Enter....."     class="form-control " autofocus>
 
         </div>
     </div>
+                </div>
+                                                            <div class="row ">
+  
                                      <div class="col-md-2 ">
 																<div class="form-group">
 																<label for="invoice_no">Invoice No <span class="text-error"> *</span></label>
@@ -906,9 +910,10 @@ updateOrderSummary();
 
 
 // ---------------- ADD NEW ROW FOR BOTH UNIQUE & COMMON ----------------
-function addNewRow(res, serial){
+function addNewRow(res,  serial=''){
   
-    let product_id = $('#product_id').val();
+    //let product_id = $('#product_id').val();
+    let product_id = res.item.product_id;
     let serial_type = res.item.serial_type; // unique / common
     let qtyValue = (serial_type === 'unique') ? 1 : res.item.qty;
     let priceValue = res.item.price;
@@ -1337,3 +1342,166 @@ function removeSerialFromTextArea(item_id, serial_number){
 });
 
     </script>
+
+<!--   ####################################################################
+    #######################################################################
+    ########################################################################## -->
+
+
+    <script>
+
+          document.getElementById('item_serial').focus();
+
+
+// ---------------- GLOBAL FUNCTION: Add Item Logic ----------------
+
+
+
+// Barcode Scan OR Manual Entry → Auto Add Item
+$('#item_serial').on('keypress', function(e) {
+
+    if(e.which === 13) {  // ENTER key press
+
+        e.preventDefault();
+
+        let serial = $(this).val().trim();
+        let invoice_id = $('#invoice_id').val();
+
+        if(serial === ""){
+            iziToast.error({
+                message: "Please scan or enter a serial!",
+                position: "topRight"
+            });
+            return;
+        }
+       // alert(serial);
+
+        // AJAX to validate serial & get product info
+        $.ajax({
+            url: "<?= base_url('sales/add_item_from_serial_ajax') ?>",
+            type: "POST",
+            dataType: "json",
+            data: { serial: serial, invoice_id: invoice_id },
+
+            success: function(res){
+
+                if(res.status !== "success"){
+                    iziToast.error({
+                        message: res.msg,
+                        position: "topRight"
+                    });
+                    return;
+                }
+
+                 let serial_type = res.item.serial_type;
+
+           /* *********************
+                    UNIQUE SERIAL PRODUCT
+                    *********************** */
+                    if (serial_type === "unique") {
+
+                        if (unique_serial === "") {
+                            iziToast.error({
+                                message: "Please select a serial first!",
+                                position: 'topRight'
+                            });
+                            return;
+                        }
+
+                        let found = false;
+                        let stockExceeded = false;
+
+                        $('#itemsTable tbody tr').each(function () {
+
+                            let rowProduct = $(this).attr("data-product");
+                            let serialField = $(this).find(".serial_number");
+
+                            if (rowProduct == res.item.product_id) {
+
+                                found = true;
+
+                                // OLD SERIAL LIST
+                                let oldSerials = serialField.val() ? serialField.val().split(",") : [];
+
+                                if (oldSerials.includes(serial)) {
+                                    iziToast.error({
+                                        message: "This serial already added!",
+                                        position: "topRight"
+                                    });
+                                    return false;
+                                }
+
+                                // NEW SERIAL ADD
+                                oldSerials.push(serial);
+                                serialField.val(oldSerials.join(","));
+
+                                // QTY UPDATE
+                                let qtyInput = $(this).find(".qty");
+                                let currentQty = parseInt(qtyInput.val());
+                                let newQty = currentQty + 1;
+
+                                // STOCK CHECK
+                                if (newQty > res.item.stockQty) {
+                                    iziToast.error({
+                                        message: "Stock limit exceeded! Only " + res.item.stockQty + " available!",
+                                        position: "topRight"
+                                    });
+                                    stockExceeded = true;
+                                    return false;
+                                }
+
+                                qtyInput.val(newQty);
+
+                                let price = parseFloat($(this).find(".price").val());
+                                let subTotal = price * newQty;
+
+                                $(this).find(".sub_total").val(subTotal);
+                                $(this).find(".net_total").val(subTotal);
+
+                                iziToast.success({
+                                    message: "Serial added successfully!",
+                                    position: "topRight"
+                                });
+
+                                return false;
+                            }
+                        });
+                         $('#item_serial').val("");
+
+                        if (stockExceeded) return; // STOP FULL PROCESS IF STOCK ERROR
+
+                        // ADD NEW ROW IF NOT FOUND
+                        if (!found) {
+                            addNewRow(res, serial);
+                            iziToast.success({
+                                message: "Item added successfully!",
+                                position: "topRight"
+                            });
+                        }
+
+                        updateOrderSummary();
+                        return;
+
+                         
+                    }
+
+
+                // 👉 EXACTLY SAME LOGIC AS addItemBtn
+               // addNewRow(res, serial);
+
+                // Clear textbox after adding
+                $('#item_serial').val("");
+
+            },
+
+            error: function(err){
+                iziToast.error({
+                    message: "Error connecting server!",
+                    position: "topRight"
+                });
+            }
+        });
+    }
+});
+
+        </script>

@@ -533,6 +533,7 @@ public function add_item_ajax()
     echo json_encode([
         'status' => 'success',
         'item' => [
+            'product_id'    => $product->id,
             'product_name'  => $product->name,
             'unit_name'     => $product->unit_name,
             'warrenty'      => $product->warrenty,
@@ -774,5 +775,188 @@ public function invoice($id)
     $data['allDets']       = $this->sales_model->SalesItemDetailsList($id);
     $this->load->view('invoice', $data);
  }
+
+
+public function add_item_from_serial_ajax()
+{
+    $serial       = $this->input->post('serial');
+    $invoice_id   = $this->input->post('invoice_id');
+    $loggedin_org = $this->session->userdata('loggedin_org_id');
+    $date         = date("Y-m-d H:i:s");
+
+    if (!$serial || !$invoice_id) {
+        echo json_encode(['status' => 'error', 'msg' => 'Missing invoice or serial!']);
+        return;
+    }
+
+    // SERIAL খুঁজে বের করা
+    $this->db->select("
+        s.id as serial_id,
+        s.product_id,
+        s.serial,
+        s.serial_type,
+        s.purchase_price,
+        s.sales_price,
+        s.warrenty,
+        s.warrenty_days,
+        p.name as product_name
+    ");
+    $this->db->from("inv_stock_item_serial s");
+    $this->db->join("products p", "p.id = s.product_id", "left");
+    $this->db->where("s.serial", $serial);
+    $this->db->where("s.is_available", 1); // Only available serial
+    $row = $this->db->get()->row();
+
+    if (!$row) {
+        echo json_encode(['status' => 'error', 'msg' => 'Invalid or unavailable serial!']);
+        return;
+    }
+
+     $exists = $this->db->get_where('sales_order_item_serials', [
+        'serial_number' => $serial,
+        'is_available' => 0
+    ])->row();
+
+    if ($exists) {
+        echo json_encode(['status' => 'error', 'msg' => 'This serial is already sold!']);
+        return;
+    }
+
+    $product_id = $row->product_id;
+
+
+      $available_qty = $this->sales_model->get_total_quantity($product_id,$invoice_id);
+
+    // ============================
+    // CHECK IF ITEM ALREADY EXISTS
+    // ============================
+    $existing_item = $this->db->get_where('sales_order_items', [
+        'invoice_id' => $invoice_id,
+        'product_id' => $product_id
+    ])->row();
+
+    if ($serial_type == "unique") {
+        $required_qty = 1;
+    } else {
+        // common items
+        $required_qty = ($existing_item) ? $existing_item->qty + 1 : 1;
+    }
+
+    // ============================
+    //  STOCK VALIDATION
+    // ============================
+    if ($required_qty > $available_qty) {
+        echo json_encode([
+            'status' => 'error',
+            'msg' => "স্টকে মাত্র {$available_qty} পিস আছে! আপনি {$required_qty} নিতে পারবেন না।"
+        ]);
+        return;
+    }
+
+    // Product এর existing item row খুঁজে বের করা
+    $existing_item = $this->db->get_where('sales_order_items', [
+        'invoice_id' => $invoice_id,
+        'product_id' => $product_id
+    ])->row();
+
+    // Serial list init
+    $serial_list = [];
+
+    if ($existing_item) {
+        // যদি row থাকে → আগের serial গুলো নিয়ে আসা
+        $serials_in_db = $this->db->select('serial_number')
+                                  ->where('item_id', $existing_item->id)
+                                  ->get('sales_order_item_serials')
+                                  ->result_array();
+
+        $serial_list = array_column($serials_in_db, 'serial_number');
+
+        if (in_array($serial, $serial_list)) {
+            echo json_encode(['status' => 'error', 'msg' => 'This serial is already added!']);
+            return;
+        }
+
+        // নতুন serial add
+        $serial_list[] = $serial;
+
+        $new_qty = count($serial_list);
+        $sub_total = $row->sales_price * $new_qty;
+
+        $this->db->where('id', $existing_item->id)->update('sales_order_items', [
+            'qty'       => $new_qty,
+            'price'     => $row->sales_price,
+            'sub_total' => $sub_total,
+            'net_total' => $sub_total
+        ]);
+
+        $item_id = $existing_item->id;
+
+    } else {
+        // যদি row না থাকে → নতুন item insert
+        $this->db->insert('sales_order_items', [
+            'organization_id' => $loggedin_org,
+            'invoice_id'      => $invoice_id,
+            'product_id'      => $product_id,
+            'serial_type'     => $row->serial_type,
+            'purchase_price'  => $row->purchase_price,
+            'price'           => $row->sales_price,
+            'qty'             => 1,
+            'sub_total'       => $row->sales_price,
+            'net_total'       => $row->sales_price,
+            'warrenty'        => $row->warrenty,
+            'warrenty_days'   => $row->warrenty_days,
+            'create_user'     => $this->session->userdata('loggedin_id'),
+            'create_date'     => strtotime($date)
+        ]);
+
+        $item_id = $this->db->insert_id();
+        $serial_list[] = $serial;
+    }
+    $qty = 1;
+
+    $sub_total              = $qty * $row->sales_price;
+
+    // Serial table update
+    $this->db->insert('sales_order_item_serials', [
+        'item_id'       => $item_id,
+        'serial_number' => $serial,
+        'is_available'  => 0
+    ]);
+    echo json_encode([
+        'status' => 'success',
+        'item' => [
+            'product_name'  => $row->product_name,
+            'unit_name'     => 'Pice',
+            'product_id'    => $product_id,
+            'warrenty'      => $row->warrenty,
+            'warrenty_days' => $row->warrenty_days,
+            'serial_type'   => $row->serial_type,
+            'price'         => $row->sales_price,
+            'qty'           => 1,
+            'sub_total'     => $sub_total,
+            'stockQty'      => $available_qty,
+            'item_id'       => $item_id,
+            // NEW FIELD FOR UNIQUE SERIAL LIST
+            'serial_list'   => $serial
+        ]
+    ]);
+    // echo json_encode([
+    //     'status' => 'success',
+    //     'item' => [
+    //         'item_id'       => $item_id,
+    //         'product_id'    => $product_id,
+    //         'product_name'  => $row->product_name,
+    //         'serial_list'   => implode(',', $serial_list),
+    //         'price'         => $row->sales_price,
+    //         'qty'           => count($serial_list),
+    //         'sub_total'     => $row->sales_price * count($serial_list),
+    //         'warrenty'      => $row->warrenty,
+    //         'warrenty_days' => $row->warrenty_days,
+    //         'serial_type'   => $row->serial_type
+    //     ]
+    // ]);
+}
+
+
 
 }
