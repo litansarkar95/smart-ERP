@@ -51,24 +51,12 @@
            <div class="panel-heading p-3 border rounded bg-light">
             
     <i class="fa fa-shopping-bag me-2"></i>
-    <strong>Add New  Sales --   Sales Order :: Order No - IN1764256114</strong>
+    <strong>Add New  Sales --   Last Sales Order</strong>
     
-    <div class="order-buttons mt-2 d-flex flex-wrap gap-1">
-        <a href="#" class="btn btn-primary btn-sm" target="_blank">IN1764088446</a>
-        <a href="#" class="btn btn-success btn-sm" target="_blank"><i class="fa fa-edit"></i></a>
-        
-        <a href="#" class="btn btn-primary btn-sm" target="_blank">IN1764088333</a>
-        <a href="#" class="btn btn-success btn-sm" target="_blank"><i class="fa fa-edit"></i></a>
-        
-        <a href="/Sales/sales_invoice_print/IN1764088022.html" class="btn btn-primary btn-sm" target="_blank">IN1764088022</a>
-        <a href="#" class="btn btn-success btn-sm" target="_blank"><i class="fa fa-edit"></i></a>
-        
-        <a href="#" class="btn btn-primary btn-sm" target="_blank">IN1764087571</a>
-        <a href="#" class="btn btn-success btn-sm" target="_blank"><i class="fa fa-edit"></i></a>
-        
-        <a href="#l" class="btn btn-primary btn-sm" target="_blank">IN1764087304</a>
-        <a href="#" class="btn btn-success btn-sm" target="_blank"><i class="fa fa-edit"></i></a>
-    </div>
+ <div class="order-buttons mt-2 d-flex flex-wrap gap-1" id="last_orders">
+    <!-- AJAX will load last 5 buttons here -->
+</div>
+
 </div>
 
                 <form  action="<?php echo base_url(); ?>sales/create" method="post" enctype="multipart/form-data">
@@ -408,25 +396,28 @@
 
                       
                                      </div>
-<div class="row align-items-right">
-    <!-- Left side: checkboxes -->
-    <div class="col-md-12 right" >
-        <div class="form-check" id="save_customer_box">
-            <input class="form-check-input" type="checkbox" name="save_customer" value="1" id="saveCustomer">
-            <label class="form-check-label" for="saveCustomer">Is Customer Save?</label>
-        </div>
-        <div class="form-check">
-            <input class="form-check-input" type="checkbox" name="send_bill_sms" value="1" id="sendBillSMS">
-            <label class="form-check-label" for="sendBillSMS">Send Bill SMS</label>
-        </div>
-        <div class="form-check">
-            <input class="form-check-input" type="checkbox" name="send_bill_email" value="1" id="sendBillEmail">
-            <label class="form-check-label" for="sendBillEmail">Send Bill Invoice Email</label>
+<div class="row justify-content-end">
+    <div class="col-md-6 text-end">
+
+        <div class="form-check mb-2">
+            <input class="form-check-input float-end" type="checkbox" name="save_customer" value="1" id="saveCustomer">
+            <label class="form-check-label me-4" for="saveCustomer">Is Customer Save?</label>
         </div>
 
-        <button type="submit" class="btn btn_bg">Confirm Order</button>
+        <div class="form-check mb-2">
+            <input class="form-check-input float-end" type="checkbox" name="send_bill_sms" value="1" id="sendBillSMS">
+            <label class="form-check-label me-4" for="sendBillSMS">Send Bill SMS</label>
+        </div>
+
+        <div class="form-check mb-3">
+            <input class="form-check-input float-end" type="checkbox" name="send_bill_email" value="1" id="sendBillEmail">
+            <label class="form-check-label me-4" for="sendBillEmail">Send Bill Invoice Email</label>
+        </div>
+
+        <button type="submit" class="btn btn_bg px-4">Confirm Order</button>
     </div>
 </div>
+
 
     </div>
   </div>
@@ -1502,6 +1493,83 @@ $('#item_serial').on('keypress', function(e) {
             }
         });
     }
+});
+$(document).ready(function() {
+
+    function loadSupplierBalance() {
+        var customer_id = $('#customer_id').val();
+
+        if (customer_id !== '') {
+            $.ajax({
+                url: '<?= base_url("sales/get_supplier_balance"); ?>',
+                type: 'POST',
+                dataType: 'json',
+                data: { customer_id: customer_id },
+                success: function(response) {
+                    $('#previousDue').val(response.balance);
+                },
+                error: function() {
+                    alert('Something went wrong while fetching balance.');
+                }
+            });
+        } else {
+            $('#previousDue').val('');
+        }
+    }
+
+    $('#customer_id').on('change', function() {
+        loadSupplierBalance();
+    });
+
+    loadSupplierBalance();
+});
+
+
+$(document).ready(function() {
+
+    function loadLastOrders() {
+        var customer_id = $('#customer_id').val();
+
+        $.ajax({
+            url: '<?= base_url("sales/ajax_last_orders"); ?>',
+            type: 'POST',
+            data: { customer_id: customer_id },
+            dataType: 'json',
+            success: function(response) {
+
+                $('#last_orders').empty(); // clear old buttons
+
+                $.each(response.orders, function(index, row) {
+
+                    $('#last_orders').append(`
+                        <a href="<?= base_url('sales/invoice/'); ?>${row.id}"
+                           class="btn btn-primary btn-sm"
+                           target="_blank">
+                           ${row.invoice_no}
+                        </a>
+
+                        <a href="<?= base_url('sales/invoice/'); ?>${row.id}"
+                           class="btn btn-success btn-sm"
+                           target="_blank">
+                           <i class="fa fa-edit"></i>
+                        </a>
+                    `);
+                });
+
+                if(response.orders.length === 0){
+                    $('#last_orders').html('<span class="text-danger">No invoices found.</span>');
+                }
+            }
+        });
+    }
+
+    // Load when customer changes
+    $('#customer_id').on('change', function() {
+        loadLastOrders();
+    });
+
+    // Load default (Cash)
+    loadLastOrders();
 });
 
         </script>

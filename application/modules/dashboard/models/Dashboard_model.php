@@ -140,4 +140,33 @@ class Dashboard_model extends CI_Model {
             return [];  
         }
     }
+
+    public function get_productwise_profit($start_date, $end_date)
+{
+    // Start এবং End কে timestamp এ convert করা
+    $start_timestamp = strtotime($start_date . " 00:00:00");
+    $end_timestamp   = strtotime($end_date . " 23:59:59");
+
+    $this->db->select("
+        sales_item_batch_profit_loss.product_id,
+        products.name AS product_name,
+        SUM(sales_item_batch_profit_loss.qty_sold) AS total_qty,
+        SUM(sales_item_batch_profit_loss.qty_sold * sales_item_batch_profit_loss.sales_price) AS total_sales,
+        SUM(sales_item_batch_profit_loss.qty_sold * sales_item_batch_profit_loss.purchase_price) AS total_purchase,
+        SUM(sales_item_batch_profit_loss.profit_loss) AS total_profit
+    ");
+    $this->db->from("sales_item_batch_profit_loss");
+    $this->db->join("products", "products.id = sales_item_batch_profit_loss.product_id", "left");
+
+    // Filter by sales date
+    $this->db->where('sales_item_batch_profit_loss.sales_date >=', $start_timestamp);
+    $this->db->where('sales_item_batch_profit_loss.sales_date <=', $end_timestamp);
+
+    // Group by product
+    $this->db->group_by("sales_item_batch_profit_loss.product_id");
+
+    $query = $this->db->get();
+    return $query->result();
+}
+
 }

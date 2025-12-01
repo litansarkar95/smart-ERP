@@ -361,6 +361,16 @@ public function find_product_by_serial($serial,$invoice_id)
     ];
 }
 
+public function get_last_5_orders($customer_id)
+    {
+        $this->db->select('id, invoice_no');
+        $this->db->from('sales');
+        $this->db->where('customer_id', $customer_id);
+        $this->db->order_by('id', 'DESC');
+        $this->db->limit(5);
+
+        return $this->db->get()->result();
+    }
 
 
 }

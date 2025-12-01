@@ -864,5 +864,11 @@ public function invoice($id)
     $data['allDets']       = $this->purchase_model->PurchaseItemDetailsList($id);
     $this->load->view('invoice', $data);
  }
+public function get_customer_info()
+{
+    $id = $this->input->post('id');
+    $customer = $this->db->where('id', $id)->get('business_partner')->row();
 
+    echo json_encode($customer);
+}
 }

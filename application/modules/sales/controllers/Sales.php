@@ -3,6 +3,7 @@ class Sales extends MX_Controller
 {
   public function __construct() {
     parent::__construct();
+       $this->load->model("partner/partner_model");
        $this->load->model("sales_model");
  
 }
@@ -35,9 +36,12 @@ public function index()
     #inv_stock_master ,inv_stock_item_serial, inv_stock_history,
     #acc_general_ledger,business_partner
     #
-  $invoice_code   = $this->common_model->xss_clean($this->input->post("invoice_id"));
-        $store_id       = $this->common_model->xss_clean($this->input->post("store_id"));
-        $branch_id      = $this->session->userdata("loggedin_branch_id");
+        $invoice_code        = $this->common_model->xss_clean($this->input->post("invoice_id"));
+        $store_id            = $this->common_model->xss_clean($this->input->post("store_id"));
+        $branch_id           = $this->session->userdata("loggedin_branch_id");
+        $dueAmount           = $this->common_model->xss_clean($this->input->post("dueAmount"));
+        $paymentMethodId     = $this->common_model->xss_clean($this->input->post("payment_method_id"));
+        $sales_date          = $this->common_model->xss_clean($this->input->post("sales_date"));
 
         $int_no = $this->sales_model->number_generator();
         $invoice_no = 'INV-'.str_pad($int_no,4,"0",STR_PAD_LEFT);
@@ -96,6 +100,77 @@ public function index()
 
         if($this->common_model->save_data("sales", $data)){
             $sales_id = $this->common_model->Id;
+
+            // Customer Payment Update
+
+            if($dueAmount  > 0){
+                $current_bac= $this->partner_model->get_current_balance($customer_id);
+                $current_balance = $current_bac->current_balance;
+                $new_balance = $current_balance + $dueAmount;
+                $this->partner_model->update_balance($customer_id, $new_balance);
+            }
+
+            //end New Balance
+
+            // Start  Account 
+                #######################################################################
+    ####################### Start Accounts Ledger  #########################
+    #####################################################################
+
+        $payableAmount = $this->input->post('payableAmount') ?? 0;
+        $paidAmount = $this->input->post('paidAmount') ?? 0;
+   
+
+     $converted_date = convert_date_ddmmyyyy_to_yyyymmdd($sales_date);
+
+        $total_tr_data = array(   
+        "organization_id"            => $this->session->userdata('loggedin_org_id'),
+        "branch_id"                  => $this->session->userdata('loggedin_branch_id'), 
+        "voucher_type"               => 'Sales',  
+        "sales_invoice_id"           => $sales_id,   
+        "party_id"                   => $customer_id,   
+        "account_name"               => 'Customer Sales', 
+        "particulars"                => 'Sales for order',   
+        "date"                       => $converted_date,   
+        "debit"                      => $payableAmount,   
+        "credit"                     => 0,   
+        "gl_date"                    => strtotime($sales_date),
+        "acc_coa_head_id"            => 0,   
+        "payment_method"             => 0,    
+        "remarks"                    => 'Sales order ',
+        "is_active"                  => 1,
+        "create_user"                => $this->session->userdata('loggedin_id'),
+        "create_date"                => strtotime($date),
+       
+    );
+    $this->common_model->save_data("acc_general_ledger", $total_tr_data);
+
+
+      if($paidAmount > 0){
+        $total_pay_data = array(   
+        "organization_id"            => $this->session->userdata('loggedin_org_id'),
+        "branch_id"                  => $this->session->userdata('loggedin_branch_id'), 
+        "voucher_type"               => 'Customer Payment',  
+        "sales_invoice_id"           => $sales_id,   
+        "party_id"                   => $customer_id,   
+        "account_name"               => 'Customer Account', 
+        "particulars"                => 'Payment for order',   
+        "date"                       => $converted_date,   
+        "debit"                      => 0,   
+        "credit"                     => $paidAmount,   
+        "gl_date"                    => strtotime($sales_date),
+        "acc_coa_head_id"            => 0,   
+        "payment_method"             => $paymentMethodId,    
+        "remarks"                    => 'Payment for order ',
+        "is_active"                  => 1,
+        "create_user"                => $this->session->userdata('loggedin_id'),
+        "create_date"                => strtotime($date),
+       
+    );
+    $this->common_model->save_data("acc_general_ledger", $total_pay_data);
+
+    }
+            // End  Account 
 
             // Approve invoice
             $this->db->where('invoice_code', $invoice_code)->update('sales_invoice', ['status'=>'Approved']);
@@ -605,11 +680,11 @@ public function update_item_ajax() {
 
 public function get_supplier_balance()
 {
-    $supplier_id = $this->input->post('supplier_id');
+    $customer_id = $this->input->post('customer_id');
     $balance = 0;
 
-    if ($supplier_id) {
-        $supplier = $this->db->get_where('business_partner', ['id' => $supplier_id])->row();
+    if ($customer_id) {
+        $supplier = $this->db->get_where('business_partner', ['id' => $customer_id])->row();
         if ($supplier) {
             $balance = $supplier->current_balance;
         }
@@ -957,6 +1032,15 @@ public function add_item_from_serial_ajax()
     // ]);
 }
 
+public function ajax_last_orders()
+{
+    $customer_id = $this->input->post('customer_id');
+
+    $this->load->model('Sales_model');
+    $orders = $this->Sales_model->get_last_5_orders($customer_id);
+
+    echo json_encode(['orders' => $orders]);
+}
 
 
 }

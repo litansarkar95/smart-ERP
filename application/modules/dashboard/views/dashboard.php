@@ -358,12 +358,12 @@
 
 
 
-
 <div class="card">
     <div class="card-header">
       <i class="fas fa-chart-line"></i>
       <h2>Overview Chart</h2>
     </div>
+
     <canvas id="overviewChart"></canvas>
 
     <div class="chart-legend">
@@ -371,65 +371,70 @@
       <div class="legend-item"><span class="legend-color" style="background:#1cc88a"></span>Purchases</div>
       <div class="legend-item"><span class="legend-color" style="background:#f6c23e"></span>Profit</div>
     </div>
-  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+var ctx = document.getElementById('overviewChart').getContext('2d');
+var overviewChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+        labels: ['This Month'],
+        datasets: [
+            {
+                label: 'Sales',
+                backgroundColor: '#4e73df',
+                data: [<?= $totals['sales']; ?>],
+                borderRadius: 6
+            },
+            {
+                label: 'Purchases',
+                backgroundColor: '#1cc88a',
+                data: [<?= $totals['purchase']; ?>],
+                borderRadius: 6
+            },
+            {
+                label: 'Profit',
+                type: 'line',
+                borderColor: '#f6c23e',
+                borderWidth: 3,
+                fill: false,
+                tension: 0.3,
+                data: [<?= $totals['profit']; ?>]
+            }
+        ]
+    },
+    options: {
+        responsive: true,
+        scales: {
+            y: {
+                beginAtZero: true,
+                ticks: { color: '#666' },
+                grid: { color: '#eaeaea' }
+            },
+            x: {
+                ticks: { color: '#666' },
+                grid: { display: false }
+            }
+        },
+        plugins: {
+            legend: { display: true },
+            tooltip: {
+                backgroundColor: '#333',
+                titleFont: { size: 13 },
+                bodyFont: { size: 12 },
+                padding: 10,
+                cornerRadius: 6
+            }
+        }
+    }
+});
+</script>
+
+
 
 
    </div>
 
     </div>
-   <script>
-    const ctx = document.getElementById('overviewChart').getContext('2d');
-    const overviewChart = new Chart(ctx, {
-      type: 'bar',
-      data: {
-        labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'],
-        datasets: [
-          {
-            label: 'Sales',
-            backgroundColor: '#4e73df',
-            data: [12000, 15000, 13000, 18000, 17000, 19000, 21000],
-            borderRadius: 6
-          },
-          {
-            label: 'Purchases',
-            backgroundColor: '#1cc88a',
-            data: [9000, 11000, 12000, 14000, 13500, 15000, 16000],
-            borderRadius: 6
-          },
-          {
-            label: 'Profit',
-            type: 'line',
-            borderColor: '#f6c23e',
-            borderWidth: 3,
-            fill: false,
-            tension: 0.3,
-            data: [3000, 4000, 1000, 4000, 3500, 4000, 5000]
-          }
-        ]
-      },
-      options: {
-        responsive: true,
-        scales: {
-          y: {
-            beginAtZero: true,
-            ticks: { color: '#666' },
-            grid: { color: '#eaeaea' }
-          },
-          x: {
-            ticks: { color: '#666' },
-            grid: { display: false }
-          }
-        },
-        plugins: {
-          legend: { display: false },
-          tooltip: {
-            backgroundColor: '#333',
-            titleFont: { size: 13 },
-            bodyFont: { size: 12 },
-            padding: 10,
-            cornerRadius: 6
-          }
-        }
-      }
-    });
-  </script>
+   

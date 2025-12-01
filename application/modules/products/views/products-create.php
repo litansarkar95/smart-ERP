@@ -126,8 +126,8 @@
                                   <div class="select_2_container">
                                     <select name="serial_type"  id="serial_type"     class="form-control  select2">
                                        <option  value="">  সিরিয়াল টাইপ বেছে  নিন </option>
-                                       <option value="common"> একই সিরিয়ালে  একাধিক  পণ্য </option>
-                                        <option value="unique"> প্রতি পণ্যে আলাদা সিরিয়াল  </option>
+                                       <option value="common"> একই সিরিয়ালে  একাধিক  পণ্য ( Batch Number) </option>
+                                        <option value="unique"> প্রতি পণ্যে আলাদা সিরিয়াল ( Unique Barcode ) </option>
                                     </select>
                                     <i class="fas fa-caret-down"></i>
                                   </div>
@@ -145,7 +145,7 @@
                                  <!-- end input -->
                                    <!-- Brand -->  
 
-                          <div class="col-md-3 mb-3">
+                          <div class="col-md-3 mb-3" style="display:none;">
                                     <div class="form-group">
                                   <label for="tax_method">Tax Method</label>
                                   <div class="select_container">
@@ -169,7 +169,7 @@
                                  <!-- end input -->
                                    <!-- start input -->
                                  
-                                            <div class="col-md-3 mb-3 product_tax_display" tyle="display:none;">
+                                            <div class="col-md-3 mb-3 product_tax_display" style="display:none;">
                                                               <div class="form-group">
                                   <label for="product_tax_amount">Tax Amount</label>
                                   <input type="text"   name="product_tax_amount" id="product_tax_amount"  value="<?php echo set_value('product_tax_amount'); ?>"    class="form-control">
@@ -256,7 +256,7 @@
                                                                                                 </div>
                                                                                                 <div
                                                                                                             class="col-md-2 align-self-center mt-3">
-                                                                                                            <img src="<?php echo base_url(); ?>public/assets/imgs/upload.png"
+                                                                                                            <img src="<?php echo base_url(); ?>assets/images/upload.png"
                                                                                                                         id="image"
                                                                                                                         class="table-img">
                                                                                                 </div>
@@ -379,7 +379,7 @@ $(document).ready(function () {
 
             });
 
-
+    $("#product_code").val(Math.floor(Math.random() * (9999 - 100 + 1)) + 100);
 
 		</script> 
 

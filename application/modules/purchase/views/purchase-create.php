@@ -67,18 +67,22 @@
 																</div>
 									      					</div>     
 
-                                  <div class="col-md-3 mb-3">
+                                  
+
+                                 <div class="col-md-3 ">
                                 <div class="form-group">
                                     <label for="supplier_id">Select Supplier</label>
                                     <div class="select_2_container">
-                                    <select name="supplier_id" id="supplier_id" class="form-control frm_select select2" required>
-                                        <option value="">Select</option>
-                                        <?php foreach($allSuplier as $suplier){ ?>
-                                            <option value="<?= $suplier->id; ?>">
-                                                <?= $suplier->name . ' - ' . $suplier->contact_no; ?>
-                                            </option>
-                                        <?php } ?>
-                                    </select>
+                                   <select name="supplier_id" id="supplier_id" class="form-control frm_select select2" required>
+                                    <option value="">Select</option>
+                                    <?php foreach($allSuplier as $customer){ ?>
+                                        <option value="<?= $customer->id; ?>" 
+                                            <?= ($customer->name=='Cash') ? 'selected' : '' ?>>
+                                            <?= $customer->name . ' - ' . $customer->contact_no; ?>
+                                        </option>
+                                    <?php } ?>
+                                </select>
+
                                     <i class="fas fa-caret-down"></i>
                                     </div>
                                     <span class="text-error small"><?= form_error('supplier_id'); ?></span>
@@ -945,12 +949,13 @@ $("#purchase_date,.to_date").val(today);
 
 <script>
 $(document).ready(function() {
-    $('#supplier_id').on('change', function() {
-        var supplier_id = $(this).val();
 
-        if(supplier_id != '') {
+    function loadSupplierBalance() {
+        var supplier_id = $('#supplier_id').val();
+
+        if (supplier_id !== '') {
             $.ajax({
-                url: '<?= base_url("purchase/get_supplier_balance"); ?>', // controller path
+                url: '<?= base_url("purchase/get_supplier_balance"); ?>',
                 type: 'POST',
                 dataType: 'json',
                 data: { supplier_id: supplier_id },
@@ -964,7 +969,15 @@ $(document).ready(function() {
         } else {
             $('#previousDue').val('');
         }
+    }
+
+    // 1️⃣ Load balance when supplier changes
+    $('#supplier_id').on('change', function() {
+        loadSupplierBalance();
     });
+
+    // 2️⃣ Load default balance on page load (Cash is selected by default)
+    loadSupplierBalance();
 });
 
 
@@ -1153,4 +1166,55 @@ $(document).on('click', '#updateItemBtn', function () {
 
 });
 
+
+
+ $(document).ready(function () {
+
+    function loadCustomerInfo(supplier_id) {
+        $.ajax({
+            url: "<?= base_url('purchase/get_customer_info'); ?>",
+            type: "POST",
+            data: { id: supplier_id },
+            dataType: "json",
+            success: function (data) {
+
+                $("#customer_name").val(data.name);
+                $("#mobile_no").val(data.contact_no);
+                $("#address").val(data.address);
+
+                if (data.name === "Cash") {
+                    // Editable
+                    $("#customer_name").prop("readonly", false);
+                    $("#mobile_no").prop("readonly", false);
+                    $("#address").prop("readonly", false);
+
+                    // Show Save Option
+                    $("#save_customer_box").show();
+                } else {
+                    // Read only
+                    $("#customer_name").prop("readonly", true);
+                    $("#mobile_no").prop("readonly", true);
+                    $("#address").prop("readonly", true);
+
+                    // Hide Save Option
+                    $("#save_customer_box").hide();
+                }
+            }
+        });
+    }
+
+    // 🔥 Page Load হলে Cash লোড হবে
+    let defaultCustomer = $("#supplier_id").val();
+    if (defaultCustomer) {
+        loadCustomerInfo(defaultCustomer);
+    }
+
+    // Dropdown Change
+    $("#supplier_id").change(function () {
+        let id = $(this).val();
+        if (id !== "") {
+            loadCustomerInfo(id);
+        }
+    });
+});
 </script>

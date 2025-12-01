@@ -82,5 +82,15 @@ if (!function_exists('number_to_words')) {
 
         return trim($result);
     }
+
+
+    function convert_date_ddmmyyyy_to_yyyymmdd($date)
+{
+    $dateTime = DateTime::createFromFormat('d-m-Y', $date);
+    if($dateTime){
+        return $dateTime->format('Y-m-d');
+    }
+    return null; // invalid date
+}
 }
 
