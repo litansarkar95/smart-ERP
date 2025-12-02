@@ -862,6 +862,7 @@ public function invoice($id)
     $data['title']        = "Order List"; 
     $data['allPdt']       = $this->purchase_model->getPurchaseList($id);
     $data['allDets']       = $this->purchase_model->PurchaseItemDetailsList($id);
+  // echo "<pre>"; print_r($data['allDets']);exit();
     $this->load->view('invoice', $data);
  }
 public function get_customer_info()

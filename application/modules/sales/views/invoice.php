@@ -237,12 +237,13 @@ if(isset($allPdt)){
         </thead>
         <tbody>
             <?php
+            $i = 1;
             if(isset($allDets)){
                 foreach($allDets as $details){
 
             ?>
             <tr>
-                <td style="text-align:center;">1</td>
+                <td style="text-align:center;"><?= $i++ ?></td>
                 <td>
                     <?php echo $details->title; ?><br>
                          <?php

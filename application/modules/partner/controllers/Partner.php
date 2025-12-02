@@ -3,7 +3,7 @@ class Partner extends MX_Controller
 {
   public function __construct() {
     parent::__construct();
-       $this->load->model("products_model");
+       $this->load->model("partner_model");
  
 }
 public function index()

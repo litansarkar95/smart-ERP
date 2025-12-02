@@ -204,7 +204,7 @@
 
                                                             <div class="col-md-4 mb-2" id="unique_input" style="display:none;">
 																<div class="form-group">
-																<label for="item_serial">প্রতি পণ্যে আলাদা সিরিয়াল  <span class="text-error"> *</span></label>
+																<label for="item_serial">প্রতি পণ্যে আলাদা সিরিয়াল” (Unique Serial per Item)  <span class="text-error"> *</span></label>
 									      						<input type="text"  name="item_serial" id="item_serial" value=""   class="form-control serial_number" >
 																<span class="text-error small"><?php echo form_error('item_serial'); ?></span>
 																</div>
@@ -212,7 +212,7 @@
 
                                                               <div class="col-md-4 mb-2"  id="common_input"  style="display:none;">
 																<div class="form-group">
-																<label for="barcode_serial">Batch Number <span class="text-error"> *</span></label>
+																<label for="barcode_serial">ব্যাচ নম্বর ( Batch Number) <span class="text-error"> *</span></label>
 									      						<input type="text"  name="barcode_serial" id="barcode_serial" value=""   class="form-control serial_number" autofocus>
 																<span class="text-error small"><?php echo form_error('barcode_serial'); ?></span>
 																</div>
@@ -628,6 +628,7 @@ $('#addItemBtn').on('click', function() {
         var existingRow = $('#itemsTable tbody tr[data-id="'+res.item.id+'"]');
         if(existingRow.length){
             existingRow.find('.qty').val(res.item.qty);
+            existingRow.find('.price').val(res.item.price);
             existingRow.find('.sub_total').val(res.item.sub_total);
             existingRow.find('.total_rebate').val(res.item.total_rebate);
             existingRow.find('.serial_number').val(res.item.serial_number);

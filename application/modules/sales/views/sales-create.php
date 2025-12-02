@@ -33,6 +33,12 @@
         color: #e60000 !important; 
         font-weight: bold;
     }
+
+    .show-cost {
+    white-space: nowrap;
+    min-width: 90px; /* চাইলে কম/বেশি দিতে পারবেন */
+}
+
 </style>
   	  <link rel="stylesheet" href="https://code.jquery.com/ui/1.14.1/themes/base/jquery-ui.css">
   <script src="https://code.jquery.com/ui/1.14.1/jquery-ui.js"></script>
@@ -445,7 +451,7 @@
 </div>
 
 <div class="modal fade" id="editModal">
-  <div class="modal-dialog">
+  <div class="modal-dialog modal-lg">
     <div class="modal-content">
       
       <div class="modal-header">
@@ -916,7 +922,7 @@ function addNewRow(res,  serial=''){
         '<input type="number" class="qty form-control" name="qty" value="'+qtyValue+'">';
 
     let editBtn = (serial_type === 'unique') ? 
-        '<button type="button" class="btn btn-sm btn-info editItem">✎</button> ' : ''  
+        '<button type="button" class="btn btn-sm btn-success editItem"><i class="fa fa-eye"></i></button> ' : ''  
 
   
         // Discount fields (editable for all products)
@@ -937,7 +943,7 @@ function addNewRow(res,  serial=''){
         '<td><textarea class="serial_number form-control" readonly>'+serial+'</textarea></td>'+
          '<td>' +
                 editBtn +
-                    '<button type="button" class="btn btn-sm btn-outline-danger removeItem">✖</button>' +
+                    '<button type="button" class="btn btn-sm btn-outline-danger removeItem"><i class="fa fa-trash"></i></button>' +
                 '</td>'+
     '</tr>';
 
@@ -1203,7 +1209,7 @@ function refreshSerialList(item_id) {
                             <td>${formatDate(purchaseDate)}</td>
                             <td>${remaining} Days</td>
                             <td>
-                                <button class="btn btn-sm btn-info show-cost">Show Price</button>
+                                <button class="btn btn-sm btn-success show-cost">Show Price</button>
                                 <button class="btn btn-sm btn-danger delete-serial">Delete</button>
                             </td>
                         </tr>
@@ -1220,14 +1226,23 @@ function refreshSerialList(item_id) {
 }
 
 $(document).on("click", ".show-cost", function(){
-    let row = $(this).closest("tr");
+    let btn = $(this);
+    let row = btn.closest("tr");
     let price = row.find(".purchase_price").text();
 
-    iziToast.info({
-        message: "Purchase Price: " + price,
-        position: 'topRight'
-    });
+    // Change button text to price
+    btn.text(price + " ৳");
+
+    // Disable button for temporary security
+    btn.prop("disabled", true);
+
+    // After 2 seconds revert back
+    setTimeout(function(){
+        btn.text("Show Price");
+        btn.prop("disabled", false);
+    }, 2000);
 });
+
 
 
   </script>
@@ -1363,6 +1378,8 @@ $('#item_serial').on('keypress', function(e) {
                 message: "Please scan or enter a serial!",
                 position: "topRight"
             });
+
+            $('#item_serial').val("");
             return;
         }
        // alert(serial);
@@ -1484,13 +1501,19 @@ $('#item_serial').on('keypress', function(e) {
                 $('#item_serial').val("");
 
             },
-
+            
             error: function(err){
                 iziToast.error({
                     message: "Error connecting server!",
                     position: "topRight"
                 });
+                
+            },
+            complete: function(){
+                $('#item_serial').val("");
+                $('#item_serial').focus();
             }
+            
         });
     }
 });

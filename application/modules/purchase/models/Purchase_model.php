@@ -87,7 +87,7 @@ public function number_generator() {
     public function PurchaseItemDetailsList($id) {
         $loggedin_org_id = $this->session->userdata("loggedin_org_id");
        
-		$this->db->select("inv_stock_history.* , products.name title , unit.name unit");
+		$this->db->select("inv_stock_history.* , products.name title ,products.serial_type , unit.name unit");
         $this->db->from("inv_stock_history");
         $this->db->join('products', "inv_stock_history.product_id = products.id",'left');
         $this->db->join('unit', "products.unit_id = unit.id",'left');
@@ -202,6 +202,15 @@ public function get_stock_previous_products($store_id, $product_id)
     }
 
 
-
+   public function PurchaseItemBatch($id) {
+        $loggedin_org_id = $this->session->userdata("loggedin_org_id");
+       
+		$this->db->select("inv_stock_item_serial.* ");
+        $this->db->from("inv_stock_item_serial");
+        $this->db->where("inv_stock_item_serial.organization_id", $loggedin_org_id);
+        $this->db->where("inv_stock_item_serial.product_id",$id);
+        $this->db->order_by("id", "DESC");
+        return $this->db->get()->result();
+    }
 
 }
