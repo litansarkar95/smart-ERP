@@ -291,7 +291,7 @@
 																<span class="text-error small"><?php echo form_error('remarks'); ?></span>
 																</div>
 									      					</div>
-<input type="hidden" id="invoice_id" name="invoice_id" value="<?php echo date("dmYHis")?>">
+<input type="hidden" id="invoice_id" name="invoice_id" value="<?= $invoice->invoice_code ?>">
                                                            
                                    <!-- Brand -->  
 	<div class="row">
@@ -322,7 +322,39 @@
         </tr>
     </thead>
     <tbody>
-        <!-- rows will append here -->
+        <?php
+        $total_qty = 0;
+        $total_rebate = 0;
+        $total_subtotal = 0;
+        $dueAmount = 0;
+        ?>
+
+       <?php $sl=1; foreach($allItem as $item): ?>
+        <?php
+            $total_qty      += $item->qty;
+            $total_rebate   += $item->total_rebate;
+            $total_subtotal += $item->sub_total;
+            $dueAmount      += $item->sub_total;
+        ?>
+                <tr data-id="<?= $item->id ?>">
+            <td><?= $sl++; ?></td>
+            <td><?= $item->product_name ?></td>
+            <td><input type="number" class="qty form-control" value="<?= $item->qty ?>" readonly></td>
+            <td><input type="number" class="price form-control" value="<?= $item->price ?>" readonly></td>
+            <td><input type="number" class="total_rebate form-control" value="<?= $item->total_rebate ?>" readonly></td>
+            <td><?= $item->unit_name ?></td>
+            <td><input type="number" class="sub_total form-control" value="<?= $item->sub_total ?>" readonly></td>
+            <td><textarea class="serial_number form-control" readonly><?= $item->serial_number ?></textarea></td>
+            <td>
+                <?php if ($item->serial_type == 'unique'): ?>
+                    <button type="button" class="btn btn-sm btn-info editItem">✎</button>
+                <?php else: ?>
+                    <button type="button" class="btn btn-sm btn-info editBatchItem">✎</button>
+                <?php endif; ?>
+                <button type="button" class="btn btn-sm btn-outline-danger removeItem">✖</button>
+            </td>
+        </tr>
+<?php endforeach; ?>
     </tbody>
    
 </table>
@@ -1277,3 +1309,16 @@ $(document).on('click', '#updateItemBtn', function () {
 
 
 </script>
+
+<script>
+$(document).ready(function(){
+
+    $("#totalOrderAmount").val("<?= $total_qty ?>");
+    $("#totalRebate").val("<?= $total_rebate ?>");
+    $("#subtotalAmount").val("<?= $total_subtotal + $total_rebate ?>"); 
+    $("#totalAmount").val("<?= $total_subtotal ?>"); 
+    $("#dueAmount").val("<?= $dueAmount ?>");  
+
+});
+</script>
+

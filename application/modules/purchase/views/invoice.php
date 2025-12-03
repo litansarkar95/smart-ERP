@@ -252,13 +252,13 @@ if(isset($allPdt)){
 
                  <?php
                
-                $allbatch = $this->purchase_model->PurchaseItemBatch($details->product_id);
+                $allbatch = $this->purchase_model->PurchaseItemBatch($details->id);
 
                 $batch_numbers = [];
 
                 if (!empty($allbatch)) {
                     foreach ($allbatch as $batch) {
-                        $batch_numbers[] = $batch->serial;
+                        $batch_numbers[] = $batch->serial_number;
                     }
 
                     echo implode(", ", $batch_numbers);  
@@ -270,9 +270,9 @@ if(isset($allPdt)){
 
                 </td>
                 <td style="text-align:center;"><?php if($details->warrenty > 0 ){ echo $details->warrenty." ".$details->warrenty_days; }?></td>
-                <td style="text-align:center;"><?php echo $details->quanity; ?></td>
+                <td style="text-align:center;"><?php echo $details->qty; ?></td>
                 <td style="text-align:right;"><?php echo $details->purchase_price; ?></td>
-                <td style="text-align:right;"><?php echo $details->quanity * $details->purchase_price; ?></td>
+                <td style="text-align:right;"><?php echo $details->qty * $details->purchase_price; ?></td>
             </tr>
             <?php
     }

@@ -64,17 +64,17 @@
                                    
                                        <td>
                                     <div class="btn-group" role="group">
-                                        <?php if (has_permission('purchase', 'edit')): ?>
-                                        <a href="<?php echo base_url()."purchase/edit/$pdt->id"?>" class="btn btn-sm btn-primary me-1">
+                                        <?php //if (has_permission('purchase', 'edit')): ?>
+                                        <a href="<?php echo base_url()."purchase/order/create/$pdt->invoice_code"?>" class="btn btn-sm btn-primary me-1">
                                             <i class="fa fa-pencil"></i> 
                                         </a>
-                                        <?php endif; ?>
+                                        <?php //endif; ?>
 
-                                        <?php if (has_permission('purchase', 'delete')): ?>
+                                        <?php //if (has_permission('purchase', 'delete')): ?>
                                         <a href="#" class="btn btn-sm btn-danger" onclick="confirmDelete(<?php echo $pdt->id; ?>)">
                                             <i class="fa fa-trash"></i> 
                                         </a>
-                                        <?php endif; ?>
+                                        <?php //endif; ?>
                                     </div>
                                 </td>
 
@@ -128,7 +128,7 @@ $(document).on('shown.bs.modal', '[id^="edit_modals"]', function () {
         confirmButtonText: "Yes, delete it!"
         }).then((result) => {
         if (result.value) {
-             window.location.href = "<?php echo base_url(); ?>purchase/delete/"+userId;
+             window.location.href = "<?php echo base_url(); ?>purchase/order/delete/"+userId;
         }
         }); 
 

@@ -30,7 +30,7 @@ public function index()
 
     //table list
     #####
-    #purchase , purchase_invoice, purchase_items,purchase_item_serials
+    #purchase , purchase_invoice, purchase_order_items,purchase_order_item_serials
     #inv_stock_master ,inv_stock_item_serial, inv_stock_history,
     #acc_general_ledger,business_partner
     #
@@ -43,6 +43,27 @@ public function index()
 
     $int_no = $this->purchase_model->number_generator();
   	$invoice_no = 'GRN-'.str_pad($int_no,4,"0",STR_PAD_LEFT);
+
+       $save_customer = $this->common_model->xss_clean($this->input->post("save_customer"));
+        if($save_customer == 1){
+            $date = date("Y-m-d H:i:s");
+            $data_custome = array(
+                "organization_id"   => $this->session->userdata('loggedin_org_id'),
+                "name"              => $this->common_model->xss_clean($this->input->post("customer_name")),
+                "partner_type"      => "Both",
+                "contact_no"        => $this->common_model->xss_clean($this->input->post("mobile_no")),
+                "address"           => $this->common_model->xss_clean($this->input->post("address")),
+                "customer_group_id" => $this->common_model->xss_clean($this->input->post("customer_group_id")),
+                "is_active"         => 1,
+                "create_user"       => $this->session->userdata('loggedin_id'),
+                "create_date"       => strtotime($date),
+            );
+            if($this->common_model->save_data("business_partner", $data_custome)){
+                $customer_id = $this->common_model->Id;
+            }
+        } else {
+            $customer_id = $this->common_model->xss_clean($this->input->post("supplier_id"));
+        }
     
     $date = date("Y-m-d H:i:s");
     $data = array(   
@@ -52,7 +73,7 @@ public function index()
         "code_random"                => $int_no,   
         "invoice_no"                 => $invoice_no,   
         "purchase_date"              => strtotime($this->common_model->xss_clean($this->input->post("purchase_date"))),   
-        "supplier_id"                => $this->common_model->xss_clean($this->input->post("supplier_id")),   
+        "supplier_id"                => $customer_id,   
         "store_id"                   => $this->common_model->xss_clean($this->input->post("store_id")),   
         "totalQty"                   => $this->common_model->xss_clean($this->input->post("totalOrderAmount")),   
         "allTotal"                   => $this->common_model->xss_clean($this->input->post("subtotalAmount")),   
@@ -71,15 +92,9 @@ public function index()
 
    
     if ($this->common_model->save_data("purchase", $data)) {
-      $id = $this->common_model->Id;
-      
-
-      //update
-      $invoice_code              = $this->common_model->xss_clean($this->input->post("invoice_id"));
-      
-       $this->db->where('invoice_code', $invoice_code)->update('purchase_invoice', ['status' => 'Approved']);
-
-    #######################################################################
+      $purchase_id = $this->common_model->Id;
+    $this->db->where('invoice_code', $invoice_code)->update('purchase_invoice', ['status' => 'Approved']);
+         #######################################################################
     ####################### Start Accounts Ledger  #########################
     #####################################################################
 
@@ -97,13 +112,13 @@ public function index()
 
   
       //update suplier payment
-      $this->purchase_model->update_current_balance($supplier_id, $dueAmount);
+      $this->purchase_model->update_current_balance($customer_id, $dueAmount);
         $total_tr_data = array(   
         "organization_id"            => $this->session->userdata('loggedin_org_id'),
         "branch_id"                  => $this->session->userdata('loggedin_branch_id'), 
         "voucher_type"               => 'Purchase',  
         "purchase_invoice_id"        => $id,   
-        "party_id"                   => $supplier_id,   
+        "party_id"                   => $customer_id,   
         "account_name"               => 'Supplier Purchase', 
         "particulars"                =>'Purchase for order',   
         "date"                       => $date,   
@@ -126,7 +141,7 @@ public function index()
         "branch_id"                  => $this->session->userdata('loggedin_branch_id'), 
         "voucher_type"               => 'Supplier Payment',  
         "purchase_invoice_id"        => $id,   
-        "party_id"                   => $supplier_id,   
+        "party_id"                   => $customer_id,   
         "account_name"               => 'Supplier Account', 
         "particulars"                => 'Payment for order',   
         "date"                       => $date,   
@@ -151,7 +166,7 @@ public function index()
         "branch_id"                  => $this->session->userdata('loggedin_branch_id'), 
         "voucher_type"               => 'Supplier Rebate',  
         "purchase_invoice_id"        => $id,   
-        "party_id"                   => $supplier_id,   
+        "party_id"                   => $customer_id,   
         "account_name"               => 'Rebate', 
         "particulars"                => 'Rebate for order',   
         "date"                       => $date,   
@@ -172,7 +187,59 @@ public function index()
    #######################################################################
    ####################### End Accounts Ledger #########################
    #####################################################################
-      
+
+
+       // Get items from sales order
+        $items = $this->purchase_model->get_items_by_invoice($invoice_code);
+
+        foreach($items as $item){
+                // Save each sales_item
+                $pdata = array(
+                    "organization_id"    => $this->session->userdata('loggedin_org_id'),
+                    "branch_id"          => $branch_id,
+                    "invoice_code"       => $this->common_model->xss_clean($this->input->post("invoice_id")),  
+                    "purchase_id"        => $purchase_id,
+                    "store_id"           => $store_id,
+                    "product_id"         => $item->product_id,
+                    "serial_type"        => $item->serial_type,
+                    "purchase_price"     => $item->price,
+                    "sales_price"        => $item->price - $item->rebate,
+                    "qty"                => $item->qty,
+                    "sub_total"          => $item->price * $item->qty,
+                    "rebate"             => $item->rebate,
+                    "total_rebate"       => $item->total_rebate,
+                    "net_total"          => $item->sub_total,
+                    "warrenty"           => $item->warrenty,
+                    "warrenty_days"      => $item->warrenty_days,
+                    "status"             => 'Approved',
+                    "create_user"        => $this->session->userdata('loggedin_id'),
+                    "create_date"       => strtotime($date),
+                );
+                $this->common_model->save_data("purchase_items", $pdata);
+                $purchase_item_id = $this->common_model->Id;
+
+                // item serial
+                if ($item->serial_type == 'unique') {
+
+                    $items_serials = $this->purchase_model->get_order_item_serials($item->id);
+                    foreach($items_serials as $items_serial){
+                  // Save each sales_item
+                    $items_ser = array(
+                    "item_id"            => $purchase_item_id,
+                    "serial_type"        => $item->serial_type,
+                    "is_available"       => 1,
+                    "serial_number"      => $items_serial->serial_number,
+                        );
+                        $this->common_model->save_data("purchase_item_serials", $items_ser);
+                    }
+
+                   
+                }
+
+            }
+
+
+                
    #######################################################################
    ####################### Start inv_stock_item_serial #########################
    #####################################################################
@@ -295,8 +362,7 @@ public function index()
    #######################################################################
    ####################### End inv_stock_item_serial #########################
    #####################################################################
-
-          // Start Stock
+       // Start Stock
     $existing = $this->purchase_model->get_items_by_stock($invoice_code);
     
     foreach($existing as $products){
@@ -420,13 +486,10 @@ public function index()
         }
 
 
+    }
 
-            
-    
-        }
 
-        
-         
+      
 
 
         $this->session->set_flashdata('success', 'Record has been successfully saved.');
@@ -448,6 +511,7 @@ public function index()
     $data['allPro']         = $this->main_model->getRecordsByOrg("products");
     $data['allSuplier']     = $this->purchase_model->getSuplier();
     $data['allPayment']         = $this->main_model->getRecordsByOrg("payment_method");
+    $data['allGroup']       = $this->main_model->getRecordsByOrg("partner_group");
     // inv 
     $int_no = $this->purchase_model->number_generator();
   	$invoice_no = 'GRN-'.str_pad($int_no,4,"0",STR_PAD_LEFT);
@@ -584,7 +648,7 @@ public function add_item_ajax()
             $s = trim($s);
             if($s == '') continue;
 
-            $exists = $this->db->get_where('purchase_item_serials', [
+            $exists = $this->db->get_where('purchase_order_item_serials', [
                 'serial_number' => $s
             ])->row();
 
@@ -619,7 +683,7 @@ public function add_item_ajax()
     // 2. ITEM INSERT / UPDATE
     // ======================
 
-    $existing_item = $this->db->get_where('purchase_items', [
+    $existing_item = $this->db->get_where('purchase_order_items', [
         'invoice_id' => $invoice_id,
         'product_id' => $product_id
     ])->row();
@@ -633,7 +697,7 @@ public function add_item_ajax()
         $total_rebate = $existing_item->rebate * $new_qty;
         $sub_total = ($price * $new_qty) - $total_rebate;
 
-        $this->db->where('id', $existing_item->id)->update('purchase_items', [
+        $this->db->where('id', $existing_item->id)->update('purchase_order_items', [
             'price' => $price,
             'qty' => $new_qty,
             'total_rebate' => $total_rebate,
@@ -651,7 +715,7 @@ public function add_item_ajax()
         $total_rebate = $rebate * $qty;
         $sub_total = ($price * $qty) - $total_rebate;
 
-        $this->db->insert('purchase_items', [
+        $this->db->insert('purchase_order_items', [
             'invoice_id'    => $invoice_id,
             'product_id'    => $product_id,
             'serial_type'   => $serial_type,
@@ -682,25 +746,25 @@ public function add_item_ajax()
             $serial = trim($serial);
             if($serial == '') continue;
 
-            $this->db->insert('purchase_item_serials', [
+            $this->db->insert('purchase_order_item_serials', [
                 'item_id' => $item_id,
                 'serial_number' => $serial
             ]);
         }
 
         // Update qty from serial count
-        $new_qty = $this->db->where('item_id', $item_id)->count_all_results('purchase_item_serials');
-        $this->db->where('id', $item_id)->update('purchase_items', ['qty' => $new_qty]);
+        $new_qty = $this->db->where('item_id', $item_id)->count_all_results('purchase_order_item_serials');
+        $this->db->where('id', $item_id)->update('purchase_order_items', ['qty' => $new_qty]);
     }
 
     // ======================
     // 4. FINAL OUTPUT
     // ======================
 
-    $item = $this->db->get_where('purchase_items', ['id' => $item_id])->row();
+    $item = $this->db->get_where('purchase_order_items', ['id' => $item_id])->row();
 
     if($serial_type == 'unique'){
-        $serial_list = $this->db->select('serial_number')->where('item_id', $item_id)->get('purchase_item_serials')->result_array();
+        $serial_list = $this->db->select('serial_number')->where('item_id', $item_id)->get('purchase_order_item_serials')->result_array();
         $serial_str = implode(',', array_column($serial_list, 'serial_number'));
     } else {
         $serial_str = $barcode_serial;
@@ -736,7 +800,7 @@ public function delete_item_ajax()
     }
 
     $this->db->where('id', $item_id);
-    $deleted = $this->db->delete('purchase_items');
+    $deleted = $this->db->delete('purchase_order_items');
 
     if($deleted){
         echo json_encode(['status'=>'success']);
@@ -766,7 +830,7 @@ public function get_item_serials() {
     $item_id = $this->input->get('item_id');
     $serials = $this->db->select('id, serial_number')
                         ->where('item_id', $item_id)
-                        ->get('purchase_item_serials')
+                        ->get('purchase_order_item_serials')
                         ->result_array();
     echo json_encode(['status'=>'success','serials'=>$serials]);
 }
@@ -777,22 +841,22 @@ public function delete_item_serial() {
     $item_id = $this->input->post('item_id');
 
     // delete serial
-    $this->db->where('id', $serial_id)->delete('purchase_item_serials');
+    $this->db->where('id', $serial_id)->delete('purchase_order_item_serials');
 
     // recalc qty
     $new_qty = $this->db->where('item_id', $item_id)
-                        ->from('purchase_item_serials')
+                        ->from('purchase_order_item_serials')
                         ->count_all_results();
 
-    // update purchase_items table
-    $item = $this->db->get_where('purchase_items', ['id'=>$item_id])->row();
+    // update purchase_order_items table
+    $item = $this->db->get_where('purchase_order_items', ['id'=>$item_id])->row();
     $price = $item->price;
     $total_rebate = $item->total_rebate;
 
     $new_total_rebate = $item->rebate * $new_qty;
     $new_sub_total = max(0, ($price * $new_qty) - $item->rebate);
 
-    $this->db->where('id', $item_id)->update('purchase_items', [
+    $this->db->where('id', $item_id)->update('purchase_order_items', [
         'qty' => $new_qty,
         'sub_total' => $new_sub_total
     ]);
@@ -800,7 +864,7 @@ public function delete_item_serial() {
     // 🔥 NEW: get updated serial list
     $serial_list = $this->db->select('serial_number')
                             ->where('item_id', $item_id)
-                            ->get('purchase_item_serials')
+                            ->get('purchase_order_item_serials')
                             ->result_array();
 
     $serial_string = implode(',', array_column($serial_list, 'serial_number'));
@@ -848,7 +912,7 @@ public function update_item()
     ];
 
     $this->db->where('id', $item_id);
-    $this->db->update('purchase_items', $data);
+    $this->db->update('purchase_order_items', $data);
 
     echo json_encode(['success' => true]);
 }
@@ -862,7 +926,7 @@ public function invoice($id)
     $data['title']        = "Order List"; 
     $data['allPdt']       = $this->purchase_model->getPurchaseList($id);
     $data['allDets']       = $this->purchase_model->PurchaseItemDetailsList($id);
-  // echo "<pre>"; print_r($data['allDets']);exit();
+  // echo "<pre>"; print_r($data['allPdt']);exit();
     $this->load->view('invoice', $data);
  }
 public function get_customer_info()
