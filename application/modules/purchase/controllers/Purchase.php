@@ -117,7 +117,7 @@ public function index()
         "organization_id"            => $this->session->userdata('loggedin_org_id'),
         "branch_id"                  => $this->session->userdata('loggedin_branch_id'), 
         "voucher_type"               => 'Purchase',  
-        "purchase_invoice_id"        => $id,   
+        "purchase_invoice_id"        => $purchase_id,   
         "party_id"                   => $customer_id,   
         "account_name"               => 'Supplier Purchase', 
         "particulars"                =>'Purchase for order',   
@@ -140,7 +140,7 @@ public function index()
         "organization_id"            => $this->session->userdata('loggedin_org_id'),
         "branch_id"                  => $this->session->userdata('loggedin_branch_id'), 
         "voucher_type"               => 'Supplier Payment',  
-        "purchase_invoice_id"        => $id,   
+        "purchase_invoice_id"        => $purchase_id,   
         "party_id"                   => $customer_id,   
         "account_name"               => 'Supplier Account', 
         "particulars"                => 'Payment for order',   
@@ -165,7 +165,7 @@ public function index()
         "organization_id"            => $this->session->userdata('loggedin_org_id'),
         "branch_id"                  => $this->session->userdata('loggedin_branch_id'), 
         "voucher_type"               => 'Supplier Rebate',  
-        "purchase_invoice_id"        => $id,   
+        "purchase_invoice_id"        => $purchase_id,   
         "party_id"                   => $customer_id,   
         "account_name"               => 'Rebate', 
         "particulars"                => 'Rebate for order',   
@@ -244,9 +244,9 @@ public function index()
    ####################### Start inv_stock_item_serial #########################
    #####################################################################
     // Start inv_stock_item_serial
-    $items  = $this->purchase_model->get_items_by_invoice($invoice_code);
+    $items  = $this->purchase_model->get_items_order_by_invoice($invoice_code);
 
- 
+
  
     foreach($items  as $item){
         if ($item->serial_type == 'common') {
@@ -256,7 +256,7 @@ public function index()
                      $pdata = array(   
                     "organization_id"            => $this->session->userdata('loggedin_org_id'),
                     "branch_id"                  => $this->session->userdata('loggedin_branch_id'), 
-                    "purchase_id"                => $id,  
+                    "purchase_id"                => $purchase_id,  
                     "store_id"                   => $this->common_model->xss_clean($this->input->post("store_id")),   
                     "product_id"                 => $item->product_id,   
                     "purchase_price"             => $item->price - $item->rebate,   
@@ -279,7 +279,7 @@ public function index()
                      $pdata = array(   
                     "organization_id"            => $this->session->userdata('loggedin_org_id'),
                     "branch_id"                  => $this->session->userdata('loggedin_branch_id'), 
-                    "purchase_id"                => $id,   
+                    "purchase_id"                => $purchase_id,   
                     "store_id"                   => $this->common_model->xss_clean($this->input->post("store_id")),   
                     "product_id"                 => $item->product_id,   
                     "purchase_price"             => $item->price - $item->rebate,     
@@ -333,7 +333,7 @@ public function index()
                      $pdata = array(   
                     "organization_id"            => $this->session->userdata('loggedin_org_id'),
                     "branch_id"                  => $this->session->userdata('loggedin_branch_id'), 
-                    "purchase_id"                => $id,  
+                    "purchase_id"                => $purchase_id,  
                     "store_id"                   => $this->common_model->xss_clean($this->input->post("store_id")),   
                     "product_id"                 => $item->product_id,  
                     "purchase_date"              => strtotime($this->common_model->xss_clean($this->input->post("purchase_date"))), 
@@ -392,7 +392,7 @@ public function index()
             $this->db->insert('inv_stock_history', [
                 'organization_id'                     => $this->session->userdata("loggedin_org_id"),
                 'branch_id'                           => $this->session->userdata("loggedin_branch_id"),
-                "purchase_id"                         => $id,  
+                "purchase_id"                         => $purchase_id,  
                 'store_id'                            => $store_id,
                 'product_id'                          => $product_id,
                 'previous_purchase_price'             => $previous_purchase_price,
@@ -413,7 +413,7 @@ public function index()
             $this->db->insert('inv_stock_history', [
                 'organization_id'                     => $this->session->userdata("loggedin_org_id"),
                 'branch_id'                           => $this->session->userdata("loggedin_branch_id"),
-                "purchase_id"                         => $id,  
+                "purchase_id"                         => $purchase_id,  
                 'store_id'                            => $store_id,
                 'product_id'                          => $product_id,
                 'previous_purchase_price'             => 0,
