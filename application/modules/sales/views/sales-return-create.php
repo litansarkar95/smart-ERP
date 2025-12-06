@@ -65,7 +65,7 @@
 
              <form id="returnForm" enctype="multipart/form-data" method="post" action="<?= base_url('sales/sreturn/create') ?>">
 
-                <div class="row">
+                <!-- <div class="row">
                       <div class="col-md-6 ">
         <div class="form-group">
            
@@ -73,7 +73,7 @@
 
         </div>
     </div>
-                </div>
+                </div> -->
                                                             <div class="row ">
   
                                    <div class="col-md-2 ">
@@ -92,7 +92,7 @@
             <select name="customer_id" id="customer_id" class="form-control frm_select select2" required>
                 <option value="">Select</option>
                 <?php foreach ($allCustomer as $customer) { ?>
-                    <option value="<?= $customer->id; ?>" <?= ($customer->name == 'Cash') ? 'selected' : ''; ?>>
+                    <option value="<?= $customer->id; ?>" >
                         <?= $customer->name . ' - ' . $customer->contact_no; ?>
                     </option>
                 <?php } ?>
@@ -332,25 +332,16 @@
             <input type="text" name="paidAmount" id="paidAmount" value="" class="form-control paidAmount" >
         </div>
     </div>
-    <div class="col-md-2 ">
-																<div class="form-group">
-																<label for="due_paid_date">Next Due Paid Date<span class="text-error"> *</span></label>
-									      						<input type="text"  name="due_paid_date" id="due_paid_date" value=""   class="form-control" >
-																<span class="text-error small"><?php echo form_error('due_paid_date'); ?></span>
-																</div>
-									      					</div> 
+
 
                       
                                      </div>
 <div class="row justify-content-end">
     <div class="col-md-6 text-end">
 
-        <div class="form-check mb-2">
-            <input class="form-check-input float-end" type="checkbox" name="save_customer" value="1" id="saveCustomer">
-            <label class="form-check-label me-4" for="saveCustomer">Is Customer Save?</label>
-        </div>
+     
 
-        <div class="form-check mb-2">
+        <!-- <div class="form-check mb-2">
             <input class="form-check-input float-end" type="checkbox" name="send_bill_sms" value="1" id="sendBillSMS">
             <label class="form-check-label me-4" for="sendBillSMS">Send Bill SMS</label>
         </div>
@@ -358,9 +349,9 @@
         <div class="form-check mb-3">
             <input class="form-check-input float-end" type="checkbox" name="send_bill_email" value="1" id="sendBillEmail">
             <label class="form-check-label me-4" for="sendBillEmail">Send Bill Invoice Email</label>
-        </div>
+        </div> -->
 
-          <button type="submit" class="btn btn_bg px-4">Confirm Order</button>
+          <button type="submit" class="btn btn_bg px-4">Confirm </button>
     </div>
 </div>
 
@@ -487,7 +478,7 @@ $("#sales_date,.to_date").val(today);
 
     <script>
 
-          document.getElementById('item_serial').focus();
+   
 
 
 $(document).ready(function() {

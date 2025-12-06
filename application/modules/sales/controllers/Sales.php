@@ -470,8 +470,9 @@ public function add_item_ajax()
     $invoice_id = $this->input->post('invoice_id');
     $unique_serial = $this->input->post('unique_serial') ?: '';
     $loggedin_org_id = $this->session->userdata('loggedin_org_id');
-$serial_list ='';
-     $date = date("Y-m-d H:i:s");
+    
+    $serial_list ='';
+    $date = date("Y-m-d H:i:s");
 
     if (!$product_id || !$invoice_id) {
         echo json_encode(['status' => 'error', 'msg' => 'Missing invoice or product']);
