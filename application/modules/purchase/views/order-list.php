@@ -64,6 +64,9 @@
                                    
                                        <td>
                                     <div class="btn-group" role="group">
+                                      <a href="<?php echo base_url()."purchase/order/invoice/$pdt->invoice_code"?>" target="_blank" class="btn btn-sm btn-success me-1">
+                                            <i class="fa fa-eye"></i> 
+                                        </a>
                                         <?php //if (has_permission('purchase', 'edit')): ?>
                                         <a href="<?php echo base_url()."purchase/order/create/$pdt->invoice_code"?>" class="btn btn-sm btn-primary me-1">
                                             <i class="fa fa-pencil"></i> 

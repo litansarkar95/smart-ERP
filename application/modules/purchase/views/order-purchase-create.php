@@ -27,7 +27,6 @@
 
 
 
-
   <div class="row px-3">
     <div class="col-12">
       <div class="content">
@@ -55,7 +54,7 @@
                                      <div class="col-md-2 mb-2">
 																<div class="form-group">
 																<label for="invoice_no">Invoice No <span class="text-error"> *</span></label>
-									      						<input type="text"  name="invoice_no" id="invoice_no" value="<?= $invoice_no; ?>"   class="form-control" readonly>
+									      						<input type="text"  name="invoice_no" id="invoice_no" value="<?= $invoice->invoice_code; ?>"   class="form-control" readonly>
 																<span class="text-error small"><?php echo form_error('invoice_no'); ?></span>
 																</div>
 									      					</div>   
@@ -77,7 +76,7 @@
                                     <option value="">Select</option>
                                     <?php foreach($allSuplier as $customer){ ?>
                                         <option value="<?= $customer->id; ?>" 
-                                            <?= ($customer->name=='Cash') ? 'selected' : '' ?>>
+                                            <?= ($invoice->supplier_id==$customer->id) ? 'selected' : '' ?>>
                                             <?= $customer->name . ' - ' . $customer->contact_no; ?>
                                         </option>
                                     <?php } ?>

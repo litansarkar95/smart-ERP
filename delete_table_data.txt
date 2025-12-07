@@ -16,3 +16,4 @@ DELETE FROM `sales_order_items`;
 DELETE FROM `sales_order_item_serials`;
 DELETE FROM `sales_return`;
 DELETE FROM `sales_return_items`;
+DELETE FROM `acc_general_ledger`;

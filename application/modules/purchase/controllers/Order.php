@@ -41,7 +41,8 @@ public function index()
     $data['allPayment']     = $this->main_model->getRecordsByOrg("payment_method");
     $data['allGroup']       = $this->main_model->getRecordsByOrg("partner_group");
 
-    $data['invoice']       = $this->purchase_model->getInvoice($id);//echo "<pre>";print_r($data['invoice'] );exit();
+    $data['invoice']        = $this->purchase_model->getInvoice($id);//echo "<pre>";print_r($data['invoice'] );exit();
+  //  $data['allPdt']        = $this->purchase_model->PurchaseOrderCon($id);//echo "<pre>";print_r($data['invoice'] );exit();
     $data['allItem']       = $this->purchase_model->getOrderItemList($id);
     // inv 
 
@@ -98,7 +99,17 @@ public function delete($id)
     redirect(base_url() . "purchase/order", "refresh");
 }
 
-
+public function invoice($id)
+{
+ 
+    $data = array();
+    $data['active']       = "order";
+    $data['title']        = "Order List"; 
+    $data['allPdt']       = $this->purchase_model->getPurchaseOrderList($id);
+    $data['allDets']       = $this->purchase_model->PurchaseOrderItemDetailsList($id);
+  // echo "<pre>"; print_r($data['allPdt']);exit();
+    $this->load->view('purchase-order-invoice', $data);
+ }
 
 
 }

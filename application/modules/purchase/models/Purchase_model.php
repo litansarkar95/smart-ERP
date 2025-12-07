@@ -294,4 +294,40 @@ public function get_stock_previous_products($store_id, $product_id)
         return $this->db->get()->result();
     }
 
+
+     public function getPurchaseOrderList($id) {
+         $loggedin_org_id = $this->session->userdata("loggedin_org_id");
+        
+		$this->db->select("purchase_invoice.*,  business_partner.name partner , business_partner.contact_no mobile_no , business_partner.address address");
+        $this->db->from("purchase_invoice");
+        $this->db->join('business_partner', "purchase_invoice.supplier_id = business_partner.id",'left');
+        $this->db->where("purchase_invoice.invoice_code",$id);
+        $this->db->where("purchase_invoice.organization_id", $loggedin_org_id);
+        $this->db->order_by("id", "DESC");
+        return $this->db->get()->result();
+    }
+     public function PurchaseOrderItemDetailsList($id) {
+        $loggedin_org_id = $this->session->userdata("loggedin_org_id");
+       
+		$this->db->select("purchase_order_items.* , products.name title ,products.serial_type , unit.name unit");
+        $this->db->from("purchase_order_items");
+        $this->db->join('products', "purchase_order_items.product_id = products.id",'left');
+        $this->db->join('unit', "products.unit_id = unit.id",'left');
+       // $this->db->where("purchase_order_items.organization_id", $loggedin_org_id);
+        $this->db->where("purchase_order_items.invoice_id",$id);
+        $this->db->order_by("id", "DESC");
+        return $this->db->get()->result();
+    }
+
+      public function PurchaseOrderItemBatch($id) {
+       
+		$this->db->select("purchase_order_item_serials.* ");
+        $this->db->from("purchase_order_item_serials");
+        $this->db->where("purchase_order_item_serials.item_id",$id);
+        $this->db->order_by("id", "DESC");
+        return $this->db->get()->result();
+    }
+    
+
+
 }

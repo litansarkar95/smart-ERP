@@ -2,7 +2,7 @@
 <html lang="bn">
 <head>
 <meta charset="UTF-8">
-<title>Sales Return Invoice</title>
+<title>Purchase Invoice </title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
     @page { size: A4; margin: 12mm; }
@@ -86,8 +86,6 @@
         vertical-align:top;
         font-size:13.5px;
     }
-
-    /* after table: layout with narration left + summary right */
     .after-table{
         display:flex;
         justify-content:space-between;
@@ -183,8 +181,8 @@ if(isset($allPdt)){
     <!-- Info -->
     <div class="info-row">
         <div class="info-left">
-            <span class="label">Customer:</span>
-            <span><?php echo $pdt->customer_name; ?></span>
+            <span class="label">Supplier:</span>
+            <span><?php echo $pdt->partner; ?></span>
         </div>
         <div class="info-right">
             <span class="label">Invoice No:</span>
@@ -229,6 +227,7 @@ if(isset($allPdt)){
             <tr>
                 <th style="width:5%;">SL</th>
                 <th style="width:53%;">Product Description</th>
+                <th style="width:12%;">Warranty</th>
                 <th style="width:6%;">Qty</th>
                 <th style="width:12%;">Unit Price</th>
                 <th style="width:12%;">Amount</th>
@@ -236,30 +235,54 @@ if(isset($allPdt)){
         </thead>
         <tbody>
             <?php
-            $i = 1;
+
+              $i = 1;
+              $totalQty = 0;
+              $totalAmount = 0;     
+
             if(isset($allDets)){
                 foreach($allDets as $details){
+
+                        $lineAmount = $details->sub_total;
+
+                        // Summation
+                        $totalQty += $details->qty;
+                        $totalAmount += $lineAmount;
 
             ?>
             <tr>
                 <td style="text-align:center;"><?= $i++ ?></td>
                 <td>
                     <?php echo $details->title; ?><br>
-                        
-                    <strong>S/N:</strong>
+                     <strong>S/N:</strong>
+                         <?php
+                 if($details->serial_type == 'unique'){
+                    ?>
+                   
 
                  <?php
                
+                $allbatch = $this->purchase_model->PurchaseOrderItemBatch($details->id);
 
-                    echo $details->serials;  // Output: 25070130064, 25070130082, ...
-           
+                $batch_numbers = [];
+
+                if (!empty($allbatch)) {
+                    foreach ($allbatch as $batch) {
+                        $batch_numbers[] = $batch->serial_number;
+                    }
+
+                    echo implode(", ", $batch_numbers);  
+                }
+            }else{
+                 echo $details->barcode_serial;
+            }
                 ?>
 
                 </td>
-               
+                <td style="text-align:center;"><?php if($details->warrenty > 0 ){ echo $details->warrenty." ".$details->warrenty_days; }?></td>
                 <td style="text-align:center;"><?php echo $details->qty; ?></td>
                 <td style="text-align:right;"><?php echo $details->price; ?></td>
-                <td style="text-align:right;"><?php echo $details->total; ?></td>
+                <td style="text-align:right;"><?php echo $details->sub_total; ?></td>
             </tr>
             <?php
     }
@@ -279,33 +302,16 @@ if(isset($allPdt)){
         </div>
 
         <div class="summary-box" aria-hidden="false">
-           
+            <div class="summary-row small">
+                <div class="label">Total Qty</div>
+                <div class="value"><?php echo $totalQty; ?></div>
+            </div>
 
             <div class="summary-row small">
                 <div class="label">Total Amount</div>
-                <div class="value"><?php echo $pdt->total_amount; ?></div>
+                <div class="value"><?php echo number_format($totalAmount, 2); ?></div>
             </div>
 
-           
-            <!-- <div class="summary-row small">
-                <div class="label">Add VAT</div>
-                <div class="value">0.00</div>
-            </div> -->
-
-            <div class="summary-row total">
-                <div class="label">Net Payable</div>
-                <div class="value"><?php echo $pdt->total_amount; ?></div>
-            </div>
-
-            <div class="summary-row small">	
-                <div class="label"> Due</div>
-                <div class="value"><?php echo $pdt->due_amount; ?></div>
-            </div>
-
-            <div class="summary-row small">
-                <div class="label">Received Amount</div>
-                <div class="value"><?php echo $pdt->paid_amount; ?></div>
-            </div>
 
            
         </div>

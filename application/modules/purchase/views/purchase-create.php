@@ -637,9 +637,10 @@ var invoice_id =  $('#invoice_id').val();
 
 
 $('#addItemBtn').on('click', function() {
-    var invoice_id = $('#invoice_id').val();
-    var product_id = $('#product_id').val();
-    var product_name = $('#product_id option:selected').text();
+    var invoice_id     = $('#invoice_id').val();
+    var product_id     = $('#product_id').val();
+    var supplier_id    = $('#supplier_id').val();
+    var product_name   = $('#product_id option:selected').text();
     var price          = parseFloat($('#price').val())          || 0;
     var qty            = parseInt($('#qty').val())              || 1;
     var sub_total      = parseFloat($('#subtotal').val())       || 0;
@@ -665,6 +666,7 @@ $('#addItemBtn').on('click', function() {
         dataType: 'json',
         data: {
             invoice_id: invoice_id,
+            supplier_id: supplier_id,
             product_id: product_id,
             price: price,
             qty: qty,

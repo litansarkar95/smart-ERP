@@ -19,7 +19,8 @@ public function index()
     $int_no = $this->sales_model->number_generator();
     $invoice_no = 'INV-'.str_pad($int_no,4,"0",STR_PAD_LEFT);
     $data['invoice_no'] = $invoice_no; 
-     $data['allCustomer']    = $this->sales_model->getCustomer();
+    $data['allPayment']     = $this->main_model->getRecordsByOrg("payment_method");
+    $data['allCustomer']    = $this->sales_model->getCustomer();
     $data['content']        = $this->load->view("return/sales-return-create", $data, TRUE);
     $this->load->view('layout/master', $data);
 }
@@ -312,7 +313,7 @@ if(!empty($items)) {
          ]);
 
 
-          $this->db->where('serial_number', $serial)
+          $this->db->where('serial_number', $ser)
          ->update('sales_order_item_serials', [
              'is_available' => 1
          ]);

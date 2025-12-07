@@ -612,6 +612,7 @@ public function add_item_ajax()
 {
     $product_id      = $this->input->post('product_id');
     $invoice_id      = $this->input->post('invoice_id');
+    $supplier_id     = $this->input->post('supplier_id');
     $qty             = $this->input->post('qty') ?: 0;
     $price           = $this->input->post('price') ?: 0;
     $rebate          = $this->input->post('rebate') ?: 0;
@@ -671,10 +672,12 @@ public function add_item_ajax()
     if(!$is_invoice){
           $date = date("Y-m-d H:i:s");
          $this->db->insert('purchase_invoice', [
-            'organization_id' =>$this->session->userdata('loggedin_org_id'),
-            'invoice_code' => $invoice_id,
-            'create_user' => $this->session->userdata('loggedin_id'),
-            'create_date' => strtotime($date)]);
+            'organization_id'            =>$this->session->userdata('loggedin_org_id'),
+            "branch_id"                  => $this->session->userdata('loggedin_branch_id'),
+            'invoice_code'               => $invoice_id,
+            'supplier_id'                => $supplier_id,
+            'create_user'                => $this->session->userdata('loggedin_id'),
+            'create_date'                => strtotime($date)]);
             $item_id = $this->db->insert_id();
 
     }
