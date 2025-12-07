@@ -44,8 +44,8 @@ public function invoice($id)
     $data = array();
     $data['active']       = "invoice";
     $data['title']        = "invoice"; 
-    $data['allPdt']       = $this->sales_model->getSalesList($id);
-    $data['allDets']       = $this->sales_model->SalesItemDetailsList($id);
+    $data['allPdt']       = $this->sreturn_model->getSalesReturnList($id);
+    $data['allDets']       = $this->sreturn_model->SalesReturnItemDetailsList($id);
     $this->load->view('sales-return-invoice', $data);
  }
  
@@ -349,45 +349,45 @@ while($remaining_qty > 0) {
                     ->row();
             
 
-    if(!$row) break;
+                        if(!$row) break;
 
-    $deduct = min($remaining_qty, $row->quanity);
+                        $deduct = min($remaining_qty, $row->quanity);
 
-    $update_data = [
-        'quanity' => $row->quanity + $deduct,
-        'is_available' => 1,
-    ];
+                        $update_data = [
+                            'quanity' => $row->quanity + $deduct,
+                            'is_available' => 1,
+                        ];
 
-    $this->db->where('id', $row->id)
-             ->update('inv_stock_item_batch', $update_data);
+                        $this->db->where('id', $row->id)
+                                ->update('inv_stock_item_batch', $update_data);
 
-    $remaining_qty -= $deduct;
-}
-}
+                        $remaining_qty -= $deduct;
+                    }
+                    }
 
                 }
 
                 // ---------- Update Master Stock ----------
 
-  // Product info
-$product_id = $item['product_id'];
-$qty = $item['qty']; // return quantity
+         // Product info
+        $product_id = $item['product_id'];
+        $qty = $item['qty']; // return quantity
 
-// Check if stock exists
-$stockMaster = $this->db->where('organization_id', $loggedin_org_id)
-                        ->where('branch_id', $branch_id)
-                        ->where('product_id', $product_id)
-                        ->get('inv_stock_master')
-                        ->row();
+        // Check if stock exists
+        $stockMaster = $this->db->where('organization_id', $loggedin_org_id)
+                                ->where('branch_id', $branch_id)
+                                ->where('product_id', $product_id)
+                                ->get('inv_stock_master')
+                                ->row();
 
-if($stockMaster){
-    // Update existing stock: add the returned qty
-    $this->db->set('quanity', 'quanity + '.$qty, FALSE)
-             ->set('update_user', $user_id)
-             ->set('update_date', time())
-             ->where('id', $stockMaster->id)
-             ->update('inv_stock_master');
-}
+        if($stockMaster){
+            // Update existing stock: add the returned qty
+            $this->db->set('quanity', 'quanity + '.$qty, FALSE)
+                    ->set('update_user', $user_id)
+                    ->set('update_date', time())
+                    ->where('id', $stockMaster->id)
+                    ->update('inv_stock_master');
+        }
             }
         }
 

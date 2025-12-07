@@ -647,3 +647,27 @@ $('input[name="items"]').val(JSON.stringify(items));
 });
 
 </script>
+
+ <script>
+    $(document).ready(function() {
+   
+
+   $("#sales_date ,#due_paid_date").datepicker({
+  dateFormat: "dd-mm-yy",
+  changeMonth: true,
+  changeYear: true,
+  yearRange: "1900:2100",
+});
+
+
+// Set a default date (e.g., today's date)
+var today = $.datepicker.formatDate("dd-mm-yy", new Date());
+$("#sales_date,.to_date").val(today);
+
+  });
+
+
+
+
+
+    </script>

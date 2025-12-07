@@ -141,40 +141,103 @@ if($item->serial_type == 'common') {
 
     public function save_sales_return()
 {
-    $this->load->database();
-    $this->load->library('session');
-
-    $customer_id = $this->input->post('customer_id');
-    $invoice_no = $this->input->post('invoice_no');
-    $sales_date = strtotime($this->input->post('sales_date'));
-    $paid_amount = $this->input->post('paidAmount') ?: 0;
-    $adjustment = $this->input->post('adjustment') ?: 0;
-    $total_amount = $this->input->post('totalAmount') ?: 0;
-    $due_amount = $this->input->post('dueAmount') ?: 0;
-
-    $items = $this->input->post('items'); // JSON বা array থেকে আসা উচিত [{product_id, qty, price, total, serials, serial_type}, ...]
+    $loggedin_org_id = $this->session->userdata("loggedin_org_id");
+    $branch_id       = $this->session->userdata("loggedin_branch_id");
+    $user_id         = $this->session->userdata('loggedin_id');
+    $customer_id     = $this->input->post('customer_id');
+   // $invoice_no = $this->input->post('invoice_no');
+    $sales_date     = $this->input->post('sales_date');
+    $paidAmount    = $this->input->post('paidAmount') ?: 0;
+    $adjustment     = $this->input->post('adjustment') ?: 0;
+    $total_amount   = $this->input->post('totalAmount') ?: 0;
+    $due_amount     = $this->input->post('dueAmount') ?: 0;
+    $payableAmount  = $this->input->post('payableAmount') ?? 0;
+    $paymentMethodId = $this->input->post('payment_method_id') ?? 0;
+   
+    $items = $this->input->post('items'); 
 
     $this->db->trans_start();
 
     // Step 1: Insert into sales_return
+    $int_no = $this->salesreturn_model->number_generator();
+    $invoice_no = 'SRTN-'.str_pad($int_no,4,"0",STR_PAD_LEFT);
+    $date = date("Y-m-d H:i:s");
+
     $sales_return_data = [
-        'organization_id' => 1, // আপনার org_id
-        'branch_id' => 1,       // branch_id
-        'code_random' => rand(1000,9999),
-        'invoice_no' => $invoice_no,
-        'customer_id' => $customer_id,
-        'sales_date' => $sales_date,
-        'paid_amount' => $paid_amount,
-        'adjustment' => $adjustment,
-        'total_amount' => $total_amount,
-        'due_amount' => $due_amount,
-        'create_user' => $this->session->userdata('user_id'),
-        'create_date' => time()
+        'organization_id'        => $loggedin_org_id,
+        'branch_id'              => $branch_id,
+        'code_random'            => $int_no,
+        'invoice_no'             => $invoice_no,
+        'customer_id'            => $customer_id,
+        'sales_date'             => strtotime($sales_date),
+        'paid_amount'            => $paidAmount,
+        'adjustment'             => $adjustment,
+        'total_amount'           => $total_amount,
+        'due_amount'             => $due_amount,
+        'create_user'            => $user_id,
+        "create_date"            => strtotime($date),
     ];
 
     $this->db->insert('sales_return', $sales_return_data);
     $sales_return_id = $this->db->insert_id();
-// Form থেকে আসা items
+
+    //===============================================================
+        //===================== Accounts
+
+       
+
+     $converted_date = convert_date_ddmmyyyy_to_yyyymmdd($sales_date);
+
+        $total_tr_data = array(   
+        "organization_id"            => $this->session->userdata('loggedin_org_id'),
+        "branch_id"                  => $this->session->userdata('loggedin_branch_id'), 
+        "voucher_type"               => 'Sales Return',  
+        "sales_return_id"            => $sales_return_id,   
+        "party_id"                   => $customer_id,   
+        "account_name"               => 'Customer Sales Return', 
+        "particulars"                => 'Sales Return for order',   
+        "date"                       => $converted_date,   
+        "debit"                      => $payableAmount,   
+        "credit"                     => 0,   
+        "gl_date"                    => strtotime($sales_date),
+        "acc_coa_head_id"            => 0,   
+        "payment_method"             => 0,    
+        "remarks"                    => 'Sales Return ',
+        "is_active"                  => 1,
+        "create_user"                => $this->session->userdata('loggedin_id'),
+        "create_date"                => strtotime($date),
+       
+    );
+    $this->common_model->save_data("acc_general_ledger", $total_tr_data);
+
+
+      if($paidAmount > 0){
+        $total_pay_data = array(   
+        "organization_id"            => $this->session->userdata('loggedin_org_id'),
+        "branch_id"                  => $this->session->userdata('loggedin_branch_id'), 
+        "voucher_type"               => 'Sales Return Payment',  
+        "sales_return_id"            => $sales_return_id,   
+        "party_id"                   => $customer_id,   
+        "account_name"               => 'Customer Account', 
+        "particulars"                => 'Payment for Sales Return',   
+        "date"                       => $converted_date,   
+        "debit"                      => 0,   
+        "credit"                     => $paidAmount,   
+        "gl_date"                    => strtotime($sales_date),
+        "acc_coa_head_id"            => 0,   
+        "payment_method"             => $paymentMethodId,    
+        "remarks"                    => 'Payment for Sales Return ',
+        "is_active"                  => 1,
+        "create_user"                => $this->session->userdata('loggedin_id'),
+        "create_date"                => strtotime($date),
+       
+    );
+    $this->common_model->save_data("acc_general_ledger", $total_pay_data);
+
+    }
+        //===============================================================
+        //===================== End Accounts
+
 $items_json = $this->input->post('items'); 
 
 // JSON decode
@@ -182,6 +245,11 @@ $items = json_decode($items_json, true); // true দিলে assoc array হব
 
 if(!empty($items)) {
     foreach ($items as $item) {
+            $product_id = $item['product_id'];
+            $qty        = $item['qty'];
+            $price      = $item['price'];
+            $total      = $item['total'];
+
         $item_data = [
             'sales_return_id' => $sales_return_id,
             'serial_type' => $item['serial_type'],
@@ -192,25 +260,175 @@ if(!empty($items)) {
             'serials'     => isset($item['serials']) ? $item['serials'] : null
         ];
 
-       // print_r($item_data); // Debug: দেখতে কী আসছে
-
         // Save in DB
         $this->db->insert('sales_return_items', $item_data);
+
+        //
+        $serials = array_map('trim', explode(',', $item['serials']));
+       $serial_type  =  $item['serial_type'];
+
+        ##################
+        ###### Unique
+        #################
+           if ($serial_type == 'unique') {
+            foreach ($serials as $ser) {
+             $sales_serial = $this->db
+             ->select('id,sales_item_id')
+            ->where('batch_number', $ser)
+            ->where('is_returned', 0)
+            ->get('sales_item_batch_profit_loss')
+            ->row();
+              if ($sales_serial) {
+                $salesid = $sales_serial->id;
+                 $sales_item_id = $sales_serial->sales_item_id;
+
+                  $itemRow = $this->db->where('id', $sales_item_id)->get('sales_items')->row();
+
+            if ($itemRow) {
+
+                $new_returned = $itemRow->returned_qty + 1;
+
+                if ($new_returned > $itemRow->qty) {
+                    $new_returned = $itemRow->qty;
+                }
+
+                // is_returned set করা
+                $is_returned = ($new_returned >= $itemRow->qty) ? 1 : 0;
+
+                $this->db->where('id', $sales_item_id)
+                    ->update('sales_items', [
+                        'returned_qty' => $new_returned,
+                        'is_returned'  => $is_returned
+                    ]);
+            }
+
+        $this->db->where('organization_id', $loggedin_org_id)
+         ->where('branch_id', $branch_id)
+         ->where('product_id', $product_id)
+         ->where('serial', $ser)
+         ->update('inv_stock_item_serial', [
+             'quanity' => 1,
+             'is_available' => 1
+         ]);
+
+
+          $this->db->where('serial_number', $serial)
+         ->update('sales_order_item_serials', [
+             'is_available' => 1
+         ]);
+                     $this->db->where('organization_id', $loggedin_org_id)
+         ->where('branch_id', $branch_id)
+         ->where('id', $salesid)
+         ->where('batch_number', $ser)
+         ->update('sales_item_batch_profit_loss', [
+             'is_returned' => 1
+         ]);
+              }
+
+            }
+
+         
+
+
+           }else {
+         $remaining_qty = $qty;
+
+    while($remaining_qty > 0) {
+
+         $salesItem = $this->db
+            ->select('si.id, si.qty, si.returned_qty')
+            ->from('sales_items si')
+            ->join('sales s', 's.id = si.sales_id')
+            ->where('s.customer_id', $customer_id)
+            ->where('si.product_id', $product_id)
+            ->where('si.returned_qty < si.qty')
+            ->order_by('si.id', 'ASC')
+            ->get()->row();
+
+        if ($salesItem) {
+
+            $new_returned = $salesItem->returned_qty + $qty;
+
+            if ($new_returned > $salesItem->qty) {
+                $new_returned = $salesItem->qty;
+            }
+
+            $is_returned = ($new_returned >= $salesItem->qty) ? 1 : 0;
+
+            $this->db->where('id', $salesItem->id)
+                ->update('sales_items', [
+                    'returned_qty' => $new_returned,
+                    'is_returned'  => $is_returned
+                ]);
+        }
+
+         foreach($serials as $serial) {
+        
+    $row = $this->db->where('organization_id', $loggedin_org_id)
+                    ->where('branch_id', $branch_id)
+                    ->where('product_id', $product_id)
+                    ->where('batch_number', $serial)
+                    //->where('quanity >', 0)
+                    ->order_by('id', 'ASC')
+                    ->limit(1)
+                    ->get('inv_stock_item_batch')
+                    ->row();
+            
+
+                        if(!$row) break;
+
+                        $deduct = min($remaining_qty, $row->quanity);
+
+                        $update_data = [
+                            'quanity' => $row->quanity + $deduct,
+                            'is_available' => 1,
+                        ];
+
+                        $this->db->where('id', $row->id)
+                                ->update('inv_stock_item_batch', $update_data);
+
+                        $remaining_qty -= $deduct;
+                    }
+                    }
+           }
+
     }
-} else {
-    echo "No items found!";
-}
+} 
 
       
+  // ---------- Update Master Stock ----------
 
+         // Product info
+        $product_id = $item['product_id'];
+        $qty = $item['qty']; // return quantity
+
+        // Check if stock exists
+        $stockMaster = $this->db->where('organization_id', $loggedin_org_id)
+                                ->where('branch_id', $branch_id)
+                                ->where('product_id', $product_id)
+                                ->get('inv_stock_master')
+                                ->row();
+
+        if($stockMaster){
+            // Update existing stock: add the returned qty
+            $this->db->set('quanity', 'quanity + '.$qty, FALSE)
+                    ->set('update_user', $user_id)
+                    ->set('update_date', time())
+                    ->where('id', $stockMaster->id)
+                    ->update('inv_stock_master');
+        }
+           
+       
     $this->db->trans_complete();
 
     if ($this->db->trans_status() === FALSE) {
-        // কোনো সমস্যা হলে
-        echo json_encode(['status' => 'error', 'msg' => 'Failed to save sales return.']);
+     
+        $this->session->set_flashdata('error', 'Return failed!');
     } else {
-        echo json_encode(['status' => 'success', 'msg' => 'Sales return saved successfully.', 'sales_return_id' => $sales_return_id]);
+        $this->session->set_flashdata('success', 'Return saved successfully! ');
+
     }
+    redirect(base_url() . "sales/salesreturn", "refresh");
 }
 
 }

@@ -73,4 +73,17 @@ public function get_products_by_customer($customer_id) {
         $this->db->order_by("id", "DESC");
         return $this->db->get()->result();
     }
+
+     public function SalesReturnItemDetailsList($id) {
+        $loggedin_org_id = $this->session->userdata("loggedin_org_id");
+       
+		$this->db->select("sales_return_items.* , products.name title , unit.name unit");
+        $this->db->from("sales_return_items");
+        $this->db->join('products', "sales_return_items.product_id = products.id",'left');
+        $this->db->join('unit', "products.unit_id = unit.id",'left');
+      //  $this->db->where("sales_return_items.organization_id", $loggedin_org_id);
+        $this->db->where("sales_return_items.sales_return_id",$id);
+        $this->db->order_by("id", "DESC");
+        return $this->db->get()->result();
+    }
 }

@@ -19,7 +19,21 @@ public function get_item_by_serial($serial, $customer_id = null) {
     return $this->db->get()->row(); // শুধুমাত্র একটিমাত্র row
 }
 
-
+ public function number_generator() {
+        
+  
+		$this->db->select_max('code_random');      
+		$this->db->from('sales_return');
+		$query = $this->db->get();
+		$result =  $query->result_array();
+		$invoice_no = $result[0]['code_random'];
+		if ($invoice_no != '') {
+			$invoice_no = $invoice_no + 1;
+		} else {
+			$invoice_no = 1;
+		}
+		return $invoice_no;
+		 }
 
 public function get_by_id($id) {
     return $this->db->select('*')
