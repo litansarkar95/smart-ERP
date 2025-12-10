@@ -90,7 +90,7 @@
 
 	<div class="col-md-3">
     <div class="form-group">
-        <label for="customer_id">Select Customer</label>
+        <label for="customer_id">Select Supplier</label>
         <div class="select_2_container">
             <select name="customer_id" id="customer_id" class="form-control frm_select select2" >
                 <option value="">Select</option>
@@ -133,10 +133,48 @@
                                     <span class="text-error small"><?= form_error('address'); ?></span>
                                 </div>
                                 </div>
-                          
+
+                                                            <div class="col-md-3 ">
+                                                                                            <div class="form-group">
+                                                                                        <label for="invoice_id">Select Invoice  </label>
+                                                                                        <div class="select_2_container">
+                                                                                            <select name="invoice_id"  id="invoice_id"     class="form-control frm_select select2">
+                                                                                            <option  value="">  Select Invoice </option>
+                                                                                     
+                                                                                            </select>
+                                                                                            <i class="fas fa-caret-down"></i>
+                                                                                        </div>
+                                                                                        <span class="text-error small"> <?php echo form_error('invoice_id'); ?>   </span>
+                                                                                        </div></div>
+                                                                                        <!-- end Brand -->
+                                                                                    <div class="col-md-5 ">
+                                                                                            <div class="form-group">
+                                                                                        <label for="product_id">Select Product  </label>
+                                                                                        <div class="select_2_container">
+                                                                                            <select name="product_id"  id="product_id"     class="form-control frm_select select2">
+                                                                                            <option  value="">  Select Product </option>
+                                                                               
+                                                                                            </select>
+                                                                                            <i class="fas fa-caret-down"></i>
+                                                                                        </div>
+                                                                                        <span class="text-error small"> <?php echo form_error('product_id'); ?>   </span>
+                                                                                        </div></div>
+                                                                                        <!-- end Brand -->
                                 
 
+                                                                                                <div class="col-md-2 ">
+                                                                                            <div class="form-group">
+                                                                                        <label for="serial_list">Select Serial  </label>
+                                                                                        <div class="select_2_container">
+                                                                                            <select id="serial_list" name="serial_list" class="form-control select2">
+                                                                                                    <option value="">Select Serial</option>
+                                                                                                </select>
 
+                                                                                            <i class="fas fa-caret-down"></i>
+                                                                                        </div>
+                                                                                        <span class="text-error small"> <?php echo form_error('serial_list'); ?>   </span>
+                                                                                        </div></div>
+                                                                                        <!-- end Brand -->
 
                                                                                                                     
                                      
@@ -150,7 +188,11 @@
 									      					</div>
                                                 <input type="hidden" id="invoice_id" name="invoice_id" value="<?php echo date("dmYHis")?>">
                                                                                                         
-                                                 
+                                                   <div class="row">
+                                                                            <div class="col-12">
+                                                                                <button type="button" id="addItemBtn" width="100%" class="btn btn_bg">Add to Cart</button>
+                                                                            </div>
+                                                                        </div>
 
 
                                                                         <div class="card">
@@ -355,7 +397,7 @@ if (!$("#customer_id").val()) {
        updateSummary();
 }
 
-
+console.log(res); 
                 addItemToTable(res.item);
 
                 $('#item_serial').val("").focus();
@@ -671,3 +713,111 @@ $("#sales_date,.to_date").val(today);
 
 
     </script>
+
+
+<script>
+$(document).on('change', '#customer_id', function () {
+    var supplier_id = $(this).val();
+
+    $('#invoice_id').html('<option value="">Loading...</option>');
+
+    $.ajax({
+        url: "<?= base_url('purchase/preturn/get_invoice_by_supplier'); ?>",
+        type: "POST",
+        data: {supplier_id: supplier_id},
+        dataType: "json",
+        success: function (res) {
+            $('#invoice_id').html('<option value="">Select Invoice</option>');
+            $.each(res, function (i, item) {
+                $('#invoice_id').append(
+                    '<option value="'+ item.id +'">'+ item.invoice_no +'</option>'
+                );
+            });
+        }
+    });
+});
+</script>
+<script>
+$(document).on('change', '#invoice_id', function () {
+    var invoice_id = $(this).val();
+
+    $('#product_id').html('<option value="">Loading...</option>');
+
+    $.ajax({
+        url: "<?= base_url('purchase/preturn/get_products_by_invoice'); ?>",
+        type: "POST",
+        data: {invoice_id: invoice_id},
+        dataType: "json",
+        success: function (res) {
+            $('#product_id').html('<option value="">Select Product</option>');
+            $.each(res, function (i, item) {
+                $('#product_id').append(
+                    '<option value="'+ item.id +'">'+ item.name +'</option>'
+                );
+            });
+        }
+    });
+});
+</script>
+<script>
+$(document).on('change', '#product_id', function () {
+    var product_id = $(this).val();
+    var invoice_id = $('#invoice_id').val();
+
+    $('#serial_list').html('Loading...');
+
+    $.ajax({
+        url: "<?= base_url('purchase/preturn/get_serial_by_product'); ?>",
+        type: "POST",
+        data: {
+            product_id: product_id,
+            invoice_id: invoice_id
+        },
+        dataType: "json",
+        success: function (res) {
+
+            $('#serial_list').html('');
+
+            $.each(res, function (i, row) {
+                $('#serial_list').append(
+                    '<option value="'+ row.value +'">'+ row.label +'</option>'
+                );
+            });
+        }
+    });
+});
+
+
+$('#addItemBtn').click(function() {
+    let product_id = $("#product_id").val();
+    let invoice_id = $("#invoice_id").val();
+    let batch_number = $("#serial_list").val();
+
+    $.ajax({
+        url: "<?= base_url('purchase/preturn/get_serial_items_by_product') ?>",
+        type: "POST",
+        data: { product_id: product_id, invoice_id: invoice_id ,  batch_number: batch_number},
+        dataType: "json",
+        success: function(res){
+            if(res.status !== "success") {
+                iziToast.error({ message: "No items found!", position: "topRight" });
+                return;
+            }
+
+            let items = res.item;
+
+            // যদি item এক object হয় না array, তাহলে array বানান
+            if(!Array.isArray(items)) {
+                items = [items];
+            }
+
+            items.forEach(function(item){
+                addItemToTable(item);
+            });
+        }
+    });
+});
+
+
+
+</script>

@@ -186,14 +186,14 @@ public function get_total_quantity($product_id, $invoice_code = null)
       public function getOrderList($id=NULL) {
          $loggedin_org_id = $this->session->userdata("loggedin_org_id");
         if($id){
-            $this->db->where("purchase_invoice.id",$id); 
+            $this->db->where("sales_invoice.id",$id); 
         }
-		$this->db->select("purchase_invoice.*, staff.first_name ");
-        $this->db->from("purchase_invoice");
-        $this->db->join('login_credential', "purchase_invoice.create_user = login_credential.id",'left');
+		$this->db->select("sales_invoice.*, staff.first_name ");
+        $this->db->from("sales_invoice");
+        $this->db->join('login_credential', "sales_invoice.create_user = login_credential.id",'left');
         $this->db->join('staff', "login_credential.user_id = staff.id",'left');
-        $this->db->where("purchase_invoice.organization_id", $loggedin_org_id);
-        $this->db->where("purchase_invoice.status", 'Pending');
+        $this->db->where("sales_invoice.organization_id", $loggedin_org_id);
+        $this->db->where("sales_invoice.status", 'Pending');
         $this->db->order_by("id", "DESC");
         return $this->db->get()->result();
     }
@@ -370,6 +370,63 @@ public function get_last_5_orders($customer_id)
 
         return $this->db->get()->result();
     }
+   public function getSalesOrderList($id) {
+         $loggedin_org_id = $this->session->userdata("loggedin_org_id");
+        
+		$this->db->select("sales_invoice.*,  business_partner.name partner , business_partner.contact_no mobile_no , business_partner.address address");
+        $this->db->from("sales_invoice");
+        $this->db->join('business_partner', "sales_invoice.customer_id = business_partner.id",'left');
+        $this->db->where("sales_invoice.invoice_code",$id);
+        $this->db->where("sales_invoice.organization_id", $loggedin_org_id);
+        $this->db->order_by("id", "DESC");
+        return $this->db->get()->result();
+    }
+     public function SalesOrderItemDetailsList($id) {
+        $loggedin_org_id = $this->session->userdata("loggedin_org_id");
+       
+		$this->db->select("sales_order_items.* , products.name title ,products.serial_type , unit.name unit");
+        $this->db->from("sales_order_items");
+        $this->db->join('products', "sales_order_items.product_id = products.id",'left');
+        $this->db->join('unit', "products.unit_id = unit.id",'left');
+       // $this->db->where("purchase_order_items.organization_id", $loggedin_org_id);
+        $this->db->where("sales_order_items.invoice_id",$id);
+        $this->db->order_by("id", "DESC");
+        return $this->db->get()->result();
+    }
 
+        public function SaleseOrderItemBatch($id) {
+       
+		$this->db->select("sales_order_item_serials.* ");
+        $this->db->from("sales_order_item_serials");
+        $this->db->where("sales_order_item_serials.item_id",$id);
+        $this->db->order_by("id", "DESC");
+        return $this->db->get()->result();
+    }
 
+    public function getInvoice($id)
+{
+    return $this->db
+        ->select("
+            pi.*, 
+            s.name AS supplier_name,
+            s.contact_no AS supplier_mobile,
+            s.address AS supplier_address
+        ")
+        ->from("sales_invoice pi")
+        ->join("business_partner s", "s.id = pi.customer_id", "left")
+        ->where("pi.invoice_code", $id)
+        ->get()
+        ->row();
+}
+    public function getOrderItemList($invoice_id)
+{
+    return $this->db->select("pi.*, p.name product_name, u.name unit_name")
+            ->from("sales_order_items pi")
+            ->join("products p", "p.id = pi.product_id", "left")
+            ->join("unit u", "u.id = p.unit_id", "left")
+            ->where("pi.invoice_id", $invoice_id)
+            ->order_by("pi.id", "ASC")
+            ->get()
+            ->result();
+}
 }

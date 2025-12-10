@@ -73,6 +73,10 @@
                                       <a href="<?php echo base_url()."sales/invoice/$pdt->id"?>" target="_blank" class="btn btn-sm btn-primary me-1">
                                             <i class="fa fa-eye"></i> 
                                         </a>
+
+                                           <a href="<?php echo base_url()."sales/batchinvoice/$pdt->id"?>" target="_blank" class="btn btn-sm btn-success me-1">
+                                            <i class="fa fa-print"></i> 
+                                        </a>
                                         <?php if (has_permission('sales', 'edit')): ?>
                                         <a href="<?php echo base_url()."sales/edit/$pdt->id"?>" class="btn btn-sm btn-primary me-1">
                                             <i class="fa fa-pencil"></i> 

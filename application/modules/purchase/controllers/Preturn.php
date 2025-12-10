@@ -442,5 +442,53 @@ $items = json_decode($items_json, true); // true দিলে assoc array হব
     redirect(base_url() . "purchase/preturn", "refresh");
 }
 
+public function get_invoice_by_supplier()
+{
+    $supplier_id = $this->input->post('supplier_id');
+
+    $result = $this->preturn_model->get_invoice_by_supplier($supplier_id);
+
+    echo json_encode($result);
+}
+public function get_products_by_invoice()
+{
+    $invoice_id = $this->input->post('invoice_id');
+
+    $products = $this->preturn_model->get_products_by_invoice($invoice_id);
+
+    echo json_encode($products);
+}
+public function get_serial_by_product()
+{
+    $product_id = $this->input->post('product_id');
+    $invoice_id = $this->input->post('invoice_id');
+
+    $result = $this->preturn_model->get_serial_by_product($product_id, $invoice_id);
+
+    echo json_encode($result);
+}
+public function get_serial_items_by_product()
+{
+    $product_id = $this->input->post('product_id', true);
+    $invoice_id = $this->input->post('invoice_id', true);
+    $batch_number = $this->input->post('batch_number', true);
+
+    $items = $this->preturn_model->get_serial_items_by_product($product_id, $invoice_id,$batch_number);
+
+    // Customer info: প্রথম item থেকে supplier_id ধরে
+    $customer = null;
+    if(!empty($items)) {
+        $customer_id = $items[0]->supplier_id;
+        $customer = $this->preturn_model->get_by_id($customer_id); // আপনার model function
+    }
+
+    echo json_encode([
+        "status" => "success",
+        "item" => $items,
+        "customer" => $customer
+    ]);
+}
+
+
 
 }

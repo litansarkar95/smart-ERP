@@ -80,9 +80,9 @@
   
                                      <div class="col-md-2 ">
 																<div class="form-group">
-																<label for="invoice_no">Invoice No <span class="text-error"> *</span></label>
-									      						<input type="text"   name="invoice_no" id="invoice_no" value="<?= $invoice_no; ?>"   class="form-control" readonly>
-																<span class="text-error small"><?php echo form_error('invoice_no'); ?></span>
+																<label for="invoice_id">Invoice No <span class="text-error"> *</span></label>
+									      						<input type="text"   name="invoice_id" id="invoice_id" value="<?= $invoice->invoice_code; ?>"   class="form-control" readonly>
+																<span class="text-error small"><?php echo form_error('invoice_id'); ?></span>
 																</div>
 									      					</div>   
                                                              <div class="col-md-2 ">
@@ -101,7 +101,7 @@
                                     <option value="">Select</option>
                                     <?php foreach($allCustomer as $customer){ ?>
                                         <option value="<?= $customer->id; ?>" 
-                                            <?= ($customer->name=='Cash') ? 'selected' : '' ?>>
+                                             <?= ($invoice->customer_id==$customer->id) ? 'selected' : '' ?>>
                                             <?= $customer->name . ' - ' . $customer->contact_no; ?>
                                         </option>
                                     <?php } ?>
@@ -271,7 +271,7 @@
 																<span class="text-error small"><?php echo form_error('remarks'); ?></span>
 																</div>
 									      					</div>
-                                                <input type="hidden" id="invoice_id" name="invoice_id" value="<?php echo date("dmYHis")?>">
+                                             
                                                                                                         
                                                                                 <!-- Brand -->  
                                                     <div class="row">
@@ -305,9 +305,60 @@
             <th>Action</th>
         </tr>
     </thead>
-    <tbody>
-        <!-- rows will append here -->
-    </tbody>
+   <tbody>
+<?php
+$total_qty = 0;
+$total_rebate = 0;
+$total_subtotal = 0;
+$dueAmount = 0;
+$sl = 1;
+foreach($allItem as $item):
+    // Update totals if needed
+    $total_qty += $item->stockQty;          // Adjust if you have stockQty
+    $total_subtotal += $item->sub_total;    // Adjust if you have subTotal
+    // $dueAmount += ???;                    // Set if needed
+?>
+<tr data-id="<?= $item->item_id ?>" data-product="<?= $item->product_id ?>">
+    <td><?= $sl++; ?></td>
+    <td><?= $item->product_name ?></td>
+    <td>
+        <input type="number" class="warrenty form-control" name="warrenty" value="<?= $item->warrenty ?>">
+        <?= $item->warrenty_days ?>
+    </td>
+    <td>
+        <input type="number" class="stock_qty form-control" name="stock_qty" value="<?= $item->stockQty ?>" readonly>
+    </td>
+    <td>
+        <input type="number" class="price form-control" name="price" value="<?= $item->price ?>">
+    </td>
+    <td>
+        <input type="number" class="qty form-control" value="<?= $item->qty ?>" readonly>
+    </td>
+    <td>
+        <input type="number" class="sub_total form-control" value="<?= $item->sub_total ?>" readonly>
+    </td>
+    <td>
+       <input type="number" class="discount_percent form-control" name="discount_percent" value="<?= $item->discount_percent ?>" >
+    </td>
+    <td>
+         <input type="number" class="discount_amount form-control" name="discount_amount" value="<?= $item->discount_amount ?>" >
+    </td>
+    <td>
+        <input type="number" class="net_total form-control" value="<?= $item->net_total ?>" readonly>
+    </td>
+    <td>
+        <textarea class="serial_number form-control" readonly><?= $item->serial ?></textarea>
+    </td>
+    <td>
+        <?= $item->editBtn ?? '' ?>  <!-- Replace with actual edit button HTML -->
+        <button type="button" class="btn btn-sm btn-outline-danger removeItem">
+            <i class="fa fa-trash"></i>
+        </button>
+    </td>
+</tr>
+<?php endforeach; ?>
+</tbody>
+
    
 </table>
 
@@ -1597,3 +1648,17 @@ $(document).ready(function() {
 });
 
         </script>
+
+
+<script>
+$(document).ready(function(){
+
+    $("#totalOrderAmount").val("<?= $total_qty ?>");
+    $("#totalRebate").val("<?= $total_rebate ?>");
+    $("#subtotalAmount").val("<?= $total_subtotal + $total_rebate ?>"); 
+    $("#totalAmount").val("<?= $total_subtotal ?>"); 
+    $("#payableAmount").val("<?= $total_subtotal ?>"); 
+    $("#dueAmount").val("<?= $dueAmount ?>");  
+
+});
+</script>

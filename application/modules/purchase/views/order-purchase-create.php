@@ -53,9 +53,9 @@
 
                                      <div class="col-md-2 mb-2">
 																<div class="form-group">
-																<label for="invoice_no">Invoice No <span class="text-error"> *</span></label>
-									      						<input type="text"  name="invoice_no" id="invoice_no" value="<?= $invoice->invoice_code; ?>"   class="form-control" readonly>
-																<span class="text-error small"><?php echo form_error('invoice_no'); ?></span>
+																<label for="invoice_id">Invoice No <span class="text-error"> *</span></label>
+									      						<input type="text"  name="invoice_id" id="invoice_id" value="<?= $invoice->invoice_code; ?>"   class="form-control" readonly>
+																<span class="text-error small"><?php echo form_error('invoice_id'); ?></span>
 																</div>
 									      					</div>   
                                                              <div class="col-md-2 mb-2">
@@ -290,7 +290,7 @@
 																<span class="text-error small"><?php echo form_error('remarks'); ?></span>
 																</div>
 									      					</div>
-<input type="hidden" id="invoice_id" name="invoice_id" value="<?= $invoice->invoice_code ?>">
+
                                                            
                                    <!-- Brand -->  
 	<div class="row">

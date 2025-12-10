@@ -470,6 +470,7 @@ public function add_item_ajax()
 {
     $product_id = $this->input->post('product_id');
     $invoice_id = $this->input->post('invoice_id');
+    $customer_id = $this->input->post('customer_id');
     $unique_serial = $this->input->post('unique_serial') ?: '';
     $loggedin_org_id = $this->session->userdata('loggedin_org_id');
     
@@ -489,6 +490,21 @@ public function add_item_ajax()
     $product = $this->db->get()->row();
 
     $serial_type = $product->serial_type ?? 'common';
+
+       $is_invoice = $this->db->get_where('sales_invoice', [
+        'invoice_code' => $invoice_id,
+    ])->row();
+    
+    if (!$is_invoice) {
+       
+        $this->db->insert('sales_invoice', [
+            'organization_id' => $this->session->userdata('loggedin_org_id'),
+            'invoice_code' => $invoice_id,
+            'customer_id' => $customer_id,
+            'create_user' => $this->session->userdata('loggedin_id'),
+            'create_date' => strtotime($date)
+        ]);
+    }
 
     // ============================
     //   GET AVAILABLE STOCK
@@ -524,19 +540,7 @@ public function add_item_ajax()
     // ============================
     // INVOICE CREATE IF NOT EXISTS
     // ============================
-    $is_invoice = $this->db->get_where('sales_invoice', [
-        'invoice_code' => $invoice_id,
-    ])->row();
-    
-    if (!$is_invoice) {
-       
-        $this->db->insert('sales_invoice', [
-            'organization_id' => $this->session->userdata('loggedin_org_id'),
-            'invoice_code' => $invoice_id,
-            'create_user' => $this->session->userdata('loggedin_id'),
-            'create_date' => strtotime($date)
-        ]);
-    }
+ 
 
     // ============================
     // INSERT OR UPDATE ITEM
@@ -854,17 +858,42 @@ public function invoice($id)
     $this->load->view('invoice', $data);
  }
 
-
+public function batchinvoice($id)
+{
+ 
+    $data = array();
+    $data['active']       = "invoice";
+    $data['title']        = "invoice"; 
+    $data['allPdt']       = $this->sales_model->getSalesList($id);
+    $data['allDets']       = $this->sales_model->SalesItemDetailsList($id);
+    $this->load->view('batch-invoice', $data);
+ }
 public function add_item_from_serial_ajax()
 {
     $serial       = $this->input->post('serial');
     $invoice_id   = $this->input->post('invoice_id');
+    //$customer_id  = $this->input->post('customer_id');
     $loggedin_org = $this->session->userdata('loggedin_org_id');
     $date         = date("Y-m-d H:i:s");
 
     if (!$serial || !$invoice_id) {
         echo json_encode(['status' => 'error', 'msg' => 'Missing invoice or serial!']);
         return;
+    }
+
+      $is_invoice = $this->db->get_where('sales_invoice', [
+        'invoice_code' => $invoice_id,
+    ])->row();
+    
+    if (!$is_invoice) {
+       
+        $this->db->insert('sales_invoice', [
+            'organization_id' => $this->session->userdata('loggedin_org_id'),
+            'invoice_code' => $invoice_id,
+           // 'customer_id' => $customer_id,
+            'create_user' => $this->session->userdata('loggedin_id'),
+            'create_date' => strtotime($date)
+        ]);
     }
 
     // SERIAL খুঁজে বের করা
