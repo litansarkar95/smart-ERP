@@ -1,5 +1,15 @@
-		<!-- top menu start -->
-			
+
+			<style>
+
+.navbar-nav .dropdown-menu {
+    min-width: 200px; 
+    white-space: nowrap; 
+    overflow: hidden;
+    text-overflow: ellipsis; 
+}
+
+
+        </style>
   
 	<nav class="navbar navbar-expand-lg my_header_nav">
 										  <div class="container-fluid">
