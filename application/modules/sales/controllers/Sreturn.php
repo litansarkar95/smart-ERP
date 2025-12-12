@@ -80,6 +80,7 @@ public function get_serial_items_by_product()
 public function add_item_from_serial_ajax() {
 
         $serial = $this->input->post('serial', true);
+       //$serial ="aa";
         $current_customer_id = $this->input->post('customer_id', true);
 
         if(empty($serial)) {
@@ -91,96 +92,23 @@ public function add_item_from_serial_ajax() {
         }
 
          
-        $item = $this->sreturn_model->get_item_by_serial($serial, $current_customer_id);
+    
 
-        if(!$item) {
-            echo json_encode([
-                "status" => "error",
-                "msg" => "Serial not found!"
-            ]);
-            return;
-        }
-        // Common Type Check
-        if($item->serial_type == 'common') {
+      
+    $items = $this->sreturn_model->get_item_by_serial($serial, $current_customer_id);
 
-            // যদি current customer ID set থাকে
-            if($current_customer_id && $current_customer_id != $item->customer_id) {
-                echo json_encode([
-                    "status" => "error",
-                    "msg" => "Sorry! This product belongs to another customer."
-                ]);
-                return;
-            }
+    // Customer info: প্রথম item থেকে supplier_id ধরে
+    $customer = null;
+    if(!empty($items)) {
+        $customer_id = $items[0]->customer_id;
+        $customer = $this->sreturn_model->get_by_id($customer_id); // আপনার model function
+    }
 
-            // যদি qty_returned বা is_returned থাকে, reduce available qty
-            $available_qty = $item->qty_sold - $item->qty_returned;
-            if($available_qty <= 0){
-                echo json_encode([
-                    "status" => "error",
-                    "msg" => "Sorry! No stock available for this product."
-                ]);
-                return;
-            }
-            $item->available_qty = $available_qty;
-        }
-
-
-        // =======================
-        // UNIQUE SERIAL
-        // =======================
-        if($item->serial_type == 'unique') {
-
-            // Customer check
-            if($current_customer_id && $current_customer_id != $item->customer_id) {
-                echo json_encode([
-                    "status" => "error",
-                    "msg" => "Sorry! This serial belongs to another customer."
-                ]);
-                return;
-            }
-
-            // Returned / used check
-            if($item->is_returned || $item->qty_returned >= $item->qty_sold) {
-                echo json_encode([
-                    "status" => "error",
-                    "msg" => "This serial is  already returned or used!"
-                ]);
-                return;
-            }
-
-        } else { // =======================
-                 // COMMON SERIAL
-                 // =======================
-
-            $available_qty = $item->qty_sold - $item->qty_returned;
-
-            if($available_qty <= 0) {
-                echo json_encode([
-                    "status" => "error",
-                    "msg" => "This product is not available or already returned!"
-                ]);
-                return;
-            }
-        }
-
-        // =======================
-        // Get customer info (first scan)
-        // =======================
-        $supplier = null;
-        if(empty($current_customer_id)) {
-            $supplier = $this->sreturn_model->get_by_id($item->customer_id);
-        } else {
-            $supplier = $this->sreturn_model->get_by_id($current_customer_id);
-        }
-
-        // =======================
-        // Return JSON
-        // =======================
-     echo json_encode([
-     "status"   => "success",
-     "item"     => $item,       // এখন item->product_name থাকবে
-     "customer" => $supplier
-]);
+    echo json_encode([
+        "status" => "success",
+        "item" => $items,
+        "customer" => $customer
+    ]);
 
     }
 }

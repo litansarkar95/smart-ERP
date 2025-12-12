@@ -114,28 +114,136 @@ public function get_serial_items_by_product($product_id, $invoice_id, $batch_num
 }
 
 
-public function get_item_by_serial($serial, $customer_id = null) {
-   
-    $this->db->select('si.*, p.name as product_name')
-             ->from('sales_item_batch_profit_loss si')
-             ->join('products p', 'p.id = si.product_id', 'left')  
-             ->where('si.batch_number', $serial)  
-             ->where('si.is_returned', 0);  
+public function get_item_by_serial($batch_number, $customer_id = null)
+{
+    $data = [];
 
-    if ($customer_id) {
-        $this->db->where('si.customer_id', $customer_id);  
+    // =========================
+    // Get all items for this batch
+    // =========================
+    $batch_items = $this->db
+        ->select("sa.id, sa.batch_number, sa.product_id ,sa.qty_sold, sa.qty_returned, sa.sales_price, sa.serial_type, sa.customer_id, products.name as product_name")
+        ->from("sales_item_batch_profit_loss sa")
+        ->join("products", "products.id = sa.product_id", "left")
+        ->where("sa.batch_number", $batch_number)
+        //->where("sa.sales_id", $invoice_id)
+        ->where("sa.is_returned", 0)
+        ->get()
+        ->result();
+
+    // =========================
+    // Group by unique vs common
+    // =========================
+    $grouped = [];
+
+    foreach ($batch_items as $b) {
+        $key = $b->serial_type === 'unique' ? $b->product_id . '-' . $b->batch_number : $b->id;
+
+        if (!isset($grouped[$key])) {
+            $grouped[$key] = [
+                "id" => $b->id,
+                "product_id" => $b->product_id,
+                "product_name" => $b->product_name,
+                "serial_type" => $b->serial_type,
+                "serial" => ($b->serial_type === 'unique') ? $b->batch_number : "",
+                "batch_number" => $b->batch_number,
+                "sales_price" => $b->sales_price,
+                "customer_id" => $b->customer_id,
+                "available_qty" => 0
+            ];
+        }
+
+        // =========================
+        // Add remaining quantity
+        // =========================
+        $remaining = $b->qty_sold - $b->qty_returned;
+        $grouped[$key]['available_qty'] += $remaining;
     }
 
-    $query = $this->db->get();
+    // =========================
+    // Convert to array of objects
+    // =========================
+    foreach ($grouped as $item) {
+        $data[] = (object)$item;
+    }
 
-    if ($query->num_rows() > 0) {
-       
-        return $query->row();
-    } else {
-        
-            return null;
-        }
+    return $data;
 }
+// public function get_item_by_serial($serial, $customer_id = null)
+// {
+//     $this->db->select('si.id,si.product_id, si.batch_number, si.qty_sold, si.qty_returned,si.is_returned, si.sales_price, si.serial_type, si.customer_id, p.name as product_name')
+//              ->from('sales_item_batch_profit_loss si')
+//              ->join('products p', 'p.id = si.product_id', 'left')
+//              ->where('si.batch_number', $serial)
+//              ->where('si.is_returned', 0);
+
+//     if ($customer_id) {
+//         $this->db->where('si.customer_id', $customer_id);
+//     }
+
+//     $rows = $this->db->get()->result();
+
+//     if (!$rows) {
+//         return null;
+//     }
+
+//     $first = $rows[0];
+
+//     // ============================
+//     // COMMON SERIAL
+//     // ============================
+//     if ($first->serial_type == "common") {
+
+//         $remaining = $first->qty_sold - $first->qty_returned;
+
+//         return (object)[
+//             "id"            => $first->id,
+//             "product_id"    => $first->product_id,
+//             "product_name"  => $first->product_name,
+//             "serial_type"   => "common",
+//             "serial"        => "",
+//             "is_returned"   => $first->is_returned,
+//             "qty_returned"  => $first->qty_returned,
+//             "qty_sold"      => $first->qty_sold,
+//             "batch_number"  => $first->batch_number,
+//             "sales_price"   => $first->sales_price,
+//             "customer_id"   => $first->customer_id,
+//             "available_qty" => max(0, $remaining)
+//         ];
+//     }
+
+//     // ============================
+//     // UNIQUE SERIAL  
+//     // Group by sales_item_id
+//     // ============================
+
+//     $grouped_qty = 0;
+
+//     foreach ($rows as $r) {
+
+//         if ($r->sales_item_id == $first->sales_item_id) {
+//             $remaining = $r->qty_sold - $r->qty_returned;
+//             $grouped_qty += max(0, $remaining);
+//         }
+//     }
+//   $grouped_qty;
+//     return (object)[
+//         "id"            => $first->id,
+//         "product_id"    => $first->product_id,
+//         "product_name"  => $first->product_name,
+//         "serial_type"   => "unique",
+//         "serial"        => $serial,
+//         "is_returned"   => $first->is_returned,
+//         "qty_returned"  => $first->qty_returned,
+//         "qty_sold"      => $first->qty_sold,
+//         "batch_number"  => $first->batch_number,
+//         "sales_price"   => $first->sales_price,
+//         "customer_id"   => $first->customer_id,
+//         "available_qty" => $grouped_qty
+//     ];
+// }
+
+
 
 public function get_by_id($id) {
     return $this->db->select('*')

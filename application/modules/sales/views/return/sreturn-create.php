@@ -441,7 +441,7 @@ $(document).ready(function() {
         $("#itemsTable tbody tr").each(function() {
             if($(this).data("product-id") == item.product_id &&
                $(this).data("serial-type") == "unique" &&
-               $(this).data("customer-id") == item.supplier_id) {
+               $(this).data("customer-id") == item.customer_id) {
                 existingRow = $(this);
                 return false;
             }
@@ -473,7 +473,7 @@ $(document).ready(function() {
         return;
     }
 
-    let row = `<tr data-product-id="${item.product_id}" data-serial-type="${serialType}" data-customer-id="${item.supplier_id}" data-batch-number="${item.batch_number}">
+    let row = `<tr data-product-id="${item.product_id}" data-serial-type="${serialType}" data-customer-id="${item.customer_id}" data-batch-number="${item.batch_number}">
         <td class="line_no"></td>
         <td>${item.product_name}</td>
         <td><input class="form-control price" value="${price}" readonly></td>
