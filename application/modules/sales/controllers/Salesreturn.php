@@ -6,6 +6,7 @@ class Salesreturn extends MX_Controller
     parent::__construct();
       $this->load->model("sales_model");
       $this->load->model("salesreturn_model");
+      $this->load->model("partner/partner_model");
  
 }
 public function index()
@@ -198,8 +199,8 @@ if($item->serial_type == 'common') {
         "account_name"               => 'Customer Sales Return', 
         "particulars"                => 'Sales Return for order',   
         "date"                       => $converted_date,   
-        "debit"                      => $payableAmount,   
-        "credit"                     => 0,   
+        "debit"                      => 0,   
+        "credit"                     => $payableAmount,   
         "gl_date"                    => strtotime($sales_date),
         "acc_coa_head_id"            => 0,   
         "payment_method"             => 0,    
@@ -222,8 +223,8 @@ if($item->serial_type == 'common') {
         "account_name"               => 'Customer Account', 
         "particulars"                => 'Payment for Sales Return',   
         "date"                       => $converted_date,   
-        "debit"                      => 0,   
-        "credit"                     => $paidAmount,   
+        "debit"                      => $paidAmount,   
+        "credit"                     => 0,   
         "gl_date"                    => strtotime($sales_date),
         "acc_coa_head_id"            => 0,   
         "payment_method"             => $paymentMethodId,    
@@ -236,6 +237,17 @@ if($item->serial_type == 'common') {
     $this->common_model->save_data("acc_general_ledger", $total_pay_data);
 
     }
+
+    // Customer Payment Update
+
+            if($due_amount  > 0){
+                $current_bac= $this->partner_model->get_current_balance($customer_id);
+                $current_balance = $current_bac->current_balance;
+                $new_balance = $current_balance + $due_amount;
+                $this->partner_model->update_balance($customer_id, $new_balance);
+            }
+
+            //end New Balance
         //===============================================================
         //===================== End Accounts
 

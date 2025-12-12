@@ -55,8 +55,8 @@
         <div class="row">
           <div class="col-12">
            <div class="panel-heading p-3 border rounded bg-light">
-             <strong>Purchase Return</strong></div>
-<form id="salesReturnForm" action="<?php echo base_url(); ?>purchase/preturn/save_sales_return" method="post" enctype="multipart/form-data">
+             <strong>Sales Return</strong></div>
+<form id="salesReturnForm" action="<?php echo base_url(); ?>sales/sreturn/save_sales_return" method="post" enctype="multipart/form-data">
     <input type="hidden" name="items" id="itemsInput">
 
                 <div class="row">
@@ -102,37 +102,7 @@
     </div>
 </div>
 
-                                  <div class="col-md-2 ">
-                                <div class="form-group">
-                                    <label for="customer_name">Customer Name</label>
-                          
-                                       <input type="text"  name="customer_name" id="customer_name" value="" class="form-control ">
-                                 
-                                    <span class="text-error small"><?= form_error('customer_name'); ?></span>
-                                </div>
-                                </div>
-
-                                <!-- Mobile No -->  
-                                        <div class="col-md-2 ">
-                                <div class="form-group">
-                                    <label for="mobile_no">Mobile No</label>
-                            
-                                      <input type="text" name="mobile_no" id="mobile_no" value="" class="form-control ">
-                              
-                                </div>
-                                </div>
-
-                                <!-- Address -->  
-
-                                <div class="col-md-2 ">
-                                <div class="form-group">
-                                    <label for="address">Address</label>
-                            
-                                             <input type="text" name="address" id="address" value="" class="form-control ">
-                                
-                                    <span class="text-error small"><?= form_error('address'); ?></span>
-                                </div>
-                                </div>
+                               
 
                                                             <div class="col-md-3 ">
                                                                                             <div class="form-group">
@@ -343,168 +313,178 @@
 </div>
 </div>
 </div>
-
 <script>
-            
+$(document).ready(function() {
 
+    // =======================
+    // Focus on serial input
+    // =======================
+    $("#item_serial").focus();
 
+    // =======================
+    // Serial Scan Event
+    // =======================
+    $('#item_serial').on('keypress', function(e) {
+        if (e.which === 13) {
+            e.preventDefault();
 
-document.getElementById('item_serial').focus();
+            let serial = $(this).val().trim();
+            let customer_id = $("#customer_id").val();
 
-// ========================
-// Serial Scan Event
-// ========================
-$('#item_serial').on('keypress', function (e) {
+            if (!serial) return;
 
-    if (e.which === 13) {
-        e.preventDefault();
+            // Duplicate check for UNIQUE serial
+            let alreadyAdded = false;
+            $("#itemsTable tbody tr").each(function() {
+                $(this).find(".serial-item").each(function() {
+                    if ($(this).data("serial") == serial) {
+                        alreadyAdded = true;
+                        return false;
+                    }
+                });
+                if (alreadyAdded) return false;
+            });
 
-        let serial = $(this).val().trim();
-        let customer_id = $("#customer_id").val();
-   
+            if (alreadyAdded) {
+                iziToast.error({ message: serial + " already added!", position: "topRight" });
+                $('#item_serial').val("").focus();
+                return;
+            }
 
-        
+            // Ajax call
+            $.ajax({
+                url: "<?= base_url('sales/sreturn/add_item_from_serial_ajax') ?>",
+                type: "POST",
+                dataType: "json",
+                data: { serial: serial, customer_id: customer_id },
+                success: function(res) {
+                    if (res.status !== "success") {
+                        iziToast.error({ message: res.msg, position: "topRight" });
+                        $('#item_serial').val("").focus();
+                        return;
+                    }
+
+                    // Auto-set customer if first scan
+                    if (!$("#customer_id").val()) {
+                        $("#customer_id").val(res.customer.id).trigger('change');
+                        $("#customer_name").val(res.customer.name);
+                        $("#mobile_no").val(res.customer.contact_no);
+                        $("#address").val(res.customer.address);
+                        $("#previousDue").val(res.customer.previous_due);
+                        updateSummary();
+                    }
+
+                    addItemToTable(res.item);
+                    $('#item_serial').val("").focus();
+                }
+            });
+        }
+    });
+
+    // =======================
+    // Add Item Button Click
+    // =======================
+    $('#addItemBtn').click(function() {
+        let product_id = $("#product_id").val();
+        let invoice_id = $("#invoice_id").val();
+        let batch_number = $("#serial_list").val();
+
+        if (!product_id || !batch_number) {
+            iziToast.error({ message: "Select product & batch first!", position: "topRight" });
+            return;
+        }
+
         $.ajax({
-            url: "<?= base_url('purchase/preturn/add_item_from_serial_ajax') ?>",
+            url: "<?= base_url('sales/sreturn/get_serial_items_by_product') ?>",
             type: "POST",
             dataType: "json",
-            data: {
-                serial: serial,
-                customer_id: customer_id
-            },
-
-            success: function (res) {
-
+            data: { product_id, invoice_id, batch_number },
+            success: function(res) {
                 if (res.status !== "success") {
-                    iziToast.error({
-                        message: res.msg,
-                        position: "topRight"
-                    });
-                    $('#item_serial').val("").focus();
+                    iziToast.error({ message: "No items found!", position: "topRight" });
                     return;
                 }
 
-                // ===============================
-                // First Scan → Auto Set Customer
-                // ===============================
-                // Customer auto-set
-if (!$("#customer_id").val()) {
-    $("#customer_id").val(res.customer.id).trigger('change'); // trigger('change') দিলে select2 আপডেট হয়
-    $("#customer_name").val(res.customer.name);
-    $("#mobile_no").val(res.customer.contact_no);
-    $("#address").val(res.customer.address);
-    $("#previousDue").val(res.customer.previous_due);
-       updateSummary();
-}
+                let items = res.item;
+                if (!Array.isArray(items)) items = [items];
 
-console.log(res); 
-                addItemToTable(res.item);
-
-                $('#item_serial').val("").focus();
+                items.forEach(item => addItemToTable(item));
             }
         });
-    }
-});
+    });
+
+    // =======================
+    // Add Item to Table
+    // =======================
 
 
-// ====================================
-// Add Item to Table (Merge Logic)
-// ====================================
-function addItemToTable(item) {
-
+    function addItemToTable(item) {
     let serialType = item.serial_type;
-    let serial = item.serial;
-    let price = parseFloat(item.purchase_price);
+    let serial = item.serial || item.batch_number;
+    let price = parseFloat(item.sales_price);
+    let availableQty = parseInt(item.available_qty);
 
- 
-  // CHECK EXISTING ROW
-let existingRow = null;
+    // UNIQUE SERIAL
+    if(serialType === "unique") {
+        // check if this exact serial already added
+        let serialExists = false;
+        $("#itemsTable tbody tr .serial-item").each(function() {
+            if($(this).data("serial") == serial) serialExists = true;
+        });
+        if(serialExists) {
+            iziToast.error({ message: serial + " already added!", position: "topRight" });
+            return;
+        }
 
-$("#itemsTable tbody tr").each(function () {
-    if ($(this).data("product-id") == item.product_id &&
-        $(this).data("serial-type") == serialType &&
-        $(this).data("customer-id") == item.supplier_id) {  // <-- নতুন চেক
-        existingRow = $(this);
-    }
-});
+        // find existing row for this sales_item_id + customer + unique type
+        let existingRow = null;
+        $("#itemsTable tbody tr").each(function() {
+            if($(this).data("product-id") == item.product_id &&
+               $(this).data("serial-type") == "unique" &&
+               $(this).data("customer-id") == item.supplier_id) {
+                existingRow = $(this);
+                return false;
+            }
+        });
 
-
-    // ==================================================
-    // CASE 1: ROW EXISTS → MERGE
-    // ==================================================
-   
-if (existingRow) {
-    let qtyInput = existingRow.find(".qty");
-    let oldQty = parseInt(qtyInput.val());
-
-    if (serialType === "unique") {
-        let serialBox = existingRow.find(".serial-box");
-        if (!serialBox.text().includes(serial)) {
-            serialBox.append(
-                `<span class="serial-item badge bg-primary m-1" 
-                       data-serial="${serial}" style="cursor:pointer;">
+        if(existingRow) {
+            // append serial
+            existingRow.find(".serial-box").append(
+                `<span class="serial-item badge bg-primary m-1" data-serial="${serial}" style="cursor:pointer;">
                     ${serial} <b>×</b>
                 </span>`
             );
 
-            let arr = JSON.parse(existingRow.attr("data-price-array"));
-            arr.push(price);
-            existingRow.attr("data-price-array", JSON.stringify(arr));
+            // update qty and total
+            let qtyInput = existingRow.find(".qty");
+            let oldQty = parseInt(qtyInput.val());
+            qtyInput.val(oldQty + 1);
 
-            let net = arr.reduce((a, b) => a + b, 0);
-            existingRow.find(".net_total").text(net.toFixed(2));
-            qtyInput.val(arr.length);
+            let newTotal = (oldQty + 1) * price;
+            existingRow.find(".total, .net_total").text(newTotal.toFixed(2));
+            updateSummary();
+            return;
         }
-    } else {
-        // ====================== COMMON TYPE ======================
-        qtyInput.val(oldQty + 1);
-        let newTotal = (oldQty + 1) * price;
-        existingRow.find(".total").text(newTotal.toFixed(2));
-        existingRow.find(".net_total").text(newTotal.toFixed(2));
-
-        // Common → batch_number show
-        existingRow.find(".serial-box").text(item.batch_number);
     }
 
-    updateLineNumbers();
-    updateSummary();
-    return;
-}
+    // New row (for COMMON or first UNIQUE)
+    if(availableQty <= 0) {
+        iziToast.error({ message: "No stock available for this batch!", position: "topRight" });
+        return;
+    }
 
-
-
-    // ==================================================
-    // CASE 2: NEW ROW
-    // ==================================================
-    let priceArray = [price];
-let row = `
-<tr data-product-id="${item.product_id}"
-    data-serial-type="${serialType}"
-    data-customer-id="${item.supplier_id}" data-batch-number="${item.batch_number}"
-    data-price-array='${JSON.stringify(priceArray)}'>
-
-    <td class="line_no"></td>
-    <td>${item.product_name}</td>
-    <td><input type="text" class="form-control price" value="${price}" readonly></td>
-    <td>
-        <input type="number" class="form-control qty" 
-               value="1" min="1"
-               ${serialType === "unique" ? "readonly" : ""}>
-    </td>
-    <td class="total">${price}</td>
-    <td class="net_total">${price}</td>
-    <td class="serial-box">
-        ${serialType === "unique" 
-            ? `<span class="serial-item badge bg-primary m-1" data-serial="${serial}" style="cursor:pointer;">
-                   ${serial} <b>×</b>
-               </span>`
-            : item.batch_number // Common type → শুধু batch_number দেখাবে
-        }
-    </td>
-    <td><button class="btn btn-danger btn-sm removeRow">X</button></td>
-</tr>`;
-
-
+    let row = `<tr data-product-id="${item.product_id}" data-serial-type="${serialType}" data-customer-id="${item.supplier_id}" data-batch-number="${item.batch_number}">
+        <td class="line_no"></td>
+        <td>${item.product_name}</td>
+        <td><input class="form-control price" value="${price}" readonly></td>
+        <td><input class="form-control qty" value="1" min="1" max="${availableQty}" ${serialType==='unique'?'readonly':''}></td>
+        <td class="total">${price}</td>
+        <td class="net_total">${price}</td>
+        <td class="serial-box">
+            ${serialType==='unique'?`<span class="serial-item badge bg-primary m-1" data-serial="${serial}" style="cursor:pointer;">${serial} <b>×</b></span>`:serial}
+        </td>
+        <td><button class="btn btn-danger btn-sm removeRow">X</button></td>
+    </tr>`;
 
     $("#itemsTable tbody").append(row);
     updateLineNumbers();
@@ -512,116 +492,72 @@ let row = `
 }
 
 
-// ============================
-// Remove Whole Row
-// ============================
-$(document).on("click", ".removeRow", function () {
-    $(this).closest("tr").remove();
-    updateLineNumbers();
-    updateSummary();
-});
+    
 
-
-// ============================
 // Remove Unique Serial
-// ============================
-$(document).on("click", ".serial-item", function () {
-
+$(document).on("click", ".serial-item", function() {
     let serial = $(this).data("serial");
     let row = $(this).closest("tr");
 
     if (!confirm(serial + " remove করবেন?")) return;
 
-    let arr = JSON.parse(row.attr("data-price-array"));
-    arr.shift(); // remove price (advanced mapping চাইলে বলবেন)
-
-    row.attr("data-price-array", JSON.stringify(arr));
-
     $(this).remove();
 
-    if (arr.length === 0) {
+    // Update qty and net_total after removing serial
+    let serialCount = row.find(".serial-item").length;
+    if (serialCount === 0) {
         row.remove();
         updateLineNumbers();
         updateSummary();
         return;
     }
 
-    let net = arr.reduce((a, b) => a + b, 0);
-    row.find(".net_total").text(net.toFixed(2));
-    row.find(".qty").val(arr.length);
+    let price = parseFloat(row.find(".price").val());
+    row.find(".qty").val(serialCount);
+    row.find(".total, .net_total").text((serialCount * price).toFixed(2));
     updateSummary();
 });
 
+    // =======================
+    // Remove Unique Serial
+    // =======================
+  
 
-// ============================
-// Qty Change (Only Common)
-// ============================
-$(document).on("input", ".qty", function () {
+    // =======================
+    // Update Line Numbers
+    // =======================
+    function updateLineNumbers() {
+        $("#itemsTable tbody tr").each(function(i) {
+            $(this).find(".line_no").text(i + 1);
+        });
+    }
 
-    let tr = $(this).closest("tr");
-    let price = parseFloat(tr.find(".price").val());
-    let qty = parseInt($(this).val());
+    // =======================
+    // Update Summary
+    // =======================
+    function updateSummary() {
+        let subtotal = 0, totalQty = 0;
+        $("#itemsTable tbody tr").each(function() {
+            subtotal += parseFloat($(this).find(".net_total").text());
+            totalQty += parseInt($(this).find(".qty").val());
+        });
+        $("#subtotalAmount").val(subtotal.toFixed(2));
+        $("#totalOrder").val(totalQty);
+        let previousDue = parseFloat($("#previousDue").val()) || 0;
+        let total = subtotal + previousDue;
+        $("#totalAmount").val(total.toFixed(2));
+        let adjustment = parseFloat($("#adjustment").val()) || 0;
+        let payable = total + adjustment;
+        $("#payableAmount").val(payable.toFixed(2));
+        let paid = parseFloat($("#paidAmount").val()) || 0;
+        let due = payable - paid;
+        $("#dueAmount").val(due.toFixed(2));
+    }
 
-    let total = qty * price;
-
-    tr.find(".total").text(total.toFixed(2));
-    tr.find(".net_total").text(total.toFixed(2));
-
-    updateSummary();
 });
+</script>
 
-
-// ============================
-// LINE NUMBER UPDATE
-// ============================
-function updateLineNumbers() {
-    $("#itemsTable tbody tr").each(function (i) {
-        $(this).find(".line_no").text(i + 1);
-    });
-}
-$(document).on("input", "#paidAmount", function() {
-    updateSummary();
-});
-
-function updateSummary() {
-
-    let subtotal = 0;
-    let totalQty = 0;
-
-    $("#itemsTable tbody tr").each(function () {
-        subtotal += parseFloat($(this).find(".net_total").text());
-        totalQty += parseInt($(this).find(".qty").val());
-    });
-
-    // Subtotal
-    $("#subtotalAmount").val(subtotal.toFixed(2));
-
-    // Total Qty
-    $("#totalOrder").val(totalQty);
-
-    // Previous Due
-    let previousDue = parseFloat($("#previousDue").val()) || 0;
-
-    // Total
-    let total = subtotal + previousDue;
-    $("#totalAmount").val(total.toFixed(2));
-
-    // Adjustment
-    let adjustment = parseFloat($("#adjustment").val()) || 0;
-
-    // Payable
-    let payable = total + adjustment;
-    $("#payableAmount").val(payable.toFixed(2));
-
-    // Paid
-    let paid = parseFloat($("#paidAmount").val()) || 0;
-
-    // Due
-    let due = payable - paid;
-    $("#dueAmount").val(due.toFixed(2));
-}
-
-
+<script>
 $.ajax({
     url: "<?= base_url('sales/salesreturn/get_all_ajax') ?>",
     type: "GET",
@@ -714,14 +650,14 @@ $("#sales_date,.to_date").val(today);
 
 <script>
 $(document).on('change', '#customer_id', function () {
-    var supplier_id = $(this).val();
+    var customer_id = $(this).val();
 
     $('#invoice_id').html('<option value="">Loading...</option>');
 
     $.ajax({
-        url: "<?= base_url('purchase/preturn/get_invoice_by_supplier'); ?>",
+        url: "<?= base_url('sales/sreturn/get_invoice_by_customer'); ?>",
         type: "POST",
-        data: {supplier_id: supplier_id},
+        data: {customer_id: customer_id},
         dataType: "json",
         success: function (res) {
             $('#invoice_id').html('<option value="">Select Invoice</option>');
@@ -741,7 +677,7 @@ $(document).on('change', '#invoice_id', function () {
     $('#product_id').html('<option value="">Loading...</option>');
 
     $.ajax({
-        url: "<?= base_url('purchase/preturn/get_products_by_invoice'); ?>",
+        url: "<?= base_url('sales/sreturn/get_products_by_invoice'); ?>",
         type: "POST",
         data: {invoice_id: invoice_id},
         dataType: "json",
@@ -764,7 +700,7 @@ $(document).on('change', '#product_id', function () {
     $('#serial_list').html('Loading...');
 
     $.ajax({
-        url: "<?= base_url('purchase/preturn/get_serial_by_product'); ?>",
+        url: "<?= base_url('sales/sreturn/get_serial_by_product'); ?>",
         type: "POST",
         data: {
             product_id: product_id,
@@ -791,7 +727,7 @@ $('#addItemBtn').click(function() {
     let batch_number = $("#serial_list").val();
 
     $.ajax({
-        url: "<?= base_url('purchase/preturn/get_serial_items_by_product') ?>",
+        url: "<?= base_url('sales/sreturn/get_serial_items_by_product') ?>",
         type: "POST",
         data: { product_id: product_id, invoice_id: invoice_id ,  batch_number: batch_number},
         dataType: "json",

@@ -100,7 +100,7 @@ public function index()
 
         $totalOrderAmount = $this->input->post('totalOrderAmount') ?? 0;
         $subtotalAmount = $this->input->post('subtotalAmount') ?? 0;
-        $totalRebate = $this->input->post('totalRebate') || 0 ?? 0;
+        $totalRebate = $this->input->post('totalRebate') ?? 0;
         $totalDiscount = $this->input->post('totaldiscount') ?? 0;
         $dueAmount = $this->input->post('dueAmount') ?? 0;
         $paymentMethodId = $this->input->post('payment_method_id');
@@ -122,8 +122,8 @@ public function index()
         "account_name"               => 'Supplier Purchase', 
         "particulars"                =>'Purchase for order',   
         "date"                       => $date,   
-        "debit"                      => $netAmount,   
-        "credit"                     => 0,   
+        "debit"                      => 0,   
+        "credit"                     => $netAmount,   
         "gl_date"                    => strtotime($date),
         "acc_coa_head_id"            => 0,   
         "payment_method"             => 0,    
@@ -145,8 +145,8 @@ public function index()
         "account_name"               => 'Supplier Account', 
         "particulars"                => 'Payment for order',   
         "date"                       => $date,   
-        "debit"                      => 0,   
-        "credit"                     => $paidAmount,   
+        "debit"                      => $paidAmount,   
+        "credit"                     => 0,   
         "gl_date"                    => strtotime($date),
         "acc_coa_head_id"            => 0,   
         "payment_method"             => $paymentMethodId,    

@@ -30,7 +30,7 @@
                         ?>
                          
                              <li class="nav-item dropdown">
-										          <a  class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Super Admin <i class="fas fa-caret-down"></i></a>
+										          <a  class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Super Admin </a>
 										           <ul class="dropdown-menu nav_drpdown">
 										            <li><a class="dropdown-item"   href="<?php echo base_url(); ?>branch/organization">Organization</a></li>
 										          	<li><a class="dropdown-item"  href="<?php echo base_url(); ?>branch">Branch</a></li>

@@ -63,7 +63,7 @@
 
 </div>
 
-             <form id="returnForm" enctype="multipart/form-data" method="post" action="<?= base_url('sales/sreturn/create') ?>">
+             <form id="returnForm" enctype="multipart/form-data" method="post" action="<?= base_url('sales/sreturnitem/create') ?>">
 
                 <!-- <div class="row">
                       <div class="col-md-6 ">
@@ -530,7 +530,7 @@ $('#unique_serial').select2({ width: '100%' }); // Reinitialize select2
 
         if (customer_id) {
             $.ajax({
-                url: '<?= base_url("sales/sreturn/get_products_by_customer/") ?>' + customer_id,
+                url: '<?= base_url("sales/sreturnitem/get_products_by_customer/") ?>' + customer_id,
                 type: 'GET',
                 dataType: 'json',
                 success: function(data) {
@@ -557,7 +557,7 @@ $('#unique_serial').select2({ width: '100%' }); // Reinitialize select2
 
         if (product_id && customer_id) {
             $.ajax({
-                url: '<?= base_url("sales/sreturn/get_serial_numbers_by_product/") ?>' + product_id + '/' + customer_id,
+                url: '<?= base_url("sales/sreturnitem/get_serial_numbers_by_product/") ?>' + product_id + '/' + customer_id,
                 type: 'GET',
                 dataType: 'json',
                 success: function(data) {
@@ -598,7 +598,7 @@ $('#addItemBtn').click(function () {
     }
 
     $.ajax({
-        url: "<?= base_url('sales/sreturn/get_product_price/') ?>" + product_id + "/" + customer_id,
+        url: "<?= base_url('sales/sreturnitem/get_product_price/') ?>" + product_id + "/" + customer_id,
         type: "GET",
         dataType: "json",
         success: function (data) {
