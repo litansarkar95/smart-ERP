@@ -49,7 +49,7 @@
         </div>
         <div class="row">
           <div class="col-12">
-                <form  action="<?php echo base_url(); ?>purchase/create" method="post" enctype="multipart/form-data">
+                <form  action="<?php echo base_url(); ?>purchase/purchasebatch/create" method="post" enctype="multipart/form-data">
                                                             <div class="row mb-3">
 
                                      <div class="col-md-2 mb-2">
@@ -187,8 +187,8 @@
                                     <select name="product_id"  id="product_id"     class="form-control frm_select select2">
                                        <option  value="">  Select  </option>
                                      <?php foreach($allPro as $pro): ?>
-                                    <option value="<?= $pro->id ?>" ><?= $pro->name ?></option>
-                                <?php endforeach; ?>
+                    <option value="<?= $pro->id ?>" > <?= $pro->product_code ?> - <?= $pro->name ?></option>
+                <?php endforeach; ?>
                                     </select>
                                     <i class="fas fa-caret-down"></i>
                                   </div>
@@ -291,7 +291,7 @@
 																<span class="text-error small"><?php echo form_error('remarks'); ?></span>
 																</div>
 									      					</div>
-<input type="hidden" id="invoice_id" name="invoice_id" value="<?php echo date("dmYHis")?>">
+<input type="hidden" id="invoice_code" name="invoice_code" value="<?php echo date("dmYHis")?>">
                                                            
                                    <!-- Brand -->  
 	<div class="row">
@@ -405,7 +405,7 @@
                                      </div>
 <div class="row">
                                                                         <div class="col-12 text-end">
-                                                                             <div class="form-check mb-2">
+                                                                             <div class="form-check mb-2 " id="save_customer_box">
             <input class="form-check-input float-end" type="checkbox" name="save_customer" value="1" id="saveCustomer">
             <label class="form-check-label me-4" for="saveCustomer">Is Supplier Save?</label>
         </div>
@@ -545,79 +545,54 @@
   </div>
 </div>
 
-    <!-- Payment  Method -->  
+<!-- Serial Numbers Modal -->
+<div class="modal fade" id="serialModal" tabindex="-1" aria-labelledby="serialModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-md modal-dialog-centered">
+    <div class="modal-content">
+
+      <div class="modal-header">
+        <h5 class="modal-title" id="serialModalLabel">Serial Numbers</h5>
+        <!-- Bootstrap 5 close button -->
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+
+      <div class="modal-body">
+        <table class="table table-bordered table-sm" id="serial_list_container">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Serial Number</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+
+    </div>
+  </div>
+</div>
+
 
                      
 
   <script>
 
-       function calculateTotals() {
-             let totalOrder = 0;
-             let totalQtyOrder = 0;
-             let totalRebateOrder = 0;
-
-            
-            $('#itemsTable tbody tr').each(function() {
-                let subTotal = parseFloat($(this).find('.sub_total').val()) || 0;
-                totalOrder += subTotal;
-
-                //
-                let subQty = parseFloat($(this).find('.qty').val()) || 0;
-                totalQtyOrder += subQty;
-
-                let subrebate = parseFloat($(this).find('.total_rebate').val()) || 0;
-                totalRebateOrder += subrebate;
-            });
-
-             let discount = parseFloat($('#totaldiscount').val()) || 0;
-
-             let distotalOrder = totalOrder - discount;
-
-            let totalReceived = parseFloat($('#paidAmount').val() ) || 0;
-
-           
-
-          if (totalReceived > totalOrder) {
-        alert("Paid amount cannot exceed the total order amount!");
-        totalReceived = distotalOrder; // সীমাবদ্ধ করো
-        $('#paidAmount').val(distotalOrder.toFixed(2));
-    }
-          
-            //
-           let submtotal = distotalOrder;
-
-             // Due = Total Order - Received
-            let dueAmount = submtotal - totalReceived;
-
-            //total
-            let totalOrderwith = totalOrder + totalRebateOrder;
-
-            // ফিল্ডগুলো আপডেট করো
-            $('#totalOrderAmount').val(totalQtyOrder.toFixed(2));
-            $('#totalRebate').val(totalRebateOrder.toFixed(2));
-            $('#subtotalAmount').val(totalOrderwith.toFixed(2));
-            $('#totalAmount').val(submtotal.toFixed(2));
-            $('#dueAmount').val(dueAmount.toFixed(2));
-        }
-
-    $('#paidAmount').on('input', function() {
-        calculateTotals();
-    });
-
-//discount
-$('#totaldiscount').on('input', function() {
-       calculateTotals();
-    
-});
-
-$('#product_id').change(function(){
+  $('#product_id').change(function(){
     var price = $(this).find(':selected').data('price') || 0;
     $('#price').val(price);
     var qty = parseFloat($('#qty').val()) || 1;
     $('#subtotal').val((price * qty).toFixed(2));
 });
 
-// Update subtotal when qty changes
+function calculateItemSubtotal(){
+    let price  = parseFloat($('#price').val()) || 0;
+    let qty    = parseInt($('#qty').val()) || 1;
+    let rebate = parseFloat($('#total_rebate').val()) || 0;
+
+    let subtotal = (price * qty) - rebate;
+    $('#subtotal').val(subtotal.toFixed(2));
+}
 $('#qty').on('input', function(){
     var price = parseFloat($('#price').val()) || 0;
     var qty = parseFloat($(this).val()) || 1;
@@ -632,208 +607,78 @@ $('#rebate').on('input', function(){
     var qty = parseFloat($('#qty').val()) || 1;
     $('#total_rebate').val((rebate * qty).toFixed(2));
 });
-// Example: assume invoice_id is generated when creating invoice
-var invoice_id =  $('#invoice_id').val();
+$('#price, #qty, #total_rebate').on('input', function(){
+    calculateItemSubtotal();
+});
+$('#product_id').on('change', function(){
+    let product_id = $(this).val();
 
-
-$('#addItemBtn').on('click', function() {
-    var invoice_id     = $('#invoice_id').val();
-    var product_id     = $('#product_id').val();
-    var supplier_id    = $('#supplier_id').val();
-    var product_name   = $('#product_id option:selected').text();
-    var price          = parseFloat($('#price').val())          || 0;
-    var qty            = parseInt($('#qty').val())              || 1;
-    var sub_total      = parseFloat($('#subtotal').val())       || 0;
-    var rebate         = parseFloat($('#rebate').val())         || 0;
-    var total_rebate   = parseFloat($('#total_rebate').val())   || 0;
-    var sales_price    = parseFloat($('#sales_price').val())    || 0;
-    var serial_number  = $('#item_serial').val()                || "";
-    var barcode_serial = $('#barcode_serial').val()             || "";
-    var warrenty       = $('#warrenty').val()                   || 0;
-    var warrenty_days  = $('#warrenty_days').val()              || 0;
-
-
-    if(!product_id){
-        alert("Select a product!");
-        return;
-    }
-
- 
+    if(!product_id) return;
 
     $.ajax({
-        url: '<?= base_url("purchase/add_item_ajax") ?>',
+        url: '<?= base_url("purchase/get_product_info") ?>',
         type: 'POST',
         dataType: 'json',
-        data: {
-            invoice_id: invoice_id,
-            supplier_id: supplier_id,
-            product_id: product_id,
-            price: price,
-            qty: qty,
-            sub_total: sub_total,
-            total_rebate: total_rebate,
-            rebate: rebate,
-            sales_price: sales_price,
-            warrenty: warrenty,
-            warrenty_days: warrenty_days,
-            serial_number: serial_number,
-            barcode_serial: barcode_serial
-        },
-       success: function(res){
-       
-    if(res.status == 'success'){
-        var existingRow = $('#itemsTable tbody tr[data-id="'+res.item.id+'"]');
-        if(existingRow.length){
-            existingRow.find('.qty').val(res.item.qty);
-            existingRow.find('.price').val(res.item.price);
-            existingRow.find('.sub_total').val(res.item.sub_total);
-            existingRow.find('.total_rebate').val(res.item.total_rebate);
-            existingRow.find('.serial_number').val(res.item.serial_number);
-             calculateTotals();
-        } else {
-           let editBtn = '';
-            if(res.item.serial_type == 'unique'){
-                editBtn = '<button type="button" class="btn btn-sm btn-info editItem">✎</button> ';
-            }else{
-                  editBtn = '<button type="button" class="btn btn-sm btn-info editBatchItem">✎</button> ';
-            }
-
-            var newRow = '<tr data-id="'+res.item.id+'">'+
-                '<td>'+($('#itemsTable tbody tr').length+1)+'</td>'+
-                '<td>'+res.item.product_name+'</td>'+
-                '<td><input type="number" class="qty form-control" value="'+res.item.qty+'" readonly></td>'+
-                '<td><input type="number" class="price form-control" value="'+res.item.price+'" readonly></td>'+
-                '<td><input type="number" class="total_rebate form-control" value="'+res.item.total_rebate+'" readonly></td>'+
-                '<td>'+res.item.unit_name+'</td>'+
-                '<td><input type="number" class="sub_total form-control" value="'+res.item.sub_total+'" readonly></td>'+
-                '<td><textarea class="serial_number form-control" readonly>'+res.item.serial_number+'</textarea></td>'+
-                '<td>' +
-                    editBtn + 
-                    '<button type="button" class="btn btn-sm btn-outline-danger removeItem">✖</button>' +
-                '</td>'+
-            '</tr>';
-
-            $('#itemsTable tbody').append(newRow);
-
-             // টোটাল হিসাব আপডেট করো
-             calculateTotals();
-        }
-
-        //start show
-        	iziToast.success({
-				//title: 'Success',
-				message: 'Add to cart Success !',
-				position: 'topRight'
-				});
-
-        //end show 
-
-        // reset input fields
-       // $('#product_id').val('').trigger('change');
-        // $('#price').val('');
-        // $('#qty').val(1);
-        // $('#subtotal').val('');
-         $('#item_serial').val('');
-         $('#rebate').val('');
-         $('#total_rebate').val('');
-         //$('#barcode_serial').val('');
-    } else {
-        iziToast.error({
-				// title: 'Error',
-				message: 'Error saving item: !'+res.msg ,
-				position: 'topRight'
-				});
-       // alert('Error saving item: '+res.msg);
-    }
-},error: function(){
-            alert('AJAX error!');
-        }
-    });
-});
-
-
-/* ------------------------------------
-   UNIVERSAL BARCODE / MANUAL ENTER HANDLER
-   ------------------------------------ */
-
-let scanBuffer = "";
-let lastKeyTime = 0;
-
-function resetScan() {
-    scanBuffer = "";
-    lastKeyTime = 0;
-}
-
-function isFastScan(timeDiff) {
-    return timeDiff < 30; // barcode scanner usually sends keys <30ms apart
-}
-
-$('#barcode_serial, #item_serial').on('keydown', function(e) {
-    const now = Date.now();
-    const timeDiff = now - lastKeyTime;
-    lastKeyTime = now;
-
-    // If slow typing, reset buffer
-    if (!isFastScan(timeDiff)) {
-        scanBuffer = "";
-    }
-
-    // Only capture character keys
-    if (e.key.length === 1) {
-        scanBuffer += e.key;
-    }
-
-    // Enter key pressed
-    if (e.key === "Enter") {
-        e.preventDefault();
-
-        // If buffer is likely a scan
-        if (scanBuffer.length > 3) {
-            $(this).val(scanBuffer);   // set input value from scanner
-            $('#addItemBtn').click();  // trigger add item
-        } else {
-            // Normal Enter (manual typing)
-            $('#addItemBtn').click();
-        }
-
-        // Reset and refocus input
-        resetScan();
-        $(this).val('').focus();
-    }
-});
-
-
-
-$(document).on('click', '.removeItem', function(){
-    if(!confirm('Are you sure to remove this item?')) return;
-
-    var row = $(this).closest('tr');
-    var item_id = row.data('id');
-
-    $.ajax({
-        url: '<?= base_url("purchase/delete_item_ajax") ?>',
-        method: 'POST',
-        data: { item_id: item_id },
-        dataType: 'json',
+        data: { product_id: product_id },
         success: function(res){
-            if(res.status === 'success'){
-                row.remove();
-
-                $('#itemsTable tbody tr').each(function(index){
-                    $(this).find('td:first').text(index + 1);
-                });
-
-                calculateTotals();
-            } else {
-                alert('Error deleting item: ' + res.msg);
-            }
-        },
-        error: function(){
-            alert('AJAX error deleting item.');
+            $('#price').val(res.price);
+            $('#sales_price').val(res.sales_price);
+            $('#rebate').val(res.rebate);
+            $('#total_rebate').val(res.rebate);
+            calculateItemSubtotal();
         }
     });
 });
 
+$('#item_serial, #barcode_serial').on('keydown', function(e){
+    if(e.key === 'Enter'){
+        e.preventDefault();     // 🚫 form submit বন্ধ
+        $('#addItemBtn').click(); // ✅ Add to cart
+    }
+});
+$('form').on('keydown', function(e){
+    if(e.key === 'Enter'){
+        e.preventDefault();
+    }
+});
+
+function calculateGrandTotals(){
+
+    let totalOrder   = 0;
+    let subtotal     = 0;
+    let totalRebate  = 0;
+
+    $('#itemsTable tbody tr').each(function(){
+
+        let qty   = parseFloat($(this).find('.qty').val()) || 0;
+        let price = parseFloat($(this).find('.price').val()) || 0;
+        let rowSub = parseFloat($(this).find('.sub_total').val()) || 0;
+        let rowRebate = parseFloat($(this).find('.total_rebate').val()) || 0;
+
+        totalOrder  += (price * qty);
+        subtotal    += rowSub;
+        totalRebate += rowRebate;
+    });
+
+    $('#totalOrderAmount').val(totalOrder.toFixed(2));
+    $('#subtotalAmount').val(subtotal.toFixed(2));
+    $('#totalRebate').val(totalRebate.toFixed(2));
+    $('#totalAmount').val(subtotal.toFixed(2));
+
+    calculateDue();
+}
+function calculateDue(){
+    let total    = parseFloat($('#totalAmount').val()) || 0;
+    let discount = parseFloat($('#totaldiscount').val()) || 0;
+    let paid     = parseFloat($('#paidAmount').val()) || 0;
+
+    let payable = total - discount;
+    let due     = payable - paid;
+
+    $('#dueAmount').val(due.toFixed(2));
+}
+
+$('#totaldiscount, #paidAmount').on('input', calculateDue);
 
 </script>
 <script>
@@ -908,7 +753,6 @@ $(document).ready(function() {
     });
 });
 </script>
-
 <script>
 $(document).ready(function() {
   
@@ -929,302 +773,215 @@ $(document).ready(function() {
         }
     });
 });
-</script>
-<script>
-$(document).ready(function () {
-
-    $(document).on('keyup', '#purchase_price', function () {
-        let cost = parseFloat($(this).val()) || 0;
-        $("#total_amount").val(cost.toFixed(2));
-    });
-
-    $(document).on('keyup', '#product_tax', function () {
-        let taxPercent = parseFloat($(this).val()) || 0;
-        let price = parseFloat($("#purchase_price").val()) || 0;
-
-        let taxAmount = price * taxPercent / 100;
-        let total = price + taxAmount;
-
-        $("#product_tax_amount").val(taxAmount.toFixed(2));
-        $("#total_amount").val(total.toFixed(2));
-    });
-
-    $('#tax_method').on('change', function() {
-        let method = $(this).val();
-
-        if (method === "Exclusive") {
-            $(".product_tax_display").slideDown(); // smooth animation
-        } else {
-            $(".product_tax_display").slideUp();
-            $("#product_tax").val('');
-            $("#product_tax_amount").val('0.00');
-            $("#total_amount").val($("#purchase_price").val());
-        }
-    });
-
-});
-</script>
-
-
-		<script> 
-
-             $(".random_num").click(function() {
-                $("#product_code").val(Math.floor(Math.random() * 100000000) );
-            });
-
-
-
-		</script> 
-
-
-<script>
-    document.getElementById('barcode_serial').focus();
-    document.getElementById('item_serial').focus();
-</script>
-
- <script>
-    $(document).ready(function() {
-   
-
-   $("#purchase_date").datepicker({
-  dateFormat: "dd-mm-yy",
-  changeMonth: true,
-  changeYear: true,
-  yearRange: "1900:2100",
-});
-
-
-// Set a default date (e.g., today's date)
-var today = $.datepicker.formatDate("dd-mm-yy", new Date());
-$("#purchase_date,.to_date").val(today);
-
-  });
-
-
-
-     
-    </script>
-
-<script>
-$(document).ready(function() {
-
-    function loadSupplierBalance() {
-        var supplier_id = $('#supplier_id').val();
-
-        if (supplier_id !== '') {
-            $.ajax({
-                url: '<?= base_url("purchase/get_supplier_balance"); ?>',
-                type: 'POST',
-                dataType: 'json',
-                data: { supplier_id: supplier_id },
-                success: function(response) {
-                    $('#previousDue').val(response.balance);
-                },
-                error: function() {
-                    alert('Something went wrong while fetching balance.');
-                }
-            });
-        } else {
-            $('#previousDue').val('');
-        }
-    }
-
-    // 1️⃣ Load balance when supplier changes
-    $('#supplier_id').on('change', function() {
-        loadSupplierBalance();
-    });
-
-    // 2️⃣ Load default balance on page load (Cash is selected by default)
-    loadSupplierBalance();
-});
-
-
-
 
 
 </script>
 <script>
-$(document).on('click', '.editItem', function(){
+// product change
+$('#addItemBtn').on('click', function(){
 
-    let row = $(this).closest('tr');
+    let supplier_id = $('#supplier_id').val();
+    let product_id = $('#product_id').val();
+    if(!product_id){ alert('Select product'); return; }
 
-    let item_id = row.data('id');
+    let invoice_code = $('#invoice_code').val(); // UI থেকে invoice_code
+    if(!invoice_code){ alert('Invoice code required'); return; }
 
-    $('#edit_row_id').val(item_id);
-    $('#edit_price').val(row.find('.price').val());
-    $('#edit_rebate').val(row.find('.total_rebate').val());
+    let price  = parseFloat($('#price').val()) || 0;
+    let qty    = parseInt($('#qty').val()) || 1;
+    let rebate = parseFloat($('#rebate').val()) || 0;
 
-    // Load serials via AJAX
-    refreshSerialList(item_id);
+    let serialType = $('#unique_input').is(':visible') ? 'unique' : 'common';
+    let serialVal  = serialType === 'unique'
+        ? $('#item_serial').val().trim()
+        : $('#barcode_serial').val().trim();
 
-    $('#editModal').modal('show');
-});
+    if(!serialVal){ alert('Serial / Batch required'); return; }
 
-function refreshSerialList(item_id) {
-    let container = $('#serial_list_container');
-    container.empty();
+    // 🔑 ROW KEY
+    let rowKey = serialType === 'unique'
+        ? product_id + '_' + price + '_unique'
+        : product_id + '_' + price + '_common';
 
+    let row = $('#itemsTable tbody tr[data-key="'+rowKey+'"]');
+
+    // ===============================
+    // CALCULATION
+    // ===============================
+    let newQty = row.length ? parseInt(row.find('.qty').val()) + 1 : qty;
+    let totalRebate = rebate * newQty;
+    let subtotal = (price * newQty) - totalRebate;
+
+    // ===============================
+    // AJAX DB SYNC
+    // ===============================
     $.ajax({
-        url: "<?= base_url('purchase/get_item_serials') ?>",
-        type: "GET",
-        data: { item_id: item_id },
-        dataType: "json",
-        success: function(res){
-            if(res.status === 'success' && res.serials.length > 0){
-                res.serials.forEach(function(serial){
-                    let html = `<div class="serial-item d-flex justify-content-between align-items-center mb-1 p-2 border rounded" data-id="${serial.id}">
-                                    <span>${serial.serial_number}</span>
-                                    <button type="button" class="btn btn-sm btn-danger delete-serial">Delete</button>
-                                </div>`;
-                    container.append(html);
-                });
-            } else {
-                container.append('<div class="text-center text-muted">No serials found.</div>');
-            }
-        }
-    });
-}
-
-
-
-function refreshSerialList(item_id) {
-    
-    $.ajax({
-        url: "<?= base_url('purchase/get_item_serials') ?>",
-        type: "GET",
-        data: { item_id: item_id },
-        dataType: "json",
-        success: function(res){
-            let container = $('#serial_list_container');
-            container.empty();
-            if(res.status === 'success'){
-                res.serials.forEach(function(serial){
-                 let html = `<div class="serial-item d-flex justify-content-between align-items-center mb-1 p-2 border rounded" data-id="${serial.id}">
-                <span>${serial.serial_number}</span>
-                <button type="button" class="btn btn-sm btn-danger delete-serial">Delete</button>
-            </div>`;
-            container.append(html);
-
-                });
-            } else {
-                container.html('<p>No serials found.</p>');
-            }
-        }
-    });
-}
-
-$(document).on('click', '.delete-serial', function(){
-    let serialDiv = $(this).closest('.serial-item');
-    let serial_id = serialDiv.data('id');
-    let item_id = $('#edit_row_id').val();
-
-    if(confirm('Are you sure you want to remove this serial?')){
-        $.ajax({
-            url: "<?= base_url('purchase/delete_item_serial') ?>",
-            type: "POST",
-            data: { serial_id: serial_id, item_id: item_id },
-            dataType: "json",
-            success: function(res){
-                if(res.status === 'success'){
-                    serialDiv.remove(); // remove the div
-
-                    let mainRow = $('tr[data-id="'+item_id+'"]');
-
-                    // update qty and subtotal
-                    mainRow.find('.qty').val(res.item.qty);
-                    mainRow.find('.sub_total').val(res.item.sub_total);
-
-                    // 🔥 Update total rebate
-                    mainRow.find('.total_rebate').val(res.item.total_rebate);
-
-                    // 🔥 update serial textarea also
-                    mainRow.find('.serial_number').val(res.item.serial_number);
-
-                    // optional message if empty
-                    if(res.item.qty === 0){
-                        $('#serial_list_container').html('<div class="text-center text-muted">No serials left.</div>');
-                    }
-                     // 🔥 Recalculate totals
-                    calculateTotals();
-                } else {
-                    alert(res.msg || 'Failed to delete serial.');
-                }
-            }
-        });
-    }
-});
-
-
-
-$(document).on('click', '.editBatchItem', function() {
-
-    let row = $(this).closest('tr');
-    let item_id = row.data('id');
-
-    $('#edit_batch_row_id').val(item_id);
-    $('#edit_batch_price').val(row.find('.price').val());
-    $('#edit_batch_qty').val(row.find('.qty').val());
-    $('#edit_batch_rebate').val(row.find('.total_rebate').val());
-    $('#edit_batch').val(row.find('.serial_number').val());
-
-    // Load serial list via AJAX
-    $.ajax({
-        url: "<?= site_url('purchase/get_serials'); ?>",
-        type: "POST",
-        dataType: "json",
-        data: { item_id: item_id },
-        success: function(res) {
-
-            let tbody = $("#serial_list_container tbody");
-            tbody.html("");
-
-
-            $('#editBatchModal').modal('show');
-        }
-    });
-
-});
-
-
-$(document).on('click', '#updateItemBtn', function () {
-
-    let item_id = $('#edit_batch_row_id').val();
-    let price = $('#edit_batch_price').val();
-    let qty = $('#edit_batch_qty').val();
-    let rebate = $('#edit_batch_rebate').val();
-    let batch = $('#edit_batch').val();
-
-   
-
-    $.ajax({
-        url: "<?= site_url('purchase/update_item'); ?>",
-        type: "POST",
-        dataType: "json",
-        data: {
-            item_id: item_id,
+        url: '<?= base_url("purchase/purchasebatch/add_item_ajax") ?>',
+        type: 'POST',
+        dataType: 'json',
+        data:{
+            supplier_id: supplier_id,
+            invoice_code: invoice_code,
+            product_id: product_id,
+            serial_type: serialType,
             price: price,
-            qty: qty,
+            qty: newQty,
             rebate: rebate,
-            batch: batch
+            total_rebate: totalRebate,
+            sub_total: subtotal,
+            sales_price: $('#sales_price').val(),
+            warrenty: $('#warrenty').val(),
+            warrenty_days: $('#warrenty_days').val(),
+            barcode_serial: serialType === 'common' ? serialVal : '',
+            serials: serialType === 'unique' ? serialVal.split(',').map(s=>s.trim()) : []
         },
-        success: function(res) {
-            if (res.success) {
+        success:function(res){
 
-                let row = $('tr[data-id="' + item_id + '"]');
-                row.find('.price').val(price);
-                row.find('.qty').val(qty);
-                row.find('.total_rebate').val(rebate);
-                row.find('.sub_total').val(price*qty);
-                row.find('.serial_number').val(batch);
+            // ===============================
+            // UI UPDATE
+            // ===============================
+            if(row.length){
+                row.find('.qty').val(newQty);
+                row.find('.total_rebate').val(totalRebate.toFixed(2));
+                row.find('.sub_total').val(subtotal.toFixed(2));
 
-                $('#editBatchModal').modal('hide');
+                if(serialType === 'unique'){
+                    let oldSerial = row.find('.serial_number').val();
+                    row.find('.serial_number').val(oldSerial + ', ' + serialVal);
+                }
+
+            } else {
+                let newRow = `
+                <tr data-key="${rowKey}" data-item-id="${res.item_id}">
+                    <td>${$('#itemsTable tbody tr').length + 1}</td>
+                    <td>${$('#product_id option:selected').text()}</td>
+                    <td><input type="text" class="form-control qty" value="${newQty}" readonly></td>
+                    <td><input type="text" class="form-control price" value="${price}" readonly></td>
+                    <td><input type="text" class="form-control total_rebate" value="${totalRebate.toFixed(2)}" readonly></td>
+                    <td>pcs</td>
+                    <td><input type="text" class="form-control sub_total" value="${subtotal.toFixed(2)}" readonly></td>
+                    <td><textarea class="form-control serial_number" readonly>${serialVal}</textarea></td>
+                    <td>
+                        <button type="button" class="btn btn-sm btn-success modelsviw">edit</button>
+                        <button type="button" class="btn btn-sm btn-danger removeItem">✖</button>
+                    </td>
+                </tr>`;
+                $('#itemsTable tbody').append(newRow);
             }
+
+            resetInputs();
+            calculateGrandTotals();
         }
     });
 
 });
 
 
+
+function resetInputs(){
+    $('#item_serial').val('');
+  //  $('#subtotal').val('');
+    $('#total_rebate').val(0);
+    $('#qty').val(1);
+}
+// remove
+
+$(document).on('click', '.removeItem', function(){
+    let row = $(this).closest('tr');
+    let itemId = row.data('item-id');
+
+    if(!itemId){
+        alert('Item ID missing!');
+        return;
+    }
+
+    $.ajax({
+        url: '<?= base_url("purchase/purchasebatch/delete_item") ?>',
+        type: 'POST',
+        data: { item_id: itemId },
+        dataType: 'json',
+        success: function(res){
+            if(res.status === 'success'){
+                row.remove();
+                calculateGrandTotals();
+            } else {
+                alert('Delete failed');
+            }
+        },
+        error: function(err){
+            console.log(err);
+            alert('AJAX error');
+        }
+    });
+});
+// ===============================
+// SHOW SERIALS IN MODAL
+// ===============================
+let activeRow = null;
+
+$(document).on('click', '.modelsviw', function(){
+    activeRow = $(this).closest('tr');
+
+    let serialText = activeRow.find('.serial_number').val();
+    let serials = serialText.split(',').map(s => s.trim()).filter(s => s);
+
+    let tbody = '';
+    serials.forEach((s, i) => {
+        tbody += `
+        <tr data-serial="${s}">
+            <td>${i+1}</td>
+            <td>${s}</td>
+            <td>
+                <button class="btn btn-sm btn-danger deleteSerial" data-id="">Delete</button>
+            </td>
+        </tr>`;
+    });
+
+    $('#serial_list_container tbody').html(tbody);
+    $('#serialModal').modal('show');
+});
+
+// ===============================
+// DELETE SINGLE SERIAL
+// ===============================
+$(document).on('click', '.deleteSerial', function(){
+    let row = $(this).closest('tr');
+    let serialToDelete = row.data('serial');
+    let serialId = $(this).data('id'); // Server ID, if exists
+
+    let ajaxData = serialId ? { serial_id: serialId } : { serial_number: serialToDelete, item_id: activeRow.data('item-id') };
+
+    $.post('<?= base_url("purchase/purchasebatch/delete_item_serial") ?>', ajaxData, function(res){
+
+        // UI update
+        let textarea = activeRow.find('.serial_number');
+        let serials = textarea.val().split(',').map(s => s.trim()).filter(s => s !== '');
+
+        serials = serials.filter(s => s !== serialToDelete);
+
+        if(serials.length === 0){
+            // যদি serial শেষ হয়ে যায় → remove full row
+            activeRow.remove();
+        } else {
+            textarea.val(serials.join(', '));
+
+            // Qty + subtotal + total_rebate update
+            let newQty = serials.length;
+            activeRow.find('.qty').val(newQty);
+
+            let price = parseFloat(activeRow.find('.price').val());
+            let rebatePerItem = parseFloat(activeRow.find('.total_rebate').val()) / (newQty + 1); // old Qty+1
+            let totalRebate = rebatePerItem * newQty;
+            let subtotal = (price * newQty) - totalRebate;
+
+            activeRow.find('.total_rebate').val(totalRebate.toFixed(2));
+            activeRow.find('.sub_total').val(subtotal.toFixed(2));
+        }
+
+        calculateGrandTotals();
+        row.remove();
+    }, 'json');
+});
 
  $(document).ready(function () {
 
@@ -1275,6 +1032,71 @@ $(document).on('click', '#updateItemBtn', function () {
         }
     });
 });
+
+</script>
+
+<script>
+    document.getElementById('barcode_serial').focus();
+    document.getElementById('item_serial').focus();
+</script>
+
+ <script>
+    $(document).ready(function() {
+   
+
+   $("#purchase_date").datepicker({
+  dateFormat: "dd-mm-yy",
+  changeMonth: true,
+  changeYear: true,
+  yearRange: "1900:2100",
+});
+
+
+// Set a default date (e.g., today's date)
+var today = $.datepicker.formatDate("dd-mm-yy", new Date());
+$("#purchase_date,.to_date").val(today);
+
+  });
+
+
+
+     
+    </script>
+
+    <script>
+$(document).ready(function() {
+
+    function loadSupplierBalance() {
+        var supplier_id = $('#supplier_id').val();
+
+        if (supplier_id !== '') {
+            $.ajax({
+                url: '<?= base_url("purchase/get_supplier_balance"); ?>',
+                type: 'POST',
+                dataType: 'json',
+                data: { supplier_id: supplier_id },
+                success: function(response) {
+                    $('#previousDue').val(response.balance);
+                },
+                error: function() {
+                    alert('Something went wrong while fetching balance.');
+                }
+            });
+        } else {
+            $('#previousDue').val('');
+        }
+    }
+
+    // 1️⃣ Load balance when supplier changes
+    $('#supplier_id').on('change', function() {
+        loadSupplierBalance();
+    });
+
+    // 2️⃣ Load default balance on page load (Cash is selected by default)
+    loadSupplierBalance();
+});
+
+
 
 
 

@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.1
+-- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 13, 2025 at 11:58 AM
--- Server version: 10.4.32-MariaDB
--- PHP Version: 8.2.12
+-- Generation Time: Dec 13, 2025 at 06:46 PM
+-- Server version: 10.4.27-MariaDB
+-- PHP Version: 7.4.33
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -143,7 +143,8 @@ CREATE TABLE `business_partner` (
 --
 
 INSERT INTO `business_partner` (`id`, `organization_id`, `name`, `partner_type`, `contact_no`, `email`, `address`, `credit_limit`, `payment_terms`, `sales_representative`, `region`, `business_category`, `delivery_method`, `notes`, `is_active`, `customer_group_id`, `reference_id`, `opening_balance_type`, `opening_balance`, `current_balance`, `create_user`, `create_date`, `created_at`, `updated_at`) VALUES
-(1, 3, 'Cash', 'Both', '0', '', 'Cash', NULL, NULL, NULL, NULL, NULL, NULL, '', 1, 0, 10, '', 0.00, 0.00, 17, 1764140186, '2025-11-26 06:56:26', '2025-12-13 10:57:32');
+(1, 3, 'Cash', 'Both', '0', '', 'Cash', NULL, NULL, NULL, NULL, NULL, NULL, '', 1, 0, 10, '', '0.00', '0.00', 17, 1764140186, '2025-11-26 06:56:26', '2025-12-13 10:57:32'),
+(38, 3, 'litan', 'Both', '444', '444', '4444444444444444', NULL, NULL, NULL, NULL, NULL, NULL, '44', 1, 0, 0, '', '0.00', '0.00', 17, 1765645867, '2025-12-13 17:11:07', '2025-12-13 17:11:07');
 
 -- --------------------------------------------------------
 
@@ -282,10 +283,10 @@ CREATE TABLE `login_credential` (
 --
 
 INSERT INTO `login_credential` (`id`, `organization_id`, `branch_id`, `user_id`, `username`, `password`, `role`, `active`, `last_login`, `created_at`, `updated_at`) VALUES
-(1, 0, 0, 1, 'system', 'UHZVdVBOTWI0VkwrN0MvQjRRRUZkdz09', 1, 1, '2025-12-13 16:48:49', '2024-10-21 15:42:57', '2025-12-13 16:48:49'),
+(1, 0, 0, 1, 'system', 'UHZVdVBOTWI0VkwrN0MvQjRRRUZkdz09', 1, 1, '2025-12-13 23:21:01', '2024-10-21 15:42:57', '2025-12-13 23:21:01'),
 (2, 0, 0, 2, 'litan@gmail.com', 'UHZVdVBOTWI0VkwrN0MvQjRRRUZkdz09', 1, 1, '2024-11-27 11:06:55', '2024-10-21 15:42:57', '2025-10-30 14:29:54'),
 (5, 0, 0, 6, 'admin@gmail.com', 'UHZVdVBOTWI0VkwrN0MvQjRRRUZkdz09', 2, 1, '2025-11-01 14:35:31', '2024-11-16 23:35:56', '2025-11-01 14:35:31'),
-(17, 3, 1, 10, '01829', 'UHZVdVBOTWI0VkwrN0MvQjRRRUZkdz09', 3, 1, '2025-12-13 16:50:20', '2025-10-30 23:30:08', '2025-12-13 16:50:20'),
+(17, 3, 1, 10, '01829', 'UHZVdVBOTWI0VkwrN0MvQjRRRUZkdz09', 3, 1, '2025-12-13 23:21:20', '2025-10-30 23:30:08', '2025-12-13 23:21:20'),
 (18, 3, 1, 11, 'masterit', 'UHZVdVBOTWI0VkwrN0MvQjRRRUZkdz09', 3, 1, '2025-12-06 17:55:23', '2025-10-30 23:30:08', '2025-12-06 17:55:23');
 
 -- --------------------------------------------------------
@@ -1674,7 +1675,13 @@ INSERT INTO `logs` (`id`, `message`, `record_id`, `user_id`, `action`, `ip_addre
 (1407, 'New Record inserted On sales_item_batch_profit_loss id 85', 85, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-13 10:42:58', '2025-12-13'),
 (1408, 'New Record inserted On acc_general_ledger id 364', 364, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-13 10:45:38', '2025-12-13'),
 (1409, 'New Record inserted On acc_general_ledger id 365', 365, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-13 10:45:38', '2025-12-13'),
-(1410, 'New Record inserted On menus id 34', 34, 1, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-13 10:49:27', '2025-12-13');
+(1410, 'New Record inserted On menus id 34', 34, 1, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-13 10:49:27', '2025-12-13'),
+(1411, 'New Record inserted On products id 8', 8, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-13 15:35:24', '2025-12-13'),
+(1412, 'New Record inserted On products id 9', 9, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-13 15:35:56', '2025-12-13'),
+(1413, 'New Record inserted On business_partner id 38', 38, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-13 17:11:07', '2025-12-13'),
+(1414, 'New Record inserted On menus id 35', 35, 1, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-13 17:15:41', '2025-12-13'),
+(1415, 'New Record inserted On menus id 36', 36, 1, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-13 17:18:45', '2025-12-13'),
+(1416, 'New Record inserted On menus id 37', 37, 1, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-13 17:19:07', '2025-12-13');
 
 -- --------------------------------------------------------
 
@@ -1705,7 +1712,7 @@ INSERT INTO `menus` (`id`, `name`, `url`, `parent_id`, `position`, `icon`, `is_a
 (7, 'Products groups', 'products/groups', 4, 7, 'fa fa-angle-double-right', 1, 1762055754),
 (8, 'Purchase', '#', 0, 7, 'fa-solid fa-cart-arrow-down', 1, 1762249847),
 (9, 'Purchase List', 'purchase', 8, 4, 'fa fa-angle-double-right', 1, 1762249889),
-(10, 'Business Partner', '#', 0, 13, 'fa-regular fa-handshake', 1, 1762402030),
+(10, 'Partner', '#', 0, 13, 'fa-regular fa-handshake', 1, 1762402030),
 (11, 'Partner List', 'partner', 10, 3, 'fa fa-angle-double-right', 1, 1762402338),
 (12, 'New Purchase Order', 'purchase/create', 8, 1, '', 1, 1762599130),
 (13, 'Order List', 'purchase/order', 8, 12, '', 1, 1762599200),
@@ -1729,7 +1736,10 @@ INSERT INTO `menus` (`id`, `name`, `url`, `parent_id`, `position`, `icon`, `is_a
 (31, 'Purchase Return List', 'purchase/preturn/list', 8, 18, '', 1, 1765290640),
 (32, 'Party Ledger', 'reports/partyledger', 20, 7, '', 1, 1765550846),
 (33, 'Sales Return', 'sales/sreturn', 22, 7, '', 1, 1765551007),
-(34, 'Quotation', 'sales/quotation', 22, 21, '', 1, 1765622967);
+(34, 'Quotation', '', 0, 21, '', 1, 1765622967),
+(35, 'Add New Purchase', 'purchase/purchasebatch/create', 8, 1, '', 1, 1765646141),
+(36, 'Add New Quotation', 'quotation', 34, 1, '', 1, 1765646325),
+(37, 'Quotation List', 'quotation/list', 34, 3, '', 1, 1765646347);
 
 -- --------------------------------------------------------
 
@@ -1866,6 +1876,14 @@ CREATE TABLE `products` (
   `create_date` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `products`
+--
+
+INSERT INTO `products` (`id`, `organization_id`, `product_code`, `name`, `group_id`, `brand_id`, `unit_id`, `serial_type`, `purchase_price`, `tax_method`, `product_tax`, `product_tax_amount`, `total_amount`, `sales_price`, `warrenty`, `warrenty_days`, `re_order_level`, `is_inventory`, `is_short_bill`, `is_quotation`, `note`, `picture`, `is_active`, `create_user`, `create_date`) VALUES
+(8, 3, '7503', 'Nokia Mobile', 3, 3, 11, 'common', '500.00', 'Inclusive', '0.00', '0.00', '500.00', '800.00', 6, 'Month', 5, 1, 0, 1, '5', '0.png', 1, 17, 1765640124),
+(9, 3, '1087', 'Smart Phone', 3, 4, 10, 'unique', '700.00', 'Inclusive', '0.00', '0.00', '700.00', '44.00', 44, 'Days', 4, 1, 0, 1, '', '0.png', 1, 17, 1765640156);
+
 -- --------------------------------------------------------
 
 --
@@ -1933,10 +1951,23 @@ CREATE TABLE `purchase_invoice` (
   `invoice_code` varchar(100) NOT NULL,
   `supplier_id` int(11) DEFAULT 0,
   `remarks` text DEFAULT NULL,
-  `status` enum('Pending','Approved') NOT NULL DEFAULT 'Pending',
+  `status` enum('Pending','Approved') DEFAULT 'Pending',
   `create_user` int(11) NOT NULL,
   `create_date` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+--
+-- Dumping data for table `purchase_invoice`
+--
+
+INSERT INTO `purchase_invoice` (`id`, `organization_id`, `branch_id`, `invoice_code`, `supplier_id`, `remarks`, `status`, `create_user`, `create_date`) VALUES
+(14, 2, 1, '13122025230315', 1, '1', 'Pending', 3, 1765645398),
+(15, 2, 1, '13122025230910', 1, '1', 'Pending', 3, 1765645809),
+(16, 2, 1, '13122025232439', 1, '1', 'Pending', 3, 1765646684),
+(17, 2, 1, '13122025232807', 1, '1', 'Pending', 3, 1765646900),
+(18, 3, 1, '13122025233016', NULL, '1', 'Pending', 17, 1765647020),
+(19, 3, 1, '13122025233141', 1, '1', 'Pending', 17, 1765647105),
+(20, 3, 1, '13122025233203', 1, '', 'Pending', 17, 1765647126);
 
 -- --------------------------------------------------------
 
@@ -1991,23 +2022,34 @@ CREATE TABLE `purchase_item_serials` (
 
 CREATE TABLE `purchase_order_items` (
   `id` int(11) NOT NULL,
-  `invoice_id` varchar(100) NOT NULL,
-  `serial_type` varchar(50) NOT NULL,
+  `invoice_id` int(11) NOT NULL,
+  `serial_type` enum('unique','common') NOT NULL,
   `product_id` int(11) NOT NULL,
   `purchase_date` int(11) NOT NULL,
   `price` decimal(10,2) NOT NULL,
   `qty` int(11) NOT NULL,
-  `with_total_rebate` decimal(16,2) NOT NULL,
   `rebate` decimal(16,2) NOT NULL,
   `total_rebate` decimal(16,2) NOT NULL,
   `sub_total` decimal(10,2) NOT NULL,
   `sales_price` decimal(16,2) NOT NULL,
   `warrenty` int(11) NOT NULL,
   `warrenty_days` varchar(50) DEFAULT NULL,
-  `serial_number` text DEFAULT NULL,
-  `barcode_serial` text DEFAULT NULL,
+  `barcode_serial` varchar(255) DEFAULT NULL,
   `create_date` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+--
+-- Dumping data for table `purchase_order_items`
+--
+
+INSERT INTO `purchase_order_items` (`id`, `invoice_id`, `serial_type`, `product_id`, `purchase_date`, `price`, `qty`, `rebate`, `total_rebate`, `sub_total`, `sales_price`, `warrenty`, `warrenty_days`, `barcode_serial`, `create_date`) VALUES
+(27, 16, 'unique', 9, 1765646684, '700.00', 2, '0.00', '0.00', '1400.00', '44.00', 44, 'Days', '', 1765646684),
+(28, 16, 'common', 8, 1765646703, '500.00', 3, '0.00', '0.00', '1500.00', '800.00', 6, 'Month', '333', 1765646703),
+(29, 16, 'common', 8, 1765646715, '500.00', 4, '50.00', '200.00', '1800.00', '800.00', 6, 'Month', '3334', 1765646715),
+(30, 16, 'common', 8, 1765646748, '450.00', 1, '0.00', '0.00', '450.00', '800.00', 6, 'Month', '3334', 1765646748),
+(32, 18, 'unique', 9, 1765647020, '700.00', 1, '0.00', '0.00', '700.00', '44.00', 44, 'Days', '', 1765647020),
+(33, 19, 'common', 8, 1765647105, '500.00', 1, '0.00', '0.00', '500.00', '800.00', 6, 'Month', 'aaa', 1765647105),
+(34, 20, 'common', 8, 1765647127, '500.00', 1, '0.00', '0.00', '500.00', '800.00', 6, 'Month', 'w', 1765647127);
 
 -- --------------------------------------------------------
 
@@ -2020,6 +2062,15 @@ CREATE TABLE `purchase_order_item_serials` (
   `item_id` int(11) NOT NULL,
   `serial_number` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+--
+-- Dumping data for table `purchase_order_item_serials`
+--
+
+INSERT INTO `purchase_order_item_serials` (`id`, `item_id`, `serial_number`) VALUES
+(22, 27, '55555'),
+(23, 27, '5555555555'),
+(25, 32, '333');
 
 -- --------------------------------------------------------
 
@@ -2118,7 +2169,7 @@ INSERT INTO `role_menu` (`id`, `role_id`, `menu_id`) VALUES
 (9, 3, 9),
 (10, 3, 10),
 (11, 3, 11),
-(12, 3, 12),
+(39, 3, 12),
 (14, 3, 13),
 (13, 3, 14),
 (16, 3, 15),
@@ -2138,7 +2189,10 @@ INSERT INTO `role_menu` (`id`, `role_id`, `menu_id`) VALUES
 (32, 3, 31),
 (33, 3, 32),
 (34, 3, 33),
-(35, 3, 34);
+(35, 3, 34),
+(36, 3, 35),
+(38, 3, 36),
+(37, 3, 37);
 
 -- --------------------------------------------------------
 
@@ -2455,14 +2509,14 @@ CREATE TABLE `staff` (
 --
 
 INSERT INTO `staff` (`id`, `organization_id`, `branch_id`, `employee_id`, `department`, `designation`, `ip_address`, `first_name`, `last_name`, `email`, `roles_id`, `qualification`, `work_exp`, `father_name`, `mother_name`, `contact_no`, `emergency_contact_no`, `dob`, `marital_status`, `date_of_joining`, `date_of_leaving`, `local_address`, `permanent_address`, `gender`, `account_title`, `bank_account_no`, `bank_name`, `lang_id`, `bank_branch`, `basic_salary`, `staff_type`, `hourly_rate`, `facebook`, `twitter`, `linkedin`, `instagram`, `resume`, `joining_letter`, `is_active`, `picture`, `create_user`, `create_date`) VALUES
-(1, 0, 0, '', 0, 0, '', 'System', '', 'system', 1, '', '', '', '', '', '', 0, '', 0, 0, '', '', '', '', '', '', '', '', 0.00, 0, 0.00, '', '', '', '', '', '', 1, '0.png', 0, 0),
-(2, 0, 0, '', 0, 0, '', 'Admin', '', 'litan@gmail.com', 1, '', '', '', '', '', '', 0, '', 0, 0, '', '', '', '', '', '', '', '', 0.00, 0, 0.00, '', '', '', '', '', '', 1, '0.png', 0, 0),
-(6, 0, 0, '', 0, 0, '', 'abir', 'r', 'admin@gmail.com', 3, '', '', '3', '33', '33', '33', 1731711600, 'Single', 1731711600, 1731711600, '', '', '', '', '', '', '', '', 0.00, 1, 100.00, '', '', '', '', '', '', 1, '0.png', 0, 1731778556),
-(7, 0, 0, '', 0, 0, '', 'Md Kobir ', 'Hasan', 'kobir1@gmail.com', 3, '', '', 'Ibr', '', '0182762', '1123333', 1732230000, '', 1732230000, 1732230000, '', '', '', '', '', '', '', '', 0.00, 1, 100.00, '', '', '', '', '', '', 1, '0.png', 0, 1732250608),
-(8, 0, 0, '', 0, 0, '', 'Admin', '', 'superadmin@gmail.com', 1, '', '', '', '', '', '', 0, '', 0, 0, '', '', '', '', '', '', '', '', 0.00, 0, 0.00, '', '', '', '', '', '', 1, '0.png', 0, 0),
-(9, 0, 0, '2132332', 0, 0, '', 'Hridoy', 'Sarkar', 'hridoy@gmail.com', 0, '', '', 'Ibrahim', '', '01827262', '01827262', 1732834800, 'Single', 1732834800, 1732834800, '', '', 'Male', '', '', '', '', '', 0.00, 1, 100.00, '', '', '', '', '', '', 1, '0.png', 0, 1732851415),
-(10, 3, 0, '', 0, 0, '', 'Master IT', '', '', 2, '', '', '', '', '01829', '', 0, '', 1761845407, 0, '', '', '', '', '', '', '', '', 0.00, 0, 0.00, '', '', '', '', '', '', 1, '0.png', 0, 1761845407),
-(11, 3, 0, '', 0, 0, '', 'Master IT', '', '', 2, '', '', '', '', 'masterit', '', 0, '', 1761845407, 0, '', '', '', '', '', '', '', '', 0.00, 0, 0.00, '', '', '', '', '', '', 1, '0.png', 0, 1761845407);
+(1, 0, 0, '', 0, 0, '', 'System', '', 'system', 1, '', '', '', '', '', '', 0, '', 0, 0, '', '', '', '', '', '', '', '', '0.00', 0, '0.00', '', '', '', '', '', '', 1, '0.png', 0, 0),
+(2, 0, 0, '', 0, 0, '', 'Admin', '', 'litan@gmail.com', 1, '', '', '', '', '', '', 0, '', 0, 0, '', '', '', '', '', '', '', '', '0.00', 0, '0.00', '', '', '', '', '', '', 1, '0.png', 0, 0),
+(6, 0, 0, '', 0, 0, '', 'abir', 'r', 'admin@gmail.com', 3, '', '', '3', '33', '33', '33', 1731711600, 'Single', 1731711600, 1731711600, '', '', '', '', '', '', '', '', '0.00', 1, '100.00', '', '', '', '', '', '', 1, '0.png', 0, 1731778556),
+(7, 0, 0, '', 0, 0, '', 'Md Kobir ', 'Hasan', 'kobir1@gmail.com', 3, '', '', 'Ibr', '', '0182762', '1123333', 1732230000, '', 1732230000, 1732230000, '', '', '', '', '', '', '', '', '0.00', 1, '100.00', '', '', '', '', '', '', 1, '0.png', 0, 1732250608),
+(8, 0, 0, '', 0, 0, '', 'Admin', '', 'superadmin@gmail.com', 1, '', '', '', '', '', '', 0, '', 0, 0, '', '', '', '', '', '', '', '', '0.00', 0, '0.00', '', '', '', '', '', '', 1, '0.png', 0, 0),
+(9, 0, 0, '2132332', 0, 0, '', 'Hridoy', 'Sarkar', 'hridoy@gmail.com', 0, '', '', 'Ibrahim', '', '01827262', '01827262', 1732834800, 'Single', 1732834800, 1732834800, '', '', 'Male', '', '', '', '', '', '0.00', 1, '100.00', '', '', '', '', '', '', 1, '0.png', 0, 1732851415),
+(10, 3, 0, '', 0, 0, '', 'Master IT', '', '', 2, '', '', '', '', '01829', '', 0, '', 1761845407, 0, '', '', '', '', '', '', '', '', '0.00', 0, '0.00', '', '', '', '', '', '', 1, '0.png', 0, 1761845407),
+(11, 3, 0, '', 0, 0, '', 'Master IT', '', '', 2, '', '', '', '', 'masterit', '', 0, '', 1761845407, 0, '', '', '', '', '', '', '', '', '0.00', 0, '0.00', '', '', '', '', '', '', 1, '0.png', 0, 1761845407);
 
 -- --------------------------------------------------------
 
@@ -2684,8 +2738,7 @@ ALTER TABLE `purchase_order_items`
 -- Indexes for table `purchase_order_item_serials`
 --
 ALTER TABLE `purchase_order_item_serials`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `item_id` (`item_id`);
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `purchase_return`
@@ -2836,7 +2889,7 @@ ALTER TABLE `brands`
 -- AUTO_INCREMENT for table `business_partner`
 --
 ALTER TABLE `business_partner`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
 
 --
 -- AUTO_INCREMENT for table `inv_stock_history`
@@ -2872,13 +2925,13 @@ ALTER TABLE `login_credential`
 -- AUTO_INCREMENT for table `logs`
 --
 ALTER TABLE `logs`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1411;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1417;
 
 --
 -- AUTO_INCREMENT for table `menus`
 --
 ALTER TABLE `menus`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
 
 --
 -- AUTO_INCREMENT for table `organizations`
@@ -2908,7 +2961,7 @@ ALTER TABLE `permissions`
 -- AUTO_INCREMENT for table `products`
 --
 ALTER TABLE `products`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `products_groups`
@@ -2926,7 +2979,7 @@ ALTER TABLE `purchase`
 -- AUTO_INCREMENT for table `purchase_invoice`
 --
 ALTER TABLE `purchase_invoice`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=179;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT for table `purchase_items`
@@ -2944,13 +2997,13 @@ ALTER TABLE `purchase_item_serials`
 -- AUTO_INCREMENT for table `purchase_order_items`
 --
 ALTER TABLE `purchase_order_items`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=540;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
 
 --
 -- AUTO_INCREMENT for table `purchase_order_item_serials`
 --
 ALTER TABLE `purchase_order_item_serials`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=301;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 
 --
 -- AUTO_INCREMENT for table `purchase_return`
@@ -2974,7 +3027,7 @@ ALTER TABLE `roles`
 -- AUTO_INCREMENT for table `role_menu`
 --
 ALTER TABLE `role_menu`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
 
 --
 -- AUTO_INCREMENT for table `role_permissions`
@@ -3069,12 +3122,6 @@ ALTER TABLE `warehouse`
 --
 -- Constraints for dumped tables
 --
-
---
--- Constraints for table `purchase_order_item_serials`
---
-ALTER TABLE `purchase_order_item_serials`
-  ADD CONSTRAINT `purchase_order_item_serials_ibfk_1` FOREIGN KEY (`item_id`) REFERENCES `purchase_order_items` (`id`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `role_menu`

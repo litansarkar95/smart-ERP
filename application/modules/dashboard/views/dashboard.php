@@ -136,7 +136,6 @@
     .users { background: #5a5c69; }
     .settings { background: #6f42c1; }
 
-    /* ===== Latest Sales Table ===== */
     table {
       width: 100%;
       border-collapse: collapse;
@@ -233,32 +232,125 @@
       height: 14px;
       border-radius: 3px;
     }
+    .summary-card i {
+  font-size: 32px; 
+  opacity: 0.9;
+}
+
+.summary-card h4 {
+  font-size: 14px;
+  font-weight: 500;
+  margin: 0;
+}
+
+.summary-card p {
+  font-size: 18px;
+  font-weight: 700;
+  margin: 0;
+}
+.link-box:hover {
+  transform: scale(1.05);
+  box-shadow: 0 6px 15px rgba(0,0,0,0.15);
+}
+.chart-legend {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+.card-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    border-bottom: 1px solid #e5e9f0;
+    padding-bottom: 10px;
+    margin-bottom: 15px;
+    margin-top: 20px; 
+}
+.link-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    border-radius: 10px;
+    padding: 18px 10px;
+    color: #fff;
+    font-weight: 600;
+    text-align: center;
+    transition: all 0.2s ease-in-out;
+    text-decoration: none; 
+}
+
+.link-box:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+    color: #fff; 
+}
+
   </style>
  <div class="container-fluid">
 
   <div class="row px-3">
   <!-- === Quick Links Section === -->
   <div class="quick-links">
-    <h3>Quick Links</h3>
-    <div class="link-grid">
-      <div class="link-box products"><i class="fas fa-box"></i>Products</div>
-      <div class="link-box sales"><i class="fas fa-heart"></i>Sales</div>
-      <div class="link-box quotations"><i class="fas fa-file-alt"></i>Quotations</div>
-      <div class="link-box purchases"><i class="fas fa-shopping-cart"></i>Purchases</div>
-      <div class="link-box transfers"><i class="fas fa-exchange-alt"></i>Transfers</div>
-      <div class="link-box customers"><i class="fas fa-users"></i>Customers</div>
-      <div class="link-box suppliers"><i class="fas fa-truck"></i>Suppliers</div>
-      <div class="link-box notifications"><i class="fas fa-bell"></i>Notifications</div>
-      <div class="link-box users"><i class="fas fa-user"></i>Users</div>
-      <div class="link-box settings"><i class="fas fa-cog"></i>Settings</div>
-    </div>
+<div class="quick-links">
+  <h3>Quick Links</h3>
+  <div class="link-grid">
+      <?php if (has_permission('products', 'index')): ?>
+    <a href="<?php echo base_url(); ?>products" class="link-box products">
+      <i class="fas fa-box"></i>Products
+    </a>
+      <?php endif; ?>
+      <!-- Start --> 
+       <?php if (has_permission('sales', 'create')): ?>
+    <a href="<?php echo base_url(); ?>sales/create" class="link-box sales">
+      <i class="fas fa-heart"></i>Sales
+    </a>
+    <?php endif; ?>
+    <!-- End -->
+     <!-- Start --> 
+       <?php if (has_permission('quotation', 'index')): ?>
+    <a href="<?php echo base_url(); ?>quotation" class="link-box quotations">
+      <i class="fas fa-file-alt"></i>Quotations
+    </a>
+    <?php endif; ?>
+     <!-- End -->
+     <!-- Start --> 
+       <?php if (has_permission('purchasebatch', 'create')): ?>
+    <a href="<?php echo base_url(); ?>purchase/purchasebatch/create" class="link-box purchases">
+      <i class="fas fa-shopping-cart"></i>Purchases
+    </a>
+       <?php endif; ?>
+     <!-- End -->
+    <a href="transfers.php" class="link-box transfers">
+      <i class="fas fa-exchange-alt"></i>Transfers
+    </a>
+    <a href="customers.php" class="link-box customers">
+      <i class="fas fa-users"></i>Customers
+    </a>
+    <a href="suppliers.php" class="link-box suppliers">
+      <i class="fas fa-truck"></i>Suppliers
+    </a>
+    <a href="notifications.php" class="link-box notifications">
+      <i class="fas fa-bell"></i>Notifications
+    </a>
+    <a href="users.php" class="link-box users">
+      <i class="fas fa-user"></i>Users
+    </a>
+    <a href="settings.php" class="link-box settings">
+      <i class="fas fa-cog"></i>Settings
+    </a>
   </div>
+</div>
+
   <!-- === Overview Summary Cards === -->
-  <div class="card">
-    <div class="card-header">
-      <i class="fas fa-chart-line"></i>
-      <h2>Overview Summary</h2>
-    </div>
+  <div class="card" style="margin-top: 20px;">
+ <div class="card-header" >
+  <i class="fas fa-chart-line"></i>
+  <h2>Overview Summary</h2>
+</div>
+
     <div class="summary-grid">
       <div class="summary-card today-sales">
         <i class="fas fa-hand-holding-usd"></i>
@@ -294,12 +386,14 @@
   </div>
 
   <!-- === Latest Five Sales Section === -->
+   
   <div class="card">
     <div class="card-header">
       <i class="fas fa-receipt"></i>
       <h2>Latest Five Sales</h2>
     </div>
-    <table>
+  <div class="table-responsive">
+  <table class="table table-bordered table-sm">
       <thead>
         <tr>
           <th>#</th>
@@ -354,7 +448,7 @@
       </tbody>
     </table>
   </div>
-
+  </div>
 
 
 
