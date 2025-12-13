@@ -357,26 +357,36 @@ $(document).ready(function() {
                 type: "POST",
                 dataType: "json",
                 data: { serial: serial, customer_id: customer_id },
-                success: function(res) {
-                    if (res.status !== "success") {
-                        iziToast.error({ message: res.msg, position: "topRight" });
-                        $('#item_serial').val("").focus();
-                        return;
-                    }
+              success: function(res) {
+    if (res.status !== "success") {
+        iziToast.error({ message: res.msg, position: "topRight" });
+        return;
+    }
 
-                    // Auto-set customer if first scan
-                    if (!$("#customer_id").val()) {
-                        $("#customer_id").val(res.customer.id).trigger('change');
-                        $("#customer_name").val(res.customer.name);
-                        $("#mobile_no").val(res.customer.contact_no);
-                        $("#address").val(res.customer.address);
-                        $("#previousDue").val(res.customer.previous_due);
-                        updateSummary();
-                    }
+    let items = res.item;
 
-                    addItemToTable(res.item);
-                    $('#item_serial').val("").focus();
-                }
+    // যদি single object না হয়, array হলে loop করো
+    if (!Array.isArray(items)) {
+        items = [items];
+    }
+
+                    // Customer auto-set
+if (!$("#customer_id").val()) {
+    $("#customer_id").val(res.customer.id).trigger('change'); // trigger('change') দিলে select2 আপডেট হয়
+   // $("#customer_name").val(res.customer.name);
+   // $("#mobile_no").val(res.customer.contact_no);
+  //  $("#address").val(res.customer.address);
+   // $("#previousDue").val(res.customer.previous_due);
+       updateSummary();
+}
+
+    items.forEach(function(item) {
+        addItemToTable(item);
+    });
+     // ✅ success হলে clear
+    $('#item_serial').val("").focus();
+}
+
             });
         }
     });
@@ -417,57 +427,85 @@ $(document).ready(function() {
     // Add Item to Table
     // =======================
 
+// =========================
+// FIND EXISTING ROW
+// =========================
+let existingRow = $("#itemsTable tbody tr").filter(function() {
+    let row = $(this);
+    return row.data("product-id") == item.product_id &&
+           row.data("batch-number") == item.batch_number &&
+           row.data("serial-type") == item.serial_type;
+}).first();
 
-    function addItemToTable(item) {
+
+function addItemToTable(item) {
     let serialType = item.serial_type;
     let serial = item.serial || item.batch_number;
     let price = parseFloat(item.sales_price);
     let availableQty = parseInt(item.available_qty);
 
-    // UNIQUE SERIAL
+    // =========================
+    // Find existing row
+    // =========================
+    let existingRow;
     if(serialType === "unique") {
-        // check if this exact serial already added
-        let serialExists = false;
-        $("#itemsTable tbody tr .serial-item").each(function() {
-            if($(this).data("serial") == serial) serialExists = true;
-        });
-        if(serialExists) {
-            iziToast.error({ message: serial + " already added!", position: "topRight" });
-            return;
-        }
+        // unique → check product + customer
+        existingRow = $("#itemsTable tbody tr").filter(function() {
+            let row = $(this);
+            return row.data("product-id") == item.product_id &&
+                   row.data("serial-type") == "unique" &&
+                   row.data("customer-id") == item.customer_id;
+        }).first();
+    } else {
+        // common → check product + batch
+        existingRow = $("#itemsTable tbody tr").filter(function() {
+            let row = $(this);
+            return row.data("product-id") == item.product_id &&
+                   row.data("batch-number") == item.batch_number &&
+                   row.data("serial-type") == "common";
+        }).first();
+    }
 
-        // find existing row for this sales_item_id + customer + unique type
-        let existingRow = null;
-        $("#itemsTable tbody tr").each(function() {
-            if($(this).data("product-id") == item.product_id &&
-               $(this).data("serial-type") == "unique" &&
-               $(this).data("customer-id") == item.customer_id) {
-                existingRow = $(this);
-                return false;
+    // =========================
+    // If row exists
+    // =========================
+    if(existingRow.length > 0) {
+        let qtyInput = existingRow.find(".qty");
+        let oldQty = parseInt(qtyInput.val());
+
+        if(serialType === "unique") {
+            // check duplicate serial
+            let serialExists = false;
+            existingRow.find(".serial-item").each(function() {
+                if($(this).data("serial") == serial) serialExists = true;
+            });
+            if(serialExists) {
+                iziToast.error({ message: serial + " already added!", position: "topRight" });
+                return;
             }
-        });
 
-        if(existingRow) {
-            // append serial
+            // append unique serial
             existingRow.find(".serial-box").append(
                 `<span class="serial-item badge bg-primary m-1" data-serial="${serial}" style="cursor:pointer;">
                     ${serial} <b>×</b>
                 </span>`
             );
-
-            // update qty and total
-            let qtyInput = existingRow.find(".qty");
-            let oldQty = parseInt(qtyInput.val());
             qtyInput.val(oldQty + 1);
-
-            let newTotal = (oldQty + 1) * price;
-            existingRow.find(".total, .net_total").text(newTotal.toFixed(2));
-            updateSummary();
-            return;
+        } else {
+            // common → increase qty
+            qtyInput.val(oldQty + 1);
         }
+
+        // update total
+        let newTotal = price * parseInt(qtyInput.val());
+        existingRow.find(".total, .net_total").text(newTotal.toFixed(2));
+        updateSummary();
+        return;
     }
 
-    // New row (for COMMON or first UNIQUE)
+    // =========================
+    // New row (if no existing row)
+    // =========================
     if(availableQty <= 0) {
         iziToast.error({ message: "No stock available for this batch!", position: "topRight" });
         return;

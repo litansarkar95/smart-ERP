@@ -102,8 +102,9 @@ border-radius:5px; margin:15px; cursor:pointer;">
         <thead>
             <tr>
                 <th>Date</th>
+                <th>Invoice</th>
                 <th>Voucher Type</th>
-                <th>Particulars</th>
+             
                 <th style="width: 80px;">Debit</th>
                 <th style="width: 80px;">Credit</th>
                 <th style="width: 100px;">Balance</th>
@@ -112,14 +113,37 @@ border-radius:5px; margin:15px; cursor:pointer;">
 
         <tbody>
             <?php 
-                $running = $opening_balance; 
+               // $running = $opening_balance; 
                 foreach ($ledger as $row):  
                     $running += ($row->debit - $row->credit);
             ?>
             <tr>
                 <td><?= $row->date ?></td>
+                <td>
+                <?php
+                if($row->voucher_type == 'Purchase'  ){
+                ?>    
+                <a href="<?php echo base_url()."purchase/invoice/$row->purchase_invoice_id "?>" target="_balnk"><?= $row->invoice_no ?> </a>
+            <?php
+                }else if($row->voucher_type == 'Purchase Return' ){
+            ?>
+             <a href="<?php echo base_url()."purchase/preturn/invoice/$row->purchase_return_id "?>" target="_balnk"><?= $row->invoice_no ?> </a>
+
+               <?php
+                }else if($row->voucher_type == 'Sales' ){
+            ?>
+             <a href="<?php echo base_url()."sales/invoice/$row->sales_invoice_id "?>" target="_balnk"><?= $row->invoice_no ?> </a>
+
+            <?php
+                }else if($row->voucher_type == 'Sales Return' ){
+            ?>
+             <a href="<?php echo base_url()."sales/sreturn/invoice/$row->sales_return_id "?>" target="_balnk"><?= $row->invoice_no ?> </a>
+
+             <?php
+                }
+             ?>
+            </td>
                 <td><?= $row->voucher_type ?></td>
-                <td><?= $row->particulars ?></td>
                 <td style="text-align:right;"><?= number_format($row->debit,2) ?></td>
                 <td style="text-align:right;"><?= number_format($row->credit,2) ?></td>
                 <td style="text-align:right;"><?= number_format($running,2) ?></td>

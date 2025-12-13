@@ -121,7 +121,7 @@
     <div class="row">
         <div class="col-12">
             <button type="submit" name="report_type" value="pdf" class="btn btn-primary">PDF</button>
-            <button type="submit" name="report_type" value="excel" class="btn btn-success">Excel</button>
+            <!-- <button type="submit" name="report_type" value="excel" class="btn btn-success">Excel</button> -->
         </div>
     </div>
 </form>

@@ -13,6 +13,7 @@ public function index()
     $data['active']    = "partner";
     $data['title'] = "Partner List"; 
     $data['allPdt']       = $this->main_model->getRecordsByOrg("business_partner");
+    $data['allCgroup']       = $this->main_model->getRecordsByOrg("partner_groups");
     $data['content'] = $this->load->view("partner-list", $data, TRUE);
     $this->load->view('layout/master', $data);
  }
@@ -121,7 +122,7 @@ public function index()
     $data = array();
     $data['active'] = "partner";
     $data['title'] = "Create Partner"; 
-    $data['allCgroup']       = $this->main_model->getRecordsByOrg("partner_group");
+    $data['allCgroup']       = $this->main_model->getRecordsByOrg("partner_groups");
     $data['allRef']          = $this->main_model->getRecordsByOrg("staff");
     $data['content'] = $this->load->view("partner-create", $data, TRUE);
     $this->load->view('layout/master', $data);

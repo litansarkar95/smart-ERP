@@ -10,8 +10,8 @@ public function index()
 {
  
     $data = array();
-    $data['active']    = "purchase";
-    $data['title'] = "Purchase List"; 
+    $data['active']       = "purchase";
+    $data['title']         = "Purchase List"; 
     $data['allPdt']       = $this->purchase_model->getPurchaseList();
     $data['content'] = $this->load->view("purchase-list", $data, TRUE);
     $this->load->view('layout/master', $data);
@@ -117,6 +117,7 @@ public function index()
         "organization_id"            => $this->session->userdata('loggedin_org_id'),
         "branch_id"                  => $this->session->userdata('loggedin_branch_id'), 
         "voucher_type"               => 'Purchase',  
+        "invoice_no"                 => $invoice_no, 
         "purchase_invoice_id"        => $purchase_id,   
         "party_id"                   => $customer_id,   
         "account_name"               => 'Supplier Purchase', 
@@ -140,6 +141,7 @@ public function index()
         "organization_id"            => $this->session->userdata('loggedin_org_id'),
         "branch_id"                  => $this->session->userdata('loggedin_branch_id'), 
         "voucher_type"               => 'Supplier Payment',  
+        "invoice_no"                 => $invoice_no, 
         "purchase_invoice_id"        => $purchase_id,   
         "party_id"                   => $customer_id,   
         "account_name"               => 'Supplier Account', 
@@ -165,6 +167,7 @@ public function index()
         "organization_id"            => $this->session->userdata('loggedin_org_id'),
         "branch_id"                  => $this->session->userdata('loggedin_branch_id'), 
         "voucher_type"               => 'Supplier Rebate',  
+        "invoice_no"                 => $invoice_no, 
         "purchase_invoice_id"        => $purchase_id,   
         "party_id"                   => $customer_id,   
         "account_name"               => 'Rebate', 
@@ -515,7 +518,7 @@ public function index()
     $data['allPro']         = $this->main_model->getRecordsByOrg("products");
     $data['allSuplier']     = $this->purchase_model->getSuplier();
     $data['allPayment']         = $this->main_model->getRecordsByOrg("payment_method");
-    $data['allGroup']       = $this->main_model->getRecordsByOrg("partner_group");
+    $data['allGroup']       = $this->main_model->getRecordsByOrg("partner_groups");
     // inv 
     $int_no = $this->purchase_model->number_generator();
   	$invoice_no = 'GRN-'.str_pad($int_no,4,"0",STR_PAD_LEFT);

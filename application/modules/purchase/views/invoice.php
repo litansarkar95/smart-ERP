@@ -306,6 +306,10 @@ if(isset($allPdt)){
                 <div class="label">Less Discount</div>
                 <div class="value"><?php echo $pdt->total_discount; ?></div>
             </div>
+             <div class="summary-row small">
+                <div class="label">Less Rebate</div>
+                <div class="value"><?php echo $pdt->totalRebate; ?></div>
+            </div>
 
             <!-- <div class="summary-row small">
                 <div class="label">Add VAT</div>

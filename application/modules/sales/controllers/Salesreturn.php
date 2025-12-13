@@ -194,6 +194,7 @@ if($item->serial_type == 'common') {
         "organization_id"            => $this->session->userdata('loggedin_org_id'),
         "branch_id"                  => $this->session->userdata('loggedin_branch_id'), 
         "voucher_type"               => 'Sales Return',  
+        'invoice_no'                 => $invoice_no,
         "sales_return_id"            => $sales_return_id,   
         "party_id"                   => $customer_id,   
         "account_name"               => 'Customer Sales Return', 
@@ -217,7 +218,8 @@ if($item->serial_type == 'common') {
         $total_pay_data = array(   
         "organization_id"            => $this->session->userdata('loggedin_org_id'),
         "branch_id"                  => $this->session->userdata('loggedin_branch_id'), 
-        "voucher_type"               => 'Sales Return Payment',  
+        "voucher_type"               => 'Sales Return Payment', 
+        'invoice_no'                 => $invoice_no, 
         "sales_return_id"            => $sales_return_id,   
         "party_id"                   => $customer_id,   
         "account_name"               => 'Customer Account', 

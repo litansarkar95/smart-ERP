@@ -22,7 +22,7 @@ class Preturn extends MX_Controller
     $data['allPro']         = $this->main_model->getRecordsByOrg("products");
     $data['allSuplier']     = $this->purchase_model->getSuplier();
     $data['allPayment']     = $this->main_model->getRecordsByOrg("payment_method");
-    $data['allGroup']       = $this->main_model->getRecordsByOrg("partner_group");
+    $data['allGroup']       = $this->main_model->getRecordsByOrg("partner_groups");
     // inv 
 
     $data['content']        = $this->load->view("purchase-return-create", $data, TRUE);
@@ -213,6 +213,7 @@ public function save_sales_return()
         "organization_id"            => $this->session->userdata('loggedin_org_id'),
         "branch_id"                  => $this->session->userdata('loggedin_branch_id'), 
         "voucher_type"               => 'Purchase Return',  
+        'invoice_no'             => $invoice_no,
         "purchase_return_id"         => $purchase_return_id,   
         "party_id"                   => $supplier_id,   
         "account_name"               => 'Supplier Purchase Return', 
@@ -237,6 +238,7 @@ public function save_sales_return()
         "organization_id"            => $this->session->userdata('loggedin_org_id'),
         "branch_id"                  => $this->session->userdata('loggedin_branch_id'), 
         "voucher_type"               => 'Purchase Return Payment',  
+        'invoice_no'             => $invoice_no,
         "purchase_return_id"         => $purchase_return_id,   
         "party_id"                   => $supplier_id,   
         "account_name"               => 'Supplier Account', 

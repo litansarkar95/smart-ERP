@@ -65,7 +65,7 @@ public function get_serial_items_by_product($product_id, $invoice_id, $batch_num
     // Get all items for this batch
     // =========================
     $batch_items = $this->db
-        ->select("sa.id, sa.batch_number, sa.qty_sold, sa.qty_returned, sa.sales_price, sa.serial_type, sa.customer_id, products.name as product_name")
+        ->select("sa.id, sa.batch_number, sa.product_id ,sa.qty_sold, sa.qty_returned, sa.sales_price, sa.serial_type, sa.customer_id, products.name as product_name")
         ->from("sales_item_batch_profit_loss sa")
         ->join("products", "products.id = sa.product_id", "left")
         ->where("sa.batch_number", $batch_number)
@@ -85,13 +85,13 @@ public function get_serial_items_by_product($product_id, $invoice_id, $batch_num
         if (!isset($grouped[$key])) {
             $grouped[$key] = [
                 "id" => $b->id,
-                "product_id" => $product_id,
+                "product_id" => $b->product_id,
                 "product_name" => $b->product_name,
                 "serial_type" => $b->serial_type,
                 "serial" => ($b->serial_type === 'unique') ? $b->batch_number : "",
                 "batch_number" => $b->batch_number,
                 "sales_price" => $b->sales_price,
-                "supplier_id" => $b->customer_id,
+                "customer_id" => $b->customer_id,
                 "available_qty" => 0
             ];
         }
@@ -110,7 +110,7 @@ public function get_serial_items_by_product($product_id, $invoice_id, $batch_num
         $data[] = (object)$item;
     }
 
-    return $data;
+    return $data; 
 }
 
 

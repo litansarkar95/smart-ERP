@@ -4,6 +4,43 @@
   
     padding:10px !important;
 }
+
+@media (max-width: 768px) {
+    .form-control {
+        font-size: 14px;
+        padding: 6px;
+    }
+    .btn-xs {
+        padding: 4px 6px;
+        font-size: 12px;
+    }
+    table th, table td {
+        font-size: 12px;
+    }
+}
+.btn-xs {
+    min-width: 36px;
+    min-height: 36px;
+}
+.serial-item {
+    font-size: 12px;
+    padding: 3px 6px;
+    display: inline-block;
+    margin-bottom: 4px;
+}
+@media (max-width: 768px) {
+    .row > [class*="col-"] {
+        flex: 0 0 100%;
+        max-width: 100%;
+    }
+}
+@media (max-width: 768px) {
+    tfoot input {
+        width: 100%;
+        margin-bottom: 5px;
+    }
+}
+
   </style>
   <!-- Include jQuery UI CSS -->
 <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
@@ -95,7 +132,9 @@
 
     </div>
     <div class="col-md-8">
-          <div class="table-responsive">
+         <div class="table-responsive">
+  <table class="table table-striped table-bordered nowrap table-sm" width="100%">
+
                               <table id="normalinvoice" class="table table-striped table-bordered nowrap gui-products-table table-sm" width="100%" cellspacing="0">
                                 <thead>
                                   <tr>
@@ -181,6 +220,7 @@
                                 </tfoot>
                               </table>
                             </div>
+                             </div>
     </div>
 </div>
 

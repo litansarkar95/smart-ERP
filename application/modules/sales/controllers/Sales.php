@@ -127,6 +127,7 @@ public function index()
         "organization_id"            => $this->session->userdata('loggedin_org_id'),
         "branch_id"                  => $this->session->userdata('loggedin_branch_id'), 
         "voucher_type"               => 'Sales',  
+        "invoice_no"                 => $invoice_no,
         "sales_invoice_id"           => $sales_id,   
         "party_id"                   => $customer_id,   
         "account_name"               => 'Customer Sales', 
@@ -151,6 +152,7 @@ public function index()
         "organization_id"            => $this->session->userdata('loggedin_org_id'),
         "branch_id"                  => $this->session->userdata('loggedin_branch_id'), 
         "voucher_type"               => 'Customer Payment',  
+        "invoice_no"                 => $invoice_no,
         "sales_invoice_id"           => $sales_id,   
         "party_id"                   => $customer_id,   
         "account_name"               => 'Customer Account', 
@@ -362,7 +364,7 @@ public function index()
     $data['allCat']         = $this->main_model->getRecordsByOrg("products_groups");
     $data['allInv']         = $this->main_model->getRecordsByOrg("warehouse");
     $data['allPro']         = $this->sales_model->get_all_products_with_available_stock();
-    $data['allGroup']       = $this->main_model->getRecordsByOrg("partner_group");
+    $data['allGroup']       = $this->main_model->getRecordsByOrg("partner_groups");
     $data['allCustomer']    = $this->sales_model->getCustomer();
     $data['allPayment']     = $this->main_model->getRecordsByOrg("payment_method");
     // inv 
