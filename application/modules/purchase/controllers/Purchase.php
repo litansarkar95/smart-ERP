@@ -935,7 +935,7 @@ public function invoice($id)
     $data['active']       = "order";
     $data['title']        = "Order List"; 
     $data['allPdt']       = $this->purchase_model->getPurchaseList($id);
-    $data['allDets']       = $this->purchase_model->PurchaseItemDetailsList($id);
+    $data['allDets']      = $this->purchase_model->PurchaseItemDetailsList($id);
   // echo "<pre>"; print_r($data['allPdt']);exit();
     $this->load->view('invoice', $data);
  }

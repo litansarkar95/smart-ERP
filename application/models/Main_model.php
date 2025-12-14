@@ -23,4 +23,14 @@ class Main_model extends CI_Model {
     $query = $this->db->get();
     return ($id) ? $query->row() : $query->result();
 } 
+
+
+public function get_branch_by_id($branch_id)
+    {
+        return $this->db
+            ->where('id', $branch_id)
+            ->where('is_active', 1)
+            ->get('branch')
+            ->row();
+    }
 }

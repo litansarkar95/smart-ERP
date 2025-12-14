@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.0
+-- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 13, 2025 at 06:46 PM
--- Server version: 10.4.27-MariaDB
--- PHP Version: 7.4.33
+-- Generation Time: Dec 14, 2025 at 11:41 AM
+-- Server version: 10.4.32-MariaDB
+-- PHP Version: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -54,6 +54,125 @@ CREATE TABLE `acc_general_ledger` (
   `update_date` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
+--
+-- Dumping data for table `acc_general_ledger`
+--
+
+INSERT INTO `acc_general_ledger` (`id`, `organization_id`, `branch_id`, `voucher_type`, `invoice_no`, `purchase_invoice_id`, `sales_invoice_id`, `purchase_return_id`, `sales_return_id`, `party_id`, `account_name`, `particulars`, `date`, `debit`, `credit`, `gl_date`, `acc_coa_head_id`, `payment_method`, `remarks`, `is_active`, `create_user`, `create_date`, `update_user`, `update_date`) VALUES
+(366, 3, 1, 'Purchase', 'GRN-0001', 171, 0, 0, 0, 0, 'Supplier Purchase', 'Purchase for order', '2025-12-14', 0.00, 0.00, 1765691776, 0, 0, 'Purchase order ', 1, 17, 1765691776, 0, 0),
+(367, 3, 1, 'Purchase', 'GRN-0001', 172, 0, 0, 0, 0, 'Supplier Purchase', 'Purchase for order', '2025-12-14', 0.00, 0.00, 1765691815, 0, 0, 'Purchase order ', 1, 17, 1765691815, 0, 0),
+(368, 3, 1, 'Purchase', 'GRN-0002', 173, 0, 0, 0, 0, 'Supplier Purchase', 'Purchase for order', '2025-12-14', 0.00, 0.00, 1765691823, 0, 0, 'Purchase order ', 1, 17, 1765691823, 0, 0),
+(369, 3, 1, 'Purchase', 'GRN-0003', 174, 0, 0, 0, 0, 'Supplier Purchase', 'Purchase for order', '2025-12-14', 0.00, 0.00, 1765691830, 0, 0, 'Purchase order ', 1, 17, 1765691830, 0, 0),
+(370, 3, 1, 'Purchase', 'GRN-0004', 175, 0, 0, 0, 0, 'Supplier Purchase', 'Purchase for order', '2025-12-14', 0.00, 0.00, 1765691842, 0, 0, 'Purchase order ', 1, 17, 1765691842, 0, 0),
+(371, 3, 1, 'Purchase', 'GRN-0005', 176, 0, 0, 0, 0, 'Supplier Purchase', 'Purchase for order', '2025-12-14', 0.00, 0.00, 1765691853, 0, 0, 'Purchase order ', 1, 17, 1765691853, 0, 0),
+(372, 3, 1, 'Purchase', 'GRN-0006', 177, 0, 0, 0, 0, 'Supplier Purchase', 'Purchase for order', '2025-12-14', 0.00, 0.00, 1765691870, 0, 0, 'Purchase order ', 1, 17, 1765691870, 0, 0),
+(373, 3, 1, 'Purchase', 'GRN-0007', 178, 0, 0, 0, 0, 'Supplier Purchase', 'Purchase for order', '2025-12-14', 0.00, 0.00, 1765691883, 0, 0, 'Purchase order ', 1, 17, 1765691883, 0, 0),
+(374, 3, 1, 'Purchase', 'GRN-0008', 179, 0, 0, 0, 0, 'Supplier Purchase', 'Purchase for order', '2025-12-14', 0.00, 0.00, 1765691932, 0, 0, 'Purchase order ', 1, 17, 1765691932, 0, 0),
+(375, 3, 1, 'Purchase', 'GRN-0009', 180, 0, 0, 0, 0, 'Supplier Purchase', 'Purchase for order', '2025-12-14', 0.00, 0.00, 1765691933, 0, 0, 'Purchase order ', 1, 17, 1765691933, 0, 0),
+(376, 3, 1, 'Purchase', 'GRN-0010', 181, 0, 0, 0, 0, 'Supplier Purchase', 'Purchase for order', '2025-12-14', 0.00, 0.00, 1765691933, 0, 0, 'Purchase order ', 1, 17, 1765691933, 0, 0),
+(377, 3, 1, 'Purchase', 'GRN-0011', 182, 0, 0, 0, 0, 'Supplier Purchase', 'Purchase for order', '2025-12-14', 0.00, 0.00, 1765691936, 0, 0, 'Purchase order ', 1, 17, 1765691936, 0, 0),
+(378, 3, 1, 'Purchase', 'GRN-0012', 183, 0, 0, 0, 0, 'Supplier Purchase', 'Purchase for order', '2025-12-14', 0.00, 0.00, 1765691937, 0, 0, 'Purchase order ', 1, 17, 1765691937, 0, 0),
+(379, 3, 1, 'Purchase', 'GRN-0013', 184, 0, 0, 0, 0, 'Supplier Purchase', 'Purchase for order', '2025-12-14', 0.00, 0.00, 1765691937, 0, 0, 'Purchase order ', 1, 17, 1765691937, 0, 0),
+(380, 3, 1, 'Purchase', 'GRN-0014', 185, 0, 0, 0, 0, 'Supplier Purchase', 'Purchase for order', '2025-12-14', 0.00, 0.00, 1765691937, 0, 0, 'Purchase order ', 1, 17, 1765691937, 0, 0),
+(381, 3, 1, 'Purchase', 'GRN-0015', 186, 0, 0, 0, 0, 'Supplier Purchase', 'Purchase for order', '2025-12-14', 0.00, 0.00, 1765691937, 0, 0, 'Purchase order ', 1, 17, 1765691937, 0, 0),
+(382, 3, 1, 'Purchase', 'GRN-0016', 187, 0, 0, 0, 0, 'Supplier Purchase', 'Purchase for order', '2025-12-14', 0.00, 0.00, 1765691938, 0, 0, 'Purchase order ', 1, 17, 1765691938, 0, 0),
+(383, 3, 1, 'Purchase', 'GRN-0017', 188, 0, 0, 0, 0, 'Supplier Purchase', 'Purchase for order', '2025-12-14', 0.00, 0.00, 1765691938, 0, 0, 'Purchase order ', 1, 17, 1765691938, 0, 0),
+(384, 3, 1, 'Purchase', 'GRN-0018', 189, 0, 0, 0, 0, 'Supplier Purchase', 'Purchase for order', '2025-12-14', 0.00, 0.00, 1765691939, 0, 0, 'Purchase order ', 1, 17, 1765691939, 0, 0),
+(385, 3, 1, 'Purchase', 'GRN-0019', 190, 0, 0, 0, 0, 'Supplier Purchase', 'Purchase for order', '2025-12-14', 0.00, 0.00, 1765691939, 0, 0, 'Purchase order ', 1, 17, 1765691939, 0, 0),
+(386, 3, 1, 'Purchase', 'GRN-0020', 191, 0, 0, 0, 0, 'Supplier Purchase', 'Purchase for order', '2025-12-14', 0.00, 0.00, 1765691939, 0, 0, 'Purchase order ', 1, 17, 1765691939, 0, 0),
+(387, 3, 1, 'Purchase', 'GRN-0021', 192, 0, 0, 0, 0, 'Supplier Purchase', 'Purchase for order', '2025-12-14', 0.00, 0.00, 1765691941, 0, 0, 'Purchase order ', 1, 17, 1765691941, 0, 0),
+(388, 3, 1, 'Purchase', 'GRN-0022', 193, 0, 0, 0, 0, 'Supplier Purchase', 'Purchase for order', '2025-12-14', 0.00, 0.00, 1765691941, 0, 0, 'Purchase order ', 1, 17, 1765691941, 0, 0),
+(389, 3, 1, 'Purchase', 'GRN-0023', 194, 0, 0, 0, 0, 'Supplier Purchase', 'Purchase for order', '2025-12-14', 0.00, 0.00, 1765691941, 0, 0, 'Purchase order ', 1, 17, 1765691941, 0, 0),
+(390, 3, 1, 'Purchase', 'GRN-0024', 195, 0, 0, 0, 0, 'Supplier Purchase', 'Purchase for order', '2025-12-14', 0.00, 0.00, 1765691942, 0, 0, 'Purchase order ', 1, 17, 1765691942, 0, 0),
+(391, 3, 1, 'Purchase', 'GRN-0025', 196, 0, 0, 0, 0, 'Supplier Purchase', 'Purchase for order', '2025-12-14', 0.00, 0.00, 1765691942, 0, 0, 'Purchase order ', 1, 17, 1765691942, 0, 0),
+(392, 3, 1, 'Purchase', 'GRN-0026', 197, 0, 0, 0, 0, 'Supplier Purchase', 'Purchase for order', '2025-12-14', 0.00, 0.00, 1765691943, 0, 0, 'Purchase order ', 1, 17, 1765691943, 0, 0),
+(393, 3, 1, 'Purchase', 'GRN-0027', 198, 0, 0, 0, 0, 'Supplier Purchase', 'Purchase for order', '2025-12-14', 0.00, 0.00, 1765691943, 0, 0, 'Purchase order ', 1, 17, 1765691943, 0, 0),
+(394, 3, 1, 'Purchase', 'GRN-0028', 199, 0, 0, 0, 0, 'Supplier Purchase', 'Purchase for order', '2025-12-14', 0.00, 0.00, 1765691944, 0, 0, 'Purchase order ', 1, 17, 1765691944, 0, 0),
+(395, 3, 1, 'Purchase', 'GRN-0029', 200, 0, 0, 0, 0, 'Supplier Purchase', 'Purchase for order', '2025-12-14', 0.00, 0.00, 1765691950, 0, 0, 'Purchase order ', 1, 17, 1765691950, 0, 0),
+(396, 3, 1, 'Purchase', 'GRN-0030', 201, 0, 0, 0, 0, 'Supplier Purchase', 'Purchase for order', '2025-12-14', 0.00, 0.00, 1765691950, 0, 0, 'Purchase order ', 1, 17, 1765691950, 0, 0),
+(397, 3, 1, 'Purchase', 'GRN-0031', 202, 0, 0, 0, 0, 'Supplier Purchase', 'Purchase for order', '2025-12-14', 0.00, 0.00, 1765691951, 0, 0, 'Purchase order ', 1, 17, 1765691951, 0, 0),
+(398, 3, 1, 'Purchase', 'GRN-0032', 203, 0, 0, 0, 0, 'Supplier Purchase', 'Purchase for order', '2025-12-14', 0.00, 0.00, 1765691951, 0, 0, 'Purchase order ', 1, 17, 1765691951, 0, 0),
+(399, 3, 1, 'Purchase', 'GRN-0033', 204, 0, 0, 0, 0, 'Supplier Purchase', 'Purchase for order', '2025-12-14', 0.00, 0.00, 1765691951, 0, 0, 'Purchase order ', 1, 17, 1765691951, 0, 0),
+(400, 3, 1, 'Purchase', 'GRN-0034', 205, 0, 0, 0, 0, 'Supplier Purchase', 'Purchase for order', '2025-12-14', 0.00, 0.00, 1765691952, 0, 0, 'Purchase order ', 1, 17, 1765691952, 0, 0),
+(401, 3, 1, 'Purchase', 'GRN-0035', 206, 0, 0, 0, 0, 'Supplier Purchase', 'Purchase for order', '2025-12-14', 0.00, 0.00, 1765691960, 0, 0, 'Purchase order ', 1, 17, 1765691960, 0, 0),
+(402, 3, 1, 'Purchase', 'GRN-0036', 207, 0, 0, 0, 0, 'Supplier Purchase', 'Purchase for order', '2025-12-14', 0.00, 0.00, 1765691963, 0, 0, 'Purchase order ', 1, 17, 1765691963, 0, 0),
+(403, 3, 1, 'Purchase', 'GRN-0037', 208, 0, 0, 0, 0, 'Supplier Purchase', 'Purchase for order', '2025-12-14', 0.00, 0.00, 1765691964, 0, 0, 'Purchase order ', 1, 17, 1765691964, 0, 0),
+(404, 3, 1, 'Purchase', 'GRN-0038', 209, 0, 0, 0, 0, 'Supplier Purchase', 'Purchase for order', '2025-12-14', 0.00, 0.00, 1765691964, 0, 0, 'Purchase order ', 1, 17, 1765691964, 0, 0),
+(405, 3, 1, 'Purchase', 'GRN-0039', 210, 0, 0, 0, 0, 'Supplier Purchase', 'Purchase for order', '2025-12-14', 0.00, 0.00, 1765691964, 0, 0, 'Purchase order ', 1, 17, 1765691964, 0, 0),
+(406, 3, 1, 'Purchase', 'GRN-0040', 211, 0, 0, 0, 0, 'Supplier Purchase', 'Purchase for order', '2025-12-14', 0.00, 0.00, 1765691965, 0, 0, 'Purchase order ', 1, 17, 1765691965, 0, 0),
+(407, 3, 1, 'Purchase', 'GRN-0041', 212, 0, 0, 0, 0, 'Supplier Purchase', 'Purchase for order', '2025-12-14', 0.00, 0.00, 1765691965, 0, 0, 'Purchase order ', 1, 17, 1765691965, 0, 0),
+(408, 3, 1, 'Purchase', 'GRN-0042', 213, 0, 0, 0, 0, 'Supplier Purchase', 'Purchase for order', '2025-12-14', 0.00, 0.00, 1765691965, 0, 0, 'Purchase order ', 1, 17, 1765691965, 0, 0),
+(409, 3, 1, 'Purchase', 'GRN-0043', 214, 0, 0, 0, 0, 'Supplier Purchase', 'Purchase for order', '2025-12-14', 0.00, 0.00, 1765691966, 0, 0, 'Purchase order ', 1, 17, 1765691966, 0, 0),
+(410, 3, 1, 'Purchase', 'GRN-0044', 215, 0, 0, 0, 0, 'Supplier Purchase', 'Purchase for order', '2025-12-14', 0.00, 0.00, 1765691966, 0, 0, 'Purchase order ', 1, 17, 1765691966, 0, 0),
+(411, 3, 1, 'Purchase', 'GRN-0045', 216, 0, 0, 0, 0, 'Supplier Purchase', 'Purchase for order', '2025-12-14', 0.00, 0.00, 1765691967, 0, 0, 'Purchase order ', 1, 17, 1765691967, 0, 0),
+(412, 3, 1, 'Purchase', 'GRN-0046', 217, 0, 0, 0, 0, 'Supplier Purchase', 'Purchase for order', '2025-12-14', 0.00, 0.00, 1765691967, 0, 0, 'Purchase order ', 1, 17, 1765691967, 0, 0),
+(413, 3, 1, 'Purchase', 'GRN-0047', 218, 0, 0, 0, 0, 'Supplier Purchase', 'Purchase for order', '2025-12-14', 0.00, 0.00, 1765691968, 0, 0, 'Purchase order ', 1, 17, 1765691968, 0, 0),
+(414, 3, 1, 'Purchase', 'GRN-0048', 219, 0, 0, 0, 0, 'Supplier Purchase', 'Purchase for order', '2025-12-14', 0.00, 0.00, 1765691968, 0, 0, 'Purchase order ', 1, 17, 1765691968, 0, 0),
+(415, 3, 1, 'Purchase', 'GRN-0049', 220, 0, 0, 0, 0, 'Supplier Purchase', 'Purchase for order', '2025-12-14', 0.00, 0.00, 1765691968, 0, 0, 'Purchase order ', 1, 17, 1765691968, 0, 0),
+(416, 3, 1, 'Purchase', 'GRN-0050', 221, 0, 0, 0, 0, 'Supplier Purchase', 'Purchase for order', '2025-12-14', 0.00, 0.00, 1765691969, 0, 0, 'Purchase order ', 1, 17, 1765691969, 0, 0),
+(417, 3, 1, 'Purchase', 'GRN-0051', 222, 0, 0, 0, 0, 'Supplier Purchase', 'Purchase for order', '2025-12-14', 0.00, 0.00, 1765691969, 0, 0, 'Purchase order ', 1, 17, 1765691969, 0, 0),
+(418, 3, 1, 'Purchase', 'GRN-0052', 223, 0, 0, 0, 0, 'Supplier Purchase', 'Purchase for order', '2025-12-14', 0.00, 0.00, 1765691969, 0, 0, 'Purchase order ', 1, 17, 1765691969, 0, 0),
+(419, 3, 1, 'Purchase', 'GRN-0053', 224, 0, 0, 0, 0, 'Supplier Purchase', 'Purchase for order', '2025-12-14', 0.00, 0.00, 1765691970, 0, 0, 'Purchase order ', 1, 17, 1765691970, 0, 0),
+(420, 3, 1, 'Purchase', 'GRN-0054', 225, 0, 0, 0, 0, 'Supplier Purchase', 'Purchase for order', '2025-12-14', 0.00, 0.00, 1765691970, 0, 0, 'Purchase order ', 1, 17, 1765691970, 0, 0),
+(421, 3, 1, 'Purchase', 'GRN-0055', 226, 0, 0, 0, 0, 'Supplier Purchase', 'Purchase for order', '2025-12-14', 0.00, 0.00, 1765691972, 0, 0, 'Purchase order ', 1, 17, 1765691972, 0, 0),
+(422, 3, 1, 'Purchase', 'GRN-0056', 227, 0, 0, 0, 0, 'Supplier Purchase', 'Purchase for order', '2025-12-14', 0.00, 0.00, 1765691974, 0, 0, 'Purchase order ', 1, 17, 1765691974, 0, 0),
+(423, 3, 1, 'Purchase', 'GRN-0057', 228, 0, 0, 0, 0, 'Supplier Purchase', 'Purchase for order', '2025-12-14', 0.00, 0.00, 1765691980, 0, 0, 'Purchase order ', 1, 17, 1765691980, 0, 0),
+(424, 3, 1, 'Purchase', 'GRN-0058', 229, 0, 0, 0, 0, 'Supplier Purchase', 'Purchase for order', '2025-12-14', 0.00, 0.00, 1765691982, 0, 0, 'Purchase order ', 1, 17, 1765691982, 0, 0),
+(425, 3, 1, 'Purchase', 'GRN-0059', 230, 0, 0, 0, 0, 'Supplier Purchase', 'Purchase for order', '2025-12-14', 0.00, 0.00, 1765691985, 0, 0, 'Purchase order ', 1, 17, 1765691985, 0, 0),
+(426, 3, 1, 'Purchase', 'GRN-0060', 231, 0, 0, 0, 0, 'Supplier Purchase', 'Purchase for order', '2025-12-14', 0.00, 0.00, 1765691987, 0, 0, 'Purchase order ', 1, 17, 1765691987, 0, 0),
+(427, 3, 1, 'Purchase', 'GRN-0061', 232, 0, 0, 0, 0, 'Supplier Purchase', 'Purchase for order', '2025-12-14', 0.00, 0.00, 1765691988, 0, 0, 'Purchase order ', 1, 17, 1765691988, 0, 0),
+(428, 3, 1, 'Purchase', 'GRN-0062', 233, 0, 0, 0, 0, 'Supplier Purchase', 'Purchase for order', '2025-12-14', 0.00, 0.00, 1765691990, 0, 0, 'Purchase order ', 1, 17, 1765691990, 0, 0),
+(429, 3, 1, 'Purchase', 'GRN-0063', 234, 0, 0, 0, 0, 'Supplier Purchase', 'Purchase for order', '2025-12-14', 0.00, 0.00, 1765691993, 0, 0, 'Purchase order ', 1, 17, 1765691993, 0, 0),
+(430, 3, 1, 'Purchase', 'GRN-0064', 235, 0, 0, 0, 0, 'Supplier Purchase', 'Purchase for order', '2025-12-14', 0.00, 0.00, 1765691993, 0, 0, 'Purchase order ', 1, 17, 1765691993, 0, 0),
+(431, 3, 1, 'Purchase', 'GRN-0065', 236, 0, 0, 0, 0, 'Supplier Purchase', 'Purchase for order', '2025-12-14', 0.00, 0.00, 1765691995, 0, 0, 'Purchase order ', 1, 17, 1765691995, 0, 0),
+(432, 3, 1, 'Purchase', 'GRN-0066', 237, 0, 0, 0, 0, 'Supplier Purchase', 'Purchase for order', '2025-12-14', 0.00, 0.00, 1765691996, 0, 0, 'Purchase order ', 1, 17, 1765691996, 0, 0),
+(433, 3, 1, 'Purchase', 'GRN-0067', 238, 0, 0, 0, 0, 'Supplier Purchase', 'Purchase for order', '2025-12-14', 0.00, 0.00, 1765692000, 0, 0, 'Purchase order ', 1, 17, 1765692000, 0, 0),
+(434, 3, 1, 'Purchase', 'GRN-0068', 239, 0, 0, 0, 0, 'Supplier Purchase', 'Purchase for order', '2025-12-14', 0.00, 0.00, 1765692000, 0, 0, 'Purchase order ', 1, 17, 1765692000, 0, 0),
+(435, 3, 1, 'Purchase', 'GRN-0069', 240, 0, 0, 0, 0, 'Supplier Purchase', 'Purchase for order', '2025-12-14', 0.00, 0.00, 1765692001, 0, 0, 'Purchase order ', 1, 17, 1765692001, 0, 0),
+(436, 3, 1, 'Purchase', 'GRN-0070', 241, 0, 0, 0, 0, 'Supplier Purchase', 'Purchase for order', '2025-12-14', 0.00, 0.00, 1765692001, 0, 0, 'Purchase order ', 1, 17, 1765692001, 0, 0),
+(437, 3, 1, 'Purchase', 'GRN-0071', 242, 0, 0, 0, 0, 'Supplier Purchase', 'Purchase for order', '2025-12-14', 0.00, 0.00, 1765692002, 0, 0, 'Purchase order ', 1, 17, 1765692002, 0, 0),
+(438, 3, 1, 'Purchase', 'GRN-0072', 243, 0, 0, 0, 0, 'Supplier Purchase', 'Purchase for order', '2025-12-14', 0.00, 0.00, 1765692002, 0, 0, 'Purchase order ', 1, 17, 1765692002, 0, 0),
+(439, 3, 1, 'Purchase', 'GRN-0073', 244, 0, 0, 0, 0, 'Supplier Purchase', 'Purchase for order', '2025-12-14', 0.00, 0.00, 1765692002, 0, 0, 'Purchase order ', 1, 17, 1765692002, 0, 0),
+(440, 3, 1, 'Purchase', 'GRN-0074', 245, 0, 0, 0, 0, 'Supplier Purchase', 'Purchase for order', '2025-12-14', 0.00, 0.00, 1765692003, 0, 0, 'Purchase order ', 1, 17, 1765692003, 0, 0),
+(441, 3, 1, 'Purchase', 'GRN-0075', 246, 0, 0, 0, 0, 'Supplier Purchase', 'Purchase for order', '2025-12-14', 0.00, 0.00, 1765692003, 0, 0, 'Purchase order ', 1, 17, 1765692003, 0, 0),
+(442, 3, 1, 'Purchase', 'GRN-0076', 247, 0, 0, 0, 0, 'Supplier Purchase', 'Purchase for order', '2025-12-14', 0.00, 0.00, 1765692003, 0, 0, 'Purchase order ', 1, 17, 1765692003, 0, 0),
+(443, 3, 1, 'Purchase', 'GRN-0077', 248, 0, 0, 0, 0, 'Supplier Purchase', 'Purchase for order', '2025-12-14', 0.00, 0.00, 1765692004, 0, 0, 'Purchase order ', 1, 17, 1765692004, 0, 0),
+(444, 3, 1, 'Purchase', 'GRN-0078', 249, 0, 0, 0, 0, 'Supplier Purchase', 'Purchase for order', '2025-12-14', 0.00, 0.00, 1765692005, 0, 0, 'Purchase order ', 1, 17, 1765692005, 0, 0),
+(445, 3, 1, 'Purchase', 'GRN-0079', 250, 0, 0, 0, 0, 'Supplier Purchase', 'Purchase for order', '2025-12-14', 0.00, 0.00, 1765692006, 0, 0, 'Purchase order ', 1, 17, 1765692006, 0, 0),
+(446, 3, 1, 'Purchase', 'GRN-0080', 251, 0, 0, 0, 0, 'Supplier Purchase', 'Purchase for order', '2025-12-14', 0.00, 0.00, 1765692007, 0, 0, 'Purchase order ', 1, 17, 1765692007, 0, 0),
+(447, 3, 1, 'Purchase', 'GRN-0081', 252, 0, 0, 0, 0, 'Supplier Purchase', 'Purchase for order', '2025-12-14', 0.00, 0.00, 1765692009, 0, 0, 'Purchase order ', 1, 17, 1765692009, 0, 0),
+(448, 3, 1, 'Purchase', 'GRN-0082', 253, 0, 0, 0, 0, 'Supplier Purchase', 'Purchase for order', '2025-12-14', 0.00, 0.00, 1765692013, 0, 0, 'Purchase order ', 1, 17, 1765692013, 0, 0),
+(449, 3, 1, 'Purchase', 'GRN-0083', 254, 0, 0, 0, 0, 'Supplier Purchase', 'Purchase for order', '2025-12-14', 0.00, 0.00, 1765692014, 0, 0, 'Purchase order ', 1, 17, 1765692014, 0, 0),
+(450, 3, 1, 'Purchase', 'GRN-0084', 255, 0, 0, 0, 0, 'Supplier Purchase', 'Purchase for order', '2025-12-14', 0.00, 0.00, 1765692014, 0, 0, 'Purchase order ', 1, 17, 1765692014, 0, 0),
+(451, 3, 1, 'Purchase', 'GRN-0085', 256, 0, 0, 0, 0, 'Supplier Purchase', 'Purchase for order', '2025-12-14', 0.00, 0.00, 1765692015, 0, 0, 'Purchase order ', 1, 17, 1765692015, 0, 0),
+(452, 3, 1, 'Purchase', 'GRN-0086', 257, 0, 0, 0, 0, 'Supplier Purchase', 'Purchase for order', '2025-12-14', 0.00, 0.00, 1765692015, 0, 0, 'Purchase order ', 1, 17, 1765692015, 0, 0),
+(453, 3, 1, 'Purchase', 'GRN-0087', 258, 0, 0, 0, 0, 'Supplier Purchase', 'Purchase for order', '2025-12-14', 0.00, 0.00, 1765692016, 0, 0, 'Purchase order ', 1, 17, 1765692016, 0, 0),
+(454, 3, 1, 'Purchase', 'GRN-0088', 259, 0, 0, 0, 0, 'Supplier Purchase', 'Purchase for order', '2025-12-14', 0.00, 0.00, 1765692017, 0, 0, 'Purchase order ', 1, 17, 1765692017, 0, 0),
+(455, 3, 1, 'Purchase', 'GRN-0089', 260, 0, 0, 0, 0, 'Supplier Purchase', 'Purchase for order', '2025-12-14', 0.00, 0.00, 1765692019, 0, 0, 'Purchase order ', 1, 17, 1765692019, 0, 0),
+(456, 3, 1, 'Purchase', 'GRN-0090', 261, 0, 0, 0, 0, 'Supplier Purchase', 'Purchase for order', '2025-12-14', 0.00, 0.00, 1765692020, 0, 0, 'Purchase order ', 1, 17, 1765692020, 0, 0),
+(457, 3, 1, 'Purchase', 'GRN-0091', 262, 0, 0, 0, 0, 'Supplier Purchase', 'Purchase for order', '2025-12-14', 0.00, 0.00, 1765692020, 0, 0, 'Purchase order ', 1, 17, 1765692020, 0, 0),
+(458, 3, 1, 'Purchase', 'GRN-0092', 263, 0, 0, 0, 0, 'Supplier Purchase', 'Purchase for order', '2025-12-14', 0.00, 0.00, 1765692022, 0, 0, 'Purchase order ', 1, 17, 1765692022, 0, 0),
+(459, 3, 1, 'Purchase', 'GRN-0093', 264, 0, 0, 0, 0, 'Supplier Purchase', 'Purchase for order', '2025-12-14', 0.00, 0.00, 1765692023, 0, 0, 'Purchase order ', 1, 17, 1765692023, 0, 0),
+(460, 3, 1, 'Purchase', 'GRN-0094', 265, 0, 0, 0, 0, 'Supplier Purchase', 'Purchase for order', '2025-12-14', 0.00, 0.00, 1765692023, 0, 0, 'Purchase order ', 1, 17, 1765692023, 0, 0),
+(461, 3, 1, 'Purchase', 'GRN-0095', 266, 0, 0, 0, 0, 'Supplier Purchase', 'Purchase for order', '2025-12-14', 0.00, 0.00, 1765692023, 0, 0, 'Purchase order ', 1, 17, 1765692023, 0, 0),
+(462, 3, 1, 'Purchase', 'GRN-0096', 267, 0, 0, 0, 0, 'Supplier Purchase', 'Purchase for order', '2025-12-14', 0.00, 0.00, 1765692024, 0, 0, 'Purchase order ', 1, 17, 1765692024, 0, 0),
+(463, 3, 1, 'Purchase', 'GRN-0097', 268, 0, 0, 0, 0, 'Supplier Purchase', 'Purchase for order', '2025-12-14', 0.00, 0.00, 1765692024, 0, 0, 'Purchase order ', 1, 17, 1765692024, 0, 0),
+(464, 3, 1, 'Purchase', 'GRN-0098', 269, 0, 0, 0, 0, 'Supplier Purchase', 'Purchase for order', '2025-12-14', 0.00, 0.00, 1765692026, 0, 0, 'Purchase order ', 1, 17, 1765692026, 0, 0),
+(465, 3, 1, 'Purchase', 'GRN-0099', 270, 0, 0, 0, 0, 'Supplier Purchase', 'Purchase for order', '2025-12-14', 0.00, 0.00, 1765692026, 0, 0, 'Purchase order ', 1, 17, 1765692026, 0, 0),
+(466, 3, 1, 'Purchase', 'GRN-0100', 271, 0, 0, 0, 0, 'Supplier Purchase', 'Purchase for order', '2025-12-14', 0.00, 0.00, 1765692026, 0, 0, 'Purchase order ', 1, 17, 1765692026, 0, 0),
+(467, 3, 1, 'Purchase', 'GRN-0101', 272, 0, 0, 0, 0, 'Supplier Purchase', 'Purchase for order', '2025-12-14', 0.00, 0.00, 1765692027, 0, 0, 'Purchase order ', 1, 17, 1765692027, 0, 0),
+(468, 3, 1, 'Purchase', 'GRN-0102', 273, 0, 0, 0, 0, 'Supplier Purchase', 'Purchase for order', '2025-12-14', 0.00, 0.00, 1765692032, 0, 0, 'Purchase order ', 1, 17, 1765692032, 0, 0),
+(469, 3, 1, 'Purchase', 'GRN-0001', 274, 0, 0, 0, 1, 'Supplier Purchase', 'Purchase for order', '2025-12-14', 0.00, 700.00, 1765692463, 0, 0, 'Purchase order ', 1, 17, 1765692463, 0, 0),
+(470, 3, 1, 'Purchase', 'GRN-0002', 275, 0, 0, 0, 1, 'Supplier Purchase', 'Purchase for order', '2025-12-14', 0.00, 700.00, 1765692480, 0, 0, 'Purchase order ', 1, 17, 1765692480, 0, 0),
+(471, 3, 1, 'Purchase', 'GRN-0003', 276, 0, 0, 0, 1, 'Supplier Purchase', 'Purchase for order', '2025-12-14', 0.00, 700.00, 1765692513, 0, 0, 'Purchase order ', 1, 17, 1765692513, 0, 0),
+(472, 3, 1, 'Purchase', 'GRN-0004', 277, 0, 0, 0, 1, 'Supplier Purchase', 'Purchase for order', '2025-12-14', 0.00, 1000.00, 1765692793, 0, 0, 'Purchase order ', 1, 17, 1765692793, 0, 0),
+(473, 3, 1, 'Purchase', 'GRN-0005', 278, 0, 0, 0, 1, 'Supplier Purchase', 'Purchase for order', '2025-12-14', 0.00, 1000.00, 1765692808, 0, 0, 'Purchase order ', 1, 17, 1765692808, 0, 0),
+(474, 3, 1, 'Purchase', 'GRN-0006', 279, 0, 0, 0, 1, 'Supplier Purchase', 'Purchase for order', '2025-12-14', 0.00, 2600.00, 1765693107, 0, 0, 'Purchase order ', 1, 17, 1765693107, 0, 0),
+(475, 3, 1, 'Purchase', 'GRN-0007', 280, 0, 0, 0, 1, 'Supplier Purchase', 'Purchase for order', '2025-12-14', 0.00, 400.00, 1765703026, 0, 0, 'Purchase order ', 1, 17, 1765703026, 0, 0),
+(476, 3, 1, 'Supplier Rebate', 'GRN-0007', 280, 0, 0, 0, 1, 'Rebate', 'Rebate for order', '2025-12-14', 100.00, 0.00, 1765703026, 0, 0, 'Payment for order with rebate and discount ', 1, 17, 1765703026, 0, 0),
+(477, 3, 1, 'Purchase', 'GRN-0008', 281, 0, 0, 0, 1, 'Supplier Purchase', 'Purchase for order', '2025-12-14', 0.00, 1400.00, 1765703231, 0, 0, 'Purchase order ', 1, 17, 1765703231, 0, 0),
+(478, 3, 1, 'Sales', 'INV-0001', 0, 113, 0, 0, 1, 'Customer Sales', 'Sales for order', '2025-12-14', 800.00, 0.00, 1765648800, 0, 0, 'Sales order ', 1, 17, 1765703343, 0, 0);
+
 -- --------------------------------------------------------
 
 --
@@ -77,7 +196,7 @@ CREATE TABLE `branch` (
 --
 
 INSERT INTO `branch` (`id`, `organization_id`, `name`, `mobile_no`, `email`, `address`, `picture`, `is_active`, `create_date`) VALUES
-(1, 3, 'Mamter IT Dhaka', '0192726252', '', 'Dhaka', '0.png', 1, 1761839060);
+(1, 3, 'Master IT Solution', '01840325244, 01842325244', 'masterit138044@gmail.com', 'Cumilla New Market, 5th Floor, Kandirpar, Cumilla, Bangladesh', '0.png', 1, 1761839060);
 
 -- --------------------------------------------------------
 
@@ -143,8 +262,8 @@ CREATE TABLE `business_partner` (
 --
 
 INSERT INTO `business_partner` (`id`, `organization_id`, `name`, `partner_type`, `contact_no`, `email`, `address`, `credit_limit`, `payment_terms`, `sales_representative`, `region`, `business_category`, `delivery_method`, `notes`, `is_active`, `customer_group_id`, `reference_id`, `opening_balance_type`, `opening_balance`, `current_balance`, `create_user`, `create_date`, `created_at`, `updated_at`) VALUES
-(1, 3, 'Cash', 'Both', '0', '', 'Cash', NULL, NULL, NULL, NULL, NULL, NULL, '', 1, 0, 10, '', '0.00', '0.00', 17, 1764140186, '2025-11-26 06:56:26', '2025-12-13 10:57:32'),
-(38, 3, 'litan', 'Both', '444', '444', '4444444444444444', NULL, NULL, NULL, NULL, NULL, NULL, '44', 1, 0, 0, '', '0.00', '0.00', 17, 1765645867, '2025-12-13 17:11:07', '2025-12-13 17:11:07');
+(1, 3, 'Cash', 'Both', '0', '', 'Cash', NULL, NULL, NULL, NULL, NULL, NULL, '', 1, 0, 10, '', 0.00, -7700.00, 17, 1764140186, '2025-11-26 06:56:26', '2025-12-14 09:09:04'),
+(38, 3, 'litan', 'Both', '444', '444', '4444444444444444', NULL, NULL, NULL, NULL, NULL, NULL, '44', 1, 0, 0, '', 0.00, 0.00, 17, 1765645867, '2025-12-13 17:11:07', '2025-12-13 17:11:07');
 
 -- --------------------------------------------------------
 
@@ -171,6 +290,18 @@ CREATE TABLE `inv_stock_history` (
   `create_user` int(11) NOT NULL,
   `create_date` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+--
+-- Dumping data for table `inv_stock_history`
+--
+
+INSERT INTO `inv_stock_history` (`id`, `organization_id`, `branch_id`, `purchase_id`, `store_id`, `product_id`, `previous_purchase_price`, `previous_rebate`, `previous_sales_price`, `previous_quanity`, `purchase_price`, `rebate`, `sales_price`, `quanity`, `is_active`, `create_user`, `create_date`) VALUES
+(129, 3, 1, 278, 1, 8, 0.00, 0.00, 0.00, 0, 500.00, 0.00, 800.00, 2, 1, 17, 1765692808),
+(130, 3, 1, 279, 1, 9, 0.00, 0.00, 0.00, 0, 700.00, 0.00, 44.00, 2, 1, 17, 1765693109),
+(131, 3, 1, 279, 1, 8, 500.00, 0.00, 800.00, 2, 500.00, 0.00, 800.00, 2, 1, 17, 1765693109),
+(132, 3, 1, 279, 1, 8, 500.00, 0.00, 800.00, 4, 200.00, 0.00, 800.00, 1, 1, 17, 1765693109),
+(133, 3, 1, 280, 1, 8, 200.00, 0.00, 800.00, 5, 400.00, 100.00, 800.00, 1, 1, 17, 1765703027),
+(134, 3, 1, 281, 1, 9, 700.00, 0.00, 44.00, 2, 700.00, 0.00, 44.00, 2, 1, 17, 1765703233);
 
 -- --------------------------------------------------------
 
@@ -200,6 +331,16 @@ CREATE TABLE `inv_stock_item_batch` (
   `update_user` int(11) NOT NULL,
   `update_date` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+--
+-- Dumping data for table `inv_stock_item_batch`
+--
+
+INSERT INTO `inv_stock_item_batch` (`id`, `organization_id`, `branch_id`, `purchase_id`, `supplier_id`, `store_id`, `product_id`, `purchase_price`, `rebate`, `sales_price`, `quanity`, `is_available`, `serial_type`, `batch_number`, `qty_returned`, `is_returned`, `create_user`, `create_date`, `update_user`, `update_date`) VALUES
+(32, 3, 1, 278, 1, 1, 8, 500.00, 0.00, 800.00, 1, 1, 'common', 'wwww', 0, 0, 17, 1765692808, 17, 1765703344),
+(33, 3, 1, 279, 1, 1, 8, 500.00, 0.00, 800.00, 2, 1, 'common', 'aaa', 0, 0, 17, 1765693107, 0, 0),
+(34, 3, 1, 279, 1, 1, 8, 200.00, 0.00, 800.00, 1, 1, 'common', 'ccc', 0, 0, 17, 1765693107, 0, 0),
+(35, 3, 1, 280, 1, 1, 8, 400.00, 100.00, 800.00, 1, 1, 'common', 'qqqqqqqq', 0, 0, 17, 1765703026, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -233,6 +374,16 @@ CREATE TABLE `inv_stock_item_serial` (
   `update_date` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
+--
+-- Dumping data for table `inv_stock_item_serial`
+--
+
+INSERT INTO `inv_stock_item_serial` (`id`, `organization_id`, `branch_id`, `purchase_id`, `supplier_id`, `store_id`, `product_id`, `purchase_date`, `purchase_price`, `rebate`, `sales_price`, `quanity`, `is_available`, `serial_type`, `serial`, `warrenty`, `is_returned`, `qty_returned`, `warrenty_days`, `create_user`, `create_date`, `update_user`, `update_date`) VALUES
+(214, 3, 1, 279, 1, 1, 9, 1765648800, 700, 0.00, 44, 1, 1, 'unique', '333', 44, 0, 0, 'Days', 17, 1765693107, 0, 0),
+(215, 3, 1, 279, 1, 1, 9, 1765648800, 700, 0.00, 44, 1, 1, 'unique', '4444', 44, 0, 0, 'Days', 17, 1765693107, 0, 0),
+(216, 3, 1, 281, 1, 1, 9, 1765648800, 700, 0.00, 44, 1, 1, 'unique', 'aaa', 44, 0, 0, 'Days', 17, 1765703231, 0, 0),
+(217, 3, 1, 281, 1, 1, 9, 1765648800, 700, 0.00, 44, 1, 1, 'unique', 'ssssss', 44, 0, 0, 'Days', 17, 1765703231, 0, 0);
+
 -- --------------------------------------------------------
 
 --
@@ -257,6 +408,14 @@ CREATE TABLE `inv_stock_master` (
   `update_user` int(11) NOT NULL,
   `update_date` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+--
+-- Dumping data for table `inv_stock_master`
+--
+
+INSERT INTO `inv_stock_master` (`id`, `organization_id`, `branch_id`, `store_id`, `product_id`, `purchase_price`, `rebate`, `sales_price`, `quanity`, `warrenty`, `warrenty_days`, `is_active`, `create_user`, `create_date`, `update_user`, `update_date`) VALUES
+(81, 3, 1, 1, 8, 400.00, 100.00, 800.00, 5, 6, 'Month', 1, 17, 1765692808, 17, 1765703344),
+(82, 3, 1, 1, 9, 700.00, 0.00, 44.00, 4, 44, 'Days', 1, 17, 1765693109, 17, 1765703233);
 
 -- --------------------------------------------------------
 
@@ -283,10 +442,10 @@ CREATE TABLE `login_credential` (
 --
 
 INSERT INTO `login_credential` (`id`, `organization_id`, `branch_id`, `user_id`, `username`, `password`, `role`, `active`, `last_login`, `created_at`, `updated_at`) VALUES
-(1, 0, 0, 1, 'system', 'UHZVdVBOTWI0VkwrN0MvQjRRRUZkdz09', 1, 1, '2025-12-13 23:21:01', '2024-10-21 15:42:57', '2025-12-13 23:21:01'),
+(1, 0, 0, 1, 'system', 'UHZVdVBOTWI0VkwrN0MvQjRRRUZkdz09', 1, 1, '2025-12-14 16:34:05', '2024-10-21 15:42:57', '2025-12-14 16:34:05'),
 (2, 0, 0, 2, 'litan@gmail.com', 'UHZVdVBOTWI0VkwrN0MvQjRRRUZkdz09', 1, 1, '2024-11-27 11:06:55', '2024-10-21 15:42:57', '2025-10-30 14:29:54'),
 (5, 0, 0, 6, 'admin@gmail.com', 'UHZVdVBOTWI0VkwrN0MvQjRRRUZkdz09', 2, 1, '2025-11-01 14:35:31', '2024-11-16 23:35:56', '2025-11-01 14:35:31'),
-(17, 3, 1, 10, '01829', 'UHZVdVBOTWI0VkwrN0MvQjRRRUZkdz09', 3, 1, '2025-12-13 23:21:20', '2025-10-30 23:30:08', '2025-12-13 23:21:20'),
+(17, 3, 1, 10, '01829', 'UHZVdVBOTWI0VkwrN0MvQjRRRUZkdz09', 3, 1, '2025-12-14 16:36:03', '2025-10-30 23:30:08', '2025-12-14 16:36:03'),
 (18, 3, 1, 11, 'masterit', 'UHZVdVBOTWI0VkwrN0MvQjRRRUZkdz09', 3, 1, '2025-12-06 17:55:23', '2025-10-30 23:30:08', '2025-12-06 17:55:23');
 
 -- --------------------------------------------------------
@@ -1681,7 +1840,255 @@ INSERT INTO `logs` (`id`, `message`, `record_id`, `user_id`, `action`, `ip_addre
 (1413, 'New Record inserted On business_partner id 38', 38, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-13 17:11:07', '2025-12-13'),
 (1414, 'New Record inserted On menus id 35', 35, 1, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-13 17:15:41', '2025-12-13'),
 (1415, 'New Record inserted On menus id 36', 36, 1, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-13 17:18:45', '2025-12-13'),
-(1416, 'New Record inserted On menus id 37', 37, 1, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-13 17:19:07', '2025-12-13');
+(1416, 'New Record inserted On menus id 37', 37, 1, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-13 17:19:07', '2025-12-13'),
+(1417, 'New Record inserted On purchase id 171', 171, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-14 05:56:17', '2025-12-14'),
+(1418, 'New Record inserted On acc_general_ledger id 366', 366, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-14 05:56:17', '2025-12-14'),
+(1419, 'New Record inserted On purchase id 172', 172, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-14 05:56:55', '2025-12-14'),
+(1420, 'New Record inserted On acc_general_ledger id 367', 367, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-14 05:56:55', '2025-12-14'),
+(1421, 'New Record inserted On purchase id 173', 173, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-14 05:57:03', '2025-12-14'),
+(1422, 'New Record inserted On acc_general_ledger id 368', 368, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-14 05:57:03', '2025-12-14'),
+(1423, 'New Record inserted On purchase id 174', 174, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-14 05:57:11', '2025-12-14'),
+(1424, 'New Record inserted On acc_general_ledger id 369', 369, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-14 05:57:13', '2025-12-14'),
+(1425, 'New Record inserted On purchase id 175', 175, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-14 05:57:23', '2025-12-14'),
+(1426, 'New Record inserted On acc_general_ledger id 370', 370, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-14 05:57:24', '2025-12-14'),
+(1427, 'New Record inserted On purchase id 176', 176, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-14 05:57:34', '2025-12-14'),
+(1428, 'New Record inserted On acc_general_ledger id 371', 371, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-14 05:57:34', '2025-12-14'),
+(1429, 'New Record inserted On purchase id 177', 177, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-14 05:57:51', '2025-12-14'),
+(1430, 'New Record inserted On acc_general_ledger id 372', 372, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-14 05:57:52', '2025-12-14'),
+(1431, 'New Record inserted On purchase id 178', 178, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-14 05:58:03', '2025-12-14'),
+(1432, 'New Record inserted On acc_general_ledger id 373', 373, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-14 05:58:04', '2025-12-14'),
+(1433, 'New Record inserted On purchase id 179', 179, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-14 05:58:52', '2025-12-14'),
+(1434, 'New Record inserted On acc_general_ledger id 374', 374, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-14 05:58:52', '2025-12-14'),
+(1435, 'New Record inserted On purchase id 180', 180, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-14 05:58:53', '2025-12-14'),
+(1436, 'New Record inserted On acc_general_ledger id 375', 375, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-14 05:58:53', '2025-12-14'),
+(1437, 'New Record inserted On purchase id 181', 181, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-14 05:58:53', '2025-12-14'),
+(1438, 'New Record inserted On acc_general_ledger id 376', 376, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-14 05:58:55', '2025-12-14'),
+(1439, 'New Record inserted On purchase id 182', 182, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-14 05:58:56', '2025-12-14'),
+(1440, 'New Record inserted On acc_general_ledger id 377', 377, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-14 05:58:56', '2025-12-14'),
+(1441, 'New Record inserted On purchase id 183', 183, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-14 05:58:57', '2025-12-14'),
+(1442, 'New Record inserted On acc_general_ledger id 378', 378, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-14 05:58:57', '2025-12-14'),
+(1443, 'New Record inserted On purchase id 184', 184, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-14 05:58:57', '2025-12-14'),
+(1444, 'New Record inserted On acc_general_ledger id 379', 379, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-14 05:58:57', '2025-12-14'),
+(1445, 'New Record inserted On purchase id 185', 185, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-14 05:58:57', '2025-12-14'),
+(1446, 'New Record inserted On acc_general_ledger id 380', 380, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-14 05:58:57', '2025-12-14'),
+(1447, 'New Record inserted On purchase id 186', 186, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-14 05:58:57', '2025-12-14'),
+(1448, 'New Record inserted On acc_general_ledger id 381', 381, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-14 05:58:58', '2025-12-14'),
+(1449, 'New Record inserted On purchase id 187', 187, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-14 05:58:58', '2025-12-14'),
+(1450, 'New Record inserted On acc_general_ledger id 382', 382, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-14 05:58:58', '2025-12-14'),
+(1451, 'New Record inserted On purchase id 188', 188, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-14 05:58:58', '2025-12-14'),
+(1452, 'New Record inserted On acc_general_ledger id 383', 383, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-14 05:58:58', '2025-12-14'),
+(1453, 'New Record inserted On purchase id 189', 189, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-14 05:58:59', '2025-12-14'),
+(1454, 'New Record inserted On acc_general_ledger id 384', 384, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-14 05:58:59', '2025-12-14'),
+(1455, 'New Record inserted On purchase id 190', 190, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-14 05:58:59', '2025-12-14'),
+(1456, 'New Record inserted On acc_general_ledger id 385', 385, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-14 05:58:59', '2025-12-14'),
+(1457, 'New Record inserted On purchase id 191', 191, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-14 05:59:00', '2025-12-14'),
+(1458, 'New Record inserted On acc_general_ledger id 386', 386, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-14 05:59:01', '2025-12-14'),
+(1459, 'New Record inserted On purchase id 192', 192, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-14 05:59:01', '2025-12-14'),
+(1460, 'New Record inserted On acc_general_ledger id 387', 387, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-14 05:59:01', '2025-12-14'),
+(1461, 'New Record inserted On purchase id 193', 193, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-14 05:59:01', '2025-12-14'),
+(1462, 'New Record inserted On acc_general_ledger id 388', 388, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-14 05:59:01', '2025-12-14'),
+(1463, 'New Record inserted On purchase id 194', 194, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-14 05:59:01', '2025-12-14'),
+(1464, 'New Record inserted On acc_general_ledger id 389', 389, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-14 05:59:02', '2025-12-14'),
+(1465, 'New Record inserted On purchase id 195', 195, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-14 05:59:02', '2025-12-14'),
+(1466, 'New Record inserted On acc_general_ledger id 390', 390, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-14 05:59:02', '2025-12-14'),
+(1467, 'New Record inserted On purchase id 196', 196, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-14 05:59:02', '2025-12-14'),
+(1468, 'New Record inserted On acc_general_ledger id 391', 391, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-14 05:59:02', '2025-12-14'),
+(1469, 'New Record inserted On purchase id 197', 197, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-14 05:59:03', '2025-12-14'),
+(1470, 'New Record inserted On acc_general_ledger id 392', 392, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-14 05:59:03', '2025-12-14'),
+(1471, 'New Record inserted On purchase id 198', 198, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-14 05:59:03', '2025-12-14'),
+(1472, 'New Record inserted On acc_general_ledger id 393', 393, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-14 05:59:03', '2025-12-14'),
+(1473, 'New Record inserted On purchase id 199', 199, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-14 05:59:05', '2025-12-14'),
+(1474, 'New Record inserted On acc_general_ledger id 394', 394, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-14 05:59:10', '2025-12-14'),
+(1475, 'New Record inserted On purchase id 200', 200, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-14 05:59:10', '2025-12-14'),
+(1476, 'New Record inserted On acc_general_ledger id 395', 395, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-14 05:59:10', '2025-12-14'),
+(1477, 'New Record inserted On purchase id 201', 201, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-14 05:59:10', '2025-12-14'),
+(1478, 'New Record inserted On acc_general_ledger id 396', 396, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-14 05:59:11', '2025-12-14'),
+(1479, 'New Record inserted On purchase id 202', 202, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-14 05:59:11', '2025-12-14'),
+(1480, 'New Record inserted On acc_general_ledger id 397', 397, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-14 05:59:11', '2025-12-14'),
+(1481, 'New Record inserted On purchase id 203', 203, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-14 05:59:11', '2025-12-14'),
+(1482, 'New Record inserted On acc_general_ledger id 398', 398, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-14 05:59:11', '2025-12-14'),
+(1483, 'New Record inserted On purchase id 204', 204, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-14 05:59:11', '2025-12-14'),
+(1484, 'New Record inserted On acc_general_ledger id 399', 399, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-14 05:59:12', '2025-12-14'),
+(1485, 'New Record inserted On purchase id 205', 205, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-14 05:59:12', '2025-12-14'),
+(1486, 'New Record inserted On acc_general_ledger id 400', 400, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-14 05:59:18', '2025-12-14'),
+(1487, 'New Record inserted On purchase id 206', 206, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-14 05:59:20', '2025-12-14'),
+(1488, 'New Record inserted On acc_general_ledger id 401', 401, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-14 05:59:20', '2025-12-14'),
+(1489, 'New Record inserted On purchase id 207', 207, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-14 05:59:23', '2025-12-14'),
+(1490, 'New Record inserted On acc_general_ledger id 402', 402, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-14 05:59:23', '2025-12-14'),
+(1491, 'New Record inserted On purchase id 208', 208, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-14 05:59:24', '2025-12-14'),
+(1492, 'New Record inserted On acc_general_ledger id 403', 403, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-14 05:59:24', '2025-12-14'),
+(1493, 'New Record inserted On purchase id 209', 209, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-14 05:59:24', '2025-12-14'),
+(1494, 'New Record inserted On acc_general_ledger id 404', 404, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-14 05:59:24', '2025-12-14'),
+(1495, 'New Record inserted On purchase id 210', 210, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-14 05:59:24', '2025-12-14'),
+(1496, 'New Record inserted On acc_general_ledger id 405', 405, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-14 05:59:24', '2025-12-14'),
+(1497, 'New Record inserted On purchase id 211', 211, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-14 05:59:25', '2025-12-14'),
+(1498, 'New Record inserted On acc_general_ledger id 406', 406, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-14 05:59:25', '2025-12-14'),
+(1499, 'New Record inserted On purchase id 212', 212, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-14 05:59:25', '2025-12-14'),
+(1500, 'New Record inserted On acc_general_ledger id 407', 407, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-14 05:59:25', '2025-12-14'),
+(1501, 'New Record inserted On purchase id 213', 213, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-14 05:59:25', '2025-12-14'),
+(1502, 'New Record inserted On acc_general_ledger id 408', 408, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-14 05:59:26', '2025-12-14'),
+(1503, 'New Record inserted On purchase id 214', 214, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-14 05:59:26', '2025-12-14'),
+(1504, 'New Record inserted On acc_general_ledger id 409', 409, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-14 05:59:26', '2025-12-14'),
+(1505, 'New Record inserted On purchase id 215', 215, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-14 05:59:27', '2025-12-14'),
+(1506, 'New Record inserted On acc_general_ledger id 410', 410, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-14 05:59:27', '2025-12-14'),
+(1507, 'New Record inserted On purchase id 216', 216, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-14 05:59:27', '2025-12-14'),
+(1508, 'New Record inserted On acc_general_ledger id 411', 411, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-14 05:59:27', '2025-12-14'),
+(1509, 'New Record inserted On purchase id 217', 217, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-14 05:59:27', '2025-12-14'),
+(1510, 'New Record inserted On acc_general_ledger id 412', 412, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-14 05:59:28', '2025-12-14'),
+(1511, 'New Record inserted On purchase id 218', 218, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-14 05:59:28', '2025-12-14'),
+(1512, 'New Record inserted On acc_general_ledger id 413', 413, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-14 05:59:28', '2025-12-14'),
+(1513, 'New Record inserted On purchase id 219', 219, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-14 05:59:28', '2025-12-14'),
+(1514, 'New Record inserted On acc_general_ledger id 414', 414, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-14 05:59:28', '2025-12-14'),
+(1515, 'New Record inserted On purchase id 220', 220, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-14 05:59:28', '2025-12-14'),
+(1516, 'New Record inserted On acc_general_ledger id 415', 415, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-14 05:59:29', '2025-12-14'),
+(1517, 'New Record inserted On purchase id 221', 221, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-14 05:59:29', '2025-12-14'),
+(1518, 'New Record inserted On acc_general_ledger id 416', 416, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-14 05:59:29', '2025-12-14'),
+(1519, 'New Record inserted On purchase id 222', 222, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-14 05:59:29', '2025-12-14'),
+(1520, 'New Record inserted On acc_general_ledger id 417', 417, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-14 05:59:29', '2025-12-14'),
+(1521, 'New Record inserted On purchase id 223', 223, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-14 05:59:30', '2025-12-14'),
+(1522, 'New Record inserted On acc_general_ledger id 418', 418, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-14 05:59:30', '2025-12-14'),
+(1523, 'New Record inserted On purchase id 224', 224, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-14 05:59:30', '2025-12-14'),
+(1524, 'New Record inserted On acc_general_ledger id 419', 419, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-14 05:59:30', '2025-12-14'),
+(1525, 'New Record inserted On purchase id 225', 225, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-14 05:59:30', '2025-12-14'),
+(1526, 'New Record inserted On acc_general_ledger id 420', 420, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-14 05:59:31', '2025-12-14'),
+(1527, 'New Record inserted On purchase id 226', 226, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-14 05:59:32', '2025-12-14'),
+(1528, 'New Record inserted On acc_general_ledger id 421', 421, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-14 05:59:32', '2025-12-14'),
+(1529, 'New Record inserted On purchase id 227', 227, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-14 05:59:35', '2025-12-14'),
+(1530, 'New Record inserted On acc_general_ledger id 422', 422, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-14 05:59:40', '2025-12-14'),
+(1531, 'New Record inserted On purchase id 228', 228, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-14 05:59:41', '2025-12-14'),
+(1532, 'New Record inserted On acc_general_ledger id 423', 423, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-14 05:59:42', '2025-12-14'),
+(1533, 'New Record inserted On purchase id 229', 229, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-14 05:59:43', '2025-12-14'),
+(1534, 'New Record inserted On acc_general_ledger id 424', 424, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-14 05:59:44', '2025-12-14'),
+(1535, 'New Record inserted On purchase id 230', 230, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-14 05:59:46', '2025-12-14'),
+(1536, 'New Record inserted On acc_general_ledger id 425', 425, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-14 05:59:47', '2025-12-14'),
+(1537, 'New Record inserted On purchase id 231', 231, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-14 05:59:48', '2025-12-14'),
+(1538, 'New Record inserted On acc_general_ledger id 426', 426, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-14 05:59:48', '2025-12-14'),
+(1539, 'New Record inserted On purchase id 232', 232, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-14 05:59:48', '2025-12-14'),
+(1540, 'New Record inserted On acc_general_ledger id 427', 427, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-14 05:59:48', '2025-12-14'),
+(1541, 'New Record inserted On purchase id 233', 233, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-14 05:59:53', '2025-12-14'),
+(1542, 'New Record inserted On acc_general_ledger id 428', 428, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-14 05:59:53', '2025-12-14'),
+(1543, 'New Record inserted On purchase id 234', 234, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-14 05:59:53', '2025-12-14'),
+(1544, 'New Record inserted On acc_general_ledger id 429', 429, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-14 05:59:53', '2025-12-14'),
+(1545, 'New Record inserted On purchase id 235', 235, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-14 05:59:54', '2025-12-14'),
+(1546, 'New Record inserted On acc_general_ledger id 430', 430, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-14 05:59:55', '2025-12-14'),
+(1547, 'New Record inserted On purchase id 236', 236, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-14 05:59:55', '2025-12-14'),
+(1548, 'New Record inserted On acc_general_ledger id 431', 431, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-14 05:59:55', '2025-12-14'),
+(1549, 'New Record inserted On purchase id 237', 237, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-14 05:59:57', '2025-12-14'),
+(1550, 'New Record inserted On acc_general_ledger id 432', 432, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-14 05:59:59', '2025-12-14'),
+(1551, 'New Record inserted On purchase id 238', 238, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-14 06:00:00', '2025-12-14'),
+(1552, 'New Record inserted On acc_general_ledger id 433', 433, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-14 06:00:00', '2025-12-14'),
+(1553, 'New Record inserted On purchase id 239', 239, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-14 06:00:00', '2025-12-14'),
+(1554, 'New Record inserted On acc_general_ledger id 434', 434, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-14 06:00:00', '2025-12-14'),
+(1555, 'New Record inserted On purchase id 240', 240, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-14 06:00:01', '2025-12-14'),
+(1556, 'New Record inserted On acc_general_ledger id 435', 435, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-14 06:00:01', '2025-12-14'),
+(1557, 'New Record inserted On purchase id 241', 241, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-14 06:00:02', '2025-12-14'),
+(1558, 'New Record inserted On acc_general_ledger id 436', 436, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-14 06:00:02', '2025-12-14'),
+(1559, 'New Record inserted On purchase id 242', 242, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-14 06:00:02', '2025-12-14'),
+(1560, 'New Record inserted On acc_general_ledger id 437', 437, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-14 06:00:02', '2025-12-14'),
+(1561, 'New Record inserted On purchase id 243', 243, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-14 06:00:02', '2025-12-14'),
+(1562, 'New Record inserted On acc_general_ledger id 438', 438, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-14 06:00:02', '2025-12-14'),
+(1563, 'New Record inserted On purchase id 244', 244, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-14 06:00:02', '2025-12-14'),
+(1564, 'New Record inserted On acc_general_ledger id 439', 439, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-14 06:00:03', '2025-12-14'),
+(1565, 'New Record inserted On purchase id 245', 245, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-14 06:00:03', '2025-12-14'),
+(1566, 'New Record inserted On acc_general_ledger id 440', 440, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-14 06:00:03', '2025-12-14'),
+(1567, 'New Record inserted On purchase id 246', 246, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-14 06:00:03', '2025-12-14'),
+(1568, 'New Record inserted On acc_general_ledger id 441', 441, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-14 06:00:03', '2025-12-14'),
+(1569, 'New Record inserted On purchase id 247', 247, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-14 06:00:04', '2025-12-14'),
+(1570, 'New Record inserted On acc_general_ledger id 442', 442, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-14 06:00:04', '2025-12-14'),
+(1571, 'New Record inserted On purchase id 248', 248, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-14 06:00:04', '2025-12-14'),
+(1572, 'New Record inserted On acc_general_ledger id 443', 443, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-14 06:00:04', '2025-12-14'),
+(1573, 'New Record inserted On purchase id 249', 249, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-14 06:00:06', '2025-12-14'),
+(1574, 'New Record inserted On acc_general_ledger id 444', 444, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-14 06:00:06', '2025-12-14'),
+(1575, 'New Record inserted On purchase id 250', 250, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-14 06:00:06', '2025-12-14'),
+(1576, 'New Record inserted On acc_general_ledger id 445', 445, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-14 06:00:06', '2025-12-14'),
+(1577, 'New Record inserted On purchase id 251', 251, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-14 06:00:07', '2025-12-14'),
+(1578, 'New Record inserted On acc_general_ledger id 446', 446, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-14 06:00:08', '2025-12-14'),
+(1579, 'New Record inserted On purchase id 252', 252, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-14 06:00:09', '2025-12-14'),
+(1580, 'New Record inserted On acc_general_ledger id 447', 447, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-14 06:00:10', '2025-12-14'),
+(1581, 'New Record inserted On purchase id 253', 253, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-14 06:00:14', '2025-12-14'),
+(1582, 'New Record inserted On acc_general_ledger id 448', 448, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-14 06:00:14', '2025-12-14'),
+(1583, 'New Record inserted On purchase id 254', 254, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-14 06:00:14', '2025-12-14'),
+(1584, 'New Record inserted On acc_general_ledger id 449', 449, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-14 06:00:14', '2025-12-14'),
+(1585, 'New Record inserted On purchase id 255', 255, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-14 06:00:14', '2025-12-14'),
+(1586, 'New Record inserted On acc_general_ledger id 450', 450, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-14 06:00:15', '2025-12-14'),
+(1587, 'New Record inserted On purchase id 256', 256, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-14 06:00:15', '2025-12-14'),
+(1588, 'New Record inserted On acc_general_ledger id 451', 451, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-14 06:00:15', '2025-12-14'),
+(1589, 'New Record inserted On purchase id 257', 257, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-14 06:00:15', '2025-12-14'),
+(1590, 'New Record inserted On acc_general_ledger id 452', 452, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-14 06:00:16', '2025-12-14'),
+(1591, 'New Record inserted On purchase id 258', 258, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-14 06:00:16', '2025-12-14'),
+(1592, 'New Record inserted On acc_general_ledger id 453', 453, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-14 06:00:16', '2025-12-14'),
+(1593, 'New Record inserted On purchase id 259', 259, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-14 06:00:18', '2025-12-14'),
+(1594, 'New Record inserted On acc_general_ledger id 454', 454, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-14 06:00:19', '2025-12-14'),
+(1595, 'New Record inserted On purchase id 260', 260, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-14 06:00:19', '2025-12-14'),
+(1596, 'New Record inserted On acc_general_ledger id 455', 455, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-14 06:00:19', '2025-12-14'),
+(1597, 'New Record inserted On purchase id 261', 261, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-14 06:00:20', '2025-12-14'),
+(1598, 'New Record inserted On acc_general_ledger id 456', 456, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-14 06:00:20', '2025-12-14'),
+(1599, 'New Record inserted On purchase id 262', 262, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-14 06:00:21', '2025-12-14'),
+(1600, 'New Record inserted On acc_general_ledger id 457', 457, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-14 06:00:22', '2025-12-14'),
+(1601, 'New Record inserted On purchase id 263', 263, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-14 06:00:22', '2025-12-14'),
+(1602, 'New Record inserted On acc_general_ledger id 458', 458, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-14 06:00:22', '2025-12-14'),
+(1603, 'New Record inserted On purchase id 264', 264, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-14 06:00:23', '2025-12-14'),
+(1604, 'New Record inserted On acc_general_ledger id 459', 459, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-14 06:00:23', '2025-12-14'),
+(1605, 'New Record inserted On purchase id 265', 265, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-14 06:00:23', '2025-12-14'),
+(1606, 'New Record inserted On acc_general_ledger id 460', 460, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-14 06:00:23', '2025-12-14'),
+(1607, 'New Record inserted On purchase id 266', 266, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-14 06:00:23', '2025-12-14'),
+(1608, 'New Record inserted On acc_general_ledger id 461', 461, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-14 06:00:24', '2025-12-14'),
+(1609, 'New Record inserted On purchase id 267', 267, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-14 06:00:24', '2025-12-14'),
+(1610, 'New Record inserted On acc_general_ledger id 462', 462, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-14 06:00:24', '2025-12-14'),
+(1611, 'New Record inserted On purchase id 268', 268, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-14 06:00:25', '2025-12-14'),
+(1612, 'New Record inserted On acc_general_ledger id 463', 463, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-14 06:00:26', '2025-12-14'),
+(1613, 'New Record inserted On purchase id 269', 269, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-14 06:00:26', '2025-12-14'),
+(1614, 'New Record inserted On acc_general_ledger id 464', 464, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-14 06:00:26', '2025-12-14'),
+(1615, 'New Record inserted On purchase id 270', 270, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-14 06:00:26', '2025-12-14'),
+(1616, 'New Record inserted On acc_general_ledger id 465', 465, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-14 06:00:26', '2025-12-14'),
+(1617, 'New Record inserted On purchase id 271', 271, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-14 06:00:26', '2025-12-14'),
+(1618, 'New Record inserted On acc_general_ledger id 466', 466, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-14 06:00:27', '2025-12-14'),
+(1619, 'New Record inserted On purchase id 272', 272, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-14 06:00:27', '2025-12-14'),
+(1620, 'New Record inserted On acc_general_ledger id 467', 467, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-14 06:00:27', '2025-12-14'),
+(1621, 'New Record inserted On purchase id 273', 273, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-14 06:00:33', '2025-12-14'),
+(1622, 'New Record inserted On acc_general_ledger id 468', 468, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-14 06:00:37', '2025-12-14'),
+(1623, 'New Record inserted On purchase id 274', 274, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-14 06:07:43', '2025-12-14'),
+(1624, 'New Record inserted On acc_general_ledger id 469', 469, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-14 06:07:43', '2025-12-14'),
+(1625, 'New Record inserted On purchase id 275', 275, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-14 06:08:01', '2025-12-14'),
+(1626, 'New Record inserted On acc_general_ledger id 470', 470, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-14 06:08:01', '2025-12-14'),
+(1627, 'New Record inserted On purchase id 276', 276, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-14 06:08:34', '2025-12-14'),
+(1628, 'New Record inserted On acc_general_ledger id 471', 471, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-14 06:08:35', '2025-12-14'),
+(1629, 'New Record inserted On purchase id 277', 277, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-14 06:13:13', '2025-12-14'),
+(1630, 'New Record inserted On acc_general_ledger id 472', 472, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-14 06:13:14', '2025-12-14'),
+(1631, 'New Record inserted On purchase id 278', 278, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-14 06:13:28', '2025-12-14'),
+(1632, 'New Record inserted On acc_general_ledger id 473', 473, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-14 06:13:28', '2025-12-14'),
+(1633, 'New Record inserted On purchase_items id 85', 85, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-14 06:13:28', '2025-12-14'),
+(1634, 'New Record inserted On inv_stock_item_batch id 32', 32, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-14 06:13:28', '2025-12-14'),
+(1635, 'New Record inserted On purchase id 279', 279, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-14 06:18:27', '2025-12-14'),
+(1636, 'New Record inserted On acc_general_ledger id 474', 474, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-14 06:18:27', '2025-12-14'),
+(1637, 'New Record inserted On purchase_items id 86', 86, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-14 06:18:27', '2025-12-14'),
+(1638, 'New Record inserted On purchase_item_serials id 72', 72, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-14 06:18:27', '2025-12-14'),
+(1639, 'New Record inserted On purchase_item_serials id 73', 73, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-14 06:18:28', '2025-12-14'),
+(1640, 'New Record inserted On purchase_items id 87', 87, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-14 06:18:28', '2025-12-14'),
+(1641, 'New Record inserted On purchase_items id 88', 88, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-14 06:18:28', '2025-12-14'),
+(1642, 'New Record inserted On inv_stock_item_serial id 214', 214, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-14 06:18:28', '2025-12-14'),
+(1643, 'New Record inserted On inv_stock_item_serial id 215', 215, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-14 06:18:28', '2025-12-14'),
+(1644, 'New Record inserted On inv_stock_item_batch id 33', 33, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-14 06:18:28', '2025-12-14'),
+(1645, 'New Record inserted On inv_stock_item_batch id 34', 34, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-14 06:18:29', '2025-12-14'),
+(1646, 'New Record inserted On purchase id 280', 280, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-14 09:03:46', '2025-12-14'),
+(1647, 'New Record inserted On acc_general_ledger id 475', 475, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-14 09:03:47', '2025-12-14'),
+(1648, 'New Record inserted On acc_general_ledger id 476', 476, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-14 09:03:47', '2025-12-14'),
+(1649, 'New Record inserted On purchase_items id 89', 89, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-14 09:03:47', '2025-12-14'),
+(1650, 'New Record inserted On inv_stock_item_batch id 35', 35, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-14 09:03:47', '2025-12-14'),
+(1651, 'New Record inserted On purchase id 281', 281, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-14 09:07:11', '2025-12-14'),
+(1652, 'New Record inserted On acc_general_ledger id 477', 477, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-14 09:07:11', '2025-12-14'),
+(1653, 'New Record inserted On purchase_items id 90', 90, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-14 09:07:12', '2025-12-14'),
+(1654, 'New Record inserted On purchase_item_serials id 74', 74, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-14 09:07:12', '2025-12-14'),
+(1655, 'New Record inserted On purchase_item_serials id 75', 75, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-14 09:07:12', '2025-12-14'),
+(1656, 'New Record inserted On inv_stock_item_serial id 216', 216, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-14 09:07:12', '2025-12-14'),
+(1657, 'New Record inserted On inv_stock_item_serial id 217', 217, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-14 09:07:12', '2025-12-14'),
+(1658, 'Record deleted On purchase_invoice id ', NULL, 17, 'Delete', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-14 09:08:43', '2025-12-14'),
+(1659, 'New Record inserted On sales id 113', 113, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-14 09:09:04', '2025-12-14'),
+(1660, 'New Record inserted On acc_general_ledger id 478', 478, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-14 09:09:04', '2025-12-14'),
+(1661, 'New Record inserted On sales_items id 113', 113, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-14 09:09:04', '2025-12-14'),
+(1662, 'New Record inserted On sales_item_batch_profit_loss id 86', 86, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-14 09:09:04', '2025-12-14'),
+(1663, 'New Record inserted On menus id 38', 38, 1, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-14 10:34:45', '2025-12-14'),
+(1664, 'New Record inserted On menus id 39', 39, 1, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-14 10:35:33', '2025-12-14');
 
 -- --------------------------------------------------------
 
@@ -1739,7 +2146,9 @@ INSERT INTO `menus` (`id`, `name`, `url`, `parent_id`, `position`, `icon`, `is_a
 (34, 'Quotation', '', 0, 21, '', 1, 1765622967),
 (35, 'Add New Purchase', 'purchase/purchasebatch/create', 8, 1, '', 1, 1765646141),
 (36, 'Add New Quotation', 'quotation', 34, 1, '', 1, 1765646325),
-(37, 'Quotation List', 'quotation/list', 34, 3, '', 1, 1765646347);
+(37, 'Quotation List', 'quotation/list', 34, 3, '', 1, 1765646347),
+(38, 'Accounts', '#', 0, 30, '', 1, 1765708485),
+(39, 'Collection', 'accounts/receipt_voucher', 38, 1, '', 1, 1765708533);
 
 -- --------------------------------------------------------
 
@@ -1881,8 +2290,8 @@ CREATE TABLE `products` (
 --
 
 INSERT INTO `products` (`id`, `organization_id`, `product_code`, `name`, `group_id`, `brand_id`, `unit_id`, `serial_type`, `purchase_price`, `tax_method`, `product_tax`, `product_tax_amount`, `total_amount`, `sales_price`, `warrenty`, `warrenty_days`, `re_order_level`, `is_inventory`, `is_short_bill`, `is_quotation`, `note`, `picture`, `is_active`, `create_user`, `create_date`) VALUES
-(8, 3, '7503', 'Nokia Mobile', 3, 3, 11, 'common', '500.00', 'Inclusive', '0.00', '0.00', '500.00', '800.00', 6, 'Month', 5, 1, 0, 1, '5', '0.png', 1, 17, 1765640124),
-(9, 3, '1087', 'Smart Phone', 3, 4, 10, 'unique', '700.00', 'Inclusive', '0.00', '0.00', '700.00', '44.00', 44, 'Days', 4, 1, 0, 1, '', '0.png', 1, 17, 1765640156);
+(8, 3, '7503', 'Nokia Mobile', 3, 3, 11, 'common', 500.00, 'Inclusive', 0.00, 0.00, 500.00, 800.00, 6, 'Month', 5, 1, 0, 1, '5', '0.png', 1, 17, 1765640124),
+(9, 3, '1087', 'Smart Phone', 3, 4, 10, 'unique', 700.00, 'Inclusive', 0.00, 0.00, 700.00, 44.00, 44, 'Days', 4, 1, 0, 1, '', '0.png', 1, 17, 1765640156);
 
 -- --------------------------------------------------------
 
@@ -1938,6 +2347,20 @@ CREATE TABLE `purchase` (
   `create_date` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
+--
+-- Dumping data for table `purchase`
+--
+
+INSERT INTO `purchase` (`id`, `organization_id`, `branch_id`, `ip_address`, `invoice_code`, `code_random`, `invoice_no`, `purchase_date`, `supplier_id`, `store_id`, `totalQty`, `allTotal`, `totalDiscount`, `totalRebate`, `totalAmount`, `paidAmount`, `dueAmount`, `is_active`, `create_user`, `create_date`) VALUES
+(274, 3, 1, '', '', 1, 'GRN-0001', 1765648800, 1, 1, 700, 700.00, 0.00, 0.00, 700.00, 0.00, 700.00, 1, 17, 1765692463),
+(275, 3, 1, '', '', 2, 'GRN-0002', 1765648800, 1, 1, 700, 700.00, 0.00, 0.00, 700.00, 0.00, 700.00, 1, 17, 1765692480),
+(276, 3, 1, '', '', 3, 'GRN-0003', 1765648800, 1, 1, 700, 700.00, 0.00, 0.00, 700.00, 0.00, 700.00, 1, 17, 1765692513),
+(277, 3, 1, '', '', 4, 'GRN-0004', 1765648800, 1, 1, 1000, 1000.00, 0.00, 0.00, 1000.00, 0.00, 1000.00, 1, 17, 1765692793),
+(278, 3, 1, '', '', 5, 'GRN-0005', 1765648800, 1, 1, 1000, 1000.00, 0.00, 0.00, 1000.00, 0.00, 1000.00, 1, 17, 1765692808),
+(279, 3, 1, '', '', 6, 'GRN-0006', 1765648800, 1, 1, 2600, 2600.00, 0.00, 0.00, 2600.00, 0.00, 2600.00, 1, 17, 1765693107),
+(280, 3, 1, '', '', 7, 'GRN-0007', 1765648800, 1, 1, 500, 400.00, 0.00, 100.00, 400.00, 0.00, 400.00, 1, 17, 1765703026),
+(281, 3, 1, '', '', 8, 'GRN-0008', 1765648800, 1, 1, 2, 1400.00, 0.00, 0.00, 1400.00, 0.00, 1400.00, 1, 17, 1765703231);
+
 -- --------------------------------------------------------
 
 --
@@ -1961,13 +2384,16 @@ CREATE TABLE `purchase_invoice` (
 --
 
 INSERT INTO `purchase_invoice` (`id`, `organization_id`, `branch_id`, `invoice_code`, `supplier_id`, `remarks`, `status`, `create_user`, `create_date`) VALUES
-(14, 2, 1, '13122025230315', 1, '1', 'Pending', 3, 1765645398),
-(15, 2, 1, '13122025230910', 1, '1', 'Pending', 3, 1765645809),
-(16, 2, 1, '13122025232439', 1, '1', 'Pending', 3, 1765646684),
-(17, 2, 1, '13122025232807', 1, '1', 'Pending', 3, 1765646900),
-(18, 3, 1, '13122025233016', NULL, '1', 'Pending', 17, 1765647020),
-(19, 3, 1, '13122025233141', 1, '1', 'Pending', 17, 1765647105),
-(20, 3, 1, '13122025233203', 1, '', 'Pending', 17, 1765647126);
+(21, 3, 1, '14122025115331', 1, '', 'Pending', 17, 1765691641),
+(22, 3, 1, '14122025120730', 1, '', 'Approved', 17, 1765692460),
+(23, 3, 1, '14122025121250', 1, '', 'Approved', 17, 1765692780),
+(24, 3, 1, '14122025121329', 1, NULL, 'Pending', 17, 1765692937),
+(25, 3, 1, '14122025121804', 1, '', 'Approved', 17, 1765693089),
+(26, 3, 1, '14122025121949', 1, '', 'Pending', 17, 1765693197),
+(27, 3, 1, '14122025122221', 1, '', 'Pending', 17, 1765693366),
+(28, 3, 1, '14122025150333', 1, '', 'Approved', 17, 1765703023),
+(29, 3, 1, '14122025150423', 1, '', 'Pending', 17, 1765703070),
+(31, 3, 1, '14122025150655', 1, '', 'Approved', 17, 1765703219);
 
 -- --------------------------------------------------------
 
@@ -1998,6 +2424,18 @@ CREATE TABLE `purchase_items` (
   `create_date` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `purchase_items`
+--
+
+INSERT INTO `purchase_items` (`id`, `organization_id`, `branch_id`, `invoice_code`, `purchase_id`, `store_id`, `product_id`, `serial_type`, `purchase_price`, `sales_price`, `qty`, `sub_total`, `rebate`, `total_rebate`, `net_total`, `warrenty`, `warrenty_days`, `status`, `create_user`, `create_date`) VALUES
+(85, 3, 1, '', 278, 1, 8, 'common', 500.00, 500.00, 2, 1000.00, 0.00, 0.00, 1000.00, 6, 'Month', 'Approved', 17, 1765692808),
+(86, 3, 1, '', 279, 1, 9, 'unique', 700.00, 700.00, 2, 1400.00, 0.00, 0.00, 1400.00, 44, 'Days', 'Approved', 17, 1765693107),
+(87, 3, 1, '', 279, 1, 8, 'common', 500.00, 500.00, 2, 1000.00, 0.00, 0.00, 1000.00, 6, 'Month', 'Approved', 17, 1765693107),
+(88, 3, 1, '', 279, 1, 8, 'common', 200.00, 200.00, 1, 200.00, 0.00, 0.00, 200.00, 6, 'Month', 'Approved', 17, 1765693107),
+(89, 3, 1, '', 280, 1, 8, 'common', 500.00, 400.00, 1, 500.00, 100.00, 100.00, 400.00, 6, 'Month', 'Approved', 17, 1765703026),
+(90, 3, 1, '', 281, 1, 9, 'unique', 700.00, 700.00, 2, 1400.00, 0.00, 0.00, 1400.00, 44, 'Days', 'Approved', 17, 1765703231);
+
 -- --------------------------------------------------------
 
 --
@@ -2014,6 +2452,16 @@ CREATE TABLE `purchase_item_serials` (
   `serial_number` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `purchase_item_serials`
+--
+
+INSERT INTO `purchase_item_serials` (`id`, `item_id`, `serial_type`, `is_available`, `is_return`, `batch_number`, `serial_number`) VALUES
+(72, 86, 'unique', 1, 0, '', '333'),
+(73, 86, 'unique', 1, 0, '', '4444'),
+(74, 90, 'unique', 1, 0, '', 'aaa'),
+(75, 90, 'unique', 1, 0, '', 'ssssss');
+
 -- --------------------------------------------------------
 
 --
@@ -2022,7 +2470,7 @@ CREATE TABLE `purchase_item_serials` (
 
 CREATE TABLE `purchase_order_items` (
   `id` int(11) NOT NULL,
-  `invoice_id` int(11) NOT NULL,
+  `invoice_id` varchar(255) NOT NULL,
   `serial_type` enum('unique','common') NOT NULL,
   `product_id` int(11) NOT NULL,
   `purchase_date` int(11) NOT NULL,
@@ -2043,13 +2491,20 @@ CREATE TABLE `purchase_order_items` (
 --
 
 INSERT INTO `purchase_order_items` (`id`, `invoice_id`, `serial_type`, `product_id`, `purchase_date`, `price`, `qty`, `rebate`, `total_rebate`, `sub_total`, `sales_price`, `warrenty`, `warrenty_days`, `barcode_serial`, `create_date`) VALUES
-(27, 16, 'unique', 9, 1765646684, '700.00', 2, '0.00', '0.00', '1400.00', '44.00', 44, 'Days', '', 1765646684),
-(28, 16, 'common', 8, 1765646703, '500.00', 3, '0.00', '0.00', '1500.00', '800.00', 6, 'Month', '333', 1765646703),
-(29, 16, 'common', 8, 1765646715, '500.00', 4, '50.00', '200.00', '1800.00', '800.00', 6, 'Month', '3334', 1765646715),
-(30, 16, 'common', 8, 1765646748, '450.00', 1, '0.00', '0.00', '450.00', '800.00', 6, 'Month', '3334', 1765646748),
-(32, 18, 'unique', 9, 1765647020, '700.00', 1, '0.00', '0.00', '700.00', '44.00', 44, 'Days', '', 1765647020),
-(33, 19, 'common', 8, 1765647105, '500.00', 1, '0.00', '0.00', '500.00', '800.00', 6, 'Month', 'aaa', 1765647105),
-(34, 20, 'common', 8, 1765647127, '500.00', 1, '0.00', '0.00', '500.00', '800.00', 6, 'Month', 'w', 1765647127);
+(35, '21', 'unique', 9, 1765691641, 700.00, 1, 0.00, 0.00, 700.00, 44.00, 44, 'Days', '', 1765691641),
+(36, '22', 'unique', 9, 1765692460, 700.00, 1, 0.00, 0.00, 700.00, 44.00, 44, 'Days', '', 1765692460),
+(37, '14122025121250', 'common', 8, 1765692780, 500.00, 2, 0.00, 0.00, 1000.00, 800.00, 6, 'Month', 'wwww', 1765692780),
+(38, '14122025121329', 'unique', 9, 0, 700.00, 1, 0.00, 0.00, 700.00, 44.00, 44, 'Days', '', 1765692937),
+(39, '14122025121804', 'unique', 9, 1765693089, 700.00, 2, 0.00, 0.00, 1400.00, 44.00, 44, 'Days', '', 1765693089),
+(40, '14122025121804', 'common', 8, 1765693098, 500.00, 2, 0.00, 0.00, 1000.00, 800.00, 6, 'Month', 'aaa', 1765693098),
+(41, '14122025121804', 'common', 8, 1765693104, 200.00, 1, 0.00, 0.00, 200.00, 800.00, 6, 'Month', 'ccc', 1765693104),
+(42, '14122025121949', 'unique', 9, 1765693198, 700.00, 1, 0.00, 0.00, 700.00, 44.00, 44, 'Days', '', 1765693198),
+(43, '14122025121949', 'common', 8, 1765693205, 500.00, 1, 0.00, 0.00, 500.00, 800.00, 6, 'Month', '333333333333', 1765693205),
+(44, '14122025121949', 'common', 8, 1765693215, 7000.00, 1, 0.00, 0.00, 7000.00, 800.00, 6, 'Month', '2c', 1765693215),
+(45, '14122025122221', 'unique', 9, 1765693366, 700.00, 1, 0.00, 0.00, 700.00, 44.00, 44, 'Days', '', 1765693366),
+(46, '14122025150333', 'common', 8, 1765703023, 500.00, 1, 100.00, 100.00, 400.00, 800.00, 6, 'Month', 'qqqqqqqq', 1765703023),
+(47, '14122025150423', 'unique', 9, 1765703070, 700.00, 1, 0.00, 0.00, 700.00, 44.00, 44, 'Days', '', 1765703070),
+(49, '14122025150655', 'unique', 9, 1765703219, 700.00, 2, 0.00, 0.00, 1400.00, 44.00, 44, 'Days', '', 1765703219);
 
 -- --------------------------------------------------------
 
@@ -2070,7 +2525,17 @@ CREATE TABLE `purchase_order_item_serials` (
 INSERT INTO `purchase_order_item_serials` (`id`, `item_id`, `serial_number`) VALUES
 (22, 27, '55555'),
 (23, 27, '5555555555'),
-(25, 32, '333');
+(25, 32, '333'),
+(26, 35, '6666'),
+(27, 36, 'qqqq'),
+(28, 38, 'a'),
+(29, 39, '333'),
+(30, 39, '4444'),
+(31, 42, 'aaaaa'),
+(32, 45, 'aaaa'),
+(33, 47, '111111111111111111111111'),
+(34, 49, 'aaa'),
+(35, 49, 'ssssss');
 
 -- --------------------------------------------------------
 
@@ -2169,7 +2634,6 @@ INSERT INTO `role_menu` (`id`, `role_id`, `menu_id`) VALUES
 (9, 3, 9),
 (10, 3, 10),
 (11, 3, 11),
-(39, 3, 12),
 (14, 3, 13),
 (13, 3, 14),
 (16, 3, 15),
@@ -2192,7 +2656,9 @@ INSERT INTO `role_menu` (`id`, `role_id`, `menu_id`) VALUES
 (35, 3, 34),
 (36, 3, 35),
 (38, 3, 36),
-(37, 3, 37);
+(37, 3, 37),
+(40, 3, 38),
+(41, 3, 39);
 
 -- --------------------------------------------------------
 
@@ -2262,6 +2728,13 @@ CREATE TABLE `sales` (
   `create_date` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
+--
+-- Dumping data for table `sales`
+--
+
+INSERT INTO `sales` (`id`, `organization_id`, `branch_id`, `ip_address`, `invoice_code`, `code_random`, `invoice_no`, `sales_date`, `customer_id`, `store_id`, `totalQty`, `subTotal`, `total_discount`, `adjustment`, `payableAmount`, `dueAmount`, `paidAmount`, `payment_method_id`, `next_due_paid_date`, `is_customer`, `customer_name`, `mobile_no`, `address`, `is_active`, `create_user`, `create_date`) VALUES
+(113, 3, 1, '', '14122025150853', 1, 'INV-0001', 1765648800, 1, 1, 1, 800.00, 0.00, 0.00, 800.00, 800.00, 0.00, 1, 0, 0, 'Cash', '0', 'Cash', 1, 17, 1765703343);
+
 -- --------------------------------------------------------
 
 --
@@ -2271,6 +2744,7 @@ CREATE TABLE `sales` (
 CREATE TABLE `sales_invoice` (
   `id` int(11) NOT NULL,
   `organization_id` int(11) NOT NULL,
+  `branch_id` int(11) NOT NULL,
   `invoice_code` varchar(255) NOT NULL,
   `customer_id` int(11) NOT NULL,
   `remarks` text NOT NULL,
@@ -2278,6 +2752,16 @@ CREATE TABLE `sales_invoice` (
   `create_user` int(11) NOT NULL,
   `create_date` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+--
+-- Dumping data for table `sales_invoice`
+--
+
+INSERT INTO `sales_invoice` (`id`, `organization_id`, `branch_id`, `invoice_code`, `customer_id`, `remarks`, `status`, `create_user`, `create_date`) VALUES
+(296, 3, 1, '14122025150853', 1, '', 'Approved', 17, 1765703341),
+(297, 3, 1, '14122025150905', 1, '', 'Pending', 17, 1765703351),
+(298, 3, 1, '14122025151218', 1, '', 'Pending', 17, 1765703543),
+(299, 3, 1, '14122025151301', 1, '', 'Pending', 17, 1765703584);
 
 -- --------------------------------------------------------
 
@@ -2310,6 +2794,13 @@ CREATE TABLE `sales_items` (
   `returned_qty` int(11) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `sales_items`
+--
+
+INSERT INTO `sales_items` (`id`, `organization_id`, `branch_id`, `invoice_id`, `sales_id`, `store_id`, `serial_type`, `product_id`, `purchase_price`, `price`, `qty`, `sub_total`, `discount_percent`, `discount_amount`, `net_total`, `warrenty`, `warrenty_days`, `status`, `is_returned`, `create_user`, `create_date`, `returned_qty`) VALUES
+(113, 3, 1, '', 113, 1, 'common', 8, 400.00, 800.00, 1, 800.00, 0.00, 0.00, 800.00, 6, 'Month', 'Approved', 0, 17, 1765703343, 0);
+
 -- --------------------------------------------------------
 
 --
@@ -2338,6 +2829,13 @@ CREATE TABLE `sales_item_batch_profit_loss` (
   `is_returned` tinyint(1) DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
+--
+-- Dumping data for table `sales_item_batch_profit_loss`
+--
+
+INSERT INTO `sales_item_batch_profit_loss` (`id`, `organization_id`, `branch_id`, `sales_id`, `sales_item_id`, `customer_id`, `product_id`, `batch_id`, `batch_number`, `qty_sold`, `purchase_price`, `sales_price`, `profit_loss`, `serial_type`, `sales_date`, `create_user`, `create_date`, `qty_returned`, `is_returned`) VALUES
+(86, 3, 1, 113, 113, 1, 8, 32, 'wwww', 1, 500.00, 800.00, 300.00, 'common', 1765648800, 17, 1765703344, 0, 0);
+
 -- --------------------------------------------------------
 
 --
@@ -2364,6 +2862,16 @@ CREATE TABLE `sales_order_items` (
   `create_date` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
+--
+-- Dumping data for table `sales_order_items`
+--
+
+INSERT INTO `sales_order_items` (`id`, `organization_id`, `invoice_id`, `serial_type`, `product_id`, `purchase_price`, `price`, `qty`, `sub_total`, `discount_percent`, `discount_amount`, `net_total`, `warrenty`, `warrenty_days`, `status`, `create_user`, `create_date`) VALUES
+(438, 3, '14122025150853', 'common', 8, 400.00, 800.00, 1, 800.00, 0.00, 0.00, 800.00, 6, 'Month', 'Approved', 17, 1765703341),
+(439, 3, '14122025150905', 'unique', 9, 700.00, 44.00, 1, 44.00, 0.00, 0.00, 44.00, 44, 'Days', 'Pending', 17, 1765703351),
+(440, 3, '14122025151218', 'unique', 9, 700.00, 44.00, 1, 44.00, 0.00, 0.00, 44.00, 44, 'Days', 'Pending', 17, 1765703543),
+(441, 3, '14122025151301', 'unique', 9, 700.00, 44.00, 1, 44.00, 0.00, 0.00, 44.00, 44, 'Days', 'Pending', 17, 1765703584);
+
 -- --------------------------------------------------------
 
 --
@@ -2377,6 +2885,15 @@ CREATE TABLE `sales_order_item_serials` (
   `batch_number` varchar(255) NOT NULL,
   `serial_number` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+--
+-- Dumping data for table `sales_order_item_serials`
+--
+
+INSERT INTO `sales_order_item_serials` (`id`, `item_id`, `is_available`, `batch_number`, `serial_number`) VALUES
+(318, 439, 0, '', 'aaa'),
+(319, 440, 0, '', '4444'),
+(320, 441, 0, '', '333');
 
 -- --------------------------------------------------------
 
@@ -2509,14 +3026,14 @@ CREATE TABLE `staff` (
 --
 
 INSERT INTO `staff` (`id`, `organization_id`, `branch_id`, `employee_id`, `department`, `designation`, `ip_address`, `first_name`, `last_name`, `email`, `roles_id`, `qualification`, `work_exp`, `father_name`, `mother_name`, `contact_no`, `emergency_contact_no`, `dob`, `marital_status`, `date_of_joining`, `date_of_leaving`, `local_address`, `permanent_address`, `gender`, `account_title`, `bank_account_no`, `bank_name`, `lang_id`, `bank_branch`, `basic_salary`, `staff_type`, `hourly_rate`, `facebook`, `twitter`, `linkedin`, `instagram`, `resume`, `joining_letter`, `is_active`, `picture`, `create_user`, `create_date`) VALUES
-(1, 0, 0, '', 0, 0, '', 'System', '', 'system', 1, '', '', '', '', '', '', 0, '', 0, 0, '', '', '', '', '', '', '', '', '0.00', 0, '0.00', '', '', '', '', '', '', 1, '0.png', 0, 0),
-(2, 0, 0, '', 0, 0, '', 'Admin', '', 'litan@gmail.com', 1, '', '', '', '', '', '', 0, '', 0, 0, '', '', '', '', '', '', '', '', '0.00', 0, '0.00', '', '', '', '', '', '', 1, '0.png', 0, 0),
-(6, 0, 0, '', 0, 0, '', 'abir', 'r', 'admin@gmail.com', 3, '', '', '3', '33', '33', '33', 1731711600, 'Single', 1731711600, 1731711600, '', '', '', '', '', '', '', '', '0.00', 1, '100.00', '', '', '', '', '', '', 1, '0.png', 0, 1731778556),
-(7, 0, 0, '', 0, 0, '', 'Md Kobir ', 'Hasan', 'kobir1@gmail.com', 3, '', '', 'Ibr', '', '0182762', '1123333', 1732230000, '', 1732230000, 1732230000, '', '', '', '', '', '', '', '', '0.00', 1, '100.00', '', '', '', '', '', '', 1, '0.png', 0, 1732250608),
-(8, 0, 0, '', 0, 0, '', 'Admin', '', 'superadmin@gmail.com', 1, '', '', '', '', '', '', 0, '', 0, 0, '', '', '', '', '', '', '', '', '0.00', 0, '0.00', '', '', '', '', '', '', 1, '0.png', 0, 0),
-(9, 0, 0, '2132332', 0, 0, '', 'Hridoy', 'Sarkar', 'hridoy@gmail.com', 0, '', '', 'Ibrahim', '', '01827262', '01827262', 1732834800, 'Single', 1732834800, 1732834800, '', '', 'Male', '', '', '', '', '', '0.00', 1, '100.00', '', '', '', '', '', '', 1, '0.png', 0, 1732851415),
-(10, 3, 0, '', 0, 0, '', 'Master IT', '', '', 2, '', '', '', '', '01829', '', 0, '', 1761845407, 0, '', '', '', '', '', '', '', '', '0.00', 0, '0.00', '', '', '', '', '', '', 1, '0.png', 0, 1761845407),
-(11, 3, 0, '', 0, 0, '', 'Master IT', '', '', 2, '', '', '', '', 'masterit', '', 0, '', 1761845407, 0, '', '', '', '', '', '', '', '', '0.00', 0, '0.00', '', '', '', '', '', '', 1, '0.png', 0, 1761845407);
+(1, 0, 0, '', 0, 0, '', 'System', '', 'system', 1, '', '', '', '', '', '', 0, '', 0, 0, '', '', '', '', '', '', '', '', 0.00, 0, 0.00, '', '', '', '', '', '', 1, '0.png', 0, 0),
+(2, 0, 0, '', 0, 0, '', 'Admin', '', 'litan@gmail.com', 1, '', '', '', '', '', '', 0, '', 0, 0, '', '', '', '', '', '', '', '', 0.00, 0, 0.00, '', '', '', '', '', '', 1, '0.png', 0, 0),
+(6, 0, 0, '', 0, 0, '', 'abir', 'r', 'admin@gmail.com', 3, '', '', '3', '33', '33', '33', 1731711600, 'Single', 1731711600, 1731711600, '', '', '', '', '', '', '', '', 0.00, 1, 100.00, '', '', '', '', '', '', 1, '0.png', 0, 1731778556),
+(7, 0, 0, '', 0, 0, '', 'Md Kobir ', 'Hasan', 'kobir1@gmail.com', 3, '', '', 'Ibr', '', '0182762', '1123333', 1732230000, '', 1732230000, 1732230000, '', '', '', '', '', '', '', '', 0.00, 1, 100.00, '', '', '', '', '', '', 1, '0.png', 0, 1732250608),
+(8, 0, 0, '', 0, 0, '', 'Admin', '', 'superadmin@gmail.com', 1, '', '', '', '', '', '', 0, '', 0, 0, '', '', '', '', '', '', '', '', 0.00, 0, 0.00, '', '', '', '', '', '', 1, '0.png', 0, 0),
+(9, 0, 0, '2132332', 0, 0, '', 'Hridoy', 'Sarkar', 'hridoy@gmail.com', 0, '', '', 'Ibrahim', '', '01827262', '01827262', 1732834800, 'Single', 1732834800, 1732834800, '', '', 'Male', '', '', '', '', '', 0.00, 1, 100.00, '', '', '', '', '', '', 1, '0.png', 0, 1732851415),
+(10, 3, 0, '', 0, 0, '', 'Master IT', '', '', 2, '', '', '', '', '01829', '', 0, '', 1761845407, 0, '', '', '', '', '', '', '', '', 0.00, 0, 0.00, '', '', '', '', '', '', 1, '0.png', 0, 1761845407),
+(11, 3, 0, '', 0, 0, '', 'Master IT', '', '', 2, '', '', '', '', 'masterit', '', 0, '', 1761845407, 0, '', '', '', '', '', '', '', '', 0.00, 0, 0.00, '', '', '', '', '', '', 1, '0.png', 0, 1761845407);
 
 -- --------------------------------------------------------
 
@@ -2871,7 +3388,7 @@ ALTER TABLE `warehouse`
 -- AUTO_INCREMENT for table `acc_general_ledger`
 --
 ALTER TABLE `acc_general_ledger`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=366;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=479;
 
 --
 -- AUTO_INCREMENT for table `branch`
@@ -2895,25 +3412,25 @@ ALTER TABLE `business_partner`
 -- AUTO_INCREMENT for table `inv_stock_history`
 --
 ALTER TABLE `inv_stock_history`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=129;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=135;
 
 --
 -- AUTO_INCREMENT for table `inv_stock_item_batch`
 --
 ALTER TABLE `inv_stock_item_batch`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
 
 --
 -- AUTO_INCREMENT for table `inv_stock_item_serial`
 --
 ALTER TABLE `inv_stock_item_serial`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=214;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=218;
 
 --
 -- AUTO_INCREMENT for table `inv_stock_master`
 --
 ALTER TABLE `inv_stock_master`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=81;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=83;
 
 --
 -- AUTO_INCREMENT for table `login_credential`
@@ -2925,13 +3442,13 @@ ALTER TABLE `login_credential`
 -- AUTO_INCREMENT for table `logs`
 --
 ALTER TABLE `logs`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1417;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1665;
 
 --
 -- AUTO_INCREMENT for table `menus`
 --
 ALTER TABLE `menus`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
 
 --
 -- AUTO_INCREMENT for table `organizations`
@@ -2973,37 +3490,37 @@ ALTER TABLE `products_groups`
 -- AUTO_INCREMENT for table `purchase`
 --
 ALTER TABLE `purchase`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=171;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=282;
 
 --
 -- AUTO_INCREMENT for table `purchase_invoice`
 --
 ALTER TABLE `purchase_invoice`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
 
 --
 -- AUTO_INCREMENT for table `purchase_items`
 --
 ALTER TABLE `purchase_items`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=85;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=91;
 
 --
 -- AUTO_INCREMENT for table `purchase_item_serials`
 --
 ALTER TABLE `purchase_item_serials`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=72;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=76;
 
 --
 -- AUTO_INCREMENT for table `purchase_order_items`
 --
 ALTER TABLE `purchase_order_items`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=50;
 
 --
 -- AUTO_INCREMENT for table `purchase_order_item_serials`
 --
 ALTER TABLE `purchase_order_item_serials`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
 
 --
 -- AUTO_INCREMENT for table `purchase_return`
@@ -3027,7 +3544,7 @@ ALTER TABLE `roles`
 -- AUTO_INCREMENT for table `role_menu`
 --
 ALTER TABLE `role_menu`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=42;
 
 --
 -- AUTO_INCREMENT for table `role_permissions`
@@ -3039,37 +3556,37 @@ ALTER TABLE `role_permissions`
 -- AUTO_INCREMENT for table `sales`
 --
 ALTER TABLE `sales`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=113;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=114;
 
 --
 -- AUTO_INCREMENT for table `sales_invoice`
 --
 ALTER TABLE `sales_invoice`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=296;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=300;
 
 --
 -- AUTO_INCREMENT for table `sales_items`
 --
 ALTER TABLE `sales_items`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=113;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=114;
 
 --
 -- AUTO_INCREMENT for table `sales_item_batch_profit_loss`
 --
 ALTER TABLE `sales_item_batch_profit_loss`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=86;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=87;
 
 --
 -- AUTO_INCREMENT for table `sales_order_items`
 --
 ALTER TABLE `sales_order_items`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=438;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=442;
 
 --
 -- AUTO_INCREMENT for table `sales_order_item_serials`
 --
 ALTER TABLE `sales_order_item_serials`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=318;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=321;
 
 --
 -- AUTO_INCREMENT for table `sales_return`

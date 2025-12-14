@@ -501,6 +501,7 @@ public function add_item_ajax()
        
         $this->db->insert('sales_invoice', [
             'organization_id' => $this->session->userdata('loggedin_org_id'),
+            "branch_id"                  => $this->session->userdata('loggedin_branch_id'), 
             'invoice_code' => $invoice_id,
             'customer_id' => $customer_id,
             'create_user' => $this->session->userdata('loggedin_id'),

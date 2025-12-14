@@ -172,12 +172,17 @@
 <?php
 if(isset($allPdt)){
     foreach($allPdt as $pdt){
+        $branch_id =  $pdt->branch_id;
+        $branch = $this->main_model->get_branch_by_id($branch_id);
 
 ?>
-    <div class="header-title">LOGIC GO</div>
+   <div class="header-title"> <?= !empty($branch->name) ? $branch->name : '' ?></div>
     <div class="sub-header">
-        Office: Samir Tower, House-308, 5th Floor, Elephant Road, Dhaka-1205<br>
-        Contact: +8801894821851
+         <?php if(!empty($branch->address)): ?>
+        <?= $branch->address ?>
+    <?php endif; ?><br>
+        Contact: <?= !empty($branch->mobile_no) ? $branch->mobile_no : '' ?><br>
+        E-mail: <?= !empty($branch->email) ? $branch->email : '' ?>
     </div>
 
     <!-- Info -->

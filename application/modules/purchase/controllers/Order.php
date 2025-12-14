@@ -39,7 +39,7 @@ public function index()
     $data['allPro']         = $this->main_model->getRecordsByOrg("products");
     $data['allSuplier']     = $this->purchase_model->getSuplier();
     $data['allPayment']     = $this->main_model->getRecordsByOrg("payment_method");
-    $data['allGroup']       = $this->main_model->getRecordsByOrg("partner_group");
+    $data['allGroup']       = $this->main_model->getRecordsByOrg("partner_groups");
 
     $data['invoice']        = $this->purchase_model->getInvoice($id);//echo "<pre>";print_r($data['invoice'] );exit();
   //  $data['allPdt']        = $this->purchase_model->PurchaseOrderCon($id);//echo "<pre>";print_r($data['invoice'] );exit();

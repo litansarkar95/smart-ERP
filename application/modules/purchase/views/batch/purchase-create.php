@@ -49,7 +49,7 @@
         </div>
         <div class="row">
           <div class="col-12">
-                <form  action="<?php echo base_url(); ?>purchase/purchasebatch/create" method="post" enctype="multipart/form-data">
+                <form  action="<?php echo base_url(); ?>purchase/purchasebatch/insert" method="post" enctype="multipart/form-data">
                                                             <div class="row mb-3">
 
                                      <div class="col-md-2 mb-2">
@@ -655,7 +655,7 @@ function calculateGrandTotals(){
         let rowSub = parseFloat($(this).find('.sub_total').val()) || 0;
         let rowRebate = parseFloat($(this).find('.total_rebate').val()) || 0;
 
-        totalOrder  += (price * qty);
+        totalOrder  += qty;
         subtotal    += rowSub;
         totalRebate += rowRebate;
     });
@@ -782,10 +782,20 @@ $('#addItemBtn').on('click', function(){
 
     let supplier_id = $('#supplier_id').val();
     let product_id = $('#product_id').val();
-    if(!product_id){ alert('Select product'); return; }
+    if(!product_id){
+         iziToast.error({
+				// title: 'Error',
+				message: 'Select product!',
+				position: 'topRight'
+				}) ; return; }
 
     let invoice_code = $('#invoice_code').val(); // UI থেকে invoice_code
-    if(!invoice_code){ alert('Invoice code required'); return; }
+    if(!invoice_code){
+        iziToast.error({
+				// title: 'Error',
+				message: 'Invoice code required !',
+				position: 'topRight'
+				}) ; return; }
 
     let price  = parseFloat($('#price').val()) || 0;
     let qty    = parseInt($('#qty').val()) || 1;
@@ -796,7 +806,12 @@ $('#addItemBtn').on('click', function(){
         ? $('#item_serial').val().trim()
         : $('#barcode_serial').val().trim();
 
-    if(!serialVal){ alert('Serial / Batch required'); return; }
+    if(!serialVal){
+         iziToast.error({
+				// title: 'Error',
+				message: 'Serial / Batch required!',
+				position: 'topRight'
+				}) ; return; }
 
     // 🔑 ROW KEY
     let rowKey = serialType === 'unique'
@@ -869,8 +884,17 @@ $('#addItemBtn').on('click', function(){
                 $('#itemsTable tbody').append(newRow);
             }
 
+            iziToast.success({
+				//title: 'Success',
+				message: 'Add to cart Success !',
+				position: 'topRight'
+				});
+
+
             resetInputs();
             calculateGrandTotals();
+
+
         }
     });
 
