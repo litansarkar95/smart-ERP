@@ -57,7 +57,7 @@ public function delete($id)
 {
     $invoice = $this->common_model->view_data(
         "sales_invoice",
-        array("id" => $id),
+        array("invoice_code" => $id),
         "id",
         "asc"
     );
@@ -72,7 +72,7 @@ public function delete($id)
 
 
     $items = $this->common_model->view_data(
-        "sales_items",
+        "sales_order_items",
         array("invoice_id" => $invoice_code),
         "id",
         "asc"
@@ -89,14 +89,14 @@ public function delete($id)
 
       
         $this->common_model->delete_data(
-            "sales_items",
+            "sales_order_items",
             array("invoice_id" => $invoice_code)
         );
     }
 
     $this->common_model->delete_data(
         "sales_invoice",
-        array("id" => $id)
+        array("invoice_code" => $id)
     );
 
     $this->session->set_flashdata('success', 'Invoice and related items deleted successfully.');

@@ -234,7 +234,7 @@ public function insert()
                 $pdata = array(
                     "organization_id"    => $this->session->userdata('loggedin_org_id'),
                     "branch_id"          => $branch_id,
-                    "invoice_code"       => $this->common_model->xss_clean($this->input->post("invoice_id")),  
+                    "invoice_code"       => $this->common_model->xss_clean($this->input->post("invoice_code")),  
                     "purchase_id"        => $purchase_id,
                     "store_id"           => $store_id,
                     "product_id"         => $item->product_id,
@@ -643,5 +643,48 @@ public function delete_item(){
     echo json_encode(['status'=>'success']);
 }
 
+   public function update_item()
+    {
+        if (!$this->input->is_ajax_request()) {
+            show_error('No direct script access allowed');
+        }
 
+        $item_id      = $this->input->post('item_id');
+        $price        = $this->input->post('price');
+        $qty          = $this->input->post('qty');
+        $total_rebate = $this->input->post('total_rebate');
+        $sub_total    = $this->input->post('sub_total');
+
+        if (!$item_id) {
+            echo json_encode([
+                'status' => 'error',
+                'message' => 'Item ID missing'
+            ]);
+            return;
+        }
+
+        $data = [
+            'price'        => $price,
+            'qty'          => $qty,
+            'rebate'       => ($total_rebate > 0 && $qty > 0) 
+                                ? round($total_rebate / $qty, 2) 
+                                : 0.00,
+            'total_rebate' => $total_rebate,
+            'sub_total'    => $sub_total,
+        ];
+
+        $update = $this->purchasebatch_model->update_item($item_id, $data);
+
+        if ($update) {
+            echo json_encode([
+                'status' => 'success',
+                'message' => 'Item updated successfully'
+            ]);
+        } else {
+            echo json_encode([
+                'status' => 'error',
+                'message' => 'Update failed'
+            ]);
+        }
+    }
 }

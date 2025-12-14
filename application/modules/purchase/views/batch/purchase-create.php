@@ -315,7 +315,6 @@
             <th>Quantity</th>
             <th>Price</th>
             <th>Rebate</th>
-            <th>Unit</th>
             <th>Sub Total</th>
             <th>Item Serials / Lot</th>
             <th>Action</th>
@@ -444,55 +443,7 @@
 
 
 
-<div class="modal fade" id="editBatchModal">
-  <div class="modal-dialog modal-lg">
-    <div class="modal-content">
 
-      <!-- Header -->
-      <div class="modal-header">
-        <h5 class="modal-title">Edit Item</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-      </div>
-
-      <!-- Body -->
-      <div class="modal-body">
-
-        <input type="hidden" id="edit_batch_row_id">
-
-        <!-- Price -->
-        <div class="mb-2">
-            <label>Price</label>
-            <input type="number" id="edit_batch_price" class="form-control">
-        </div>
-         <!-- Price -->
-        <div class="mb-2">
-            <label>Qty</label>
-            <input type="number" id="edit_batch_qty" class="form-control">
-        </div>
-
-        <!-- Rebate -->
-        <div class="mb-2">
-            <label>Total Rebate</label>
-            <input type="number" id="edit_batch_rebate" class="form-control">
-        </div>
-
-        <!-- Serial List Table -->
-         <div class="mb-2">
-            <label>Barcode</label>
-            <input type="text" id="edit_batch" class="form-control">
-        </div>
-
-      </div> <!-- modal-body end -->
-
-      <!-- Footer -->
-      <div class="modal-footer">
-        <button type="button" class="btn btn-success" id="updateItemBtn">Update</button>
-        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
-      </div>
-
-    </div>
-  </div>
-</div>
 
 
 <div class="modal fade" id="editModal">
@@ -640,6 +591,34 @@ $('form').on('keydown', function(e){
     if(e.key === 'Enter'){
         e.preventDefault();
     }
+});
+$(document).on('input', '.qty, .price, .total_rebate', function(){
+
+    let row   = $(this).closest('tr');
+    let qty   = parseFloat(row.find('.qty').val()) || 0;
+    let price = parseFloat(row.find('.price').val()) || 0;
+    let rebate= parseFloat(row.find('.total_rebate').val()) || 0;
+
+    let subtotal = (qty * price) - rebate;
+    row.find('.sub_total').val(subtotal.toFixed(2));
+
+    calculateGrandTotals();
+});
+
+$(document).on('blur', '.qty, .price, .total_rebate', function(){
+
+    let row = $(this).closest('tr');
+
+    $.post(
+        '<?= base_url("purchase/purchasebatch/update_item") ?>',
+        {
+            item_id: row.data('item-id'),
+            qty: row.find('.qty').val(),
+            price: row.find('.price').val(),
+            total_rebate: row.find('.total_rebate').val(),
+            sub_total: row.find('.sub_total').val()
+        }
+    );
 });
 
 function calculateGrandTotals(){
@@ -870,10 +849,11 @@ $('#addItemBtn').on('click', function(){
                 <tr data-key="${rowKey}" data-item-id="${res.item_id}">
                     <td>${$('#itemsTable tbody tr').length + 1}</td>
                     <td>${$('#product_id option:selected').text()}</td>
-                    <td><input type="text" class="form-control qty" value="${newQty}" readonly></td>
-                    <td><input type="text" class="form-control price" value="${price}" readonly></td>
-                    <td><input type="text" class="form-control total_rebate" value="${totalRebate.toFixed(2)}" readonly></td>
-                    <td>pcs</td>
+                    <td><input type="number" class="form-control qty" value="${newQty}"></td>
+                    <td><input type="number" class="form-control price" value="${price}"></td>
+                    <td><input type="number" class="form-control total_rebate" value="${totalRebate.toFixed(2)}"></td>
+
+              
                     <td><input type="text" class="form-control sub_total" value="${subtotal.toFixed(2)}" readonly></td>
                     <td><textarea class="form-control serial_number" readonly>${serialVal}</textarea></td>
                     <td>

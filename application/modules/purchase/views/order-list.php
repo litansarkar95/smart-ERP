@@ -38,6 +38,7 @@
                         <thead class="table-success">
                             <tr>
                                 <th>#</th>
+                                <th>Supplier</th>
                                 <th>Order No</th>
                                 <th>Order Date</th>
                                 <th>Order By</th>
@@ -53,6 +54,7 @@
                                         <td>
                                             <?= $i++ ?>
                                         </td>
+                                           <td><?php echo $pdt->partner;?>    </td>
                                            <td><?php echo $pdt->invoice_code;?>    </td>
                                            <td><?php echo date("d-m-Y",$pdt->create_date);?>  </td>
                                            <td><?php echo $pdt->first_name;?>    </td>

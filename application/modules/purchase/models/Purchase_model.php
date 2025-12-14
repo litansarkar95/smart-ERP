@@ -115,9 +115,10 @@ public function number_generator() {
         if($id){
             $this->db->where("purchase_invoice.id",$id); 
         }
-		$this->db->select("purchase_invoice.*, staff.first_name ");
+		$this->db->select("purchase_invoice.*,  business_partner.name partner , business_partner.contact_no mobile_no  , staff.first_name ");
         $this->db->from("purchase_invoice");
         $this->db->join('login_credential', "purchase_invoice.create_user = login_credential.id",'left');
+        $this->db->join('business_partner', "purchase_invoice.supplier_id = business_partner.id",'left');
         $this->db->join('staff', "login_credential.user_id = staff.id",'left');
         $this->db->where("purchase_invoice.organization_id", $loggedin_org_id);
         $this->db->where("purchase_invoice.status", 'Pending');

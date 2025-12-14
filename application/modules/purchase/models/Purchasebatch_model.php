@@ -97,5 +97,9 @@ public function delete_item($item_id){
              ->delete('purchase_order_items');
 }
 
-
+    public function update_item($item_id, $data)
+    {
+        $this->db->where('id', $item_id);
+        return $this->db->update('purchase_order_items', $data);
+    }
 }
