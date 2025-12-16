@@ -139,6 +139,16 @@ border-radius:5px; margin:15px; cursor:pointer;">
             ?>
              <a href="<?php echo base_url()."sales/sreturn/invoice/$row->sales_return_id "?>" target="_balnk"><?= $row->invoice_no ?> </a>
 
+              <?php
+                }else if($row->voucher_type == 'Customer Received' ){
+            ?>
+             <a href="<?php echo base_url()."accounts/customerReceived/invoice/$row->customer_received_id "?>" target="_balnk"><?= $row->invoice_no ?> </a>
+
+             <?php
+                }else if($row->voucher_type == 'Supplier Payment' ){
+            ?>
+             <a href="<?php echo base_url()."accounts/supplierReceived/invoice/$row->supplier_received_id "?>" target="_balnk"><?= $row->invoice_no ?> </a>
+
              <?php
                 }
              ?>

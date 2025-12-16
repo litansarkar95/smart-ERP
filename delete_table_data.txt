@@ -19,3 +19,5 @@ DELETE FROM `sales_return_items`;
 DELETE FROM `acc_general_ledger`;
 DELETE FROM `purchase_return`;
 DELETE FROM `purchase_return_items`;
+DELETE FROM `acc_customer_received`;
+DELETE FROM `acc_supplier_received`;

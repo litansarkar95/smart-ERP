@@ -1,5 +1,5 @@
 <?php
-class CustomerReceived extends MX_Controller
+class SupplierReceived extends MX_Controller
 {
   public function __construct() {
         parent::__construct();
@@ -14,11 +14,11 @@ public function index()
 
  
   $data = array();
-  $data['active'] = "CustomerReceived";
-  $data['title'] = "Customer Received"; 
+  $data['active'] = "SupplierReceived";
+  $data['title'] = "Supplier Received"; 
   $data['allCustomer']         = $this->main_model->getRecordsByOrg("business_partner");
   $data['allPayment']         = $this->main_model->getRecordsByOrg("payment_method");
-  $data['content'] = $this->load->view("customer-received-create", $data, TRUE);
+  $data['content'] = $this->load->view("supplier-received-create", $data, TRUE);
   $this->load->view('layout/master', $data);
 
 }
@@ -53,17 +53,17 @@ public function get_customer_balance()
         ]);
     }
 }
-public function get_customer_due_invoices()
+public function get_supplie_due_invoices()
 {
     $customer_id = $this->input->post('customer_id');
 
     $invoices = $this->db
-        ->select('invoice_no, payableAmount, dueAmount ,customer_id')
-        ->from('sales')
-        ->where('customer_id', $customer_id)
+        ->select('invoice_no, totalAmount, dueAmount ,supplier_id')
+        ->from('purchase')
+        ->where('supplier_id', $customer_id)
         ->where('dueAmount >', 0)
         ->where('is_active', 1)
-        ->order_by('sales_date', 'ASC')
+        ->order_by('purchase_date', 'ASC')
         ->get()
         ->result();
 
@@ -97,19 +97,19 @@ foreach($invoice_no as $i => $inv){
         // Get sales_id and existing paidAmount
         $sale = $this->db->select('id, paidAmount')
                          ->where('invoice_no', $inv)
-                         ->get('sales')
+                         ->get('purchase')
                          ->row();
 
         if($sale){
             $sales_id = $sale->id;
-             $int_no = $this->customerReceived_model->number_generator("acc_customer_received");
-        $invoice_n = 'CPINV-'.str_pad($int_no,4,"0",STR_PAD_LEFT);
+             $int_no = $this->customerReceived_model->number_generator("acc_supplier_received");
+        $invoice_n = 'SPGRN-'.str_pad($int_no,4,"0",STR_PAD_LEFT);
         $data = [
             "organization_id"            => $this->session->userdata('loggedin_org_id'),
             "branch_id"                  => $this->session->userdata('loggedin_branch_id'),
             "code_random"                => $int_no,
             "invoice_no"                 => $invoice_n,
-            'sales_id'                   => $sales_id,
+            'purchase_id'                => $sales_id,
             'paid_amount'                => $paid_amount[$i],
             'discount_amount'            => $discount_amount[$i],
             'received_date'              => strtotime($received_date), 
@@ -118,7 +118,7 @@ foreach($invoice_no as $i => $inv){
             'create_user'                => $this->session->userdata('loggedin_id'),
             'create_date'                => strtotime($date)
         ];
-        $this->db->insert('acc_customer_received', $data);
+        $this->db->insert('acc_supplier_received', $data);
 
         $insert_id = $this->db->insert_id();
         $converted_date = convert_date_ddmmyyyy_to_yyyymmdd($received_date);
@@ -127,19 +127,19 @@ foreach($invoice_no as $i => $inv){
         $total_tr_data = array(   
         "organization_id"            => $this->session->userdata('loggedin_org_id'),
         "branch_id"                  => $this->session->userdata('loggedin_branch_id'), 
-        "voucher_type"               => 'Customer Received',  
+        "voucher_type"               => 'Supplier Payment',  
         "invoice_no"                 => $invoice_n, 
-        "customer_received_id"       => $insert_id,   
+        "supplier_received_id"       => $insert_id,   
         "party_id"                   => $customer_id,   
-        "account_name"               => 'Customer Received Sales', 
-        "particulars"                => 'Customer Received',   
+        "account_name"               => 'Supplier Payment Sales', 
+        "particulars"                => 'Supplier Payment',   
         "date"                       => $converted_date,    
-        "debit"                      => 0,   
-        "credit"                     => $paid_amount[$i],
+        "debit"                      => $paid_amount[$i],   
+        "credit"                     => 0,
         "gl_date"                    => strtotime($received_date),
         "acc_coa_head_id"            => 0,   
         "payment_method"             => $payment_method_id,    
-        "remarks"                    => 'Customer Received',
+        "remarks"                    => 'Supplier Payment',
         "is_active"                  => 1,
         "create_user"                => $this->session->userdata('loggedin_id'),
         "create_date"                => strtotime($date),
@@ -154,19 +154,19 @@ foreach($invoice_no as $i => $inv){
      $total_tr_data = array(   
         "organization_id"            => $this->session->userdata('loggedin_org_id'),
         "branch_id"                  => $this->session->userdata('loggedin_branch_id'), 
-        "voucher_type"               => 'Customer Received',  
+        "voucher_type"               => 'Supplier Payment',  
         "invoice_no"                 => $invoice_n, 
-        "customer_received_id"       => $insert_id,   
+        "supplier_received_id"       => $insert_id,   
         "party_id"                   => $customer_id,   
-        "account_name"               => 'Customer Received Discount', 
-        "particulars"                => 'Customer Received',   
+        "account_name"               => 'Supplier Payment Discount', 
+        "particulars"                => 'Supplier Payment',   
         "date"                       => $converted_date,    
-        "debit"                      => 0,  
-        "credit"                     => $discount_amount[$i], 
+        "debit"                      => $discount_amount[$i],  
+        "credit"                     => 0, 
         "gl_date"                    => strtotime($received_date),
         "acc_coa_head_id"            => 0,   
         "payment_method"             => $payment_method_id,    
-        "remarks"                    => 'Customer Received',
+        "remarks"                    => 'Supplier Received',
         "is_active"                  => 1,
         "create_user"                => $this->session->userdata('loggedin_id'),
         "create_date"                => strtotime($date),
@@ -182,7 +182,7 @@ foreach($invoice_no as $i => $inv){
 
               $current_bac= $this->partner_model->get_current_balance($customer_id);
                 $current_balance = $current_bac->current_balance;
-                $new_balance = $current_balance - ($paid_amount[$i]+$discount_amount[$i]);
+                $new_balance = $current_balance + ($paid_amount[$i]+$discount_amount[$i]);
                 $this->partner_model->update_balance($customer_id, $new_balance);
 
 
@@ -203,7 +203,7 @@ foreach($invoice_no as $i => $inv){
             $this->db->set('dueAmount', 'dueAmount - ' . floatval($paid_amount[$i]), FALSE)
                      ->set('paidAmount', 'paidAmount + ' . floatval($paid_amount[$i]), FALSE)
                      ->where('id', $sales_id)
-                     ->update('sales');
+                     ->update('purchase');
         }
     }
 }
@@ -230,10 +230,10 @@ public function save_auto_paid()
     $total_paid = floatval($this->input->post('total_paid'));
     $payment_method_id = $this->input->post('payment_method_id');
  
-    $this->db->where('customer_id', $customer_id);
+    $this->db->where('supplier_id', $customer_id);
     $this->db->where('dueAmount >', 0);
-    $this->db->order_by('sales_date', 'ASC'); 
-    $invoices = $this->db->get('sales')->result();
+    $this->db->order_by('purchase_date', 'ASC'); 
+    $invoices = $this->db->get('purchase')->result();
     $date = date("Y-m-d H:i:s");
 
     foreach ($invoices as $invoice) {
@@ -244,21 +244,21 @@ public function save_auto_paid()
 
       
         $this->db->where('id', $invoice->id);
-        $this->db->update('sales', [
+        $this->db->update('purchase', [
             'paidAmount' => $invoice->paidAmount + $paid_now,
             'dueAmount' => $invoice->dueAmount - $paid_now
         ]);
 
-        $int_no = $this->customerReceived_model->number_generator("acc_customer_received");
-        $invoice_no = 'CPINV-'.str_pad($int_no,4,"0",STR_PAD_LEFT);
+        $int_no = $this->customerReceived_model->number_generator("acc_supplier_received");
+        $invoice_no = 'SPGRN-'.str_pad($int_no,4,"0",STR_PAD_LEFT);
 
   
-        $this->db->insert('acc_customer_received', [
+        $this->db->insert('acc_supplier_received', [
             "organization_id"            => $this->session->userdata('loggedin_org_id'),
             "branch_id"                  => $this->session->userdata('loggedin_branch_id'),
             "code_random"                => $int_no,
             "invoice_no"                 => $invoice_no,
-            'sales_id'                   => $invoice->id,
+            'purchase_id'                => $invoice->id,
             'paid_amount'                => $paid_now,
             'received_date'              => strtotime($received_date), 
             'payment_method_id'          => $payment_method_id, // Example, you can get from form
@@ -274,19 +274,19 @@ public function save_auto_paid()
         $total_tr_data = array(   
         "organization_id"            => $this->session->userdata('loggedin_org_id'),
         "branch_id"                  => $this->session->userdata('loggedin_branch_id'), 
-        "voucher_type"               => 'Customer Received',  
+        "voucher_type"               => 'Supplier Payment',  
         "invoice_no"                 => $invoice_no, 
-        "customer_received_id"       => $insert_id,   
+        "supplier_received_id"       => $insert_id,   
         "party_id"                   => $customer_id,   
-        "account_name"               => 'Customer Received Sales', 
-        "particulars"                => 'Customer Received',   
+        "account_name"               => 'Supplier Payment', 
+        "particulars"                => 'Supplier Payment',   
         "date"                       => $converted_date,    
-        "debit"                      => 0,   
-        "credit"                     => $paid_now,   
+        "debit"                      => $paid_now,   
+        "credit"                     => 0,   
         "gl_date"                    => strtotime($received_date),
         "acc_coa_head_id"            => 0,   
         "payment_method"             => $payment_method_id,    
-        "remarks"                    => 'Customer Received',
+        "remarks"                    => 'Supplier Payment',
         "is_active"                  => 1,
         "create_user"                => $this->session->userdata('loggedin_id'),
         "create_date"                => strtotime($date),
@@ -301,7 +301,7 @@ public function save_auto_paid()
   
                 $current_bac= $this->partner_model->get_current_balance($customer_id);
                 $current_balance = $current_bac->current_balance;
-                $new_balance = $current_balance - $paid_now;
+                $new_balance = $current_balance + $paid_now;
                 $this->partner_model->update_balance($customer_id, $new_balance);
             
 
@@ -318,16 +318,16 @@ public function list()
 {
  
     $data                 = array();
-    $data['active']       = "customerReceived";
-    $data['title']        = "Customer Received List"; 
-    $data['allPdt']       = $this->customerReceived_model->getReceivedList();
-    $data['content']      = $this->load->view("customer-received-list", $data, TRUE);
+    $data['active']       = "supplierReceived";
+    $data['title']        = "Supplier Received List"; 
+    $data['allPdt']       = $this->customerReceived_model->getSupplierList();
+    $data['content']      = $this->load->view("supplier-received-list", $data, TRUE);
     $this->load->view('layout/master', $data);
  }
 
 public function invoice($id)
 {
-    $data['receipt'] = $this->customerReceived_model->getReceivedList($id);
+    $data['receipt'] = $this->customerReceived_model->getSupplierList($id);
 
     if (empty($data['receipt'])) {
         show_404();

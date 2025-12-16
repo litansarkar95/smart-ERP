@@ -18,9 +18,9 @@
       <div class="content">
         <div class="row">
           <div class="col-auto">
-            <h3>Transaction No</h3>
+            <h3>Supplier Received</h3>
           </div>
-          <form action="<?= base_url('accounts/customerReceived/save_auto_paid') ?>" method="post">
+          <form action="<?= base_url('accounts/supplierReceived/save_auto_paid') ?>" method="post">
         <div class="card">
         <div class="card-body">
 
@@ -28,7 +28,7 @@
             <div class="col-md-4 mb-3">
                 <input type="hidden" name="customer_id" value="<?= $customer_id ?>">
                                     <div class="form-group">
-                                  <label for="customer_id" class="form-label">Customer Name</label>
+                                  <label for="customer_id" class="form-label">Supplier Name</label>
                                   <div class="select_2_container">
                                     <select name="customer_id"  id="customer_id"     class="form-control frm_select select2">
                                     	<option value="">Select </option>
@@ -134,7 +134,7 @@
     <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
         <div class="modal-content">
 
-            <form id="paidBillForm" method="post" action="<?= base_url('accounts/customerReceived/save_due_collection'); ?>">
+            <form id="paidBillForm" method="post" action="<?= base_url('accounts/supplierReceived/save_due_collection'); ?>">
             <input type="hidden" name="received_date" id="modal_received_date">
             <input type="hidden" name="note" id="modal_note">
 
@@ -249,7 +249,7 @@ $(document).ready(function () {
         }
 
         $.ajax({
-            url: "<?= base_url('accounts/customerReceived/get_customer_balance'); ?>",
+            url: "<?= base_url('accounts/supplierReceived/get_customer_balance'); ?>",
             type: "POST",
             dataType: "json",
             data: { customer_id: customer_id },
@@ -279,7 +279,7 @@ $('#customer_id').on('change', function () {
     $('#modalCustomerName').text(customer_name);
 
     $.ajax({
-        url: "<?= base_url('accounts/customerReceived/get_customer_due_invoices'); ?>",
+        url: "<?= base_url('accounts/supplierReceived/get_supplie_due_invoices'); ?>",
         type: "POST",
         dataType: "json",
         data: { customer_id: customer_id },
@@ -294,7 +294,7 @@ $('#customer_id').on('change', function () {
                         <tr>
                             <td>${sl++}</td>
                             <td><input type="text" name="invoice_no[]" class="form-control" value="${row.invoice_no}" readonly>
-                            <input type="hidden" name="customer_id" class="form-control" value="${row.customer_id}" >
+                            <input type="hidden" name="customer_id" class="form-control" value="${row.supplier_id}" >
                             </td>
                             <td><input type="text" name="due_amount[]" class="form-control" value="${row.dueAmount}" readonly></td>
                             <td><input type="number" name="discount_amount[]" class="form-control discount_amount" value="0"></td>
