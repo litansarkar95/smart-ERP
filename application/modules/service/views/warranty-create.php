@@ -63,62 +63,71 @@
           <div class="row mb-3">
 
             <!-- Product Group -->
-            <div class="col-md-2 mb-3">
-              <div class="form-group">
-                <label>Product Group</label>
-                <div class="select_2_container">
-                  <select name="group_id" class="form-control select2">
-                    <option value="">Select</option>
-                    <?php foreach($allCat as $cat){ ?>
-                      <option value="<?= $cat->id ?>"><?= $cat->name ?></option>
-                    <?php } ?>
-                  </select>
-                  <i class="fas fa-caret-down"></i>
-                </div>
-              </div>
-            </div>
-
-            <!-- Product Name -->
-            <div class="col-md-4 mb-3">
-              <div class="form-group">
-                <label>Product Name</label>
-                <div class="select_2_container">
-                  <select name="product_id" class="form-control select2">
-                    <option value="">Select</option>
-                    <?php foreach($allPro as $pro): ?>
-                      <option value="<?= $pro->id ?>"><?= $pro->name ?></option>
-                    <?php endforeach; ?>
-                  </select>
-                  <i class="fas fa-caret-down"></i>
-                </div>
-              </div>
-            </div>
-
+          
             <!-- Supplier -->
-            <div class="col-md-3 mb-3">
-              <div class="form-group">
-                <label>Select Supplier</label>
-                <div class="select_2_container">
-                  <select name="supplier_id" class="form-control select2">
-                    <option value="">Select</option>
-                    <?php foreach($allSuplier as $customer){ ?>
-                      <option value="<?= $customer->id ?>">
-                        <?= $customer->name ?> - <?= $customer->contact_no ?>
-                      </option>
-                    <?php } ?>
-                  </select>
-                  <i class="fas fa-caret-down"></i>
-                </div>
-              </div>
-            </div>
+                                                                   <div class="col-md-3">
+                                                        <div class="form-group">
+                                                            <label for="customer_id">Select Customer</label>
+                                                            <div class="select_2_container">
+                                                                <select name="customer_id" id="customer_id" class="form-control frm_select select2" >
+                                                                    <option value="">Select</option>
+                                                                
+                                                                </select>
+                                                                <i class="fas fa-caret-down"></i>
+                                                            </div>
+                                                            <span class="text-error small"><?= form_error('customer_id'); ?></span>
+                                                        </div>
+                                                    </div>
 
-            <!-- IMEI -->
-            <div class="col-md-3 mb-3">
-              <div class="form-group">
-                <label>Serial / IMEI No</label>
-                <input type="text" name="mobile_no" class="form-control">
-              </div>
-            </div>
+
+               <div class="col-md-3 ">
+                                                                                            <div class="form-group">
+                                                                                        <label for="invoice_id">Select Invoice  </label>
+                                                                                        <div class="select_2_container">
+                                                                                            <select name="invoice_id"  id="invoice_id"     class="form-control frm_select select2">
+                                                                                            <option  value="">  Select Invoice </option>
+                                                                                     
+                                                                                            </select>
+                                                                                            <i class="fas fa-caret-down"></i>
+                                                                                        </div>
+                                                                                        <span class="text-error small"> <?php echo form_error('invoice_id'); ?>   </span>
+                                                                                        </div></div>
+                                                                                        <!-- end Brand -->
+                                                                                    <div class="col-md-4 ">
+                                                                                            <div class="form-group">
+                                                                                        <label for="product_id">Select Product  </label>
+                                                                                        <div class="select_2_container">
+                                                                                            <select name="product_id"  id="product_id"     class="form-control frm_select select2">
+                                                                                            <option  value="">  Select Product </option>
+                                                                               
+                                                                                            </select>
+                                                                                            <i class="fas fa-caret-down"></i>
+                                                                                        </div>
+                                                                                        <span class="text-error small"> <?php echo form_error('product_id'); ?>   </span>
+                                                                                        </div></div>
+                                                                                        <!-- end Brand -->
+                                
+
+                                                                                                <div class="col-md-3 ">
+                                                                                            <div class="form-group">
+                                                                                        <label for="serial_list">Select Serial  </label>
+                                                                                        <div class="select_2_container">
+                                                                                            <select id="serial_list" name="serial_list" class="form-control select2">
+                                                                                                    <option value="">Select Serial</option>
+                                                                                                </select>
+
+                                                                                            <i class="fas fa-caret-down"></i>
+                                                                                        </div>
+                                                                                        <span class="text-error small"> <?php echo form_error('serial_list'); ?>   </span>
+                                                                                        </div></div>
+                                                                                        <!-- end Brand -->
+                                                                                         <div class="col-md-3 ">
+																<div class="form-group">
+																<label for="enter_serial">Enter Serial <span class="text-error"> *</span></label>
+									      						<input type="text"   name="enter_serial" id="enter_serial" value=""   class="form-control" >
+																<span class="text-error small"><?php echo form_error('enter_serial'); ?></span>
+																</div>
+									      					</div>   
 
           </div>
 
@@ -140,4 +149,93 @@
 </div>
 
 
+<script>
+$.ajax({
+    url: "<?= base_url('sales/salesreturn/get_all_ajax') ?>",
+    type: "GET",
+    dataType: "json",
+    success: function(customers) {
+        let select = $("#customer_id");
+        select.empty();
+        select.append('<option value="">Select</option>');
+        customers.forEach(c => {
+            select.append(`<option value="${c.id}">${c.name} - ${c.contact_no}</option>`);
+        });
+        select.trigger('change'); // select2 update
+    }
+});
+$("#customer_id").val(customer_id_from_scan).trigger('change');
+</script>
 
+<script>
+$(document).on('change', '#customer_id', function () {
+    var customer_id = $(this).val();
+
+    $('#invoice_id').html('<option value="">Loading...</option>');
+
+    $.ajax({
+        url: "<?= base_url('sales/sreturn/get_invoice_by_customer'); ?>",
+        type: "POST",
+        data: {customer_id: customer_id},
+        dataType: "json",
+        success: function (res) {
+            $('#invoice_id').html('<option value="">Select Invoice</option>');
+            $.each(res, function (i, item) {
+                $('#invoice_id').append(
+                    '<option value="'+ item.id +'">'+ item.invoice_no +'</option>'
+                );
+            });
+        }
+    });
+});
+</script>
+<script>
+$(document).on('change', '#invoice_id', function () {
+    var invoice_id = $(this).val();
+
+    $('#product_id').html('<option value="">Loading...</option>');
+
+    $.ajax({
+        url: "<?= base_url('sales/sreturn/get_products_by_invoice'); ?>",
+        type: "POST",
+        data: {invoice_id: invoice_id},
+        dataType: "json",
+        success: function (res) {
+            $('#product_id').html('<option value="">Select Product</option>');
+            $.each(res, function (i, item) {
+                $('#product_id').append(
+                    '<option value="'+ item.id +'">'+ item.name +'</option>'
+                );
+            });
+        }
+    });
+});
+</script>
+<script>
+$(document).on('change', '#product_id', function () {
+    var product_id = $(this).val();
+    var invoice_id = $('#invoice_id').val();
+
+    $('#serial_list').html('Loading...');
+
+    $.ajax({
+        url: "<?= base_url('service/warranty/get_serial_by_product'); ?>",
+        type: "POST",
+        data: {
+            product_id: product_id,
+            invoice_id: invoice_id
+        },
+        dataType: "json",
+        success: function (res) {
+
+            $('#serial_list').html('');
+
+            $.each(res, function (i, row) {
+                $('#serial_list').append(
+                    '<option value="'+ row.value +'">'+ row.label +'</option>'
+                );
+            });
+        }
+    });
+});
+</script>

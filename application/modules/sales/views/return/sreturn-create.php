@@ -88,19 +88,19 @@
 
 
 
-	<div class="col-md-3">
-    <div class="form-group">
-        <label for="customer_id">Select Supplier</label>
-        <div class="select_2_container">
-            <select name="customer_id" id="customer_id" class="form-control frm_select select2" >
-                <option value="">Select</option>
-               
-            </select>
-            <i class="fas fa-caret-down"></i>
-        </div>
-        <span class="text-error small"><?= form_error('customer_id'); ?></span>
-    </div>
-</div>
+                                                        <div class="col-md-3">
+                                                        <div class="form-group">
+                                                            <label for="customer_id">Select Customer</label>
+                                                            <div class="select_2_container">
+                                                                <select name="customer_id" id="customer_id" class="form-control frm_select select2" >
+                                                                    <option value="">Select</option>
+                                                                
+                                                                </select>
+                                                                <i class="fas fa-caret-down"></i>
+                                                            </div>
+                                                            <span class="text-error small"><?= form_error('customer_id'); ?></span>
+                                                        </div>
+                                                    </div>
 
                                
 
