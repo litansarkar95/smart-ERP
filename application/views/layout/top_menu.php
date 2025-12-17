@@ -8,6 +8,24 @@
     text-overflow: ellipsis; 
 }
 
+/* ===== ALIGN ALL MENU ITEMS EQUALLY ===== */
+.header_menu {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: stretch;     /* সব item same height */
+}
+
+.header_menu li {
+    display: flex;
+}
+
+.header_menu li a {
+    display: flex;
+    align-items: center;      /* text vertically center */
+    height: 100%;
+    white-space: normal !important;
+    line-height: 1.3;
+}
 
         </style>
   
@@ -18,9 +36,9 @@
 										    </button>
 										    <div class="collapse navbar-collapse" id="navbarSupportedContent">
 										    <ul class="navbar-nav me-auto mb-2 mb-lg-0 header_menu">
-										        <li class="nav-item">
+										        <!-- <li class="nav-item">
 										          <a class="nav-link <?php if($active == 'dashboard'  ){ echo 'active';} ?>"  aria-current="page" href="<?php echo base_url(); ?>dashboard">Dashboard</a>
-										        </li>
+										        </li> -->
 
                            
 	 <?php

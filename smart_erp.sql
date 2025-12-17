@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.0
+-- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 16, 2025 at 08:25 AM
--- Server version: 10.4.27-MariaDB
--- PHP Version: 7.4.33
+-- Generation Time: Dec 17, 2025 at 11:59 AM
+-- Server version: 10.4.32-MariaDB
+-- PHP Version: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -50,7 +50,7 @@ CREATE TABLE `acc_customer_received` (
 --
 
 INSERT INTO `acc_customer_received` (`id`, `organization_id`, `branch_id`, `code_random`, `sales_id`, `invoice_no`, `paid_amount`, `discount_amount`, `received_date`, `payment_method_id`, `note`, `create_user`, `create_date`, `update_user`, `update_date`) VALUES
-(31, 3, 1, 1, 124, 'CPINV-0001', '40.00', '0.00', 1765821600, 1, '', 17, 1765869839, 0, 0);
+(31, 3, 1, 1, 124, 'CPINV-0001', 40.00, 0.00, 1765821600, 1, '', 17, 1765869839, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -92,13 +92,13 @@ CREATE TABLE `acc_general_ledger` (
 --
 
 INSERT INTO `acc_general_ledger` (`id`, `organization_id`, `branch_id`, `voucher_type`, `invoice_no`, `purchase_invoice_id`, `sales_invoice_id`, `purchase_return_id`, `sales_return_id`, `customer_received_id`, `supplier_received_id`, `party_id`, `account_name`, `particulars`, `date`, `debit`, `credit`, `gl_date`, `acc_coa_head_id`, `payment_method`, `remarks`, `is_active`, `create_user`, `create_date`, `update_user`, `update_date`) VALUES
-(531, 3, 1, 'Purchase', 'GRN-0001', 294, 0, 0, 0, 0, 0, 1, 'Supplier Purchase', 'Purchase for order', '2025-12-16', '0.00', '700.00', 1765869657, 0, 0, 'Purchase order ', 1, 17, 1765869657, 0, 0),
-(532, 3, 1, 'Supplier Payment', 'GRN-0001', 294, 0, 0, 0, 0, 0, 1, 'Supplier Account', 'Payment for order', '2025-12-16', '100.00', '0.00', 1765869657, 0, 1, 'Payment for order ', 1, 17, 1765869657, 0, 0),
-(533, 3, 1, 'Purchase', 'GRN-0002', 295, 0, 0, 0, 0, 0, 1, 'Supplier Purchase', 'Purchase for order', '2025-12-16', '0.00', '700.00', 1765869705, 0, 0, 'Purchase order ', 1, 17, 1765869705, 0, 0),
-(534, 3, 1, 'Supplier Rebate', 'GRN-0002', 295, 0, 0, 0, 0, 0, 1, 'Rebate', 'Rebate for order', '2025-12-16', '100.00', '0.00', 1765869705, 0, 0, 'Payment for order with rebate and discount ', 1, 17, 1765869705, 0, 0),
-(535, 3, 1, 'Sales', 'INV-0001', 0, 124, 0, 0, 0, 0, 1, 'Customer Sales', 'Sales for order', '2025-12-16', '40.00', '0.00', 1765821600, 0, 0, 'Sales order ', 1, 17, 1765869790, 0, 0),
-(536, 3, 1, 'Customer Received', 'CPINV-0001', 0, 0, 0, 0, 31, 0, 1, 'Customer Received Sales', 'Customer Received', '2025-12-16', '0.00', '40.00', 1765821600, 0, 1, 'Customer Received', 1, 17, 1765869839, 0, 0),
-(537, 3, 1, 'Supplier Payment', 'SPGRN-0001', 0, 0, 0, 0, 0, 7, 1, 'Supplier Payment', 'Supplier Payment', '2025-12-16', '200.00', '0.00', 1765821600, 0, 1, 'Supplier Payment', 1, 17, 1765869871, 0, 0);
+(531, 3, 1, 'Purchase', 'GRN-0001', 294, 0, 0, 0, 0, 0, 1, 'Supplier Purchase', 'Purchase for order', '2025-12-16', 0.00, 700.00, 1765869657, 0, 0, 'Purchase order ', 1, 17, 1765869657, 0, 0),
+(532, 3, 1, 'Supplier Payment', 'GRN-0001', 294, 0, 0, 0, 0, 0, 1, 'Supplier Account', 'Payment for order', '2025-12-16', 100.00, 0.00, 1765869657, 0, 1, 'Payment for order ', 1, 17, 1765869657, 0, 0),
+(533, 3, 1, 'Purchase', 'GRN-0002', 295, 0, 0, 0, 0, 0, 1, 'Supplier Purchase', 'Purchase for order', '2025-12-16', 0.00, 700.00, 1765869705, 0, 0, 'Purchase order ', 1, 17, 1765869705, 0, 0),
+(534, 3, 1, 'Supplier Rebate', 'GRN-0002', 295, 0, 0, 0, 0, 0, 1, 'Rebate', 'Rebate for order', '2025-12-16', 100.00, 0.00, 1765869705, 0, 0, 'Payment for order with rebate and discount ', 1, 17, 1765869705, 0, 0),
+(535, 3, 1, 'Sales', 'INV-0001', 0, 124, 0, 0, 0, 0, 1, 'Customer Sales', 'Sales for order', '2025-12-16', 40.00, 0.00, 1765821600, 0, 0, 'Sales order ', 1, 17, 1765869790, 0, 0),
+(536, 3, 1, 'Customer Received', 'CPINV-0001', 0, 0, 0, 0, 31, 0, 1, 'Customer Received Sales', 'Customer Received', '2025-12-16', 0.00, 40.00, 1765821600, 0, 1, 'Customer Received', 1, 17, 1765869839, 0, 0),
+(537, 3, 1, 'Supplier Payment', 'SPGRN-0001', 0, 0, 0, 0, 0, 7, 1, 'Supplier Payment', 'Supplier Payment', '2025-12-16', 200.00, 0.00, 1765821600, 0, 1, 'Supplier Payment', 1, 17, 1765869871, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -129,7 +129,7 @@ CREATE TABLE `acc_supplier_received` (
 --
 
 INSERT INTO `acc_supplier_received` (`id`, `organization_id`, `branch_id`, `code_random`, `purchase_id`, `invoice_no`, `paid_amount`, `discount_amount`, `received_date`, `payment_method_id`, `note`, `create_user`, `create_date`, `update_user`, `update_date`) VALUES
-(7, 3, 1, 1, 294, 'SPGRN-0001', '200.00', '0.00', 1765821600, 1, '', 17, 1765869871, 0, 0);
+(7, 3, 1, 1, 294, 'SPGRN-0001', 200.00, 0.00, 1765821600, 1, '', 17, 1765869871, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -220,8 +220,8 @@ CREATE TABLE `business_partner` (
 --
 
 INSERT INTO `business_partner` (`id`, `organization_id`, `name`, `partner_type`, `contact_no`, `email`, `address`, `credit_limit`, `payment_terms`, `sales_representative`, `region`, `business_category`, `delivery_method`, `notes`, `is_active`, `customer_group_id`, `reference_id`, `opening_balance_type`, `opening_balance`, `current_balance`, `create_user`, `create_date`, `created_at`, `updated_at`) VALUES
-(1, 3, 'Cash', 'Both', '0', '', 'Cash', NULL, NULL, NULL, NULL, NULL, NULL, '', 1, 0, 10, '', '0.00', '-1000.00', 17, 1764140186, '2025-11-26 06:56:26', '2025-12-16 07:24:32'),
-(38, 3, 'litan', 'Both', '444', '444', '4444444444444444', NULL, NULL, NULL, NULL, NULL, NULL, '44', 1, 0, 0, '', '0.00', '0.00', 17, 1765645867, '2025-12-13 17:11:07', '2025-12-16 07:18:14');
+(1, 3, 'Cash', 'Both', '0', '', 'Cash', NULL, NULL, NULL, NULL, NULL, NULL, '', 1, 0, 10, '', 0.00, -1000.00, 17, 1764140186, '2025-11-26 06:56:26', '2025-12-16 07:24:32'),
+(38, 3, 'litan', 'Both', '444', '444', '4444444444444444', NULL, NULL, NULL, NULL, NULL, NULL, '44', 1, 0, 0, '', 0.00, 0.00, 17, 1765645867, '2025-12-13 17:11:07', '2025-12-16 07:18:14');
 
 -- --------------------------------------------------------
 
@@ -254,8 +254,8 @@ CREATE TABLE `inv_stock_history` (
 --
 
 INSERT INTO `inv_stock_history` (`id`, `organization_id`, `branch_id`, `purchase_id`, `store_id`, `product_id`, `previous_purchase_price`, `previous_rebate`, `previous_sales_price`, `previous_quanity`, `purchase_price`, `rebate`, `sales_price`, `quanity`, `is_active`, `create_user`, `create_date`) VALUES
-(148, 3, 1, 294, 1, 9, '0.00', '0.00', '0.00', 0, '700.00', '0.00', '44.00', 1, 1, 17, 1765869658),
-(149, 3, 1, 295, 1, 9, '700.00', '0.00', '44.00', 1, '600.00', '100.00', '44.00', 1, 1, 17, 1765869706);
+(148, 3, 1, 294, 1, 9, 0.00, 0.00, 0.00, 0, 700.00, 0.00, 44.00, 1, 1, 17, 1765869658),
+(149, 3, 1, 295, 1, 9, 700.00, 0.00, 44.00, 1, 600.00, 100.00, 44.00, 1, 1, 17, 1765869706);
 
 -- --------------------------------------------------------
 
@@ -323,8 +323,8 @@ CREATE TABLE `inv_stock_item_serial` (
 --
 
 INSERT INTO `inv_stock_item_serial` (`id`, `organization_id`, `branch_id`, `purchase_id`, `supplier_id`, `store_id`, `product_id`, `purchase_date`, `purchase_price`, `rebate`, `sales_price`, `quanity`, `is_available`, `serial_type`, `serial`, `warrenty`, `is_returned`, `qty_returned`, `warrenty_days`, `create_user`, `create_date`, `update_user`, `update_date`) VALUES
-(227, 3, 1, 294, 1, 1, 9, 1765821600, '700', '0.00', '44', 1, 0, 'unique', '33333', 44, 0, 0, 'Days', 17, 1765869657, 0, 0),
-(228, 3, 1, 295, 1, 1, 9, 1765821600, '600', '100.00', '44', 1, 1, 'unique', '2222', 44, 0, 0, 'Days', 17, 1765869705, 0, 0);
+(227, 3, 1, 294, 1, 1, 9, 1765821600, 700, 0.00, 44, 1, 0, 'unique', '33333', 44, 0, 0, 'Days', 17, 1765869657, 0, 0),
+(228, 3, 1, 295, 1, 1, 9, 1765821600, 600, 100.00, 44, 1, 1, 'unique', '2222', 44, 0, 0, 'Days', 17, 1765869705, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -356,7 +356,7 @@ CREATE TABLE `inv_stock_master` (
 --
 
 INSERT INTO `inv_stock_master` (`id`, `organization_id`, `branch_id`, `store_id`, `product_id`, `purchase_price`, `rebate`, `sales_price`, `quanity`, `warrenty`, `warrenty_days`, `is_active`, `create_user`, `create_date`, `update_user`, `update_date`) VALUES
-(89, 3, 1, 1, 9, '600.00', '100.00', '44.00', 1, 44, 'Days', 1, 17, 1765869658, 17, 1765869790);
+(89, 3, 1, 1, 9, 600.00, 100.00, 44.00, 1, 44, 'Days', 1, 17, 1765869658, 17, 1765869790);
 
 -- --------------------------------------------------------
 
@@ -383,10 +383,10 @@ CREATE TABLE `login_credential` (
 --
 
 INSERT INTO `login_credential` (`id`, `organization_id`, `branch_id`, `user_id`, `username`, `password`, `role`, `active`, `last_login`, `created_at`, `updated_at`) VALUES
-(1, 0, 0, 1, 'system', 'UHZVdVBOTWI0VkwrN0MvQjRRRUZkdz09', 1, 1, '2025-12-16 13:18:28', '2024-10-21 15:42:57', '2025-12-16 13:18:28'),
+(1, 0, 0, 1, 'system', 'UHZVdVBOTWI0VkwrN0MvQjRRRUZkdz09', 1, 1, '2025-12-17 15:35:07', '2024-10-21 15:42:57', '2025-12-17 15:35:07'),
 (2, 0, 0, 2, 'litan@gmail.com', 'UHZVdVBOTWI0VkwrN0MvQjRRRUZkdz09', 1, 1, '2024-11-27 11:06:55', '2024-10-21 15:42:57', '2025-10-30 14:29:54'),
 (5, 0, 0, 6, 'admin@gmail.com', 'UHZVdVBOTWI0VkwrN0MvQjRRRUZkdz09', 2, 1, '2025-11-01 14:35:31', '2024-11-16 23:35:56', '2025-11-01 14:35:31'),
-(17, 3, 1, 10, '01829', 'UHZVdVBOTWI0VkwrN0MvQjRRRUZkdz09', 3, 1, '2025-12-16 13:20:32', '2025-10-30 23:30:08', '2025-12-16 13:20:32'),
+(17, 3, 1, 10, '01829', 'UHZVdVBOTWI0VkwrN0MvQjRRRUZkdz09', 3, 1, '2025-12-17 15:37:41', '2025-10-30 23:30:08', '2025-12-17 15:37:41'),
 (18, 3, 1, 11, 'masterit', 'UHZVdVBOTWI0VkwrN0MvQjRRRUZkdz09', 3, 1, '2025-12-06 17:55:23', '2025-10-30 23:30:08', '2025-12-06 17:55:23');
 
 -- --------------------------------------------------------
@@ -2189,7 +2189,18 @@ INSERT INTO `logs` (`id`, `message`, `record_id`, `user_id`, `action`, `ip_addre
 (1823, 'New Record inserted On sales_items id 124', 124, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-16 07:23:10', '2025-12-16'),
 (1824, 'New Record inserted On sales_item_batch_profit_loss id 97', 97, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-16 07:23:10', '2025-12-16'),
 (1825, 'New Record inserted On acc_general_ledger id 536', 536, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-16 07:23:59', '2025-12-16'),
-(1826, 'New Record inserted On acc_general_ledger id 537', 537, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-16 07:24:32', '2025-12-16');
+(1826, 'New Record inserted On acc_general_ledger id 537', 537, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-16 07:24:32', '2025-12-16'),
+(1827, 'New Record inserted On service_categories id 1', 1, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-17 09:12:04', '2025-12-17'),
+(1828, 'New Record inserted On service_categories id 2', 2, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-17 09:12:14', '2025-12-17'),
+(1829, 'Record deleted On service_categories id 2', 2, 17, 'Update', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-17 09:12:48', '2025-12-17'),
+(1830, 'Record deleted On service_categories id 1', 1, 17, 'Delete', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-17 09:12:55', '2025-12-17'),
+(1831, 'New Record inserted On service_categories id 3', 3, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-17 09:13:05', '2025-12-17'),
+(1832, 'New Record inserted On service_categories id 4', 4, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-17 09:13:41', '2025-12-17'),
+(1833, 'New Record inserted On service_categories id 5', 5, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-17 09:13:58', '2025-12-17'),
+(1834, 'New Record inserted On menus id 43', 43, 1, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-17 09:18:40', '2025-12-17'),
+(1835, 'New Record inserted On menus id 44', 44, 1, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-17 09:19:14', '2025-12-17'),
+(1836, 'New Record inserted On menus id 45', 45, 1, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-17 09:20:07', '2025-12-17'),
+(1837, 'New Record inserted On menus id 46', 46, 1, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-17 09:20:26', '2025-12-17');
 
 -- --------------------------------------------------------
 
@@ -2252,7 +2263,11 @@ INSERT INTO `menus` (`id`, `name`, `url`, `parent_id`, `position`, `icon`, `is_a
 (39, 'Customer Received', 'accounts/customerReceived', 38, 1, '', 1, 1765708533),
 (40, 'Customer Received List', 'accounts/customerReceived/list', 38, 2, '', 1, 1765869545),
 (41, 'Supplier Received', 'accounts/supplierReceived', 38, 4, '', 1, 1765869586),
-(42, 'Supplier Received List', 'accounts/supplierReceived/list', 38, 5, '', 1, 1765869608);
+(42, 'Supplier Received List', 'accounts/supplierReceived/list', 38, 5, '', 1, 1765869608),
+(43, 'RMA/Service', '#', 0, 19, '', 1, 1765963120),
+(44, 'Service Categories', 'service/categories', 43, 10, '', 1, 1765963154),
+(45, 'Warranty Entry', 'service/warranty/create', 43, 3, '', 1, 1765963206),
+(46, 'Warranty List', 'service/warranty', 43, 2, '', 1, 1765963226);
 
 -- --------------------------------------------------------
 
@@ -2394,8 +2409,8 @@ CREATE TABLE `products` (
 --
 
 INSERT INTO `products` (`id`, `organization_id`, `product_code`, `name`, `group_id`, `brand_id`, `unit_id`, `serial_type`, `purchase_price`, `tax_method`, `product_tax`, `product_tax_amount`, `total_amount`, `sales_price`, `warrenty`, `warrenty_days`, `re_order_level`, `is_inventory`, `is_short_bill`, `is_quotation`, `note`, `picture`, `is_active`, `create_user`, `create_date`) VALUES
-(8, 3, '7503', 'Nokia Mobile', 3, 3, 11, 'common', '500.00', 'Inclusive', '0.00', '0.00', '500.00', '800.00', 6, 'Month', 5, 1, 0, 1, '5', '0.png', 1, 17, 1765640124),
-(9, 3, '1087', 'Smart Phone', 3, 4, 10, 'unique', '700.00', 'Inclusive', '0.00', '0.00', '700.00', '44.00', 44, 'Days', 4, 1, 0, 1, '', '0.png', 1, 17, 1765640156);
+(8, 3, '7503', 'Nokia Mobile', 3, 3, 11, 'common', 500.00, 'Inclusive', 0.00, 0.00, 500.00, 800.00, 6, 'Month', 5, 1, 0, 1, '5', '0.png', 1, 17, 1765640124),
+(9, 3, '1087', 'Smart Phone', 3, 4, 10, 'unique', 700.00, 'Inclusive', 0.00, 0.00, 700.00, 44.00, 44, 'Days', 4, 1, 0, 1, '', '0.png', 1, 17, 1765640156);
 
 -- --------------------------------------------------------
 
@@ -2456,8 +2471,8 @@ CREATE TABLE `purchase` (
 --
 
 INSERT INTO `purchase` (`id`, `organization_id`, `branch_id`, `ip_address`, `invoice_code`, `code_random`, `invoice_no`, `purchase_date`, `supplier_id`, `store_id`, `totalQty`, `allTotal`, `totalDiscount`, `totalRebate`, `totalAmount`, `paidAmount`, `dueAmount`, `is_active`, `create_user`, `create_date`) VALUES
-(294, 3, 1, '', '', 1, 'GRN-0001', 1765821600, 1, 1, 1, '700.00', '0.00', '0.00', '700.00', '300.00', '400.00', 1, 17, 1765869657),
-(295, 3, 1, '', '16122025132058', 2, 'GRN-0002', 1765821600, 1, 1, 1, '700.00', '0.00', '100.00', '600.00', '0.00', '600.00', 1, 17, 1765869705);
+(294, 3, 1, '', '', 1, 'GRN-0001', 1765821600, 1, 1, 1, 700.00, 0.00, 0.00, 700.00, 300.00, 400.00, 1, 17, 1765869657),
+(295, 3, 1, '', '16122025132058', 2, 'GRN-0002', 1765821600, 1, 1, 1, 700.00, 0.00, 100.00, 600.00, 0.00, 600.00, 1, 17, 1765869705);
 
 -- --------------------------------------------------------
 
@@ -2519,8 +2534,8 @@ CREATE TABLE `purchase_items` (
 --
 
 INSERT INTO `purchase_items` (`id`, `organization_id`, `branch_id`, `invoice_code`, `purchase_id`, `store_id`, `product_id`, `serial_type`, `purchase_price`, `sales_price`, `qty`, `sub_total`, `rebate`, `total_rebate`, `net_total`, `warrenty`, `warrenty_days`, `status`, `create_user`, `create_date`) VALUES
-(104, 3, 1, '16122025132042', 294, 1, 9, 'unique', '700.00', '700.00', 1, '700.00', '0.00', '0.00', '700.00', 44, 'Days', 'Approved', 17, 1765869657),
-(105, 3, 1, '16122025132058', 295, 1, 9, 'unique', '700.00', '600.00', 1, '700.00', '100.00', '100.00', '600.00', 44, 'Days', 'Approved', 17, 1765869705);
+(104, 3, 1, '16122025132042', 294, 1, 9, 'unique', 700.00, 700.00, 1, 700.00, 0.00, 0.00, 700.00, 44, 'Days', 'Approved', 17, 1765869657),
+(105, 3, 1, '16122025132058', 295, 1, 9, 'unique', 700.00, 600.00, 1, 700.00, 100.00, 100.00, 600.00, 44, 'Days', 'Approved', 17, 1765869705);
 
 -- --------------------------------------------------------
 
@@ -2575,8 +2590,8 @@ CREATE TABLE `purchase_order_items` (
 --
 
 INSERT INTO `purchase_order_items` (`id`, `invoice_id`, `serial_type`, `product_id`, `purchase_date`, `price`, `qty`, `rebate`, `total_rebate`, `sub_total`, `sales_price`, `warrenty`, `warrenty_days`, `barcode_serial`, `create_date`) VALUES
-(73, '16122025132042', 'unique', 9, 1765869648, '700.00', 1, '0.00', '0.00', '700.00', '44.00', 44, 'Days', '', 1765869648),
-(74, '16122025132058', 'unique', 9, 0, '700.00', 1, '100.00', '100.00', '600.00', '44.00', 44, 'Days', '', 1765869700);
+(73, '16122025132042', 'unique', 9, 1765869648, 700.00, 1, 0.00, 0.00, 700.00, 44.00, 44, 'Days', '', 1765869648),
+(74, '16122025132058', 'unique', 9, 0, 700.00, 1, 100.00, 100.00, 600.00, 44.00, 44, 'Days', '', 1765869700);
 
 -- --------------------------------------------------------
 
@@ -2687,6 +2702,7 @@ CREATE TABLE `role_menu` (
 --
 
 INSERT INTO `role_menu` (`id`, `role_id`, `menu_id`) VALUES
+(49, 3, 1),
 (4, 3, 4),
 (5, 3, 5),
 (6, 3, 6),
@@ -2722,7 +2738,11 @@ INSERT INTO `role_menu` (`id`, `role_id`, `menu_id`) VALUES
 (41, 3, 39),
 (42, 3, 40),
 (43, 3, 41),
-(44, 3, 42);
+(44, 3, 42),
+(45, 3, 43),
+(48, 3, 44),
+(47, 3, 45),
+(46, 3, 46);
 
 -- --------------------------------------------------------
 
@@ -2797,7 +2817,7 @@ CREATE TABLE `sales` (
 --
 
 INSERT INTO `sales` (`id`, `organization_id`, `branch_id`, `ip_address`, `invoice_code`, `code_random`, `invoice_no`, `sales_date`, `customer_id`, `store_id`, `totalQty`, `subTotal`, `total_discount`, `adjustment`, `payableAmount`, `dueAmount`, `paidAmount`, `payment_method_id`, `next_due_paid_date`, `is_customer`, `customer_name`, `mobile_no`, `address`, `is_active`, `create_user`, `create_date`) VALUES
-(124, 3, 1, '', '16122025132246', 1, 'INV-0001', 1765821600, 1, 1, 1, '44.00', '4.00', '0.00', '40.00', '0.00', '40.00', 1, 0, 0, 'Cash', '0', 'Cash', 1, 17, 1765869790);
+(124, 3, 1, '', '16122025132246', 1, 'INV-0001', 1765821600, 1, 1, 1, 44.00, 4.00, 0.00, 40.00, 0.00, 40.00, 1, 0, 0, 'Cash', '0', 'Cash', 1, 17, 1765869790);
 
 -- --------------------------------------------------------
 
@@ -2860,7 +2880,7 @@ CREATE TABLE `sales_items` (
 --
 
 INSERT INTO `sales_items` (`id`, `organization_id`, `branch_id`, `invoice_id`, `sales_id`, `store_id`, `serial_type`, `product_id`, `purchase_price`, `price`, `qty`, `sub_total`, `discount_percent`, `discount_amount`, `net_total`, `warrenty`, `warrenty_days`, `status`, `is_returned`, `create_user`, `create_date`, `returned_qty`) VALUES
-(124, 3, 1, '', 124, 1, 'unique', 9, '600.00', '44.00', 1, '44.00', '0.00', '4.00', '40.00', 44, 'Days', 'Approved', 0, 17, 1765869790, 0);
+(124, 3, 1, '', 124, 1, 'unique', 9, 600.00, 44.00, 1, 44.00, 0.00, 4.00, 40.00, 44, 'Days', 'Approved', 0, 17, 1765869790, 0);
 
 -- --------------------------------------------------------
 
@@ -2895,7 +2915,7 @@ CREATE TABLE `sales_item_batch_profit_loss` (
 --
 
 INSERT INTO `sales_item_batch_profit_loss` (`id`, `organization_id`, `branch_id`, `sales_id`, `sales_item_id`, `customer_id`, `product_id`, `batch_id`, `batch_number`, `qty_sold`, `purchase_price`, `sales_price`, `profit_loss`, `serial_type`, `sales_date`, `create_user`, `create_date`, `qty_returned`, `is_returned`) VALUES
-(97, 3, 1, 124, 124, 1, 9, 227, '33333', 1, '700.00', '44.00', '-660.00', 'unique', 1765821600, 17, 1765869790, 0, 0);
+(97, 3, 1, 124, 124, 1, 9, 227, '33333', 1, 700.00, 44.00, -660.00, 'unique', 1765821600, 17, 1765869790, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -2928,7 +2948,7 @@ CREATE TABLE `sales_order_items` (
 --
 
 INSERT INTO `sales_order_items` (`id`, `organization_id`, `invoice_id`, `serial_type`, `product_id`, `purchase_price`, `price`, `qty`, `sub_total`, `discount_percent`, `discount_amount`, `net_total`, `warrenty`, `warrenty_days`, `status`, `create_user`, `create_date`) VALUES
-(454, 3, '16122025132246', 'unique', 9, '600.00', '44.00', 1, '44.00', '0.00', '4.00', '40.00', 44, 'Days', 'Approved', 17, 1765869771);
+(454, 3, '16122025132246', 'unique', 9, 600.00, 44.00, 1, 44.00, 0.00, 4.00, 40.00, 44, 'Days', 'Approved', 17, 1765869771);
 
 -- --------------------------------------------------------
 
@@ -2989,6 +3009,33 @@ CREATE TABLE `sales_return_items` (
   `total` decimal(16,2) NOT NULL,
   `serials` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `service_categories`
+--
+
+CREATE TABLE `service_categories` (
+  `id` int(11) NOT NULL,
+  `organization_id` int(11) NOT NULL,
+  `branch_id` int(11) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `amount` decimal(16,2) NOT NULL,
+  `is_active` int(11) NOT NULL,
+  `create_user` int(11) NOT NULL,
+  `create_date` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `service_categories`
+--
+
+INSERT INTO `service_categories` (`id`, `organization_id`, `branch_id`, `name`, `amount`, `is_active`, `create_user`, `create_date`) VALUES
+(2, 3, 0, ' WINDOWS PROBLEM ', 50.00, 1, 17, 1765962733),
+(3, 3, 0, ' WINDOWS PROBLEM', 0.00, 1, 17, 1765962785),
+(4, 3, 0, 'SPEAKER PROBLEM', 0.00, 1, 17, 1765962821),
+(5, 3, 0, 'NO POWER', 100.00, 1, 17, 1765962838);
 
 -- --------------------------------------------------------
 
@@ -3082,14 +3129,14 @@ CREATE TABLE `staff` (
 --
 
 INSERT INTO `staff` (`id`, `organization_id`, `branch_id`, `employee_id`, `department`, `designation`, `ip_address`, `first_name`, `last_name`, `email`, `roles_id`, `qualification`, `work_exp`, `father_name`, `mother_name`, `contact_no`, `emergency_contact_no`, `dob`, `marital_status`, `date_of_joining`, `date_of_leaving`, `local_address`, `permanent_address`, `gender`, `account_title`, `bank_account_no`, `bank_name`, `lang_id`, `bank_branch`, `basic_salary`, `staff_type`, `hourly_rate`, `facebook`, `twitter`, `linkedin`, `instagram`, `resume`, `joining_letter`, `is_active`, `picture`, `create_user`, `create_date`) VALUES
-(1, 0, 0, '', 0, 0, '', 'System', '', 'system', 1, '', '', '', '', '', '', 0, '', 0, 0, '', '', '', '', '', '', '', '', '0.00', 0, '0.00', '', '', '', '', '', '', 1, '0.png', 0, 0),
-(2, 0, 0, '', 0, 0, '', 'Admin', '', 'litan@gmail.com', 1, '', '', '', '', '', '', 0, '', 0, 0, '', '', '', '', '', '', '', '', '0.00', 0, '0.00', '', '', '', '', '', '', 1, '0.png', 0, 0),
-(6, 0, 0, '', 0, 0, '', 'abir', 'r', 'admin@gmail.com', 3, '', '', '3', '33', '33', '33', 1731711600, 'Single', 1731711600, 1731711600, '', '', '', '', '', '', '', '', '0.00', 1, '100.00', '', '', '', '', '', '', 1, '0.png', 0, 1731778556),
-(7, 0, 0, '', 0, 0, '', 'Md Kobir ', 'Hasan', 'kobir1@gmail.com', 3, '', '', 'Ibr', '', '0182762', '1123333', 1732230000, '', 1732230000, 1732230000, '', '', '', '', '', '', '', '', '0.00', 1, '100.00', '', '', '', '', '', '', 1, '0.png', 0, 1732250608),
-(8, 0, 0, '', 0, 0, '', 'Admin', '', 'superadmin@gmail.com', 1, '', '', '', '', '', '', 0, '', 0, 0, '', '', '', '', '', '', '', '', '0.00', 0, '0.00', '', '', '', '', '', '', 1, '0.png', 0, 0),
-(9, 0, 0, '2132332', 0, 0, '', 'Hridoy', 'Sarkar', 'hridoy@gmail.com', 0, '', '', 'Ibrahim', '', '01827262', '01827262', 1732834800, 'Single', 1732834800, 1732834800, '', '', 'Male', '', '', '', '', '', '0.00', 1, '100.00', '', '', '', '', '', '', 1, '0.png', 0, 1732851415),
-(10, 3, 0, '', 0, 0, '', 'Master IT', '', '', 2, '', '', '', '', '01829', '', 0, '', 1761845407, 0, '', '', '', '', '', '', '', '', '0.00', 0, '0.00', '', '', '', '', '', '', 1, '0.png', 0, 1761845407),
-(11, 3, 0, '', 0, 0, '', 'Master IT', '', '', 2, '', '', '', '', 'masterit', '', 0, '', 1761845407, 0, '', '', '', '', '', '', '', '', '0.00', 0, '0.00', '', '', '', '', '', '', 1, '0.png', 0, 1761845407);
+(1, 0, 0, '', 0, 0, '', 'System', '', 'system', 1, '', '', '', '', '', '', 0, '', 0, 0, '', '', '', '', '', '', '', '', 0.00, 0, 0.00, '', '', '', '', '', '', 1, '0.png', 0, 0),
+(2, 0, 0, '', 0, 0, '', 'Admin', '', 'litan@gmail.com', 1, '', '', '', '', '', '', 0, '', 0, 0, '', '', '', '', '', '', '', '', 0.00, 0, 0.00, '', '', '', '', '', '', 1, '0.png', 0, 0),
+(6, 0, 0, '', 0, 0, '', 'abir', 'r', 'admin@gmail.com', 3, '', '', '3', '33', '33', '33', 1731711600, 'Single', 1731711600, 1731711600, '', '', '', '', '', '', '', '', 0.00, 1, 100.00, '', '', '', '', '', '', 1, '0.png', 0, 1731778556),
+(7, 0, 0, '', 0, 0, '', 'Md Kobir ', 'Hasan', 'kobir1@gmail.com', 3, '', '', 'Ibr', '', '0182762', '1123333', 1732230000, '', 1732230000, 1732230000, '', '', '', '', '', '', '', '', 0.00, 1, 100.00, '', '', '', '', '', '', 1, '0.png', 0, 1732250608),
+(8, 0, 0, '', 0, 0, '', 'Admin', '', 'superadmin@gmail.com', 1, '', '', '', '', '', '', 0, '', 0, 0, '', '', '', '', '', '', '', '', 0.00, 0, 0.00, '', '', '', '', '', '', 1, '0.png', 0, 0),
+(9, 0, 0, '2132332', 0, 0, '', 'Hridoy', 'Sarkar', 'hridoy@gmail.com', 0, '', '', 'Ibrahim', '', '01827262', '01827262', 1732834800, 'Single', 1732834800, 1732834800, '', '', 'Male', '', '', '', '', '', 0.00, 1, 100.00, '', '', '', '', '', '', 1, '0.png', 0, 1732851415),
+(10, 3, 0, '', 0, 0, '', 'Master IT', '', '', 2, '', '', '', '', '01829', '', 0, '', 1761845407, 0, '', '', '', '', '', '', '', '', 0.00, 0, 0.00, '', '', '', '', '', '', 1, '0.png', 0, 1761845407),
+(11, 3, 0, '', 0, 0, '', 'Master IT', '', '', 2, '', '', '', '', 'masterit', '', 0, '', 1761845407, 0, '', '', '', '', '', '', '', '', 0.00, 0, 0.00, '', '', '', '', '', '', 1, '0.png', 0, 1761845407);
 
 -- --------------------------------------------------------
 
@@ -3409,6 +3456,12 @@ ALTER TABLE `sales_return_items`
   ADD KEY `sales_return_id` (`sales_return_id`);
 
 --
+-- Indexes for table `service_categories`
+--
+ALTER TABLE `service_categories`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `setting`
 --
 ALTER TABLE `setting`
@@ -3522,13 +3575,13 @@ ALTER TABLE `login_credential`
 -- AUTO_INCREMENT for table `logs`
 --
 ALTER TABLE `logs`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1827;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1838;
 
 --
 -- AUTO_INCREMENT for table `menus`
 --
 ALTER TABLE `menus`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=47;
 
 --
 -- AUTO_INCREMENT for table `organizations`
@@ -3624,7 +3677,7 @@ ALTER TABLE `roles`
 -- AUTO_INCREMENT for table `role_menu`
 --
 ALTER TABLE `role_menu`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=45;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=50;
 
 --
 -- AUTO_INCREMENT for table `role_permissions`
@@ -3679,6 +3732,12 @@ ALTER TABLE `sales_return`
 --
 ALTER TABLE `sales_return_items`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=163;
+
+--
+-- AUTO_INCREMENT for table `service_categories`
+--
+ALTER TABLE `service_categories`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `setting`
