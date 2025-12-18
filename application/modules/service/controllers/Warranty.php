@@ -13,11 +13,11 @@ public function index()
 
  
   $data = array();
-  $data['active'] = "Quotation";
-  $data['title'] = "Quotation"; 
+  $data['active'] = "warranty";
+  $data['title'] = "warranty"; 
 
   
-  $data['content'] = $this->load->view("quotation-create", $data, TRUE);
+  $data['content'] = $this->load->view("warranty-list", $data, TRUE);
   $this->load->view('layout/master', $data);
 
 }
