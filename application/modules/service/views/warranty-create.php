@@ -239,3 +239,21 @@ $(document).on('change', '#product_id', function () {
     });
 });
 </script>
+
+<script>
+$('#enter_serial').on('keyup', function () {
+    if ($(this).val().length > 0) {
+        $('#serial_list').prop('disabled', true);
+    } else {
+        $('#serial_list').prop('disabled', false);
+    }
+});
+
+$('#serial_list').on('change', function () {
+    if ($(this).val() !== '') {
+        $('#enter_serial').prop('readonly', true);
+    } else {
+        $('#enter_serial').prop('readonly', false);
+    }
+});
+</script>

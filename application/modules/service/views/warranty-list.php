@@ -39,12 +39,12 @@
                             <tr>
                                 <th>#</th>
                                 <th>Invoice</th>
-                                <th>Name</th>
-                                <th>Mobile No</th>
-                                <th>Total Amout</th>
-                                <th>Paid Amount</th>
-                                <th>Due</th>
-                                <th>Date</th>
+                                <th>Description</th>
+                                <th>Entry Date</th>
+                                <th>Delivery Date</th>
+                                <th>Customer</th>
+                                <th>Supplier</th>
+                                <th>Status</th>
                                 <th class=" no-sort">Action</th>	
                             </tr>
                         </thead>
@@ -57,12 +57,12 @@
                                             <?= $i++ ?>
                                         </td>
                                            <td><?php echo $pdt->invoice_no;?>    </td>
-                                           <td><?php echo $pdt->customer_name;?>    </td>
-                                           <td><?php echo $pdt->mobile_no;?>    </td>
-                                           <td><?php echo $pdt->total_amount;?>  </td>
-                                           <td><?php echo $pdt->paid_amount;?>  </td>
-                                           <td><?php echo $pdt->due_amount;?>  </td>
-                                           <td><?php echo date("d-m-Y",$pdt->sales_date);?>  </td>
+                                           <td><?php echo $pdt->invoice_no;?>  <br><b>Serial : <?php echo $pdt->serial;?>  </b> </td>
+                                           <td><?php echo date("d-m-Y",$pdt->create_date);?>    </td>
+                                           <td><?php echo date("d-m-Y",$pdt->delivery_date);?>    </td>
+                                           <td><?php echo $pdt->customer;?>  </td>
+                                           <td><?php echo $pdt->supplier;?>  </td>
+                                           <td><span class="badge bg-success">Completed</span> </td>
                                      
                                       
                                                
@@ -70,20 +70,12 @@
                                        <td>
                                     <div class="btn-group" role="group">
 
-                                      <a href="<?php echo base_url()."sales/sreturn/invoice/$pdt->id"?>" target="_blank" class="btn btn-sm btn-primary me-1">
+                                      <a href="<?php echo base_url()."service/warranty/invoice/$pdt->id"?>" target="_blank" class="btn btn-sm btn-primary me-1">
                                             <i class="fa fa-eye"></i> 
                                         </a>
-                                        <?php if (has_permission('sales/sreturn', 'edit')): ?>
-                                        <a href="<?php echo base_url()."sales/sreturn/edit/$pdt->id"?>" class="btn btn-sm btn-primary me-1">
-                                            <i class="fa fa-pencil"></i> 
-                                        </a>
-                                        <?php endif; ?>
-
-                                        <?php if (has_permission('sales/sreturn', 'delete')): ?>
-                                        <a href="#" class="btn btn-sm btn-danger" onclick="confirmDelete(<?php echo $pdt->id; ?>)">
-                                            <i class="fa fa-trash"></i> 
-                                        </a>
-                                        <?php endif; ?>
+                                         <a onclick="modal_form('<?php echo $pdt->id;?> ','change_service_status')" data-toggle="modal" href="#modal-form1" class="btn btn-primary btn-xs" style="padding: 0 5px !important;"><i class="fa fa-refresh"></i> Change Status</a>
+                                       
+                                    
                                     </div>
                                 </td>
 

@@ -31,8 +31,134 @@ class Service_model extends CI_Model {
      return $data;
 
 
-
-   
 }
+public function get_warranty_info_by_serial($serial)
+{
+    return $this->db
+        ->select('
+            pis.serial_number,
+            p.id   AS purchase_id,
+            p.supplier_id   AS supplier_id,
+            pi.invoice_code,
+            p.purchase_date   AS purchase_ts,
+            pi.warrenty,
+            pi.warrenty_days,
+            p.invoice_no,
+            bp.name          AS supplier_name
+        ')
+        ->from('purchase_item_serials pis')
+        ->join('purchase_items pi', 'pi.id = pis.item_id')
+        ->join('purchase p', 'p.id = pi.purchase_id')
+        ->join('business_partner bp', 'bp.id = p.supplier_id')
+        ->where('pis.serial_number', $serial)
+        ->limit(1)
+        ->get()
+        ->row();
+}
+
+
+public function get_warranty_sales_info_by_serial($serial)
+{
+    return $this->db
+        ->select('
+            sis.batch_number,
+            s.id   AS sales_id,
+            s.customer_id   AS customer_id,
+            s.sales_date  AS sales_ts,
+            si.warrenty,
+            si.warrenty_days,
+            s.invoice_no,
+            bp.name          AS customer_name
+        ')
+        ->from('sales_item_batch_profit_loss sis')
+        ->join('sales_items si', 'si.id = sis.sales_item_id')
+        ->join('sales s', 's.id = si.sales_id')
+        ->join('business_partner bp', 'bp.id = sis.customer_id')
+        ->where('sis.batch_number', $serial)
+        ->where('sis.is_returned',0)
+        ->limit(1)
+        ->get()
+        ->row();
+}
+
+
+public function get_service_warranty($invoice_id)
+{
+    $branch_id = $this->session->userdata("loggedin_branch_id");
+
+    return $this->db
+        ->select('
+            sw.*,
+            p.name as product_name,
+            p.product_code,
+            bp.name as customer_name,
+            bp.contact_no,
+            bp.address
+        ')
+        ->from('service_warranty sw')
+        ->join('inv_stock_item_serial iss', 'sw.serial = iss.serial', 'left')
+        ->join('products p', 'p.id = iss.product_id', 'left')
+        ->join('business_partner bp', 'bp.id = sw.customer_id', 'left')
+        ->where('sw.id', $invoice_id)
+        ->where('sw.branch_id', $branch_id)
+        ->get()
+        ->row(); // single row
+}
+
+
+public function get_service_warranty_order_with_product($invoice_id)
+{
+    $branch_id = $this->session->userdata("loggedin_branch_id");
+
+    return $this->db
+        ->select('
+            so.*,
+            sc.name as problem_name
+        ')
+        ->from('service_warranty_order so')
+        ->join('service_categories sc', 'so.service_categories_id = sc.id', 'left')
+        ->where('so.service_warranty_id', $invoice_id)
+        ->where('so.branch_id', $branch_id)
+        ->get()
+        ->result();
+}
+
+
+  public function ServiceWarranty($id = NULL)
+{
+    $loggedin_org_id = $this->session->userdata("loggedin_org_id");
+
+    if ($id) {
+        $this->db->where("sw.id", $id);
+    }
+
+    $this->db->select("
+        sw.*,
+        customer.name AS customer,
+        supplier.name AS supplier
+    ");
+
+    $this->db->from("service_warranty sw");
+
+    // Customer join
+    $this->db->join(
+        "business_partner customer",
+        "sw.customer_id = customer.id",
+        "left"
+    );
+
+    // Supplier join
+    $this->db->join(
+        "business_partner supplier",
+        "sw.supplier_id = supplier.id",
+        "left"
+    );
+
+    $this->db->where("sw.organization_id", $loggedin_org_id);
+    $this->db->order_by("sw.id", "DESC");
+
+    return $this->db->get()->result();
+}
+
 
 }
