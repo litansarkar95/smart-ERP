@@ -167,6 +167,7 @@ public function get_serial_by_product($product_id, $invoice_id)
         ->where("product_id", $product_id)
         ->where("purchase_id", $invoice_id)
         ->where("is_returned", 0)
+        ->where("is_available", 1)
         ->get()
         ->result();
 

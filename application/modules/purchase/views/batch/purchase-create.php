@@ -561,25 +561,7 @@ $('#rebate').on('input', function(){
 $('#price, #qty, #total_rebate').on('input', function(){
     calculateItemSubtotal();
 });
-$('#product_id').on('change', function(){
-    let product_id = $(this).val();
 
-    if(!product_id) return;
-
-    $.ajax({
-        url: '<?= base_url("purchase/get_product_info") ?>',
-        type: 'POST',
-        dataType: 'json',
-        data: { product_id: product_id },
-        success: function(res){
-            $('#price').val(res.price);
-            $('#sales_price').val(res.sales_price);
-            $('#rebate').val(res.rebate);
-            $('#total_rebate').val(res.rebate);
-            calculateItemSubtotal();
-        }
-    });
-});
 
 $('#item_serial, #barcode_serial').on('keydown', function(e){
     if(e.key === 'Enter'){
@@ -781,24 +763,24 @@ $('#addItemBtn').on('click', function () {
 
     let serialType = $('#unique_input').is(':visible') ? 'unique' : 'common';
 
-    let serialVal = serialType === 'unique'
-        ? $('#item_serial').val().trim()
-        : $('#barcode_serial').val().trim();
+  let serialVal = serialType === 'unique'
+    ? $('#item_serial').val().trim()
+    : $('#barcode_serial').val().trim();
 
-    if (!serialVal) {
-        iziToast.error({ message: 'Serial / Batch required!', position: 'topRight' });
-        return;
-    }
-
-    // 🔑 ROW KEY (ONE ROW FOR UNIQUE PRODUCT)
+if (serialType === 'unique' && !serialVal) {
+    iziToast.error({
+        message: 'Unique Serial required!',
+        position: 'topRight'
+    });
+    return;
+}
     let rowKey = serialType === 'unique'
         ? product_id + '_' + price + '_unique'
         : product_id + '_' + price + '_common';
 
-    // ✅ row define এখানেই
+ 
     let row = $('#itemsTable tbody tr[data-key="' + rowKey + '"]');
 
-    // ❌ duplicate unique serial block
     if (serialType === 'unique' && row.length) {
 
         let existingSerials = row.find('.serial_number').val()
@@ -902,7 +884,7 @@ function resetInputs(){
 
 $(document).on('click', '.removeItem', function(){
     let row = $(this).closest('tr');
-  //  let itemId = row.data('item-id');
+    let itemId = row.data('item-id');
 
     if(!itemId){
         alert('Item ID missing!');

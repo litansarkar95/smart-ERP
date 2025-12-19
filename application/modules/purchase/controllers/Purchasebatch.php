@@ -579,6 +579,11 @@ public function add_item_ajax(){
         ];
         $invoice_id = $this->purchasebatch_model->insert_invoice($invoice_data);
     }
+     $barcode_serial = $this->input->post('barcode_serial');
+
+    if(empty($barcode_serial)){
+        $barcode_serial = 'BATCH-' . time() . '-' . rand(100,999);
+    }
 
     $data = [
         'invoice_id'    => $invoice_code,

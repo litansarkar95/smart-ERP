@@ -21,3 +21,5 @@ DELETE FROM `purchase_return`;
 DELETE FROM `purchase_return_items`;
 DELETE FROM `acc_customer_received`;
 DELETE FROM `acc_supplier_received`;
+DELETE FROM `service_warranty`;
+DELETE FROM `service_warranty_order`;
