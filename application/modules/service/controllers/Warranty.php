@@ -79,20 +79,52 @@ $remaining_days = max(0, $remaining_days);
 
 //###############################  sales
 
-$sales_ts   = (int) $insl->sales_ts;
-$warranty_val  = (int) $insl->warrenty;
-$unit          = strtolower($insl->warrenty_days);
+$data['sales_info'] = null;   // default
 
-if ($unit === 'month' || $unit === 'months') {
-    $expire_ts = strtotime("+{$warranty_val} months", $sales_ts);
-} else {
-    $expire_ts = $sales_ts + ($warranty_val * 86400);
+if ($insl !== false) {
+
+    $sales_ts = !empty($insl->sales_ts) ? (int)$insl->sales_ts : 0;
+
+    $warranty_sval = (int) $insl->warrenty;
+    $unit = strtolower($insl->warrenty_days);
+
+    if ($sales_ts > 0) {
+        if ($unit === 'month' || $unit === 'months') {
+            $expire_sts = strtotime("+{$warranty_sval} months", $sales_ts);
+        } else {
+            $expire_sts = $sales_ts + ($warranty_sval * 86400);
+        }
+
+        $sales_remaining_days = max(
+            0,
+            floor(($expire_sts - time()) / 86400)
+        );
+    } else {
+        $sales_remaining_days = 0;
+    }
+
+    $data['sales_info'] = [
+        'customer_id'   => $insl->customer_id,
+        'sales_id'      => $insl->sales_id,
+        'sinvoice_no'   => $insl->invoice_no,
+        'sales_price'   =>  $insl->sales_price,
+        'sales_date'    => $sales_ts ? date('d-m-Y', $sales_ts) : '',
+        'customer_name' => $insl->customer_name,
+        'sales_warranty_left' =>
+            ($sales_remaining_days > 0)
+            ? $sales_remaining_days . ' Days Remaining'
+            : 'Warranty Expired',
+    ];
 }
 
-$sales_remaining_days = floor(($expire_ts - time()) / 86400);
-$sales_remaining_days = max(0, $sales_remaining_days);
 
-
+$pinfo = $this->service_model->get_warranty_product_info_by_serial($serial);
+$data['product'] = [
+    'name'          => $pinfo->name,
+    //'purchase_price'=> 12000,
+    'product_id'   => $pinfo->product_id,
+    'barcode'       => $serial,
+];
 
 
     $data['info'] = [
@@ -100,6 +132,7 @@ $sales_remaining_days = max(0, $sales_remaining_days);
         'supplier_id'                => $info->supplier_id,
         'purchase_id'                => $info->purchase_id,
         'invoice_no'                 => $info->invoice_no,
+        'purchase_price'             => $info->purchase_price,
         'purchase_date'              => date('d-m-Y', $info->purchase_ts),
         'supplier'                   => $info->supplier_name,
         'warranty_left'              => ($remaining_days > 0)
@@ -108,18 +141,8 @@ $sales_remaining_days = max(0, $sales_remaining_days);
           
 
     ];
-       $data['sales_info'] = [
-        
-        'customer_id'                => $insl->customer_id,
-        'sales_id'                   => $insl->sales_id,
-        'sinvoice_no'                => $insl->invoice_no,
-        'sales_date'                 => date('d-m-Y', $insl->sales_ts),
-        'customer_name'              => $insl->customer_name,
-        'sales_warranty_left'        => ($sales_remaining_days > 0)
-            ? $sales_remaining_days . ' Days Remaining'
-            : 'Warranty Expired',     
-
-    ];
+   
+   // print_r($data['sales_info']);exit();
   $data['allCat']         = $this->main_model->getRecordsByOrg("service_categories");
   
   $data['content'] = $this->load->view("warranty-search", $data, TRUE);
@@ -145,6 +168,7 @@ public function save()
         "branch_id"                  => $this->session->userdata('loggedin_branch_id'), 
         "invoice_no"                 => "SE-".rand(1000000,999999999),
         "purchase_id"                => $this->common_model->xss_clean($this->input->post("purchase_id")),   
+        "product_id"                 => $this->common_model->xss_clean($this->input->post("product_id")),   
         "supplier_id"                => $this->common_model->xss_clean($this->input->post("supplier_id")),   
         "sales_id"                   => $this->common_model->xss_clean($this->input->post("sales_id")),   
         "customer_id"                => $this->common_model->xss_clean($this->input->post("customer_id")),   
@@ -212,6 +236,21 @@ public function invoice($invoice_id)
 
 }
 
+public function change_status($id)
+{
+    $data = [
+        'status' => $this->input->post('status'),
+        'replace_given' => $this->input->post('replace_given') ? 1 : 0,
+        'old_product_stock_in' => $this->input->post('old_product_stock_in') ? 1 : 0,
+        'replace_from_stock' => $this->input->post('replace_from_stock') ? 1 : 0,
+        'replace_serial' => $this->input->post('replace_serial'),
+        'handover_to' => $this->input->post('handover_to'),
+    ];
+
+    $this->service_model->updateServiceStatus($id, $data);
+    $this->session->set_flashdata('success', 'Status updated successfully!');
+    redirect('service/warranty');
+}
 
 }
 

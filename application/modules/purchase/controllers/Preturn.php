@@ -334,6 +334,7 @@ $items = json_decode($items_json, true); // true দিলে assoc array হব
                 $this->db->where('id', $salesid)
                     ->update('inv_stock_item_serial', [
                         'qty_returned' => $new_returned,
+                        'is_available'  => 0,
                         'is_returned'  => $is_returned
                     ]);
 

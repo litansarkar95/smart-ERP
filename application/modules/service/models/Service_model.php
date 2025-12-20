@@ -43,6 +43,7 @@ public function get_warranty_info_by_serial($serial)
             p.purchase_date   AS purchase_ts,
             pi.warrenty,
             pi.warrenty_days,
+            pi.purchase_price,
             p.invoice_no,
             bp.name          AS supplier_name
         ')
@@ -59,28 +60,45 @@ public function get_warranty_info_by_serial($serial)
 
 public function get_warranty_sales_info_by_serial($serial)
 {
-    return $this->db
+    $query = $this->db
         ->select('
             sis.batch_number,
-            s.id   AS sales_id,
-            s.customer_id   AS customer_id,
-            s.sales_date  AS sales_ts,
+            sis.sales_price,
+            s.id              AS sales_id,
+            s.customer_id     AS customer_id,
+            s.sales_date      AS sales_ts,
             si.warrenty,
             si.warrenty_days,
             s.invoice_no,
-            bp.name          AS customer_name
+            bp.name           AS customer_name
         ')
         ->from('sales_item_batch_profit_loss sis')
         ->join('sales_items si', 'si.id = sis.sales_item_id')
         ->join('sales s', 's.id = si.sales_id')
         ->join('business_partner bp', 'bp.id = sis.customer_id')
         ->where('sis.batch_number', $serial)
-        ->where('sis.is_returned',0)
+        ->where('sis.is_returned', 0)
         ->limit(1)
-        ->get()
-        ->row();
+        ->get();
+
+    return ($query->num_rows() > 0) ? $query->row() : false;
 }
 
+public function get_warranty_product_info_by_serial($serial)
+{
+    $query = $this->db
+        ->select('sis.product_id,
+            sis.serial,
+            p.name      
+        ')
+        ->from('inv_stock_item_serial sis')
+        ->join('products p', 'p.id = sis.product_id')
+        ->where('sis.serial', $serial)
+        ->limit(1)
+        ->get();
+
+    return ($query->num_rows() > 0) ? $query->row() : false;
+}
 
 public function get_service_warranty($invoice_id)
 {
@@ -135,7 +153,8 @@ public function get_service_warranty_order_with_product($invoice_id)
     $this->db->select("
         sw.*,
         customer.name AS customer,
-        supplier.name AS supplier
+        supplier.name AS supplier,
+        products.name AS product_name
     ");
 
     $this->db->from("service_warranty sw");
@@ -153,11 +172,23 @@ public function get_service_warranty_order_with_product($invoice_id)
         "sw.supplier_id = supplier.id",
         "left"
     );
+     $this->db->join(
+        "products",
+        "sw.product_id = products.id",
+        "left"
+    );
+
+    
 
     $this->db->where("sw.organization_id", $loggedin_org_id);
     $this->db->order_by("sw.id", "DESC");
 
     return $this->db->get()->result();
+}
+public function updateServiceStatus($id, $data)
+{
+    $this->db->where('id', $id);
+    return $this->db->update('service_warranty', $data);
 }
 
 

@@ -404,7 +404,7 @@ public function get_customer_info()
  public function get_unique_serial_by_products()
 {
    $product_id = $this->input->post('product_id');
-$organization_id = $this->session->userdata('loggedin_org_id');
+   $organization_id = $this->session->userdata('loggedin_org_id');
 
 // get product info
 $product = $this->db->get_where('products', ['id' => $product_id])->row();
@@ -416,7 +416,7 @@ if ($product->serial_type == 'unique') {
         FROM inv_stock_item_serial 
         WHERE product_id = ? 
           AND organization_id = ? 
-          AND is_available = 1
+          AND is_available = 1  AND is_returned = 0
           AND serial NOT IN (
               SELECT serial_number 
               FROM sales_order_item_serials 
