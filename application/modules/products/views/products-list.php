@@ -76,7 +76,7 @@
                                         </td>
                                        
                                     <td>
-                                           0
+                                            <?php echo $pdt->stock_qty; ?>
                                         </td>
 
                                         <td>

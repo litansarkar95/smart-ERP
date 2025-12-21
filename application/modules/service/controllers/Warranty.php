@@ -346,6 +346,33 @@ public function sales_save($id){
   
     if($this->common_model->save_data("sales", $data)){
         $sales_id =  $this->common_model->Id;
+
+
+        
+     $converted_date = convert_date_ddmmyyyy_to_yyyymmdd($sales_date);
+
+        $total_tr_data = array(   
+        "organization_id"            => $this->session->userdata('loggedin_org_id'),
+        "branch_id"                  => $this->session->userdata('loggedin_branch_id'), 
+        "voucher_type"               => 'Sales',  
+        "invoice_no"                 => $invoice_no,
+        "sales_invoice_id"           => $sales_id,   
+        "party_id"                   => $customer_id,   
+        "account_name"               => 'Customer Sales', 
+        "particulars"                => 'Sales Replace',   
+        "date"                       => date("Y-m-d"),   
+        "debit"                      => 0,   
+        "credit"                     => 0,   
+        "gl_date"                    => strtotime($date),
+        "acc_coa_head_id"            => 0,   
+        "payment_method"             => 0,    
+        "remarks"                    => "Sales Replace Barcode:  $serial",
+        "is_active"                  => 1,
+        "create_user"                => $this->session->userdata('loggedin_id'),
+        "create_date"                => strtotime($date),
+       
+    );
+    $this->common_model->save_data("acc_general_ledger", $total_tr_data);
         $pdata = array(
                     "organization_id" => $this->session->userdata('loggedin_org_id'),
                     "branch_id"       => $branch_id,

@@ -139,28 +139,56 @@
           </div>
 
           <!-- Checkboxes -->
-          <div class="d-flex gap-3 mb-3">
-            <div class="form-check">
-              <input class="form-check-input" type="checkbox" id="replace_given<?= $pdt->id; ?>" name="replace_given" value="1">
-              <label class="form-check-label fw-bold" for="replace_given<?= $pdt->id; ?>">Replace Given</label>
-            </div>
+   <div class="delivery-wrapper">
 
-            <div class="form-check">
-              <input class="form-check-input" type="checkbox" id="delivered_from_stock<?= $pdt->id; ?>" name="delivered_from_stock" value="1">
-              <label class="form-check-label fw-bold" for="delivered_from_stock<?= $pdt->id; ?>">Delivered from stock</label>
-            </div>
+  <!-- Stock e nite chacchen -->
+  <div class="form-check">
+    <input class="form-check-input take_from_stock"
+           type="checkbox" value="1" name="replace_given">
+    <label class="form-check-label fw-bold">
+      স্টক এ পণ্য নিতে চাচ্ছেন
+    </label>
+  </div>
 
-            <div class="form-check">
-              <input class="form-check-input" type="checkbox" id="delivered_from_supplier<?= $pdt->id; ?>" name="delivered_from_supplier" value="1">
-              <label class="form-check-label fw-bold" for="delivered_from_supplier<?= $pdt->id; ?>">Delivered from supplier (not from stock).</label>
-            </div>
-          </div>
+  <!-- Take from stock box -->
+  <div class="mb-3 take-stock-box d-none">
+    <label class="form-label">Stock Receive Serial</label>
+    <input type="text" class="form-control"
+           placeholder="বার কোড স্ক্যান করুন অথবা লিখে দিন">
+  </div>
 
-          <!-- Replace Serial No -->
-          <div class="mb-3">
-            <label for="replace_serial<?= $pdt->id; ?>" class="form-label">Replace Serial No</label>
-            <input type="text" class="form-control" id="replace_serial<?= $pdt->id; ?>" name="replace_serial">
-          </div>
+  <!-- Delivered from stock -->
+  <div class="form-check mt-2">
+    <input class="form-check-input delivered_from_stock"
+           type="checkbox" value="1" name="delivered_from_stock">
+    <label class="form-check-label fw-bold">
+      স্টক থেকে পণ্য ডেলিভারি দিতে চাচ্ছেন
+    </label>
+  </div>
+
+  <div class="mb-3 replace-serial-box d-none">
+    <label class="form-label">Replace Serial No</label>
+    <input type="text" name="replace_serial" class="form-control"
+           placeholder="বার কোড স্ক্যান করুন অথবা লিখে দিন">
+  </div>
+
+  <!-- Delivered from supplier -->
+  <div class="form-check mt-2">
+    <input class="form-check-input delivered_from_supplier"
+           type="checkbox" value="1" name="delivered_from_supplier">
+    <label class="form-check-label fw-bold">
+      সাপ্লায়ার থেকে পণ্য ডেলিভারি দিতে চাচ্ছেন
+    </label>
+  </div>
+
+  <div class="mb-3 supplier-box d-none">
+    <label class="form-label">Supplier Serial</label>
+    <input type="text" class="form-control"
+           placeholder="বার কোড স্ক্যান করুন অথবা লিখে দিন">
+  </div>
+
+</div>
+
 
           <!-- Handover To -->
           <div class="mb-3">
@@ -168,7 +196,8 @@
             <input type="text" class="form-control" id="handover_to<?= $pdt->id; ?>" name="handover_to">
           </div>
 
-        
+    
+
         </form>
       </div>
 
@@ -251,5 +280,41 @@ $(document).on('shown.bs.modal', '[id^="edit_modals"]', function () {
 
 
 
+<script>
+document.addEventListener('change', function (e) {
 
+  const wrapper = e.target.closest('.delivery-wrapper');
+  if (!wrapper) return;
 
+  // স্টক এ পণ্য নিতে চাচ্ছেন
+  if (e.target.classList.contains('take_from_stock')) {
+    const box = wrapper.querySelector('.take-stock-box');
+    if (!box) return;
+
+    e.target.checked
+      ? box.classList.remove('d-none')
+      : box.classList.add('d-none');
+  }
+
+  // স্টক থেকে ডেলিভারি
+  if (e.target.classList.contains('delivered_from_stock')) {
+    const box = wrapper.querySelector('.replace-serial-box');
+    if (!box) return;
+
+    e.target.checked
+      ? box.classList.remove('d-none')
+      : box.classList.add('d-none');
+  }
+
+  // সাপ্লায়ার থেকে ডেলিভারি
+  if (e.target.classList.contains('delivered_from_supplier')) {
+    const box = wrapper.querySelector('.supplier-box');
+    if (!box) return;
+
+    e.target.checked
+      ? box.classList.remove('d-none')
+      : box.classList.add('d-none');
+  }
+
+});
+</script>
