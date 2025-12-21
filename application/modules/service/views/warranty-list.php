@@ -119,8 +119,13 @@
 <form id="changeServiceForm<?= $pdt->id; ?>" 
       action="<?= base_url('service/warranty/change_status/'.$pdt->id) ?>" 
       method="post">
+      <input type="hidden" name="product_id" id="product_id<?= $pdt->product_id; ?>" value="<?= $pdt->product_id; ?>">
+     <input  type="hidden"  name="purchase_price" value="<?= $pdt->purchase_price; ?>">
+     <input  type="hidden"  name="sales_price" value="<?= $pdt->sales_price; ?>">
+     <input  type="hidden"  name="sales_date" value="<?= $pdt->sales_date; ?>">
+     <input  type="hidden"  name="warrenty" value="<?= $pdt->warrenty; ?>">
+     <input  type="hidden"  name="warrenty_days" value="<?= $pdt->warrenty_days; ?>">
 
-        <form id="changeServiceForm<?= $pdt->id; ?>">
           <!-- Status -->
           <div class="mb-3">
             <label for="status<?= $pdt->id; ?>" class="form-label">Status</label>
@@ -141,13 +146,13 @@
             </div>
 
             <div class="form-check">
-              <input class="form-check-input" type="checkbox" id="old_product_stock_in<?= $pdt->id; ?>" name="old_product_stock_in" value="1">
-              <label class="form-check-label fw-bold" for="old_product_stock_in<?= $pdt->id; ?>">Old Product Stock In</label>
+              <input class="form-check-input" type="checkbox" id="delivered_from_stock<?= $pdt->id; ?>" name="delivered_from_stock" value="1">
+              <label class="form-check-label fw-bold" for="delivered_from_stock<?= $pdt->id; ?>">Delivered from stock</label>
             </div>
 
             <div class="form-check">
-              <input class="form-check-input" type="checkbox" id="replace_from_stock<?= $pdt->id; ?>" name="replace_from_stock" value="1">
-              <label class="form-check-label fw-bold" for="replace_from_stock<?= $pdt->id; ?>">Replace From Stock</label>
+              <input class="form-check-input" type="checkbox" id="delivered_from_supplier<?= $pdt->id; ?>" name="delivered_from_supplier" value="1">
+              <label class="form-check-label fw-bold" for="delivered_from_supplier<?= $pdt->id; ?>">Delivered from supplier (not from stock).</label>
             </div>
           </div>
 
@@ -163,7 +168,7 @@
             <input type="text" class="form-control" id="handover_to<?= $pdt->id; ?>" name="handover_to">
           </div>
 
-          <input type="hidden" name="product_id" id="product_id<?= $pdt->id; ?>" value="<?= $pdt->id; ?>">
+        
         </form>
       </div>
 

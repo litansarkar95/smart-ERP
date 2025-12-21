@@ -112,6 +112,11 @@
   <input type="hidden" name="supplier_id" class="form-control form-control-sm" value="<?= $info['supplier_id']; ?>" >
   <input type="hidden" name="purchase_id" class="form-control form-control-sm" value="<?= $info['purchase_id']; ?>" >
   <input type="hidden" name="product_id" class="form-control form-control-sm" value="<?= $product['product_id']; ?>" >
+  <input type="hidden" name="purchase_price" class="form-control form-control-sm" value="<?= $info['purchase_price']; ?>" >
+  <input type="hidden" name="sales_price" class="form-control form-control-sm" value="<?= $sales_info['sales_price']; ?>" >
+  <input type="hidden" name="sales_date" class="form-control form-control-sm" value="<?= $sales_info['sales_date']; ?>" >
+  <input type="hidden" name="warrenty" class="form-control form-control-sm" value="<?= $sales_info['warrenty']; ?>" >
+  <input type="hidden" name="warrenty_days" class="form-control form-control-sm" value="<?= $sales_info['warrenty_days']; ?>" >
       <!-- Card Body -->
       <div class="card-body">
 
