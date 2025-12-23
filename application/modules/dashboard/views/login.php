@@ -74,7 +74,7 @@
 												</div>
 												<div class="row mb-3">
 													<div class="col-12 text-center">
-														<button  type="submit" class="btn btn_bg login_btn"><i class="fa fa-sign-in"></i> Login </button>
+														<button  type="submit" class="btn  login_btn"><i class="fa fa-sign-in"></i> Login </button>
 													</div>
 												</div>
 												<div class="row">

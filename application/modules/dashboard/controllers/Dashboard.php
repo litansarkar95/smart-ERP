@@ -16,32 +16,55 @@ public function index()
   $data['active'] = "dashboard";
   $data['title'] = "Dashboard"; 
 
-//  $total = $this->session->userdata($sessionData);
-//   print_r( $total);exit();
+    $org_id    = $this->session->userdata('loggedin_org_id');
+    $branch_id = $this->session->userdata('loggedin_branch_id');
 
 
 
-    $start = date('Y-m-01'); // এই মাসের প্রথম দিন
-    $end   = date('Y-m-t');  // এই মাসের শেষ দিন
+    $data['today_sales']     = $this->dashboard_model->today_sales_amount($org_id, $branch_id);
+    $data['total_sales']     = $this->dashboard_model->total_sales_amount($org_id, $branch_id);
+    $data['today_purchase']  = $this->dashboard_model->today_purchase_amount($org_id, $branch_id);
+    $data['total_purchase']  = $this->dashboard_model->total_purchase_amount($org_id, $branch_id);
+    $data['today_expense']   = $this->dashboard_model->today_expense($org_id, $branch_id);
+    $data['today_profit']    = $this->dashboard_model->today_profit($org_id, $branch_id);
+   // $data['monthly_profit']  = $this->dashboard_model->monthly_profit($org_id, $branch_id);
+    $data['total_profit']    = $this->dashboard_model->total_profit($org_id, $branch_id);
+    $data['latest_sales']    = $this->dashboard_model->latest_five_sales($org_id, $branch_id);
 
-    $data['profits'] = $this->dashboard_model->get_productwise_profit($start, $end);
+    $chartData = $this->dashboard_model->get_weekly_sales_purchases($org_id, $branch_id);
+    $data = array_merge($data ?? [], $chartData);
 
-    // Monthly totals
-    $total_sales = 0;
-    $total_purchase = 0;
-    $total_profit = 0;
+     $top_products = $this->dashboard_model->get_top_products($org_id, $branch_id);
 
-    foreach($data['profits'] as $p) {
-        $total_sales    += $p->total_sales;
-        $total_purchase += $p->total_purchase;
-        $total_profit   += $p->total_profit;
-    }
+    $total_top_sales = array_sum(array_map(function($p){ return $p->total_sales; }, $top_products));
+$colors = [
+    '#FF6384', // গোলাপি
+    '#36A2EB', // নীল
+    '#FFCE56', // হলুদ
+    '#4BC0C0', // সিয়ান
+    '#9966FF', // বেগুনি
+    '#FF9F40', // কমলা
+    '#00A86B', // সবুজ
+    '#FF6F61', // লাল-কমলা
+];
+        $donut_labels = [];
+        $donut_data   = [];
+        $donut_colors = [];
 
-    $data['totals'] = [
-        'sales'    => $total_sales,
-        'purchase' => $total_purchase,
-        'profit'   => $total_profit
-    ];
+        
+     foreach($top_products as $index => $p) {
+            $donut_labels[] = $p->product_name;
+            $donut_data[] = $p->total_sales;
+            $donut_colors[] = $colors[$index % count($colors)];
+        }
+
+        $data['top_products'] = $top_products;
+        $data['total_top_sales'] = $total_top_sales;
+        $data['donut_labels'] = $donut_labels;
+        $data['donut_data'] = $donut_data;
+        $data['donut_colors'] = $donut_colors;
+
+      
 
   
   $data['content'] = $this->load->view("dashboard", $data, TRUE);

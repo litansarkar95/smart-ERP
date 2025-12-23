@@ -2,7 +2,7 @@
 			<style>
 
 .navbar-nav .dropdown-menu {
-    min-width: 200px; 
+    min-width: 260px; 
     white-space: nowrap; 
     overflow: hidden;
     text-overflow: ellipsis; 

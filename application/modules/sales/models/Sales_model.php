@@ -22,6 +22,7 @@ class Sales_model extends CI_Model {
         $this->db->select("
             p.id,
             p.name AS product_name,
+            p.serial_type AS serial_type,
             g.name AS group_name,
 
             -- Total stock in

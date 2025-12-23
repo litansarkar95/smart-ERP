@@ -11,25 +11,9 @@
       padding: 20px;
     }
 
-    .card-header {
-      display: flex;
-      align-items: center;
-      border-bottom: 1px solid #e5e9f0;
-      margin-bottom: 15px;
-      padding-bottom: 10px;
-    }
+  
 
-    .card-header i {
-      color: #007bff;
-      margin-right: 10px;
-      font-size: 18px;
-    }
-
-    .card-header h2 {
-      font-size: 18px;
-      font-weight: 600;
-      color: #333;
-    }
+  
 
     /* ===== Summary Cards ===== */
     .summary-grid {
@@ -187,7 +171,7 @@
     }
 
     .card-header {
-      display: flex;
+    
       align-items: center;
       gap: 8px;
       border-bottom: 1px solid #e5e9f0;
@@ -206,32 +190,7 @@
       color: #333;
     }
 
-    canvas {
-      width: 100% !important;
-      height: 300px !important;
-    }
-
-    .chart-legend {
-      display: flex;
-      justify-content: center;
-      gap: 20px;
-      margin-top: 15px;
-      flex-wrap: wrap;
-    }
-
-    .legend-item {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      font-size: 14px;
-      color: #555;
-    }
-
-    .legend-color {
-      width: 14px;
-      height: 14px;
-      border-radius: 3px;
-    }
+ 
     .summary-card i {
   font-size: 32px; 
   opacity: 0.9;
@@ -259,13 +218,7 @@
   flex-wrap: wrap;
 }
 .card-header {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    border-bottom: 1px solid #e5e9f0;
-    padding-bottom: 10px;
-    margin-bottom: 15px;
-    margin-top: 20px; 
+
 }
 .link-box {
     display: flex;
@@ -289,39 +242,122 @@
 }
 
   </style>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<style>
+:root{
+  --primary:#7C5CFC;
+  --primary-light:#CFC5FF;
+  --bg:#F6F8FC;
+  --card:#FFFFFF;
+  --border:#E5E7EB;
+  --text:#1F2937;
+}
+
+
+.dashboard{
+  display:grid;
+  grid-template-columns: 2fr 1fr;
+  gap:20px;
+}
+
+.card{
+  background:var(--card);
+  border-radius:14px;
+  padding:20px;
+  box-shadow:0 10px 25px rgba(0,0,0,.06);
+}
+
+.card-header{
+  font-size:16px;
+  font-weight:600;
+  color:var(--text);
+  margin-bottom:15px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+
+.card-header span{
+  font-size:20px;
+  cursor:pointer;
+  color:#9CA3AF;
+}
+
+.chart-box{
+  height:320px;
+}
+
+/* Donut center text */
+.donut-wrap{
+  position:relative;
+  height:320px;
+}
+.donut-center{
+  position:absolute;
+  top:50%;
+  left:50%;
+  transform:translate(-50%,-50%);
+  text-align:center;
+}
+.donut-center small{
+  color:#6B7280;
+}
+.donut-center h2{
+  margin:5px 0 0;
+}
+.legend{
+  display:flex;
+  justify-content:center;
+  gap:15px;
+  margin-top:10px;
+  font-size:13px;
+}
+.legend span{
+  display:flex;
+  align-items:center;
+  gap:6px;
+}
+.dot{
+  width:10px;
+  height:10px;
+  border-radius:50%;
+}
+</style>
  <div class="container-fluid">
 
   <div class="row px-3">
   <!-- === Quick Links Section === -->
   <div class="quick-links">
-<div class="quick-links">
+
   <h3>Quick Links</h3>
   <div class="link-grid">
-      <?php if (has_permission('products', 'index')): ?>
+      <?php// if (has_permission('products', 'index')): ?>
     <a href="<?php echo base_url(); ?>products" class="link-box products">
       <i class="fas fa-box"></i>Products
     </a>
-      <?php endif; ?>
+      <?php // endif; ?>
       <!-- Start --> 
-       <?php if (has_permission('sales', 'create')): ?>
+
     <a href="<?php echo base_url(); ?>sales/create" class="link-box sales">
       <i class="fas fa-heart"></i>Sales
     </a>
-    <?php endif; ?>
+
     <!-- End -->
      <!-- Start --> 
-       <?php if (has_permission('quotation', 'index')): ?>
+
     <a href="<?php echo base_url(); ?>quotation" class="link-box quotations">
       <i class="fas fa-file-alt"></i>Quotations
     </a>
-    <?php endif; ?>
+
      <!-- End -->
      <!-- Start --> 
-       <?php if (has_permission('purchasebatch', 'create')): ?>
+
     <a href="<?php echo base_url(); ?>purchase/purchasebatch/create" class="link-box purchases">
       <i class="fas fa-shopping-cart"></i>Purchases
     </a>
-       <?php endif; ?>
+
      <!-- End -->
     <a href="transfers.php" class="link-box transfers">
       <i class="fas fa-exchange-alt"></i>Transfers
@@ -344,56 +380,104 @@
   </div>
 </div>
 
-  <!-- === Overview Summary Cards === -->
-  <div class="card" style="margin-top: 20px;">
- <div class="card-header" >
-  <i class="fas fa-chart-line"></i>
-  <h2>Overview Summary</h2>
+  <div class="card mt-3">
+  <div class="card-header">
+    <i class="fas fa-chart-line"></i>
+    <h2 >Overview Summary</h2>
+  </div>
+
+  <div class="summary-grid">
+
+    <div class="summary-card today-sales">
+      <i class="fas fa-hand-holding-usd"></i>
+      <h4>Today Sales</h4>
+      <p>৳ <?php echo number_format($today_sales,2); ?></p>
+    </div>
+
+    <div class="summary-card total-sales">
+      <i class="fas fa-chart-bar"></i>
+      <h4>Total Sales</h4>
+      <p>৳ <?php echo number_format($total_sales,2); ?></p>
+    </div>
+
+    <div class="summary-card today-purchases">
+      <i class="fas fa-shopping-cart"></i>
+      <h4>Today Purchases</h4>
+      <p>৳ <?php echo number_format($today_purchase,2); ?></p>
+    </div>
+
+    <div class="summary-card total-purchases">
+      <i class="fas fa-warehouse"></i>
+      <h4>Total Purchases</h4>
+      <p>৳ <?php echo number_format($total_purchase,2); ?></p>
+    </div>
+
+    <div class="summary-card today-expense">
+      <i class="fas fa-money-bill-wave"></i>
+      <h4>Today Expense</h4>
+      <p>৳ <?php echo number_format($today_expense,2); ?></p>
+    </div>
+
+    <div class="summary-card total-profit">
+      <i class="fas fa-coins"></i>
+      <h4>Today Profit</h4>
+      <p>৳ <?php echo number_format($today_profit,2); ?></p>
+    </div>
+
+  </div>
 </div>
 
-    <div class="summary-grid">
-      <div class="summary-card today-sales">
-        <i class="fas fa-hand-holding-usd"></i>
-        <h4>Today Sales</h4>
-        <p>৳ 12,350</p>
-      </div>
-      <div class="summary-card total-sales">
-        <i class="fas fa-chart-bar"></i>
-        <h4>Total Sales</h4>
-        <p>৳ 5,48,200</p>
-      </div>
-      <div class="summary-card today-purchases">
-        <i class="fas fa-shopping-cart"></i>
-        <h4>Today Purchases</h4>
-        <p>৳ 8,760</p>
-      </div>
-      <div class="summary-card total-purchases">
-        <i class="fas fa-warehouse"></i>
-        <h4>Total Purchases</h4>
-        <p>৳ 4,18,900</p>
-      </div>
-      <div class="summary-card today-expense">
-        <i class="fas fa-money-bill-wave"></i>
-        <h4>Today Expense</h4>
-        <p>৳ 2,120</p>
-      </div>
-      <div class="summary-card total-profit">
-        <i class="fas fa-coins"></i>
-        <h4>Total Profit</h4>
-        <p>৳ 1,29,300</p>
-      </div>
+
+
+
+
+<div class="dashboard">
+
+  <!-- Weekly Sales -->
+  <div class="card">
+    <div class="card-header">
+      This Week Sales & Purchases
+      <span>☰</span>
+    </div>
+    <div class="chart-box">
+      <canvas id="salesChart"></canvas>
     </div>
   </div>
 
-  <!-- === Latest Five Sales Section === -->
-   
-  <div class="card">
-    <div class="card-header">
-      <i class="fas fa-receipt"></i>
-      <h2>Latest Five Sales</h2>
+  <!-- Top Selling -->
+
+<div class="card">
+  <div class="card-header">Top Selling Products (<?= date('F Y'); ?>)</div>
+  <div class="donut-wrap">
+    <canvas id="donutChart"></canvas>
+    <div class="donut-center">
+      <small>Total Sales</small>
+      <h2><?= $total_top_sales ?? 0; ?></h2>
     </div>
+  </div>
+
+  <div class="legend">
+    <?php foreach($top_products as $p): ?>
+      <span><i class="dot"></i><?= $p->product_name; ?></span>
+    <?php endforeach; ?>
+  </div>
+</div>
+
+
+
+
+
+</div>
+
+  <!-- === Latest Five Sales Section === -->
+  <div class="card">
+  <div class="card-header">
+    <i class="fas fa-receipt"></i>
+    <h2>Latest Five Sales</h2>
+  </div>
+
   <div class="table-responsive">
-  <table class="table table-bordered table-sm">
+    <table class="table table-bordered table-sm">
       <thead>
         <tr>
           <th>#</th>
@@ -405,120 +489,92 @@
         </tr>
       </thead>
       <tbody>
+
+      <?php if (!empty($latest_sales)): ?>
+        <?php $i=1; foreach ($latest_sales as $row): ?>
+
+          <?php
+            // Status Logic
+            if ($row->is_active == 0) {
+                $status = 'Cancelled';
+                $class  = 'cancelled';
+            } elseif ($row->dueAmount > 0) {
+                $status = 'Due';
+                $class  = 'pending';
+            } else {
+                $status = 'Paid';
+                $class  = 'paid';
+            }
+          ?>
+
+          <tr>
+            <td><?= $i++; ?></td>
+            <td><?= date('d M Y', $row->sales_date); ?></td>
+
+            <td>
+              <a href="<?= base_url('sales/view/'.$row->id); ?>">
+                <?= $row->invoice_no; ?>
+              </a>
+            </td>
+
+            <td><?= $row->customer_name; ?></td>
+
+            <td>৳ <?= number_format($row->payableAmount, 2); ?></td>
+
+            <td>
+              <span class="status <?= $class; ?>">
+                <?= $status; ?>
+              </span>
+            </td>
+          </tr>
+
+        <?php endforeach; ?>
+      <?php else: ?>
         <tr>
-          <td>1</td>
-          <td>04 Nov 2025</td>
-          <td>INV-1005</td>
-          <td>Rahim Traders</td>
-          <td>৳ 4,250</td>
-          <td><span class="status paid">Paid</span></td>
+          <td colspan="6" class="text-center text-muted">
+            No sales found
+          </td>
         </tr>
-        <tr>
-          <td>2</td>
-          <td>03 Nov 2025</td>
-          <td>INV-1004</td>
-          <td>Hasan Electronics</td>
-          <td>৳ 3,980</td>
-          <td><span class="status pending">Pending</span></td>
-        </tr>
-        <tr>
-          <td>3</td>
-          <td>03 Nov 2025</td>
-          <td>INV-1003</td>
-          <td>Nazrul Store</td>
-          <td>৳ 2,540</td>
-          <td><span class="status paid">Paid</span></td>
-        </tr>
-        <tr>
-          <td>4</td>
-          <td>02 Nov 2025</td>
-          <td>INV-1002</td>
-          <td>Alif Traders</td>
-          <td>৳ 6,120</td>
-          <td><span class="status cancelled">Cancelled</span></td>
-        </tr>
-        <tr>
-          <td>5</td>
-          <td>02 Nov 2025</td>
-          <td>INV-1001</td>
-          <td>Kabir Telecom</td>
-          <td>৳ 5,890</td>
-          <td><span class="status paid">Paid</span></td>
-        </tr>
+      <?php endif; ?>
+
       </tbody>
     </table>
   </div>
-  </div>
-
-
-
-<div class="card">
-    <div class="card-header">
-      <i class="fas fa-chart-line"></i>
-      <h2>Overview Chart</h2>
-    </div>
-
-    <canvas id="overviewChart"></canvas>
-
-    <div class="chart-legend">
-      <div class="legend-item"><span class="legend-color" style="background:#4e73df"></span>Sales</div>
-      <div class="legend-item"><span class="legend-color" style="background:#1cc88a"></span>Purchases</div>
-      <div class="legend-item"><span class="legend-color" style="background:#f6c23e"></span>Profit</div>
-    </div>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script>
-var ctx = document.getElementById('overviewChart').getContext('2d');
-var overviewChart = new Chart(ctx, {
-    type: 'bar',
+
+   </div>
+
+    </div>
+   
+
+
+    <script>
+const donutLabels = <?= json_encode($donut_labels); ?>;
+const donutData   = <?= json_encode($donut_data); ?>;
+const donutColors = <?= json_encode($donut_colors); ?>;
+
+new Chart(document.getElementById('donutChart'), {
+    type: 'doughnut',
     data: {
-        labels: ['This Month'],
-        datasets: [
-            {
-                label: 'Sales',
-                backgroundColor: '#4e73df',
-                data: [<?= $totals['sales']; ?>],
-                borderRadius: 6
-            },
-            {
-                label: 'Purchases',
-                backgroundColor: '#1cc88a',
-                data: [<?= $totals['purchase']; ?>],
-                borderRadius: 6
-            },
-            {
-                label: 'Profit',
-                type: 'line',
-                borderColor: '#f6c23e',
-                borderWidth: 3,
-                fill: false,
-                tension: 0.3,
-                data: [<?= $totals['profit']; ?>]
-            }
-        ]
+        labels: donutLabels,
+        datasets: [{
+            data: donutData,
+            backgroundColor: donutColors,
+            borderWidth: 2
+        }]
     },
     options: {
         responsive: true,
-        scales: {
-            y: {
-                beginAtZero: true,
-                ticks: { color: '#666' },
-                grid: { color: '#eaeaea' }
-            },
-            x: {
-                ticks: { color: '#666' },
-                grid: { display: false }
-            }
-        },
+        maintainAspectRatio: false,
         plugins: {
-            legend: { display: true },
+            legend: { position: 'bottom' },
             tooltip: {
-                backgroundColor: '#333',
-                titleFont: { size: 13 },
-                bodyFont: { size: 12 },
-                padding: 10,
-                cornerRadius: 6
+                callbacks: {
+                    label: function(context) {
+                        return '৳ ' + context.raw;
+                    }
+                }
             }
         }
     }
@@ -527,8 +583,46 @@ var overviewChart = new Chart(ctx, {
 
 
 
+<script>
+const salesLabels = <?= json_encode($week_labels); ?>;
+const salesData   = <?= json_encode($week_sales); ?>;
+const purchaseData= <?= json_encode($week_purchases); ?>;
 
-   </div>
-
-    </div>
-   
+new Chart(document.getElementById('salesChart'), {
+  type: 'bar',
+  data: {
+    labels: salesLabels,
+    datasets: [
+      {
+        label: 'Sales',
+        data: salesData,
+        backgroundColor: '#7C5CFC',
+        borderRadius: 8,
+      },
+      {
+        label: 'Purchases',
+        data: purchaseData,
+        backgroundColor: '#D9D2FF',
+        borderRadius: 8,
+      }
+    ]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: { position: 'bottom' },
+      tooltip: { enabled: true }
+    },
+    scales: {
+      y: {
+        beginAtZero: true,
+        ticks: {
+          callback: value => '৳ ' + value
+        }
+      },
+      x: { grid: { display:false } }
+    }
+  }
+});
+</script>
