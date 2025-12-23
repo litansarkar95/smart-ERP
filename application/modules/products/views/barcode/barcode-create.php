@@ -26,7 +26,7 @@
         </div>
         <div class="row">
           <div class="col-12">
-                <form  action="<?php echo base_url(); ?>products/barcode/print_barcode" method="post" enctype="multipart/form-data">
+                <form  action="<?php echo base_url(); ?>products/barcode/print_barcode" target="_blank" method="post" enctype="multipart/form-data">
                                                             <div class="row mb-3">
 
                                              
@@ -123,11 +123,6 @@
 
                                   <!-- start input -->
                                  
-                                    
-                                  
-                              
-
-
                                                             </div>
 
 
@@ -135,7 +130,7 @@
                                                             <div class="row">
                                                                         <div class="col-12">
                                                                                     <button type="submit"
-                                                                                                class="btn btn_bg">Save</button>
+                                                                                                class="btn btn_bg">Print</button>
                                                                         </div>
                                                             </div>
                                                 </form>

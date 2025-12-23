@@ -512,7 +512,7 @@
             <td><?= date('d M Y', $row->sales_date); ?></td>
 
             <td>
-              <a href="<?= base_url('sales/view/'.$row->id); ?>">
+              <a href="<?= base_url('sales/invoice/'.$row->id); ?>" target="_blank">
                 <?= $row->invoice_no; ?>
               </a>
             </td>

@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.1
+-- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 23, 2025 at 12:52 PM
--- Server version: 10.4.32-MariaDB
--- PHP Version: 8.2.12
+-- Generation Time: Dec 23, 2025 at 06:13 PM
+-- Server version: 10.4.27-MariaDB
+-- PHP Version: 7.4.33
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -85,13 +85,17 @@ CREATE TABLE `acc_general_ledger` (
 --
 
 INSERT INTO `acc_general_ledger` (`id`, `organization_id`, `branch_id`, `voucher_type`, `invoice_no`, `purchase_invoice_id`, `sales_invoice_id`, `purchase_return_id`, `sales_return_id`, `customer_received_id`, `supplier_received_id`, `party_id`, `account_name`, `particulars`, `date`, `debit`, `credit`, `gl_date`, `acc_coa_head_id`, `payment_method`, `remarks`, `is_active`, `create_user`, `create_date`, `update_user`, `update_date`) VALUES
-(559, 3, 1, 'Purchase', 'GRN-0001', 305, 0, 0, 0, 0, 0, 1, 'Supplier Purchase', 'Purchase for order', '2025-12-21', 0.00, 2100.00, 1766339229, 0, 0, 'Purchase order ', 1, 17, 1766339229, 0, 0),
-(560, 3, 1, 'Sales', 'INV-0001', 0, 150, 0, 0, 0, 0, 1, 'Customer Sales', 'Sales for order', '2025-12-21', 44.00, 0.00, 1766253600, 0, 0, 'Sales order ', 1, 17, 1766339282, 0, 0),
-(561, 3, 1, 'Sales', 'INV-0002', 0, 151, 0, 0, 0, 0, 1, 'Customer Sales', 'Sales Replace', '2025-12-21', 0.00, 0.00, 1766339343, 0, 0, 'Sales Replace Barcode:  bbb', 1, 17, 1766339343, 0, 0),
-(562, 3, 1, 'Purchase', 'GRN-0002', 306, 0, 0, 0, 0, 0, 1, 'Supplier Purchase', 'Purchase for order', '2025-12-23', 0.00, 1400.00, 1766468228, 0, 0, 'Purchase order ', 1, 17, 1766468228, 0, 0),
-(563, 3, 1, 'Sales', 'INV-0003', 0, 152, 0, 0, 0, 0, 1, 'Customer Sales', 'Sales for order', '2025-12-23', 900.00, 0.00, 1766426400, 0, 0, 'Sales order ', 1, 17, 1766468251, 0, 0),
-(564, 3, 1, 'Purchase', 'GRN-0003', 307, 0, 0, 0, 0, 0, 38, 'Supplier Purchase', 'Purchase for order', '2025-12-23', 0.00, 8000.00, 1766470785, 0, 0, 'Purchase order ', 1, 17, 1766470785, 0, 0),
-(565, 3, 1, 'Sales', 'INV-0004', 0, 153, 0, 0, 0, 0, 1, 'Customer Sales', 'Sales for order', '2025-12-23', 800.00, 0.00, 1766426400, 0, 0, 'Sales order ', 1, 17, 1766470797, 0, 0);
+(559, 3, 1, 'Purchase', 'GRN-0001', 305, 0, 0, 0, 0, 0, 1, 'Supplier Purchase', 'Purchase for order', '2025-12-21', '0.00', '2100.00', 1766339229, 0, 0, 'Purchase order ', 1, 17, 1766339229, 0, 0),
+(560, 3, 1, 'Sales', 'INV-0001', 0, 150, 0, 0, 0, 0, 1, 'Customer Sales', 'Sales for order', '2025-12-21', '44.00', '0.00', 1766253600, 0, 0, 'Sales order ', 1, 17, 1766339282, 0, 0),
+(561, 3, 1, 'Sales', 'INV-0002', 0, 151, 0, 0, 0, 0, 1, 'Customer Sales', 'Sales Replace', '2025-12-21', '0.00', '0.00', 1766339343, 0, 0, 'Sales Replace Barcode:  bbb', 1, 17, 1766339343, 0, 0),
+(562, 3, 1, 'Purchase', 'GRN-0002', 306, 0, 0, 0, 0, 0, 1, 'Supplier Purchase', 'Purchase for order', '2025-12-23', '0.00', '1400.00', 1766468228, 0, 0, 'Purchase order ', 1, 17, 1766468228, 0, 0),
+(563, 3, 1, 'Sales', 'INV-0003', 0, 152, 0, 0, 0, 0, 1, 'Customer Sales', 'Sales for order', '2025-12-23', '900.00', '0.00', 1766426400, 0, 0, 'Sales order ', 1, 17, 1766468251, 0, 0),
+(564, 3, 1, 'Purchase', 'GRN-0003', 307, 0, 0, 0, 0, 0, 38, 'Supplier Purchase', 'Purchase for order', '2025-12-23', '0.00', '8000.00', 1766470785, 0, 0, 'Purchase order ', 1, 17, 1766470785, 0, 0),
+(565, 3, 1, 'Sales', 'INV-0004', 0, 153, 0, 0, 0, 0, 1, 'Customer Sales', 'Sales for order', '2025-12-23', '800.00', '0.00', 1766426400, 0, 0, 'Sales order ', 1, 17, 1766470797, 0, 0),
+(566, 3, 1, 'Purchase', 'GRN-0004', 308, 0, 0, 0, 0, 0, 1, 'Supplier Purchase', 'Purchase for order', '2025-12-23', '0.00', '4085.00', 1766504179, 0, 0, 'Purchase order ', 1, 17, 1766504179, 0, 0),
+(567, 3, 1, 'Supplier Rebate', 'GRN-0004', 308, 0, 0, 0, 0, 0, 1, 'Rebate', 'Rebate for order', '2025-12-23', '515.00', '0.00', 1766504179, 0, 0, 'Payment for order with rebate and discount ', 1, 17, 1766504179, 0, 0),
+(568, 3, 1, 'Purchase', 'GRN-0006', 311, 0, 0, 0, 0, 0, 1, 'Supplier Purchase', 'Purchase for order', '2025-12-23', '0.00', '0.00', 1766507473, 0, 0, 'Purchase Replace Barcode:  ', 1, 17, 1766507473, 0, 0),
+(569, 3, 1, 'Purchase', 'GRN-0007', 312, 0, 0, 0, 0, 0, 1, 'Supplier Purchase', 'Purchase for order', '2025-12-23', '0.00', '0.00', 1766508191, 0, 0, 'Purchase Replace Barcode:  2222', 1, 17, 1766508191, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -206,8 +210,8 @@ CREATE TABLE `business_partner` (
 --
 
 INSERT INTO `business_partner` (`id`, `organization_id`, `name`, `partner_type`, `contact_no`, `email`, `address`, `credit_limit`, `payment_terms`, `sales_representative`, `region`, `business_category`, `delivery_method`, `notes`, `is_active`, `customer_group_id`, `reference_id`, `opening_balance_type`, `opening_balance`, `current_balance`, `create_user`, `create_date`, `created_at`, `updated_at`) VALUES
-(1, 3, 'Cash', 'Both', '0', '', 'Cash', NULL, NULL, NULL, NULL, NULL, NULL, '', 1, 0, 10, '', 0.00, -6912.00, 17, 1764140186, '2025-11-26 06:56:26', '2025-12-23 06:19:57'),
-(38, 3, 'litan', 'Both', '444', '444', '4444444444444444', NULL, NULL, NULL, NULL, NULL, NULL, '44', 1, 0, 0, '', 0.00, -7156.00, 17, 1765645867, '2025-12-13 17:11:07', '2025-12-23 06:19:46');
+(1, 3, 'Cash', 'Both', '0', '', 'Cash', NULL, NULL, NULL, NULL, NULL, NULL, '', 1, 0, 10, '', '0.00', '-11497.00', 17, 1764140186, '2025-11-26 06:56:26', '2025-12-23 15:38:21'),
+(38, 3, 'litan', 'Both', '444', '444', '4444444444444444', NULL, NULL, NULL, NULL, NULL, NULL, '44', 1, 0, 0, '', '0.00', '-7156.00', 17, 1765645867, '2025-12-13 17:11:07', '2025-12-23 06:19:46');
 
 -- --------------------------------------------------------
 
@@ -240,9 +244,15 @@ CREATE TABLE `inv_stock_history` (
 --
 
 INSERT INTO `inv_stock_history` (`id`, `organization_id`, `branch_id`, `purchase_id`, `store_id`, `product_id`, `previous_purchase_price`, `previous_rebate`, `previous_sales_price`, `previous_quanity`, `purchase_price`, `rebate`, `sales_price`, `quanity`, `is_active`, `create_user`, `create_date`) VALUES
-(161, 3, 1, 305, 1, 9, 0.00, 0.00, 0.00, 0, 700.00, 0.00, 44.00, 3, 1, 17, 1766339230),
-(162, 3, 1, 306, 1, 9, 700.00, 0.00, 44.00, 1, 700.00, 0.00, 900.00, 2, 1, 17, 1766468229),
-(163, 3, 1, 307, 1, 8, 0.00, 0.00, 0.00, 0, 500.00, 0.00, 800.00, 16, 1, 17, 1766470786);
+(161, 3, 1, 305, 1, 9, '0.00', '0.00', '0.00', 0, '700.00', '0.00', '44.00', 3, 1, 17, 1766339230),
+(162, 3, 1, 306, 1, 9, '700.00', '0.00', '44.00', 1, '700.00', '0.00', '900.00', 2, 1, 17, 1766468229),
+(163, 3, 1, 307, 1, 8, '0.00', '0.00', '0.00', 0, '500.00', '0.00', '800.00', 16, 1, 17, 1766470786),
+(164, 3, 1, 308, 1, 9, '700.00', '0.00', '900.00', 2, '695.00', '5.00', '44.00', 3, 1, 17, 1766504181),
+(165, 3, 1, 308, 1, 8, '500.00', '0.00', '800.00', 15, '495.00', '5.00', '800.00', 4, 1, 17, 1766504181),
+(166, 3, 1, 308, 1, 11, '0.00', '0.00', '0.00', 0, '400.00', '100.00', '740.00', 5, 1, 17, 1766504181),
+(167, 3, 1, 309, 1, 11, '400.00', '100.00', '740.00', 5, '500.00', '0.00', '740.00', 1, 1, 17, 1766504301),
+(168, 3, 1, 311, 1, 9, '695.00', '5.00', '44.00', 5, '0.00', '0.00', '0.00', 1, 1, 17, 1766507473),
+(169, 3, 1, 312, 1, 9, '0.00', '0.00', '0.00', 6, '0.00', '0.00', '0.00', 1, 1, 17, 1766508191);
 
 -- --------------------------------------------------------
 
@@ -278,7 +288,10 @@ CREATE TABLE `inv_stock_item_batch` (
 --
 
 INSERT INTO `inv_stock_item_batch` (`id`, `organization_id`, `branch_id`, `purchase_id`, `supplier_id`, `store_id`, `product_id`, `purchase_price`, `rebate`, `sales_price`, `quanity`, `is_available`, `serial_type`, `batch_number`, `qty_returned`, `is_returned`, `create_user`, `create_date`, `update_user`, `update_date`) VALUES
-(48, 3, 1, 307, 38, 1, 8, 500.00, 0.00, 800.00, 15, 1, 'common', 'SN694A3482AEC91', 0, 0, 17, 1766470785, 17, 1766470798);
+(48, 3, 1, 307, 38, 1, 8, '500.00', '0.00', '800.00', 15, 1, 'common', 'SN694A3482AEC91', 0, 0, 17, 1766470785, 17, 1766470798),
+(49, 3, 1, 308, 1, 1, 8, '495.00', '5.00', '800.00', 4, 1, 'common', 'SN694AB6F581748', 0, 0, 17, 1766504179, 0, 0),
+(50, 3, 1, 308, 1, 1, 11, '400.00', '100.00', '740.00', 5, 1, 'common', '45', 0, 0, 17, 1766504179, 0, 0),
+(51, 3, 1, 309, 1, 1, 11, '500.00', '0.00', '740.00', 1, 1, 'common', 'asd', 0, 0, 17, 1766504299, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -317,11 +330,16 @@ CREATE TABLE `inv_stock_item_serial` (
 --
 
 INSERT INTO `inv_stock_item_serial` (`id`, `organization_id`, `branch_id`, `purchase_id`, `supplier_id`, `store_id`, `product_id`, `purchase_date`, `purchase_price`, `rebate`, `sales_price`, `quanity`, `is_available`, `serial_type`, `serial`, `warrenty`, `is_returned`, `qty_returned`, `warrenty_days`, `create_user`, `create_date`, `update_user`, `update_date`) VALUES
-(239, 3, 1, 305, 1, 1, 9, 1766253600, 700, 0.00, 44, 1, 0, 'unique', 'aaa', 44, 0, 0, 'Days', 17, 1766339229, 0, 0),
-(240, 3, 1, 305, 1, 1, 9, 1766253600, 700, 0.00, 44, 1, 0, 'unique', 'bbb', 44, 0, 0, 'Days', 17, 1766339229, 0, 0),
-(241, 3, 1, 305, 1, 1, 9, 1766253600, 700, 0.00, 44, 1, 1, 'unique', 'ccc', 44, 0, 0, 'Days', 17, 1766339229, 0, 0),
-(242, 3, 1, 306, 1, 1, 9, 1766426400, 700, 0.00, 900, 1, 1, 'unique', '233232', 44, 0, 0, 'Days', 17, 1766468228, 0, 0),
-(243, 3, 1, 306, 1, 1, 9, 1766426400, 700, 0.00, 900, 1, 0, 'unique', '3333333', 44, 0, 0, 'Days', 17, 1766468228, 0, 0);
+(239, 3, 1, 305, 1, 1, 9, 1766253600, '700', '0.00', '44', 1, 0, 'unique', 'aaa', 44, 0, 0, 'Days', 17, 1766339229, 0, 0),
+(240, 3, 1, 305, 1, 1, 9, 1766253600, '700', '0.00', '44', 1, 0, 'unique', 'bbb', 44, 0, 0, 'Days', 17, 1766339229, 0, 0),
+(241, 3, 1, 305, 1, 1, 9, 1766253600, '700', '0.00', '44', 1, 1, 'unique', 'ccc', 44, 0, 0, 'Days', 17, 1766339229, 0, 0),
+(242, 3, 1, 306, 1, 1, 9, 1766426400, '700', '0.00', '900', 1, 1, 'unique', '233232', 44, 0, 0, 'Days', 17, 1766468228, 0, 0),
+(243, 3, 1, 306, 1, 1, 9, 1766426400, '700', '0.00', '900', 1, 0, 'unique', '3333333', 44, 0, 0, 'Days', 17, 1766468228, 0, 0),
+(244, 3, 1, 308, 1, 1, 9, 1766426400, '695', '5.00', '44', 1, 1, 'unique', '1223333', 44, 0, 0, 'Days', 17, 1766504179, 0, 0),
+(245, 3, 1, 308, 1, 1, 9, 1766426400, '695', '5.00', '44', 1, 1, 'unique', 'edddd', 44, 0, 0, 'Days', 17, 1766504179, 0, 0),
+(246, 3, 1, 308, 1, 1, 9, 1766426400, '695', '5.00', '44', 1, 1, 'unique', 'ed', 44, 0, 0, 'Days', 17, 1766504179, 0, 0),
+(247, 3, 1, 311, 1, 1, 9, 1766426400, '0', '0.00', '0', 1, 1, 'unique', '', 44, 0, 0, 'Days', 17, 1766507473, 0, 0),
+(248, 3, 1, 312, 1, 1, 9, 1766426400, '0', '0.00', '0', 1, 1, 'unique', '2222', 44, 0, 0, 'Days', 17, 1766508191, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -353,8 +371,9 @@ CREATE TABLE `inv_stock_master` (
 --
 
 INSERT INTO `inv_stock_master` (`id`, `organization_id`, `branch_id`, `store_id`, `product_id`, `purchase_price`, `rebate`, `sales_price`, `quanity`, `warrenty`, `warrenty_days`, `is_active`, `create_user`, `create_date`, `update_user`, `update_date`) VALUES
-(93, 3, 1, 1, 9, 700.00, 0.00, 900.00, 2, 44, 'Days', 1, 17, 1766339230, 17, 1766468253),
-(94, 3, 1, 1, 8, 500.00, 0.00, 800.00, 15, 6, 'Month', 1, 17, 1766470786, 17, 1766470799);
+(93, 3, 1, 1, 9, '0.00', '0.00', '0.00', 7, 44, 'Days', 1, 17, 1766339230, 17, 1766508191),
+(94, 3, 1, 1, 8, '495.00', '5.00', '800.00', 19, 6, 'Month', 1, 17, 1766470786, 17, 1766504181),
+(95, 3, 1, 1, 11, '500.00', '0.00', '740.00', 6, 30, 'Days', 1, 17, 1766504181, 17, 1766504301);
 
 -- --------------------------------------------------------
 
@@ -381,10 +400,10 @@ CREATE TABLE `login_credential` (
 --
 
 INSERT INTO `login_credential` (`id`, `organization_id`, `branch_id`, `user_id`, `username`, `password`, `role`, `active`, `last_login`, `created_at`, `updated_at`) VALUES
-(1, 0, 0, 1, 'system', 'UHZVdVBOTWI0VkwrN0MvQjRRRUZkdz09', 1, 1, '2025-12-23 16:34:21', '2024-10-21 15:42:57', '2025-12-23 16:34:21'),
+(1, 0, 0, 1, 'system', 'UHZVdVBOTWI0VkwrN0MvQjRRRUZkdz09', 1, 1, '2025-12-23 23:12:28', '2024-10-21 15:42:57', '2025-12-23 23:12:28'),
 (2, 0, 0, 2, 'litan@gmail.com', 'UHZVdVBOTWI0VkwrN0MvQjRRRUZkdz09', 1, 1, '2024-11-27 11:06:55', '2024-10-21 15:42:57', '2025-10-30 14:29:54'),
 (5, 0, 0, 6, 'admin@gmail.com', 'UHZVdVBOTWI0VkwrN0MvQjRRRUZkdz09', 2, 1, '2025-11-01 14:35:31', '2024-11-16 23:35:56', '2025-11-01 14:35:31'),
-(17, 3, 1, 10, '01829', 'UHZVdVBOTWI0VkwrN0MvQjRRRUZkdz09', 3, 1, '2025-12-23 16:35:27', '2025-10-30 23:30:08', '2025-12-23 16:35:27'),
+(17, 3, 1, 10, '01829', 'UHZVdVBOTWI0VkwrN0MvQjRRRUZkdz09', 3, 1, '2025-12-23 23:07:11', '2025-10-30 23:30:08', '2025-12-23 23:07:11'),
 (18, 3, 1, 11, 'masterit', 'UHZVdVBOTWI0VkwrN0MvQjRRRUZkdz09', 3, 1, '2025-12-06 17:55:23', '2025-10-30 23:30:08', '2025-12-06 17:55:23');
 
 -- --------------------------------------------------------
@@ -2415,7 +2434,35 @@ INSERT INTO `logs` (`id`, `message`, `record_id`, `user_id`, `action`, `ip_addre
 (2052, 'New Record inserted On sales_items id 151', 151, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-23 06:19:58', '2025-12-23'),
 (2053, 'New Record inserted On sales_item_batch_profit_loss id 111', 111, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-23 06:19:58', '2025-12-23'),
 (2054, 'New Record inserted On products id 11', 11, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-23 07:18:04', '2025-12-23'),
-(2055, 'New Record inserted On menus id 47', 47, 1, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-23 10:35:09', '2025-12-23');
+(2055, 'New Record inserted On menus id 47', 47, 1, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-23 10:35:09', '2025-12-23'),
+(2056, 'New Record inserted On purchase id 308', 308, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-23 15:36:20', '2025-12-23'),
+(2057, 'New Record inserted On acc_general_ledger id 566', 566, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-23 15:36:20', '2025-12-23'),
+(2058, 'New Record inserted On acc_general_ledger id 567', 567, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-23 15:36:20', '2025-12-23'),
+(2059, 'New Record inserted On purchase_items id 120', 120, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-23 15:36:20', '2025-12-23'),
+(2060, 'New Record inserted On purchase_item_serials id 102', 102, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-23 15:36:20', '2025-12-23'),
+(2061, 'New Record inserted On purchase_item_serials id 103', 103, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-23 15:36:20', '2025-12-23'),
+(2062, 'New Record inserted On purchase_item_serials id 104', 104, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-23 15:36:21', '2025-12-23'),
+(2063, 'New Record inserted On purchase_items id 121', 121, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-23 15:36:21', '2025-12-23'),
+(2064, 'New Record inserted On purchase_items id 122', 122, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-23 15:36:21', '2025-12-23'),
+(2065, 'New Record inserted On inv_stock_item_serial id 244', 244, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-23 15:36:21', '2025-12-23'),
+(2066, 'New Record inserted On inv_stock_item_serial id 245', 245, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-23 15:36:21', '2025-12-23'),
+(2067, 'New Record inserted On inv_stock_item_serial id 246', 246, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-23 15:36:21', '2025-12-23'),
+(2068, 'New Record inserted On inv_stock_item_batch id 49', 49, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-23 15:36:21', '2025-12-23'),
+(2069, 'New Record inserted On inv_stock_item_batch id 50', 50, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-23 15:36:21', '2025-12-23'),
+(2070, 'New Record inserted On purchase id 309', 309, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-23 15:38:20', '2025-12-23'),
+(2071, 'New Record inserted On purchase_items id 123', 123, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-23 15:38:21', '2025-12-23'),
+(2072, 'New Record inserted On inv_stock_item_batch id 51', 51, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-23 15:38:21', '2025-12-23'),
+(2073, 'New Record inserted On purchase id 310', 310, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-23 15:55:43', '2025-12-23'),
+(2074, 'New Record inserted On purchase id 311', 311, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-23 16:31:13', '2025-12-23'),
+(2075, 'New Record inserted On acc_general_ledger id 568', 568, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-23 16:31:13', '2025-12-23'),
+(2076, 'New Record inserted On purchase_items id 124', 124, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-23 16:31:13', '2025-12-23'),
+(2077, 'New Record inserted On purchase_item_serials id 105', 105, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-23 16:31:13', '2025-12-23'),
+(2078, 'New Record inserted On inv_stock_item_serial id 247', 247, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-23 16:31:13', '2025-12-23'),
+(2079, 'New Record inserted On purchase id 312', 312, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-23 16:43:11', '2025-12-23'),
+(2080, 'New Record inserted On acc_general_ledger id 569', 569, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-23 16:43:12', '2025-12-23'),
+(2081, 'New Record inserted On purchase_items id 125', 125, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-23 16:43:12', '2025-12-23'),
+(2082, 'New Record inserted On purchase_item_serials id 106', 106, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-23 16:43:12', '2025-12-23'),
+(2083, 'New Record inserted On inv_stock_item_serial id 248', 248, 17, 'Insert', '::1', 'Windows 10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb', '2025-12-23 16:43:12', '2025-12-23');
 
 -- --------------------------------------------------------
 
@@ -2625,10 +2672,10 @@ CREATE TABLE `products` (
 --
 
 INSERT INTO `products` (`id`, `organization_id`, `product_code`, `name`, `group_id`, `brand_id`, `unit_id`, `serial_type`, `purchase_price`, `tax_method`, `product_tax`, `product_tax_amount`, `total_amount`, `sales_price`, `warrenty`, `warrenty_days`, `re_order_level`, `is_inventory`, `is_short_bill`, `is_quotation`, `note`, `picture`, `is_active`, `create_user`, `create_date`) VALUES
-(8, 3, '7503', 'Nokia Mobile', 3, 3, 11, 'common', 500.00, 'Inclusive', 0.00, 0.00, 500.00, 800.00, 6, 'Month', 5, 1, 0, 1, '5', '0.png', 1, 17, 1765640124),
-(9, 3, '1087', 'Smart Phone', 3, 4, 10, 'unique', 700.00, 'Inclusive', 0.00, 0.00, 700.00, 44.00, 44, 'Days', 4, 1, 0, 1, '', '0.png', 1, 17, 1765640156),
-(10, 3, '5242', '22222222222222222222222222222', 3, 3, 10, 'common', 22.00, 'Inclusive', 0.00, 0.00, 0.00, 33.00, 22, 'Days', 0, 1, 0, 1, '33', '0.png', 1, 17, 1766464995),
-(11, 3, '1100', 'VISION BLANDER 1100W', 5, 4, 11, 'common', 500.00, 'Inclusive', 0.00, 0.00, 500.00, 740.00, 30, 'Days', 5, 1, 0, 1, 'thos', '0.png', 1, 17, 1766474284);
+(8, 3, '7503', 'Nokia Mobile', 3, 3, 11, 'common', '500.00', 'Inclusive', '0.00', '0.00', '500.00', '800.00', 6, 'Month', 5, 1, 0, 1, '5', '0.png', 1, 17, 1765640124),
+(9, 3, '1087', 'Smart Phone', 3, 4, 10, 'unique', '700.00', 'Inclusive', '0.00', '0.00', '700.00', '44.00', 44, 'Days', 4, 1, 0, 1, '', '0.png', 1, 17, 1765640156),
+(10, 3, '5242', '22222222222222222222222222222', 3, 3, 10, 'common', '22.00', 'Inclusive', '0.00', '0.00', '0.00', '33.00', 22, 'Days', 0, 1, 0, 1, '33', '0.png', 1, 17, 1766464995),
+(11, 3, '1100', 'VISION BLANDER 1100W', 5, 4, 11, 'common', '500.00', 'Inclusive', '0.00', '0.00', '500.00', '740.00', 30, 'Days', 5, 1, 0, 1, 'thos', '0.png', 1, 17, 1766474284);
 
 -- --------------------------------------------------------
 
@@ -2689,9 +2736,13 @@ CREATE TABLE `purchase` (
 --
 
 INSERT INTO `purchase` (`id`, `organization_id`, `branch_id`, `ip_address`, `invoice_code`, `code_random`, `invoice_no`, `purchase_date`, `supplier_id`, `store_id`, `totalQty`, `allTotal`, `totalDiscount`, `totalRebate`, `totalAmount`, `paidAmount`, `dueAmount`, `is_active`, `create_user`, `create_date`) VALUES
-(305, 3, 1, '', '', 1, 'GRN-0001', 1766253600, 1, 1, 3, 2100.00, 0.00, 0.00, 2100.00, 0.00, 2100.00, 1, 17, 1766339229),
-(306, 3, 1, '', '', 2, 'GRN-0002', 1766426400, 1, 1, 2, 1400.00, 0.00, 0.00, 1400.00, 0.00, 1400.00, 1, 17, 1766468228),
-(307, 3, 1, '', '', 3, 'GRN-0003', 1766426400, 38, 1, 16, 8000.00, 0.00, 0.00, 8000.00, 0.00, 8000.00, 1, 17, 1766470785);
+(305, 3, 1, '', '', 1, 'GRN-0001', 1766253600, 1, 1, 3, '2100.00', '0.00', '0.00', '2100.00', '0.00', '2100.00', 1, 17, 1766339229),
+(306, 3, 1, '', '', 2, 'GRN-0002', 1766426400, 1, 1, 2, '1400.00', '0.00', '0.00', '1400.00', '0.00', '1400.00', 1, 17, 1766468228),
+(307, 3, 1, '', '', 3, 'GRN-0003', 1766426400, 38, 1, 16, '8000.00', '0.00', '0.00', '8000.00', '0.00', '8000.00', 1, 17, 1766470785),
+(308, 3, 1, '', '', 4, 'GRN-0004', 1766426400, 1, 1, 8, '4085.00', '0.00', '515.00', '4085.00', '0.00', '4085.00', 1, 17, 1766504179),
+(309, 3, 1, '', '23122025213623', 5, 'GRN-0005', 1766340000, 1, 1, 1, '500.00', '0.00', '0.00', '500.00', '0.00', '500.00', 1, 17, 1766504299),
+(311, 3, 1, '', '', 6, 'GRN-0006', 1766507473, 1, 1, 1, '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', 1, 17, 1766507473),
+(312, 3, 1, '', '', 7, 'GRN-0007', 1766508191, 1, 1, 1, '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', 1, 17, 1766508191);
 
 -- --------------------------------------------------------
 
@@ -2719,7 +2770,9 @@ INSERT INTO `purchase_invoice` (`id`, `organization_id`, `branch_id`, `invoice_c
 (72, 3, 1, '21122025234649', 1, '', 'Approved', 17, 1766339214),
 (73, 3, 1, '23122025113637', 1, '', 'Approved', 17, 1766468206),
 (74, 3, 1, '23122025121913', 38, '', 'Approved', 17, 1766470769),
-(75, 3, 1, '23122025124005', 1, '', 'Pending', 17, 1766472023);
+(75, 3, 1, '23122025124005', 1, '', 'Pending', 17, 1766472023),
+(76, 3, 1, '23122025213358', 1, '', 'Approved', 17, 1766504053),
+(77, 3, 1, '23122025213623', 1, NULL, 'Approved', 17, 1766504297);
 
 -- --------------------------------------------------------
 
@@ -2755,9 +2808,15 @@ CREATE TABLE `purchase_items` (
 --
 
 INSERT INTO `purchase_items` (`id`, `organization_id`, `branch_id`, `invoice_code`, `purchase_id`, `store_id`, `product_id`, `serial_type`, `purchase_price`, `sales_price`, `qty`, `sub_total`, `rebate`, `total_rebate`, `net_total`, `warrenty`, `warrenty_days`, `status`, `create_user`, `create_date`) VALUES
-(117, 3, 1, '21122025234649', 305, 1, 9, 'unique', 700.00, 700.00, 3, 2100.00, 0.00, 0.00, 2100.00, 44, 'Days', 'Approved', 17, 1766339229),
-(118, 3, 1, '23122025113637', 306, 1, 9, 'unique', 700.00, 700.00, 2, 1400.00, 0.00, 0.00, 1400.00, 44, 'Days', 'Approved', 17, 1766468228),
-(119, 3, 1, '23122025121913', 307, 1, 8, 'common', 500.00, 500.00, 16, 8000.00, 0.00, 0.00, 8000.00, 6, 'Month', 'Approved', 17, 1766470785);
+(117, 3, 1, '21122025234649', 305, 1, 9, 'unique', '700.00', '700.00', 3, '2100.00', '0.00', '0.00', '2100.00', 44, 'Days', 'Approved', 17, 1766339229),
+(118, 3, 1, '23122025113637', 306, 1, 9, 'unique', '700.00', '700.00', 2, '1400.00', '0.00', '0.00', '1400.00', 44, 'Days', 'Approved', 17, 1766468228),
+(119, 3, 1, '23122025121913', 307, 1, 8, 'common', '500.00', '500.00', 16, '8000.00', '0.00', '0.00', '8000.00', 6, 'Month', 'Approved', 17, 1766470785),
+(120, 3, 1, '23122025213358', 308, 1, 9, 'unique', '700.00', '695.00', 3, '2100.00', '5.00', '15.00', '2085.00', 44, 'Days', 'Approved', 17, 1766504179),
+(121, 3, 1, '23122025213358', 308, 1, 8, 'common', '500.00', '495.00', 4, '2000.00', '5.00', '20.00', '1980.00', 6, 'Month', 'Approved', 17, 1766504179),
+(122, 3, 1, '23122025213358', 308, 1, 11, 'common', '500.00', '400.00', 5, '2500.00', '100.00', '500.00', '2000.00', 30, 'Days', 'Approved', 17, 1766504179),
+(123, 3, 1, '23122025213623', 309, 1, 11, 'common', '500.00', '500.00', 1, '500.00', '0.00', '0.00', '500.00', 30, 'Days', 'Approved', 17, 1766504299),
+(124, 3, 1, '', 311, 1, 9, 'unique', '0.00', '0.00', 1, '0.00', '0.00', '0.00', '0.00', 44, 'Days', 'Approved', 17, 1766507473),
+(125, 3, 1, '', 312, 1, 9, 'unique', '0.00', '0.00', 1, '0.00', '0.00', '0.00', '0.00', 44, 'Days', 'Approved', 17, 1766508191);
 
 -- --------------------------------------------------------
 
@@ -2784,7 +2843,12 @@ INSERT INTO `purchase_item_serials` (`id`, `item_id`, `serial_type`, `is_availab
 (98, 117, 'unique', 1, 0, '', 'bbb'),
 (99, 117, 'unique', 1, 0, '', 'ccc'),
 (100, 118, 'unique', 1, 0, '', '233232'),
-(101, 118, 'unique', 1, 0, '', '3333333');
+(101, 118, 'unique', 1, 0, '', '3333333'),
+(102, 120, 'unique', 1, 0, '', '1223333'),
+(103, 120, 'unique', 1, 0, '', 'edddd'),
+(104, 120, 'unique', 1, 0, '', 'ed'),
+(105, 124, 'unique', 1, 0, '', ''),
+(106, 125, 'unique', 1, 0, '', '2222');
 
 -- --------------------------------------------------------
 
@@ -2815,10 +2879,14 @@ CREATE TABLE `purchase_order_items` (
 --
 
 INSERT INTO `purchase_order_items` (`id`, `invoice_id`, `serial_type`, `product_id`, `purchase_date`, `price`, `qty`, `rebate`, `total_rebate`, `sub_total`, `sales_price`, `warrenty`, `warrenty_days`, `barcode_serial`, `create_date`) VALUES
-(105, '21122025234649', 'unique', 9, 1766339214, 700.00, 3, 0.00, 0.00, 2100.00, 44.00, 44, 'Days', '', 1766339214),
-(106, '23122025113637', 'unique', 9, 1766468206, 700.00, 2, 0.00, 0.00, 1400.00, 900.00, 44, 'Days', '', 1766468206),
-(108, '23122025121913', 'common', 8, 1766470770, 500.00, 16, 0.00, 0.00, 8000.00, 800.00, 6, 'Month', '', 1766470770),
-(109, '23122025124005', 'common', 10, 1766472023, 50.00, 1, 6.00, 6.00, 44.00, 33.00, 22, 'Days', '', 1766472023);
+(105, '21122025234649', 'unique', 9, 1766339214, '700.00', 3, '0.00', '0.00', '2100.00', '44.00', 44, 'Days', '', 1766339214),
+(106, '23122025113637', 'unique', 9, 1766468206, '700.00', 2, '0.00', '0.00', '1400.00', '900.00', 44, 'Days', '', 1766468206),
+(108, '23122025121913', 'common', 8, 1766470770, '500.00', 16, '0.00', '0.00', '8000.00', '800.00', 6, 'Month', '', 1766470770),
+(109, '23122025124005', 'common', 10, 1766472023, '50.00', 1, '6.00', '6.00', '44.00', '33.00', 22, 'Days', '', 1766472023),
+(110, '23122025213358', 'unique', 9, 1766504053, '700.00', 3, '5.00', '15.00', '2085.00', '44.00', 44, 'Days', '', 1766504053),
+(112, '23122025213358', 'common', 8, 1766504113, '500.00', 4, '5.00', '20.00', '1980.00', '800.00', 6, 'Month', '', 1766504113),
+(113, '23122025213358', 'common', 11, 1766504173, '500.00', 5, '100.00', '500.00', '2000.00', '740.00', 30, 'Days', '45', 1766504173),
+(114, '23122025213623', 'common', 11, 0, '500.00', 1, '0.00', '0.00', '500.00', '740.00', 30, 'Days', 'asd', 1766504297);
 
 -- --------------------------------------------------------
 
@@ -2841,7 +2909,10 @@ INSERT INTO `purchase_order_item_serials` (`id`, `item_id`, `serial_number`) VAL
 (67, 105, 'bbb'),
 (68, 105, 'ccc'),
 (69, 106, '233232'),
-(70, 106, '3333333');
+(70, 106, '3333333'),
+(71, 110, '1223333'),
+(72, 110, 'edddd'),
+(73, 110, 'ed');
 
 -- --------------------------------------------------------
 
@@ -3048,10 +3119,10 @@ CREATE TABLE `sales` (
 --
 
 INSERT INTO `sales` (`id`, `organization_id`, `branch_id`, `ip_address`, `invoice_code`, `code_random`, `invoice_no`, `sales_date`, `customer_id`, `store_id`, `totalQty`, `subTotal`, `total_discount`, `adjustment`, `payableAmount`, `dueAmount`, `paidAmount`, `payment_method_id`, `next_due_paid_date`, `is_customer`, `customer_name`, `mobile_no`, `address`, `is_active`, `create_user`, `create_date`) VALUES
-(150, 3, 1, '', '21122025234755', 1, 'INV-0001', 1766253600, 1, 1, 1, 44.00, 0.00, 0.00, 44.00, 44.00, 0.00, 1, 0, 0, 'Cash', '0', 'Cash', 1, 17, 1766339282),
-(151, 3, 1, '', '0', 2, 'INV-0002', 1766253600, 1, 1, 1, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0, 0, 0, 'Cash', '0', 'Cash', 1, 17, 1766339343),
-(152, 3, 1, '', '23122025113718', 3, 'INV-0003', 1766426400, 1, 1, 1, 900.00, 0.00, 0.00, 900.00, 900.00, 0.00, 1, 0, 0, 'Cash', '0', 'Cash', 1, 17, 1766468251),
-(153, 3, 1, '', '23122025121951', 4, 'INV-0004', 1766426400, 1, 1, 1, 800.00, 0.00, 0.00, 800.00, 800.00, 0.00, 1, 0, 0, 'Cash', '0', 'Cash', 1, 17, 1766470797);
+(150, 3, 1, '', '21122025234755', 1, 'INV-0001', 1766253600, 1, 1, 1, '44.00', '0.00', '0.00', '44.00', '44.00', '0.00', 1, 0, 0, 'Cash', '0', 'Cash', 1, 17, 1766339282),
+(151, 3, 1, '', '0', 2, 'INV-0002', 1766253600, 1, 1, 1, '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', 0, 0, 0, 'Cash', '0', 'Cash', 1, 17, 1766339343),
+(152, 3, 1, '', '23122025113718', 3, 'INV-0003', 1766426400, 1, 1, 1, '900.00', '0.00', '0.00', '900.00', '900.00', '0.00', 1, 0, 0, 'Cash', '0', 'Cash', 1, 17, 1766468251),
+(153, 3, 1, '', '23122025121951', 4, 'INV-0004', 1766426400, 1, 1, 1, '800.00', '0.00', '0.00', '800.00', '800.00', '0.00', 1, 0, 0, 'Cash', '0', 'Cash', 1, 17, 1766470797);
 
 -- --------------------------------------------------------
 
@@ -3078,7 +3149,8 @@ CREATE TABLE `sales_invoice` (
 INSERT INTO `sales_invoice` (`id`, `organization_id`, `branch_id`, `invoice_code`, `customer_id`, `remarks`, `status`, `create_user`, `create_date`) VALUES
 (323, 3, 0, '21122025234755', 0, '', 'Approved', 17, 1766339280),
 (324, 3, 1, '23122025113718', 1, '', 'Approved', 17, 1766468247),
-(325, 3, 1, '23122025121951', 1, '', 'Approved', 17, 1766470795);
+(325, 3, 1, '23122025121951', 1, '', 'Approved', 17, 1766470795),
+(326, 3, 0, '23122025224605', 0, '', 'Pending', 17, 1766508368);
 
 -- --------------------------------------------------------
 
@@ -3116,10 +3188,10 @@ CREATE TABLE `sales_items` (
 --
 
 INSERT INTO `sales_items` (`id`, `organization_id`, `branch_id`, `invoice_id`, `sales_id`, `store_id`, `serial_type`, `product_id`, `purchase_price`, `price`, `qty`, `sub_total`, `discount_percent`, `discount_amount`, `net_total`, `warrenty`, `warrenty_days`, `status`, `is_returned`, `create_user`, `create_date`, `returned_qty`) VALUES
-(148, 3, 1, '', 150, 1, 'unique', 9, 700.00, 44.00, 1, 44.00, 0.00, 0.00, 44.00, 44, 'Days', 'Approved', 0, 17, 1766339282, 0),
-(149, 3, 1, '', 151, 1, 'unique', 9, 700.00, 0.00, 1, 0.00, 0.00, 0.00, 0.00, 44, 'Days', 'Approved', 0, 17, 1766339343, 0),
-(150, 3, 1, '', 152, 1, 'unique', 9, 700.00, 900.00, 1, 900.00, 0.00, 0.00, 900.00, 44, 'Days', 'Approved', 0, 17, 1766468251, 0),
-(151, 3, 1, '', 153, 1, 'common', 8, 500.00, 800.00, 1, 800.00, 0.00, 0.00, 800.00, 6, 'Month', 'Approved', 0, 17, 1766470797, 0);
+(148, 3, 1, '', 150, 1, 'unique', 9, '700.00', '44.00', 1, '44.00', '0.00', '0.00', '44.00', 44, 'Days', 'Approved', 0, 17, 1766339282, 0),
+(149, 3, 1, '', 151, 1, 'unique', 9, '700.00', '0.00', 1, '0.00', '0.00', '0.00', '0.00', 44, 'Days', 'Approved', 0, 17, 1766339343, 0),
+(150, 3, 1, '', 152, 1, 'unique', 9, '700.00', '900.00', 1, '900.00', '0.00', '0.00', '900.00', 44, 'Days', 'Approved', 0, 17, 1766468251, 0),
+(151, 3, 1, '', 153, 1, 'common', 8, '500.00', '800.00', 1, '800.00', '0.00', '0.00', '800.00', 6, 'Month', 'Approved', 0, 17, 1766470797, 0);
 
 -- --------------------------------------------------------
 
@@ -3154,10 +3226,10 @@ CREATE TABLE `sales_item_batch_profit_loss` (
 --
 
 INSERT INTO `sales_item_batch_profit_loss` (`id`, `organization_id`, `branch_id`, `sales_id`, `sales_item_id`, `customer_id`, `product_id`, `batch_id`, `batch_number`, `qty_sold`, `purchase_price`, `sales_price`, `profit_loss`, `serial_type`, `sales_date`, `create_user`, `create_date`, `qty_returned`, `is_returned`) VALUES
-(108, 3, 1, 150, 148, 1, 9, 239, 'aaa', 1, 700.00, 44.00, -656.00, 'unique', 1766253600, 17, 1766339283, 0, 0),
-(109, 3, 1, 151, 149, 1, 9, 240, 'bbb', 1, 700.00, 0.00, -700.00, 'unique', 1766253600, 17, 1766339343, 0, 0),
-(110, 3, 1, 152, 150, 1, 9, 243, '3333333', 1, 700.00, 900.00, 200.00, 'unique', 1766426400, 17, 1766468253, 0, 0),
-(111, 3, 1, 153, 151, 1, 8, 48, 'SN694A3482AEC91', 1, 500.00, 800.00, 300.00, 'common', 1766426400, 17, 1766470798, 0, 0);
+(108, 3, 1, 150, 148, 1, 9, 239, 'aaa', 1, '700.00', '44.00', '-656.00', 'unique', 1766253600, 17, 1766339283, 0, 0),
+(109, 3, 1, 151, 149, 1, 9, 240, 'bbb', 1, '700.00', '0.00', '-700.00', 'unique', 1766253600, 17, 1766339343, 0, 0),
+(110, 3, 1, 152, 150, 1, 9, 243, '3333333', 1, '700.00', '900.00', '200.00', 'unique', 1766426400, 17, 1766468253, 0, 0),
+(111, 3, 1, 153, 151, 1, 8, 48, 'SN694A3482AEC91', 1, '500.00', '800.00', '300.00', 'common', 1766426400, 17, 1766470798, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -3190,9 +3262,10 @@ CREATE TABLE `sales_order_items` (
 --
 
 INSERT INTO `sales_order_items` (`id`, `organization_id`, `invoice_id`, `serial_type`, `product_id`, `purchase_price`, `price`, `qty`, `sub_total`, `discount_percent`, `discount_amount`, `net_total`, `warrenty`, `warrenty_days`, `status`, `create_user`, `create_date`) VALUES
-(462, 3, '21122025234755', 'unique', 9, 700.00, 44.00, 1, 44.00, 0.00, 0.00, 44.00, 44, 'Days', 'Approved', 17, 1766339280),
-(463, 3, '23122025113718', 'unique', 9, 700.00, 900.00, 1, 900.00, 0.00, 0.00, 900.00, 44, 'Days', 'Approved', 17, 1766468247),
-(464, 3, '23122025121951', 'common', 8, 500.00, 800.00, 1, 800.00, 0.00, 0.00, 800.00, 6, 'Month', 'Approved', 17, 1766470795);
+(462, 3, '21122025234755', 'unique', 9, '700.00', '44.00', 1, '44.00', '0.00', '0.00', '44.00', 44, 'Days', 'Approved', 17, 1766339280),
+(463, 3, '23122025113718', 'unique', 9, '700.00', '900.00', 1, '900.00', '0.00', '0.00', '900.00', 44, 'Days', 'Approved', 17, 1766468247),
+(464, 3, '23122025121951', 'common', 8, '500.00', '800.00', 1, '800.00', '0.00', '0.00', '800.00', 6, 'Month', 'Approved', 17, 1766470795),
+(465, 3, '23122025224605', 'unique', 9, '0.00', '0.00', 1, '0.00', '0.00', '0.00', '0.00', 44, 'Days', 'Pending', 17, 1766508368);
 
 -- --------------------------------------------------------
 
@@ -3214,7 +3287,8 @@ CREATE TABLE `sales_order_item_serials` (
 
 INSERT INTO `sales_order_item_serials` (`id`, `item_id`, `is_available`, `batch_number`, `serial_number`) VALUES
 (329, 462, 0, '', 'aaa'),
-(330, 463, 0, '', '3333333');
+(330, 463, 0, '', '3333333'),
+(331, 465, 0, '', '2222');
 
 -- --------------------------------------------------------
 
@@ -3277,10 +3351,10 @@ CREATE TABLE `service_categories` (
 --
 
 INSERT INTO `service_categories` (`id`, `organization_id`, `branch_id`, `name`, `amount`, `is_active`, `create_user`, `create_date`) VALUES
-(2, 3, 0, ' WINDOWS PROBLEM ', 50.00, 1, 17, 1765962733),
-(3, 3, 0, ' WINDOWS PROBLEM', 0.00, 1, 17, 1765962785),
-(4, 3, 0, 'SPEAKER PROBLEM', 0.00, 1, 17, 1765962821),
-(5, 3, 0, 'NO POWER', 100.00, 1, 17, 1765962838);
+(2, 3, 0, ' WINDOWS PROBLEM ', '50.00', 1, 17, 1765962733),
+(3, 3, 0, ' WINDOWS PROBLEM', '0.00', 1, 17, 1765962785),
+(4, 3, 0, 'SPEAKER PROBLEM', '0.00', 1, 17, 1765962821),
+(5, 3, 0, 'NO POWER', '100.00', 1, 17, 1765962838);
 
 -- --------------------------------------------------------
 
@@ -3323,7 +3397,7 @@ CREATE TABLE `service_warranty` (
 --
 
 INSERT INTO `service_warranty` (`id`, `organization_id`, `branch_id`, `ip_address`, `invoice_no`, `purchase_id`, `product_id`, `supplier_id`, `sales_id`, `customer_id`, `serial`, `delivery_date`, `purchase_price`, `sales_price`, `total`, `sales_date`, `warrenty`, `warrenty_days`, `status`, `is_active`, `create_user`, `create_date`, `replace_serial`, `handover_to`, `replace_given`, `delivered_from_stock`, `delivered_from_supplier`) VALUES
-(19, 3, 1, '', 'SE-350501129', 305, 9, 1, 150, 1, 'aaa', 1767549600, 700.00, 44.00, 0.00, 1766253600, 44, 'Days', 'Completed', 1, 17, 1766339319, 'bbb', '', 0, 1, 0);
+(19, 3, 1, '', 'SE-350501129', 305, 9, 1, 150, 1, 'aaa', 1767549600, '700.00', '44.00', '0.00', 1766253600, 44, 'Days', 'Send to Service Center', 1, 17, 1766339319, '', '', 1, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -3348,7 +3422,7 @@ CREATE TABLE `service_warranty_order` (
 --
 
 INSERT INTO `service_warranty_order` (`id`, `organization_id`, `branch_id`, `service_warranty_id`, `service_categories_id`, `amount`, `is_active`, `create_user`, `create_date`) VALUES
-(31, 3, 1, 19, 4, 0.00, 1, 17, 1766339319);
+(31, 3, 1, 19, 4, '0.00', 1, 17, 1766339319);
 
 -- --------------------------------------------------------
 
@@ -3442,14 +3516,14 @@ CREATE TABLE `staff` (
 --
 
 INSERT INTO `staff` (`id`, `organization_id`, `branch_id`, `employee_id`, `department`, `designation`, `ip_address`, `first_name`, `last_name`, `email`, `roles_id`, `qualification`, `work_exp`, `father_name`, `mother_name`, `contact_no`, `emergency_contact_no`, `dob`, `marital_status`, `date_of_joining`, `date_of_leaving`, `local_address`, `permanent_address`, `gender`, `account_title`, `bank_account_no`, `bank_name`, `lang_id`, `bank_branch`, `basic_salary`, `staff_type`, `hourly_rate`, `facebook`, `twitter`, `linkedin`, `instagram`, `resume`, `joining_letter`, `is_active`, `picture`, `create_user`, `create_date`) VALUES
-(1, 0, 0, '', 0, 0, '', 'System', '', 'system', 1, '', '', '', '', '', '', 0, '', 0, 0, '', '', '', '', '', '', '', '', 0.00, 0, 0.00, '', '', '', '', '', '', 1, '0.png', 0, 0),
-(2, 0, 0, '', 0, 0, '', 'Admin', '', 'litan@gmail.com', 1, '', '', '', '', '', '', 0, '', 0, 0, '', '', '', '', '', '', '', '', 0.00, 0, 0.00, '', '', '', '', '', '', 1, '0.png', 0, 0),
-(6, 0, 0, '', 0, 0, '', 'abir', 'r', 'admin@gmail.com', 3, '', '', '3', '33', '33', '33', 1731711600, 'Single', 1731711600, 1731711600, '', '', '', '', '', '', '', '', 0.00, 1, 100.00, '', '', '', '', '', '', 1, '0.png', 0, 1731778556),
-(7, 0, 0, '', 0, 0, '', 'Md Kobir ', 'Hasan', 'kobir1@gmail.com', 3, '', '', 'Ibr', '', '0182762', '1123333', 1732230000, '', 1732230000, 1732230000, '', '', '', '', '', '', '', '', 0.00, 1, 100.00, '', '', '', '', '', '', 1, '0.png', 0, 1732250608),
-(8, 0, 0, '', 0, 0, '', 'Admin', '', 'superadmin@gmail.com', 1, '', '', '', '', '', '', 0, '', 0, 0, '', '', '', '', '', '', '', '', 0.00, 0, 0.00, '', '', '', '', '', '', 1, '0.png', 0, 0),
-(9, 0, 0, '2132332', 0, 0, '', 'Hridoy', 'Sarkar', 'hridoy@gmail.com', 0, '', '', 'Ibrahim', '', '01827262', '01827262', 1732834800, 'Single', 1732834800, 1732834800, '', '', 'Male', '', '', '', '', '', 0.00, 1, 100.00, '', '', '', '', '', '', 1, '0.png', 0, 1732851415),
-(10, 3, 0, '', 0, 0, '', 'Master IT', '', '', 2, '', '', '', '', '01829', '', 0, '', 1761845407, 0, '', '', '', '', '', '', '', '', 0.00, 0, 0.00, '', '', '', '', '', '', 1, '0.png', 0, 1761845407),
-(11, 3, 0, '', 0, 0, '', 'Master IT', '', '', 2, '', '', '', '', 'masterit', '', 0, '', 1761845407, 0, '', '', '', '', '', '', '', '', 0.00, 0, 0.00, '', '', '', '', '', '', 1, '0.png', 0, 1761845407);
+(1, 0, 0, '', 0, 0, '', 'System', '', 'system', 1, '', '', '', '', '', '', 0, '', 0, 0, '', '', '', '', '', '', '', '', '0.00', 0, '0.00', '', '', '', '', '', '', 1, '0.png', 0, 0),
+(2, 0, 0, '', 0, 0, '', 'Admin', '', 'litan@gmail.com', 1, '', '', '', '', '', '', 0, '', 0, 0, '', '', '', '', '', '', '', '', '0.00', 0, '0.00', '', '', '', '', '', '', 1, '0.png', 0, 0),
+(6, 0, 0, '', 0, 0, '', 'abir', 'r', 'admin@gmail.com', 3, '', '', '3', '33', '33', '33', 1731711600, 'Single', 1731711600, 1731711600, '', '', '', '', '', '', '', '', '0.00', 1, '100.00', '', '', '', '', '', '', 1, '0.png', 0, 1731778556),
+(7, 0, 0, '', 0, 0, '', 'Md Kobir ', 'Hasan', 'kobir1@gmail.com', 3, '', '', 'Ibr', '', '0182762', '1123333', 1732230000, '', 1732230000, 1732230000, '', '', '', '', '', '', '', '', '0.00', 1, '100.00', '', '', '', '', '', '', 1, '0.png', 0, 1732250608),
+(8, 0, 0, '', 0, 0, '', 'Admin', '', 'superadmin@gmail.com', 1, '', '', '', '', '', '', 0, '', 0, 0, '', '', '', '', '', '', '', '', '0.00', 0, '0.00', '', '', '', '', '', '', 1, '0.png', 0, 0),
+(9, 0, 0, '2132332', 0, 0, '', 'Hridoy', 'Sarkar', 'hridoy@gmail.com', 0, '', '', 'Ibrahim', '', '01827262', '01827262', 1732834800, 'Single', 1732834800, 1732834800, '', '', 'Male', '', '', '', '', '', '0.00', 1, '100.00', '', '', '', '', '', '', 1, '0.png', 0, 1732851415),
+(10, 3, 0, '', 0, 0, '', 'Master IT', '', '', 2, '', '', '', '', '01829', '', 0, '', 1761845407, 0, '', '', '', '', '', '', '', '', '0.00', 0, '0.00', '', '', '', '', '', '', 1, '0.png', 0, 1761845407),
+(11, 3, 0, '', 0, 0, '', 'Master IT', '', '', 2, '', '', '', '', 'masterit', '', 0, '', 1761845407, 0, '', '', '', '', '', '', '', '', '0.00', 0, '0.00', '', '', '', '', '', '', 1, '0.png', 0, 1761845407);
 
 -- --------------------------------------------------------
 
@@ -3840,7 +3914,7 @@ ALTER TABLE `acc_customer_received`
 -- AUTO_INCREMENT for table `acc_general_ledger`
 --
 ALTER TABLE `acc_general_ledger`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=566;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=570;
 
 --
 -- AUTO_INCREMENT for table `acc_supplier_received`
@@ -3870,25 +3944,25 @@ ALTER TABLE `business_partner`
 -- AUTO_INCREMENT for table `inv_stock_history`
 --
 ALTER TABLE `inv_stock_history`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=164;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=170;
 
 --
 -- AUTO_INCREMENT for table `inv_stock_item_batch`
 --
 ALTER TABLE `inv_stock_item_batch`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=49;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=52;
 
 --
 -- AUTO_INCREMENT for table `inv_stock_item_serial`
 --
 ALTER TABLE `inv_stock_item_serial`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=244;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=249;
 
 --
 -- AUTO_INCREMENT for table `inv_stock_master`
 --
 ALTER TABLE `inv_stock_master`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=95;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=96;
 
 --
 -- AUTO_INCREMENT for table `login_credential`
@@ -3900,7 +3974,7 @@ ALTER TABLE `login_credential`
 -- AUTO_INCREMENT for table `logs`
 --
 ALTER TABLE `logs`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2056;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2084;
 
 --
 -- AUTO_INCREMENT for table `menus`
@@ -3948,37 +4022,37 @@ ALTER TABLE `products_groups`
 -- AUTO_INCREMENT for table `purchase`
 --
 ALTER TABLE `purchase`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=308;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=313;
 
 --
 -- AUTO_INCREMENT for table `purchase_invoice`
 --
 ALTER TABLE `purchase_invoice`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=76;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=78;
 
 --
 -- AUTO_INCREMENT for table `purchase_items`
 --
 ALTER TABLE `purchase_items`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=120;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=126;
 
 --
 -- AUTO_INCREMENT for table `purchase_item_serials`
 --
 ALTER TABLE `purchase_item_serials`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=102;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=107;
 
 --
 -- AUTO_INCREMENT for table `purchase_order_items`
 --
 ALTER TABLE `purchase_order_items`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=110;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=115;
 
 --
 -- AUTO_INCREMENT for table `purchase_order_item_serials`
 --
 ALTER TABLE `purchase_order_item_serials`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=71;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=74;
 
 --
 -- AUTO_INCREMENT for table `purchase_return`
@@ -4020,7 +4094,7 @@ ALTER TABLE `sales`
 -- AUTO_INCREMENT for table `sales_invoice`
 --
 ALTER TABLE `sales_invoice`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=326;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=327;
 
 --
 -- AUTO_INCREMENT for table `sales_items`
@@ -4038,13 +4112,13 @@ ALTER TABLE `sales_item_batch_profit_loss`
 -- AUTO_INCREMENT for table `sales_order_items`
 --
 ALTER TABLE `sales_order_items`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=465;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=466;
 
 --
 -- AUTO_INCREMENT for table `sales_order_item_serials`
 --
 ALTER TABLE `sales_order_item_serials`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=331;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=332;
 
 --
 -- AUTO_INCREMENT for table `sales_return`

@@ -3,6 +3,7 @@ class Warranty extends MY_Controller
 {
   public function __construct() {
         parent::__construct();
+        $this->load->model("purchase/purchase_model");
         $this->load->model("sales/sales_model");
         $this->load->model("service_model");
         
@@ -274,10 +275,13 @@ public function change_status($id)
     $supdate = $this->service_model->updateServiceStatus($id, $data);
     if($supdate){
         $delivered_from_stock = $this->input->post('delivered_from_stock');
+        $replace_given = $this->input->post('replace_given');
         if($delivered_from_stock == 1){
             $this->sales_save($id);
-    
-             
+        }
+
+        if($replace_given == 1){
+            $this->replace_given_save($id);
         }
           $this->session->set_flashdata('success', 'Status updated successfully!');
     }else{
@@ -287,6 +291,210 @@ public function change_status($id)
     redirect('service/warranty');
 }
 
+
+public function replace_given_save($id){  
+    $date            = date("Y-m-d H:i:s");
+    $branch_id       = $this->session->userdata("loggedin_branch_id");
+    $store_id        = 1; 
+    $product_id      =  $this->common_model->xss_clean($this->input->post("product_id"));
+    $sales_date      =  $this->common_model->xss_clean($this->input->post("sales_date"));
+    $purchase_price  =  $this->common_model->xss_clean($this->input->post("purchase_price"));
+    $warrenty        =  $this->common_model->xss_clean($this->input->post("warrenty"));
+    $warrenty_days   =  $this->common_model->xss_clean($this->input->post("warrenty_days"));
+    $serial          =  $this->common_model->xss_clean($this->input->post("StockReceiveSerial"));
+
+
+    $int_no = $this->purchase_model->number_generator();
+  	$invoice_no = 'GRN-'.str_pad($int_no,4,"0",STR_PAD_LEFT);
+
+    // ধরছি $id আগেই পাওয়া আছে
+    $warranty = $this->db
+        ->select('supplier_id')
+        ->from('service_warranty')
+        ->where('id', $id)
+        ->get()
+        ->row();
+
+    
+
+    $customer_id = $warranty->supplier_id;
+  
+    $customer = $this->db
+        ->select('name, contact_no, address')
+        ->from('business_partner')
+        ->where('id', $customer_id)
+        ->where('is_active', 1)
+        ->get()
+        ->row();
+
+        if(!$customer){
+            return false;
+        }
+        $date = date("Y-m-d H:i:s");
+        $converted_date = convert_date_ddmmyyyy_to_yyyymmdd($date);
+        $data = array(   
+            "organization_id"            => $this->session->userdata('loggedin_org_id'),
+            "branch_id"                  => $this->session->userdata('loggedin_branch_id'), 
+            "invoice_code"               => $this->common_model->xss_clean($this->input->post("invoice_id")),  
+            "code_random"                => $int_no,   
+            "invoice_no"                 => $invoice_no,   
+            "purchase_date"              => strtotime($date),   
+            "supplier_id"                => $customer_id,   
+            "store_id"                   => 1,   
+            "totalQty"                   => 1,
+            "is_active"                  => 1,
+            "create_user"                => $this->session->userdata('loggedin_id'),
+            "create_date"                => strtotime($date),
+        
+        );
+
+     
+
+   
+    if ($this->common_model->save_data("purchase", $data)) {
+      $purchase_id = $this->common_model->Id;
+
+
+       $total_tr_data = array(   
+        "organization_id"            => $this->session->userdata('loggedin_org_id'),
+        "branch_id"                  => $this->session->userdata('loggedin_branch_id'), 
+        "voucher_type"               => 'Purchase',  
+        "invoice_no"                 => $invoice_no, 
+        "purchase_invoice_id"        => $purchase_id,   
+        "party_id"                   => $customer_id,   
+        "account_name"               => 'Supplier Purchase', 
+        "particulars"                => 'Purchase for order',   
+        "date"                       => date("Y-m-d"),   
+        "debit"                      => 0,   
+        "credit"                     => 0,   
+        "gl_date"                    => strtotime($date),
+        "acc_coa_head_id"            => 0,   
+        "payment_method"             => 0,    
+        "remarks"                    => "Purchase Replace Barcode:  $serial",
+        "is_active"                  => 1,
+        "create_user"                => $this->session->userdata('loggedin_id'),
+        "create_date"                => strtotime($date),
+       
+    );
+    $this->common_model->save_data("acc_general_ledger", $total_tr_data);
+
+    //
+    $pdata = array(
+                    "organization_id"    => $this->session->userdata('loggedin_org_id'),
+                    "branch_id"          => $branch_id,
+                    "invoice_code"       => '',  
+                    "purchase_id"        => $purchase_id,
+                    "store_id"           => $store_id,
+                    "product_id"         => $product_id,
+                    "serial_type"        => "unique",
+                    "purchase_price"     => 0,
+                    "sales_price"        => 0,
+                    "qty"                => 1,
+                    "sub_total"          => 0,
+                    "warrenty"           => $warrenty,
+                    "warrenty_days"      => $warrenty_days,
+                    "status"             => 'Approved',
+                    "create_user"        => $this->session->userdata('loggedin_id'),
+                    "create_date"       => strtotime($date),
+                );
+                $this->common_model->save_data("purchase_items", $pdata);
+                $purchase_item_id = $this->common_model->Id;
+
+                $items_ser = array(
+                    "item_id"            => $purchase_item_id,
+                    "serial_type"        => "unique",
+                    "is_available"       => 1,
+                    "serial_number"      => $serial,
+                        );
+            $this->common_model->save_data("purchase_item_serials", $items_ser);
+             $pdata = array(   
+                    "organization_id"            => $this->session->userdata('loggedin_org_id'),
+                    "branch_id"                  => $this->session->userdata('loggedin_branch_id'), 
+                    "purchase_id"                => $purchase_id,   
+                    "supplier_id"                => $customer_id,  
+                    "store_id"                   => $store_id,   
+                    "product_id"                 => $product_id,   
+                    "purchase_date"              => strtotime(date("d-m-Y")),
+                    "purchase_price"             => 0,    
+                    "rebate"                     => 0,    
+                    "sales_price"                => 0,        
+                    "quanity"                    => 1,   
+                    "is_available"               => 1,   
+                    "serial_type"                => "unique",  
+                    "serial"                     => $serial,
+                    "warrenty"                   => $warrenty, 
+                    "warrenty_days"              => $warrenty_days, 
+                    "create_user"                => $this->session->userdata('loggedin_id'),
+                    "create_date"                => strtotime($date),
+                
+                );
+                    $this->common_model->save_data("inv_stock_item_serial", $pdata);
+
+                     ###################################################################
+        ############# Previus Stock History 
+        #############################################################################
+
+         $is_previous_stock = $this->purchase_model->get_stock_previous_products($store_id ,$product_id );
+         if($is_previous_stock){
+
+            $previous_purchase_price = $is_previous_stock->purchase_price;
+            $previous_rebate         = $is_previous_stock->rebate;
+            $previous_sales_price    = $is_previous_stock->sales_price;
+            $previous_quanity        = $is_previous_stock->quanity;
+
+            $this->db->insert('inv_stock_history', [
+                'organization_id'                     => $this->session->userdata("loggedin_org_id"),
+                'branch_id'                           => $this->session->userdata("loggedin_branch_id"),
+                "purchase_id"                         => $purchase_id,  
+                'store_id'                            => $store_id,
+                'product_id'                          => $product_id,
+                'previous_purchase_price'             => $previous_purchase_price,
+                'previous_rebate'                     => $previous_rebate,
+                'previous_sales_price'                => $previous_sales_price,
+                'previous_quanity'                    => $previous_quanity,
+                'purchase_price'                      => 0,
+                'rebate'                              => 0,
+                'sales_price'                         => 0,
+                'quanity'                             => 1,
+                'is_active'                           => 1,
+                'create_user'                         => $this->session->userdata('loggedin_id'),
+                'create_date'                         => strtotime($date),
+            ]);
+            $history_id = $this->db->insert_id();
+
+         }
+
+
+           $is_product = $this->purchase_model->get_stock_products($store_id ,$product_id );
+
+         
+            if($is_product){
+                foreach($is_product as $mdata){
+                    $new_qty =  $mdata->quanity;
+            
+        
+
+            $this->db->where('branch_id', $branch_id);
+            $this->db->where('store_id', $store_id);
+            $this->db->where('product_id', $product_id);
+            $this->db->update('inv_stock_master', [
+                'purchase_price'     => 0,
+                'rebate'             => 0,
+                'sales_price'        => 0,
+                'quanity'            => $new_qty + 1,
+                'warrenty'           => $warrenty,
+                'warrenty_days'      => $warrenty_days,
+                'update_user'        => $this->session->userdata('loggedin_id'),
+                'update_date'        => strtotime($date),
+            ]);
+
+
+            }
+        }
+
+    }
+
+}
 public function sales_save($id){  
     $date            = date("Y-m-d H:i:s");
     $branch_id       = $this->session->userdata("loggedin_branch_id");

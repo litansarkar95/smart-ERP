@@ -66,6 +66,7 @@ public function index()
         }
     
     $date = date("Y-m-d H:i:s");
+    $converted_date = convert_date_ddmmyyyy_to_yyyymmdd($purchase_date);
     $data = array(   
         "organization_id"            => $this->session->userdata('loggedin_org_id'),
         "branch_id"                  => $this->session->userdata('loggedin_branch_id'), 
@@ -121,8 +122,8 @@ public function index()
         "purchase_invoice_id"        => $purchase_id,   
         "party_id"                   => $customer_id,   
         "account_name"               => 'Supplier Purchase', 
-        "particulars"                =>'Purchase for order',   
-        "date"                       => $date,   
+        "particulars"                => 'Purchase for order',   
+        "date"                       => $converted_date,   
         "debit"                      => 0,   
         "credit"                     => $netAmount,   
         "gl_date"                    => strtotime($date),
@@ -146,7 +147,7 @@ public function index()
         "party_id"                   => $customer_id,   
         "account_name"               => 'Supplier Account', 
         "particulars"                => 'Payment for order',   
-        "date"                       => $date,   
+        "date"                       => $converted_date,   
         "debit"                      => $paidAmount,   
         "credit"                     => 0,   
         "gl_date"                    => strtotime($date),
@@ -172,7 +173,7 @@ public function index()
         "party_id"                   => $customer_id,   
         "account_name"               => 'Rebate', 
         "particulars"                => 'Rebate for order',   
-        "date"                       => $date,   
+        "date"                       => $converted_date,   
         "debit"                      => $totalRebate,   
         "credit"                     => 0,   
         "gl_date"                    => strtotime($date),

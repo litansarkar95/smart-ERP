@@ -21,7 +21,7 @@
 								<div class="row justify-content-center align-items-center">
 									<div class="col-md-6 text-center login_image_container">
 										<div class="login_image">
-											<img src="<?php echo base_url(); ?>assets/static/imgs/login_image.png" alt="">
+											<img src="<?php echo base_url(); ?>assets/static/imgs/gear-wheel.gif" alt="">
 										</div>
 									</div>
 									<div class="col-md-6 w_full">

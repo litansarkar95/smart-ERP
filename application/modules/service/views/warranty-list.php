@@ -146,14 +146,14 @@
     <input class="form-check-input take_from_stock"
            type="checkbox" value="1" name="replace_given">
     <label class="form-check-label fw-bold">
-      স্টক এ পণ্য নিতে চাচ্ছেন
+    সাপ্লায়ার থেকে  স্টক এ পণ্য নিতে চাচ্ছেন
     </label>
   </div>
 
   <!-- Take from stock box -->
   <div class="mb-3 take-stock-box d-none">
     <label class="form-label">Stock Receive Serial</label>
-    <input type="text" class="form-control"
+    <input type="text" class="form-control" name="StockReceiveSerial"
            placeholder="বার কোড স্ক্যান করুন অথবা লিখে দিন">
   </div>
 
@@ -177,7 +177,7 @@
     <input class="form-check-input delivered_from_supplier"
            type="checkbox" value="1" name="delivered_from_supplier">
     <label class="form-check-label fw-bold">
-      সাপ্লায়ার থেকে পণ্য ডেলিভারি দিতে চাচ্ছেন
+      সাপ্লায়ার থেকে পুরাতন পণ্য ডেলিভারি দিতে চাচ্ছেন
     </label>
   </div>
 
