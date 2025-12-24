@@ -244,7 +244,7 @@ public function insert()
                     "qty"                => $item->qty,
                     "sub_total"          => $item->price * $item->qty,
                     "rebate"             => $item->rebate,
-                    "total_rebate"       => $item->total_rebate,
+                    "total_rebate"       => $item->totalRebate,
                     "net_total"          => $item->sub_total,
                     "warrenty"           => $item->warrenty,
                     "warrenty_days"      => $item->warrenty_days,
@@ -581,30 +581,40 @@ public function add_item_ajax(){
     }
      $barcode_serial = $this->input->post('barcode_serial');
 
-    if(empty($barcode_serial)){
-        $barcode_serial = 'BATCH-' . time() . '-' . rand(100,999);
-    }
+   $barcode_serial = $this->input->post('barcode_serial');
+        $serials = $this->input->post('serials');
+        $serial_type = $this->input->post('serial_type');
 
-    $data = [
-        'invoice_id'    => $invoice_code,
-        'serial_type'   => $this->input->post('serial_type'),
-        'product_id'    => $this->input->post('product_id'),
-        'purchase_date' => time(),
-        'price'         => $this->input->post('price'),
-        'qty'           => $this->input->post('qty'),
-        'rebate'        => $this->input->post('rebate'),
-        'total_rebate'  => $this->input->post('total_rebate'),
-        'sub_total'     => $this->input->post('sub_total'),
-        'sales_price'   => $this->input->post('sales_price'),
-        'warrenty'      => $this->input->post('warrenty'),
-        'warrenty_days' => $this->input->post('warrenty_days'),
-        'barcode_serial'=> $this->input->post('barcode_serial'),
-        'create_date'   => time()
-    ];
+        // ✅ এখানে বসাবে
+        if ($serial_type === 'unique' && empty($serials)) {
+            $new_serial = 'UNIQ-' . time() . rand(1000,9999);
+            $serials = [$new_serial];
+        }
 
-    $serials = $this->input->post('serials');
+        if ($serial_type === 'common' && empty($barcode_serial)) {
+            $barcode_serial = 'BATCH-' . time() . rand(100,999);
+        }
 
-    $item_id = $this->purchasebatch_model->add_or_update_item($data, $serials);
+// তারপর $data define করবে
+$data = [
+    'invoice_id'    => $invoice_code,
+    'serial_type'   => $serial_type,
+    'product_id'    => $this->input->post('product_id'),
+    'purchase_date' => time(),
+    'price'         => $this->input->post('price'),
+    'qty'           => $this->input->post('qty'),
+    'rebate'        => $this->input->post('rebate'),
+    'totalRebate'  => $this->input->post('totalRebate'),
+    'sub_total'     => $this->input->post('sub_total'),
+    'sales_price'   => $this->input->post('sales_price'),
+    'warrenty'      => $this->input->post('warrenty'),
+    'warrenty_days' => $this->input->post('warrenty_days'),
+    'barcode_serial'=> $barcode_serial,
+    'create_date'   => time()
+];
+
+$item_id = $this->purchasebatch_model->add_or_update_item($data, $serials);
+
 
     echo json_encode([
         'status' => 'success',
@@ -657,7 +667,8 @@ public function delete_item(){
         $item_id      = $this->input->post('item_id');
         $price        = $this->input->post('price');
         $qty          = $this->input->post('qty');
-        $total_rebate = $this->input->post('total_rebate');
+        $rebate          = $this->input->post('rebate');
+        $totalRebate = $this->input->post('totalRebate');
         $sub_total    = $this->input->post('sub_total');
 
         if (!$item_id) {
@@ -671,10 +682,8 @@ public function delete_item(){
         $data = [
             'price'        => $price,
             'qty'          => $qty,
-            'rebate'       => ($total_rebate > 0 && $qty > 0) 
-                                ? round($total_rebate / $qty, 2) 
-                                : 0.00,
-            'total_rebate' => $total_rebate,
+            'rebate'       => $rebate ,
+            'totalRebate'   => $totalRebate,
             'sub_total'    => $sub_total,
         ];
 

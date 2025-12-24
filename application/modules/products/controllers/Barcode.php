@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-require_once APPPATH.'../vendor/autoload.php'; // Composer autoload
+require_once APPPATH.'third_party/barcode/vendor/autoload.php'; // Composer autoload
 
 use Picqer\Barcode\BarcodeGeneratorPNG;
 class Barcode extends MX_Controller
@@ -71,37 +71,72 @@ public function print_barcode()
         return;
     }
 
-    $barcodes = [];
+   
 
-    if ($product->serial_type === 'unique') {
-        // সব available serial load
-        $codes = $this->db
+$item_ref = $this->input->post('item_ref');
+
+if ($product->serial_type === 'unique') {
+
+    // 🔹 UNIQUE → inv_stock_item_serial
+    if (!empty($item_ref)) {
+
+        // ✅ শুধু selected serial
+        $rows = $this->db
+            ->select('serial')
+            ->from('inv_stock_item_serial')
+            ->where('product_id', $product_id)
+            ->where('serial', $item_ref)
+            ->where('is_available', 1)
+            ->get()
+            ->result_array();
+
+    } else {
+
+        // ✅ serial select না করলে → সব available serial
+        $rows = $this->db
             ->select('serial')
             ->from('inv_stock_item_serial')
             ->where('product_id', $product_id)
             ->where('is_available', 1)
             ->get()
             ->result_array();
-        $codes = array_column($codes, 'serial');
+    }
 
-        foreach($codes as $code) {
-            $barcodes[] = [
-                'code'  => $product->product_code . '-' . $code,
-                'name'  => $product->name,
-                'price' => $product->sales_price
-            ];
-        }
+    foreach ($rows as $r) {
+        $barcodes[] = [
+            'code'   => $product->product_code . '-' . $r['serial'],
+            'batch'  => $r['serial'],
+            'name'   => $product->name,
+            'price'  => $product->sales_price
+        ];
+    }
 
-    } else {
-        // Common = same barcode repeated print_qty times
-        for ($i=0; $i<$print_qty; $i++) {
-            $barcodes[] = [
-                'code'  => $product->product_code,
-                'name'  => $product->name,
-                'price' => $product->sales_price
-            ];
+} else {
+
+    // 🔹 COMMON → inv_stock_item_batch
+    if (!empty($item_ref)) {
+
+        $row = $this->db
+            ->get_where('inv_stock_item_batch', [
+                'product_id'   => $product_id,
+                'batch_number' => $item_ref,
+                'is_available' => 1
+            ])->row();
+
+        if ($row) {
+            for ($i = 0; $i < $print_qty; $i++) {
+                $barcodes[] = [
+                    'code'   => $product->product_code,
+                    'batch'  => $row->batch_number,
+                    'name'   => $product->name,
+                    'price'  => $product->sales_price
+                ];
+            }
         }
     }
+}
+
+
 
     $data['barcodes']    = $barcodes;
     $data['show_price']  = $show_price;

@@ -222,12 +222,12 @@
             <input type="text" name="rebate" id="rebate" value="0" class="form-control rebate">
         </div>
     </div>
-    <div class="col-md-2 mb-2">
+    <!-- <div class="col-md-2 mb-2">
         <div class="form-group">
             <label for="total_rebate">Total Rebate</label>
             <input type="text" name="total_rebate" id="total_rebate" value="0" class="form-control total_rebate" readonly>
         </div>
-    </div>
+    </div> -->
 
     <div class="col-md-2 mb-2">
         <div class="form-group">
@@ -539,9 +539,9 @@
 function calculateItemSubtotal(){
     let price  = parseFloat($('#price').val()) || 0;
     let qty    = parseInt($('#qty').val()) || 1;
-    let rebate = parseFloat($('#total_rebate').val()) || 0;
+    let rebate = parseFloat($('#rebate').val()) || 0;
 
-    let subtotal = (price * qty) - rebate;
+    let subtotal = price - rebate;
     $('#subtotal').val(subtotal.toFixed(2));
 }
 $('#qty').on('input', function(){
@@ -549,16 +549,16 @@ $('#qty').on('input', function(){
     var qty = parseFloat($(this).val()) || 1;
     var rebate = parseFloat($('#rebate').val()) || 0;
     $('#subtotal').val((price * qty).toFixed(2));
-    $('#total_rebate').val((rebate * qty).toFixed(2));
+    $('#rebate').val((rebate).toFixed(2));
 });
 
 // Update total_rebate when qty changes
 $('#rebate').on('input', function(){
     var rebate = parseFloat($('#rebate').val()) || 0;
     var qty = parseFloat($('#qty').val()) || 1;
-    $('#total_rebate').val((rebate * qty).toFixed(2));
+    $('#bate').val((rebate).toFixed(2));
 });
-$('#price, #qty, #total_rebate').on('input', function(){
+$('#price, #qty, #rebate').on('input', function(){
     calculateItemSubtotal();
 });
 
@@ -574,20 +574,20 @@ $('form').on('keydown', function(e){
         e.preventDefault();
     }
 });
-$(document).on('input', '.qty, .price, .total_rebate', function(){
+$(document).on('input', '.qty, .price, .rebate', function(){
 
     let row   = $(this).closest('tr');
     let qty   = parseFloat(row.find('.qty').val()) || 0;
     let price = parseFloat(row.find('.price').val()) || 0;
-    let rebate= parseFloat(row.find('.total_rebate').val()) || 0;
+    let rebate= parseFloat(row.find('.rebate').val()) || 0;
 
-    let subtotal = (qty * price) - rebate;
+    let subtotal = (price - rebate ) * qty;
     row.find('.sub_total').val(subtotal.toFixed(2));
 
     calculateGrandTotals();
 });
 
-$(document).on('blur', '.qty, .price, .total_rebate', function(){
+$(document).on('blur', '.qty, .price, .rebate', function(){
 
     let row = $(this).closest('tr');
 
@@ -597,7 +597,7 @@ $(document).on('blur', '.qty, .price, .total_rebate', function(){
             item_id: row.data('item-id'),
             qty: row.find('.qty').val(),
             price: row.find('.price').val(),
-            total_rebate: row.find('.total_rebate').val(),
+            rebate: row.find('.rebate').val(),
             sub_total: row.find('.sub_total').val()
         }
     );
@@ -614,12 +614,16 @@ function calculateGrandTotals(){
         let qty   = parseFloat($(this).find('.qty').val()) || 0;
         let price = parseFloat($(this).find('.price').val()) || 0;
         let rowSub = parseFloat($(this).find('.sub_total').val()) || 0;
-        let rowRebate = parseFloat($(this).find('.total_rebate').val()) || 0;
+        let rowRebate = parseFloat($(this).find('.rebate').val()) || 0;
 
         totalOrder  += qty;
         subtotal    += rowSub;
         totalRebate += rowRebate;
     });
+
+    totalRebate = totalRebate * totalOrder;
+
+
 
     $('#totalOrderAmount').val(totalOrder.toFixed(2));
     $('#subtotalAmount').val(subtotal.toFixed(2));
@@ -763,31 +767,31 @@ $('#addItemBtn').on('click', function () {
 
     let serialType = $('#unique_input').is(':visible') ? 'unique' : 'common';
 
-  let serialVal = serialType === 'unique'
-    ? $('#item_serial').val().trim()
-    : $('#barcode_serial').val().trim();
+    // ✅ Declare serialVal only once
+    let serialVal = serialType === 'unique'
+        ? $('#item_serial').val().trim()
+        : $('#barcode_serial').val().trim();
 
-if (serialType === 'unique' && !serialVal) {
-    iziToast.error({
-        message: 'Unique Serial required!',
-        position: 'topRight'
-    });
-    return;
-}
+    // ✅ Auto-generate if empty
+    if(serialType === 'unique' && !serialVal){
+        serialVal = 'UNIQ-' + Date.now() + '-' + Math.floor(Math.random() * 9000 + 1000);
+    }
+
+    if(serialType === 'common' && !serialVal){
+        serialVal = 'BATCH-' + Date.now() + '-' + Math.floor(Math.random() * 900 + 100);
+    }
+
     let rowKey = serialType === 'unique'
         ? product_id + '_' + price + '_unique'
         : product_id + '_' + price + '_common';
 
- 
     let row = $('#itemsTable tbody tr[data-key="' + rowKey + '"]');
 
     if (serialType === 'unique' && row.length) {
-
         let existingSerials = row.find('.serial_number').val()
             .split(',')
             .map(s => s.trim())
             .filter(s => s !== '');
-
         if (existingSerials.includes(serialVal)) {
             iziToast.error({
                 message: 'এই Serial আগেই যোগ করা হয়েছে!',
@@ -801,7 +805,6 @@ if (serialType === 'unique' && !serialVal) {
     // CALCULATION
     // ===============================
     let newQty = row.length ? parseInt(row.find('.qty').val()) + 1 : qty;
-
     let totalRebate = rebate * newQty;
     let subtotal = (price * newQty) - totalRebate;
 
@@ -820,7 +823,7 @@ if (serialType === 'unique' && !serialVal) {
             price: price,
             qty: newQty,
             rebate: rebate,
-            total_rebate: totalRebate,
+            totalRebate : totalRebate,
             sub_total: subtotal,
             sales_price: $('#sales_price').val(),
             warrenty: $('#warrenty').val(),
@@ -831,9 +834,8 @@ if (serialType === 'unique' && !serialVal) {
         success: function (res) {
 
             if (row.length) {
-
                 row.find('.qty').val(newQty);
-                row.find('.total_rebate').val(totalRebate.toFixed(2));
+                row.find('.rebate').val(rebate.toFixed(2));
                 row.find('.sub_total').val(subtotal.toFixed(2));
 
                 if (serialType === 'unique') {
@@ -849,7 +851,7 @@ if (serialType === 'unique' && !serialVal) {
                     <td>${$('#product_id option:selected').text()}</td>
                     <td><input type="number" class="form-control qty" value="${newQty}"></td>
                     <td><input type="number" class="form-control price" value="${price}"></td>
-                    <td><input type="number" class="form-control total_rebate" value="${totalRebate.toFixed(2)}"></td>
+                    <td><input type="number" class="form-control rebate" value="${totalRebate.toFixed(2)}"></td>
                     <td><input type="text" class="form-control sub_total" value="${subtotal.toFixed(2)}" readonly></td>
                     <td><textarea class="form-control serial_number" readonly>${serialVal}</textarea></td>
                     <td>
@@ -995,12 +997,12 @@ $(document).on('click', '.deleteSerial', function(){
 
         let price = parseFloat(itemRow.find('.price').val()) || 0;
         let rebatePerItem =
-            parseFloat(itemRow.find('.total_rebate').val()) / (newQty + 1);
+            parseFloat(itemRow.find('.rebate').val()) / (newQty + 1);
 
         let totalRebate = rebatePerItem * newQty;
         let subtotal = (price * newQty) - totalRebate;
 
-        itemRow.find('.total_rebate').val(totalRebate.toFixed(2));
+        itemRow.find('.totalRebate').val(totalRebate.toFixed(2));
         itemRow.find('.sub_total').val(subtotal.toFixed(2));
     }
 

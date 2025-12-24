@@ -61,11 +61,7 @@
                                   <div class="select_2_container">
                                     <select name="item_ref"  id="item_ref"     class="form-control frm_select select2">
                                     <option value="">Select Batch / Serial</option>
-                                                       <?php
-                                                                      foreach($allBrand as $bnd){
-                                                                        echo "<option value='{$bnd->id}'>$bnd->name </option>";
-                                                                        }
-																?>
+                                    
                                     </select>
                                     <i class="fas fa-caret-down"></i>
                                   </div>
@@ -95,11 +91,11 @@
                                                         </div>
                                                         <div class="col-md-3 mb-3">
                         <div class="form-check mb-3">
-    <input class="form-check-input" type="checkbox" value="1" name="show_price" id="show_price" checked>
-    <label class="form-check-label" for="show_price">
-        Show Price
-    </label>
-</div></div>
+                  <input class="form-check-input" type="checkbox" value="1" name="show_price" id="show_price" checked>
+                  <label class="form-check-label" for="show_price">
+                      Show Price
+                  </label>
+              </div></div>
 
 
                           <div class="col-md-3 mb-3">
@@ -107,10 +103,11 @@
                                   <label for="paper_size">Paper size</label>
                                   <div class="select_2_container">
                                     <select name="paper_size"  id="paper_size"     class="form-control frm_select select2">
-                                      <option value="a4_40">A4 (40 Labels)</option>
+                                     <option value="a4_40">A4 (40 Labels)</option>
                                     <option value="a4_24">A4 (24 Labels)</option>
                                     <option value="a4_21">A4 (21 Labels)</option>
                                     <option value="single">Single Label</option>
+
                                     </select>
                                     <i class="fas fa-caret-down"></i>
                                   </div>
