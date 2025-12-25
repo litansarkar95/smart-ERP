@@ -1,5 +1,5 @@
 <?php
-class Brands extends Admin_Controller
+class Brands extends MX_Controller
 {
   public function __construct() {
     parent::__construct();
@@ -68,7 +68,25 @@ public function index()
   $data['content']     = $this->load->view("brand/brand-list", $data, TRUE);
   $this->load->view('layout/master', $data);
 }
+ public function store()
+    {
+        $data = [
+            'organization_id' => $this->session->userdata('loggedin_org_id'),
+            'name'            => $this->input->post('name'),
+            'is_active'       => 1,
+            'create_user'     => $this->session->userdata('loggedin_id'),
+            'create_date'     => time()
+        ];
 
+        $this->db->insert('brands', $data);
+        $id = $this->db->insert_id();
+
+        echo json_encode([
+            'status' => true,
+            'id'     => $id,
+            'name'   => $data['name']
+        ]);
+    }
 public function delete($id) {
 
   $dt = $this->common_model->view_data("brands", array("id" => $id), "id", "asc");

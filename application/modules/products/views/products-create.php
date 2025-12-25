@@ -36,42 +36,74 @@
                                                             <div class="row mb-3">
 
                                              
+    <!-- Brand -->  
 
-                                   <div class="col-md-3 mb-3">
-                                    <div class="form-group">
-                                  <label for="group_id">Product  Group</label>
-                                  <div class="select_2_container">
-                                    <select name="group_id"  id="group_id"     class="form-control frm_select select2">
-                                       <option  value="">  Select  </option>
-                                                       <?php
-                                                                        foreach($allCat as $cat){
-                                                                        echo "<option value='{$cat->id}'>$cat->name </option>";
-                                                                        }
-																?>
-                                    </select>
-                                    <i class="fas fa-caret-down"></i>
-                                  </div>
-                                   <span class="text-error small"> <?php echo form_error('group_id'); ?>   </span>
-                                </div></div>
+                         <div class="col-md-3 mb-3">
+    <div class="form-group">
+        <label for="group_id">Product  Group</label>
+
+        <div class="row g-1">
+            <!-- Select (2.4 equivalent) -->
+            <div class="col-md-10">
+                <div class="select_2_container">
+                    <select name="group_id" id="group_id" class="form-control frm_select select2">
+                        <option value="">Select</option>
+                        <?php foreach ($allCat as $cat) { ?>
+                            <option value="<?= $cat->id ?>"><?= $cat->name ?></option>
+                        <?php } ?>
+                    </select>
+                    <i class="fas fa-caret-down"></i>
+                </div>
+            </div>
+
+            <!-- Plus button (0.6 equivalent) -->
+            <div class="col-md-2">
+                <span class="input-group-text h-100 d-flex align-items-center justify-content-center"
+                      style="cursor:pointer;" data-bs-toggle="modal" data-bs-target="#addGroupModal">
+                    <i class="fa fa-plus"></i>
+                </span>
+            </div>
+        </div>
+
+        <span class="text-error small"><?php echo form_error('group_id'); ?></span>
+    </div>
+</div>
+
+                                 
 
                                 <!-- Brand -->  
 
-                          <div class="col-md-3 mb-3">
-                                    <div class="form-group">
-                                  <label for="brand_id">Brand Name</label>
-                                  <div class="select_2_container">
-                                    <select name="brand_id"  id="brand_id"     class="form-control frm_select select2">
-                                       <option  value="">  Select  </option>
-                                                       <?php
-                                                                      foreach($allBrand as $bnd){
-                                                                        echo "<option value='{$bnd->id}'>$bnd->name </option>";
-                                                                        }
-																?>
-                                    </select>
-                                    <i class="fas fa-caret-down"></i>
-                                  </div>
-                                  <span class="text-error small"> <?php echo form_error('brand_id'); ?>   </span>
-                                </div></div>
+                         <div class="col-md-3 mb-3">
+    <div class="form-group">
+        <label for="brand_id">Brand Name</label>
+
+        <div class="row g-1">
+            <!-- Select (2.4 equivalent) -->
+            <div class="col-md-10">
+                <div class="select_2_container">
+                    <select name="brand_id" id="brand_id" class="form-control frm_select select2">
+                        <option value="">Select</option>
+                        <?php foreach ($allBrand as $bnd) { ?>
+                            <option value="<?= $bnd->id ?>"><?= $bnd->name ?></option>
+                        <?php } ?>
+                    </select>
+                    <i class="fas fa-caret-down"></i>
+                </div>
+            </div>
+
+            <!-- Plus button (0.6 equivalent) -->
+            <div class="col-md-2">
+                <span class="input-group-text h-100 d-flex align-items-center justify-content-center"
+                      style="cursor:pointer;" data-bs-toggle="modal" data-bs-target="#addBrandModal">
+                    <i class="fa fa-plus"></i>
+                </span>
+            </div>
+        </div>
+
+        <span class="text-error small"><?php echo form_error('brand_id'); ?></span>
+    </div>
+</div>
+
                                 <!-- end Brand -->
                                    <div class="col-md-3 mb-3">
                                                         <div class="form-group">
@@ -330,6 +362,118 @@
 </div>
 
 
+<!--   Brand -->
+<div class="modal fade" id="addBrandModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+
+      <div class="modal-header">
+        <h5 class="modal-title">Add Brand</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+
+      <form id="addBrandForm">
+        <div class="modal-body">
+
+          <div class="mb-3">
+            <label class="form-label">Brand Name</label>
+            <input type="text" name="name" class="form-control" required>
+          </div>
+
+       
+
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-primary">Save</button>
+        </div>
+      </form>
+
+    </div>
+  </div>
+</div>
+<!--   Group -->
+<div class="modal fade" id="addGroupModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+
+      <div class="modal-header">
+        <h5 class="modal-title">Add Group</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+
+      <form id="addGroupForm">
+        <div class="modal-body">
+
+          <div class="mb-3">
+            <label class="form-label">Group Name</label>
+            <input type="text" name="name" class="form-control" required>
+          </div>
+
+       
+
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-primary">Save</button>
+        </div>
+      </form>
+
+    </div>
+  </div>
+</div>
+<script>
+$('#addGroupForm').on('submit', function(e){
+    e.preventDefault();
+
+    $.ajax({
+        url: "<?= base_url('products/groups/store') ?>",
+        type: "POST",
+        data: $(this).serialize(),
+        dataType: "json",
+        success: function(res){
+            if(res.status === true){
+
+                // add new option to select2
+                let newOption = new Option(res.name, res.id, true, true);
+                $('#group_id').append(newOption).trigger('change');
+
+                $('#addGroupModal').modal('hide');
+                $('#addGroupForm')[0].reset();
+            }else{
+                alert('Error saving Group');
+            }
+        }
+    });
+});
+</script>
+<script>
+$('#addBrandForm').on('submit', function(e){
+    e.preventDefault();
+
+    $.ajax({
+        url: "<?= base_url('products/brands/store') ?>",
+        type: "POST",
+        data: $(this).serialize(),
+        dataType: "json",
+        success: function(res){
+            if(res.status === true){
+
+                // add new option to select2
+                let newOption = new Option(res.name, res.id, true, true);
+                $('#brand_id').append(newOption).trigger('change');
+
+                $('#addBrandModal').modal('hide');
+                $('#addBrandForm')[0].reset();
+            }else{
+                alert('Error saving brand');
+            }
+        }
+    });
+});
+</script>
 
 
 

@@ -1,5 +1,5 @@
 <?php
-class Groups extends Admin_Controller
+class Groups extends MX_Controller
 {
   public function __construct() {
     parent::__construct();
@@ -57,7 +57,25 @@ public function index()
     $data['content'] = $this->load->view("groups/groups-list", $data, TRUE);
     $this->load->view('layout/master', $data);
 }
+ public function store()
+    {
+        $data = [
+            'organization_id' => $this->session->userdata('loggedin_org_id'),
+            'name'            => $this->input->post('name'),
+            'is_active'       => 1,
+            'create_user'     => $this->session->userdata('loggedin_id'),
+            'create_date'     => time()
+        ];
 
+        $this->db->insert('products_groups', $data);
+        $id = $this->db->insert_id();
+
+        echo json_encode([
+            'status' => true,
+            'id'     => $id,
+            'name'   => $data['name']
+        ]);
+    }
 public function delete($id) {
 
   $dt = $this->common_model->view_data("products_groups", array("id" => $id), "id", "asc");
