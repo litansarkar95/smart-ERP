@@ -352,7 +352,7 @@
       <div class="col-md-2 mb-2">
         <div class="form-group">
             <label for="totalRebate">Total Rebate  </label>
-            <input type="text" name="totalRebate" id="totalRebate" value="" class="form-control totalRebate" >
+            <input type="text" name="totalRebate" id="totalRebate" value="0" class="form-control totalRebate" >
         </div>
     </div>
 
@@ -608,6 +608,7 @@ function calculateGrandTotals(){
     let totalOrder   = 0;
     let subtotal     = 0;
     let totalRebate  = 0;
+    let totalsubtotal  = 0;
 
     $('#itemsTable tbody tr').each(function(){
 
@@ -622,11 +623,12 @@ function calculateGrandTotals(){
     });
 
     totalRebate = totalRebate * totalOrder;
+    totalsubtotal = totalRebate + subtotal;
 
 
 
     $('#totalOrderAmount').val(totalOrder.toFixed(2));
-    $('#subtotalAmount').val(subtotal.toFixed(2));
+    $('#subtotalAmount').val(totalsubtotal.toFixed(2));
     $('#totalRebate').val(totalRebate.toFixed(2));
     $('#totalAmount').val(subtotal.toFixed(2));
 
@@ -774,11 +776,11 @@ $('#addItemBtn').on('click', function () {
 
     // ✅ Auto-generate if empty
     if(serialType === 'unique' && !serialVal){
-        serialVal = 'UNIQ-' + Date.now() + '-' + Math.floor(Math.random() * 9000 + 1000);
+        serialVal = 'UNIQ' + Date.now()  + Math.floor(Math.random() * 9000 + 1000);
     }
 
     if(serialType === 'common' && !serialVal){
-        serialVal = 'BATCH-' + Date.now() + '-' + Math.floor(Math.random() * 900 + 100);
+        serialVal = 'BATCH' + Date.now()  + Math.floor(Math.random() * 900 + 100);
     }
 
     let rowKey = serialType === 'unique'
@@ -846,7 +848,7 @@ $('#addItemBtn').on('click', function () {
             } else {
 
                 let newRow = `
-                <tr data-key="${rowKey}" data-item-id="${res.item_id}" data-serial-type="${res.item_id}">
+                <tr data-key="${rowKey}" data-item-id="${res.item_id}" data-serial-type="${res.serial_type}">
                     <td>${$('#itemsTable tbody tr').length + 1}</td>
                     <td>${$('#product_id option:selected').text()}</td>
                     <td><input type="number" class="form-control qty" value="${newQty}"></td>
@@ -879,7 +881,7 @@ $('#addItemBtn').on('click', function () {
 function resetInputs(){
     $('#item_serial').val('');
   //  $('#subtotal').val('');
-    $('#total_rebate').val(0);
+   // $('#total_rebate').val(0);
     $('#qty').val(1);
 }
 // remove

@@ -41,7 +41,7 @@ public function add_or_update_item($data, $serials = []) {
         // Update existing item
         $updateData = [
             'qty' => $data['qty'],
-            'total_rebate' => $data['total_rebate'],
+            'total_rebate' => $this->input->post('totalRebate'),
             'sub_total' => $data['sub_total'],
             'sales_price' => $data['sales_price'],
             'warrenty' => $data['warrenty'],

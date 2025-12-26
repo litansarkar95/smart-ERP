@@ -181,7 +181,66 @@
     </label>
   </div>
 
-  <div class="mb-3 supplier-box d-none">
+    <!-- Delivered from supplier -->
+  <div class="form-check mt-2">
+    <input class="form-check-input input_from_supplier_others_item"
+           type="checkbox" value="1" name="input_from_supplier_others_item">
+    <label class="form-check-label fw-bold">
+      সাপ্লায়ার থেকে ভিন্ন পণ্য স্টক এ নিতে  চাচ্ছেন
+    </label>
+  </div>
+
+     <!-- Delivered from supplier -->
+  <div class="form-check mt-2">
+    <input class="form-check-input input_from_customer_others_item"
+           type="checkbox" value="1" name="input_from_customer_others_item">
+    <label class="form-check-label fw-bold">
+      স্টক থেকে  ভিন্ন পণ্য ডেলিভারি  দিতে  চাচ্ছেন
+    </label>
+  </div>
+
+<div class="mb-3 customer_others_item-box d-none">
+
+  <label for="customer_product_id">Product Name </label>
+                                  <div class="select_2_container">
+                                    <select name="customer_product_id"  id="customer_product_id"     class="form-control frm_select ">
+                                       <option  value="">  Select  </option>
+                                     <?php foreach($allPro as $pro): ?>
+                                    <option value="<?= $pro->id ?>" ><?= $pro->name ?></option>
+                                <?php endforeach; ?>
+                                    </select>
+                                    <i class="fas fa-caret-down"></i>
+                                  </div>
+
+    <label class="form-label"> Serial</label>
+    <input type="text" class="form-control" name="customer_serial"
+           placeholder="বার কোড স্ক্যান করুন অথবা লিখে দিন">
+  </div>
+
+
+    
+
+
+  <div class="mb-3 supplier_others_item-box d-none">
+
+  <label for="new_product_id">Product Name </label>
+                                  <div class="select_2_container">
+                                    <select name="new_product_id"  id="new_product_id"     class="form-control frm_select ">
+                                       <option  value="">  Select  </option>
+                                     <?php foreach($allPro as $pro): ?>
+                                    <option value="<?= $pro->id ?>" ><?= $pro->name ?></option>
+                                <?php endforeach; ?>
+                                    </select>
+                                    <i class="fas fa-caret-down"></i>
+                                  </div>
+
+    <label class="form-label"> Serial</label>
+    <input type="text" class="form-control" name="new_serial"
+           placeholder="বার কোড স্ক্যান করুন অথবা লিখে দিন">
+  </div>
+
+
+    <div class="mb-3 supplier-box d-none">
     <label class="form-label">Supplier Serial</label>
     <input type="text" class="form-control"
            placeholder="বার কোড স্ক্যান করুন অথবা লিখে দিন">
@@ -240,14 +299,14 @@
 
 
 <script>
-    $('#add_new').on('shown.bs.modal', function () {
+    $('#changeStatusModal2').on('shown.bs.modal', function () {
       $('.select2').select2({
-        dropdownParent: $('#add_new')
+        dropdownParent: $('#changeStatusModal2')
       });
     });
 
    
-$(document).on('shown.bs.modal', '[id^="edit_modals"]', function () {
+$(document).on('shown.bs.modal', '[id^="changeStatusModal2"]', function () {
   $(this).find('.select2').select2({
     dropdownParent: $(this)
   });
@@ -315,6 +374,24 @@ document.addEventListener('change', function (e) {
       ? box.classList.remove('d-none')
       : box.classList.add('d-none');
   }
+  // সাপ্লায়ার থেকে ডেলিভারি
+  if (e.target.classList.contains('input_from_supplier_others_item')) {
+    const box = wrapper.querySelector('.supplier_others_item-box');
+    if (!box) return;
 
+    e.target.checked
+      ? box.classList.remove('d-none')
+      : box.classList.add('d-none');
+  }
+
+    // সাপ্লায়ার থেকে ডেলিভারি
+  if (e.target.classList.contains('input_from_customer_others_item')) {
+    const box = wrapper.querySelector('.customer_others_item-box');
+    if (!box) return;
+
+    e.target.checked
+      ? box.classList.remove('d-none')
+      : box.classList.add('d-none');
+  }
 });
 </script>

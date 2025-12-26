@@ -81,7 +81,7 @@ public function index()
    $this->session->set_flashdata('error', 'An error occurred. Please try again.');
       }
     
-   redirect(base_url() . "products");
+   redirect(base_url() . "products/create");
   }
 
     $data = array();

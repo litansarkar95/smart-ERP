@@ -345,6 +345,7 @@ public function index()
    #####################################################################
 
       $this->session->set_flashdata('success', 'Record has been successfully saved.');
+        redirect(base_url() . "sales/invoice/$sales_id");
       }else{
         
      $this->session->set_flashdata('error', 'An error occurred. Please try again.');

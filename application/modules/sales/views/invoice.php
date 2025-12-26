@@ -161,12 +161,77 @@
         .print-btn{ display:none; }
         .invoice-page{ box-shadow:none; border-radius:0; margin:0; padding-bottom:50mm; }
     }
+    .nav-btn{
+    display:inline-flex;
+    align-items:center;
+    gap:6px;
+    margin:14px auto 6px;
+    padding:9px 20px;
+    background:linear-gradient(135deg,#1f2937,#111827);
+    color:#fff;
+    text-decoration:none;
+    border-radius:6px;
+    font-size:14px;
+    font-weight:500;
+    transition:all .2s ease;
+    box-shadow:0 3px 6px rgba(0,0,0,0.18);
+    width:fit-content;
+}
+
+.nav-btn:hover{
+    background:linear-gradient(135deg,#111827,#000);
+    transform:translateY(-1px);
+}
+
+@media print{
+    .nav-btn{ display:none; }
+}
+
+.action-bar{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    gap:12px;
+    margin:18px auto 10px;
+    flex-wrap:wrap;
+}
+
+.print-btn{
+    padding:9px 20px;
+    background:#111;
+    color:#fff;
+    border:none;
+    border-radius:6px;
+    cursor:pointer;
+    font-size:14px;
+    font-weight:500;
+}
+
+.print-btn:hover{
+    background:#000;
+}
+
+@media print{
+    .action-bar{ display:none; }
+}
 
 </style>
 </head>
 <body>
 
-<button class="print-btn" onclick="window.print()">🖨 Print</button>
+<div class="action-bar">
+    <a href="<?= base_url('sales/create') ?>" class="nav-btn back-purchase">
+        ← Back to Sales
+    </a>
+
+    <button class="print-btn" onclick="window.print()">
+        🖨 Print
+    </button>
+
+    <a href="<?= base_url('dashboard') ?>" class="nav-btn back-dashboard">
+        ⌂ Dashboard
+    </a>
+</div>
 
 <div class="invoice-page">
 <?php

@@ -103,7 +103,7 @@ public function insert()
     $data = array(   
         "organization_id"            => $this->session->userdata('loggedin_org_id'),
         "branch_id"                  => $this->session->userdata('loggedin_branch_id'), 
-        "invoice_code"               => $this->common_model->xss_clean($this->input->post("invoice_id")),  
+        "invoice_code"               => $this->common_model->xss_clean($this->input->post("invoice_code")),  
         "code_random"                => $int_no,   
         "invoice_no"                 => $invoice_no,   
         "purchase_date"              => strtotime($this->common_model->xss_clean($this->input->post("purchase_date"))),   
@@ -244,7 +244,7 @@ public function insert()
                     "qty"                => $item->qty,
                     "sub_total"          => $item->price * $item->qty,
                     "rebate"             => $item->rebate,
-                    "total_rebate"       => $item->totalRebate,
+                    "total_rebate"       => $item->total_rebate,
                     "net_total"          => $item->sub_total,
                     "warrenty"           => $item->warrenty,
                     "warrenty_days"      => $item->warrenty_days,
@@ -534,12 +534,14 @@ public function insert()
 
 
         $this->session->set_flashdata('success', 'Record has been successfully saved.');
+      
+         redirect(base_url() . "purchase/invoice/$purchase_id");
       }else{
         
    $this->session->set_flashdata('error', 'An error occurred. Please try again.');
       }
     
-   redirect(base_url() . "purchase/create");
+   redirect(base_url() . "purchase/purchasebatch/create");
   }
 
     $data = array();
@@ -579,20 +581,20 @@ public function add_item_ajax(){
         ];
         $invoice_id = $this->purchasebatch_model->insert_invoice($invoice_data);
     }
-     $barcode_serial = $this->input->post('barcode_serial');
+ 
 
-   $barcode_serial = $this->input->post('barcode_serial');
+        $barcode_serial = $this->input->post('barcode_serial');
         $serials = $this->input->post('serials');
         $serial_type = $this->input->post('serial_type');
 
         // ✅ এখানে বসাবে
-        if ($serial_type === 'unique' && empty($serials)) {
-            $new_serial = 'UNIQ-' . time() . rand(1000,9999);
+        if ($serial_type == 'unique' && empty($serials)) {
+            $new_serial = 'UNIQ' . time() . rand(1000,9999);
             $serials = [$new_serial];
         }
 
-        if ($serial_type === 'common' && empty($barcode_serial)) {
-            $barcode_serial = 'BATCH-' . time() . rand(100,999);
+        if ($serial_type == 'common' && empty($barcode_serial)) {
+            $barcode_serial = 'BATCH' . time() . rand(100,999);
         }
 
 // তারপর $data define করবে
@@ -604,7 +606,7 @@ $data = [
     'price'         => $this->input->post('price'),
     'qty'           => $this->input->post('qty'),
     'rebate'        => $this->input->post('rebate'),
-    'totalRebate'  => $this->input->post('totalRebate'),
+    'total_rebate'   => $this->input->post('totalRebate'),
     'sub_total'     => $this->input->post('sub_total'),
     'sales_price'   => $this->input->post('sales_price'),
     'warrenty'      => $this->input->post('warrenty'),
