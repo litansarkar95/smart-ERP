@@ -132,6 +132,8 @@
             <select class="form-select" id="status<?= $pdt->id; ?>" name="status" required>
               <option value="">Select Status</option>
               <option value="Received">Received</option>
+              <option value="Replace in Same Product">Replace in Same Product</option>
+              <option value="Stock Out Same Product">Stock Out Same Product</option>
               <option value="Send to Service Center">Send to Service Center</option>
               <option value="Completed">Completed</option>
               <option value="Handover">Handover</option>
@@ -146,7 +148,7 @@
     <input class="form-check-input take_from_stock"
            type="checkbox" value="1" name="replace_given">
     <label class="form-check-label fw-bold">
-    সাপ্লায়ার থেকে  স্টক এ পণ্য নিতে চাচ্ছেন
+    সাপ্লায়ার থেকে  স্টক এ পণ্য নিতে চাচ্ছেন (Replace in Same Product)
     </label>
   </div>
 
@@ -162,7 +164,7 @@
     <input class="form-check-input delivered_from_stock"
            type="checkbox" value="1" name="delivered_from_stock">
     <label class="form-check-label fw-bold">
-      স্টক থেকে পণ্য ডেলিভারি দিতে চাচ্ছেন
+      স্টক থেকে পণ্য ডেলিভারি দিতে চাচ্ছেন (Stock Out Same Product)
     </label>
   </div>
 
@@ -173,13 +175,13 @@
   </div>
 
   <!-- Delivered from supplier -->
-  <div class="form-check mt-2">
+  <!-- <div class="form-check mt-2">
     <input class="form-check-input delivered_from_supplier"
            type="checkbox" value="1" name="delivered_from_supplier">
     <label class="form-check-label fw-bold">
       সাপ্লায়ার থেকে পুরাতন পণ্য ডেলিভারি দিতে চাচ্ছেন
     </label>
-  </div>
+  </div> -->
 
     <!-- Delivered from supplier -->
   <div class="form-check mt-2">

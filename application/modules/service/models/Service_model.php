@@ -192,4 +192,21 @@ public function updateServiceStatus($id, $data)
 }
 
 
+ 
+       public function serviceAttributes($id=NULL) {
+         $loggedin_org_id     = $this->session->userdata("loggedin_org_id");
+         $branch_id           = $this->session->userdata("loggedin_branch_id");
+         if($id){
+             $this->db->where("service_attributes.id", $id);
+         }
+        
+		$this->db->select("service_attributes.* ,service_name.name service_name");
+        $this->db->from("service_attributes");
+        $this->db->where("service_attributes.organization_id", $loggedin_org_id);
+        $this->db->where("service_attributes.branch_id", $branch_id);
+        $this->db->join("service_name", "service_name.id = service_attributes.service_name_id", "left");
+        $this->db->order_by("id", "DESC");
+        return $this->db->get()->result();
+    }
+
 }
